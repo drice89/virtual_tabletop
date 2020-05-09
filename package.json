@@ -1,0 +1,19 @@
+{
+  "name": "virtual_tabletop",
+  "version": "1.0.0",
+  "description": "open source application provide a sandbox tabletop enviornment ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drice89/virtual_tabletop.git"
+  },
+  "author": "Dias Iskrayev, Dillon Rice, Steven Touba, Wanyne Su",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drice89/virtual_tabletop/issues"
+  },
+  "homepage": "https://github.com/drice89/virtual_tabletop#readme"
+}
