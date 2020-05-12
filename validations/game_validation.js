@@ -16,10 +16,12 @@ module.exports = function validateGameRegister(data) {
   if (Validator.isEmpty(data.name)) {
     errors.name = 'Game must have a name';
   }
-  // debugger
-  // Game.find({creatorId: creatorId,name: data.name })
+ 
+
   return {
     errors,
     isValid: Object.keys(errors).length === 0
   };
+  
+  
 };
