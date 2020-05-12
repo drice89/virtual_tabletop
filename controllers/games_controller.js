@@ -2,6 +2,27 @@ const Game = require('../models/Game');
 const User = require('../models/User'); 
 const validateGameRegister = require('../validations/game_validation'); 
 
+exports.fetchAll = function(req, res) { 
+  console.log('Hit the controller for fetch all')
+  
+  Game.find({}, function(err, result) { 
+    if (err) {
+      res.status(404).json(err)
+    } else { 
+      res.json(result); 
+    }
+  })
+}
+
+exports.fetchGame = function(req, res) { 
+  const gameId = req.params.id; 
+
+  Game.findById(gameId, function(err, game) {
+    if (!game) return res.json({msg: 'no game found'}); 
+    res.json(game); 
+  })
+}
+
 exports.createGame = function (req, res) {
   const { errors, isValid } = validateGameRegister(req.body);
 
@@ -28,18 +49,6 @@ exports.createGame = function (req, res) {
         newGame.save().then(game => res.json(game), err => res.json(err))
       }
     })
-}
-
-exports.fetchAll = function(req, res) { 
-  console.log('Hit the controller for fetchall')
-
-  Game.find({}, function(err, result) { 
-    if (err) {
-      res.status(404).json(err)
-    } else { 
-      res.json(result); 
-    }
-  })
 }
 
 exports.joinGame = function(req, res) { 
