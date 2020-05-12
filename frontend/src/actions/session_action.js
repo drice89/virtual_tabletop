@@ -24,7 +24,7 @@ const receiveErrors = (errors) => ({
   errors,
 });
 
-export const login = (user) => (dispatch) => APIUtil.login(user)
+export const login = (user) => (dispatch) => SessionAPIUtil.login(user)
   .then((res) => {
     const { token } = res.data;
 

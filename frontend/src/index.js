@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import Root from './components/root';
 import { setAuthToken } from './util/session_api_util';
 import configureStore from './store/store';
+import { logout } from './actions/session_action';
 
 document.addEventListener('DOMContentLoaded', () => {
   let store;
