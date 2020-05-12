@@ -19,3 +19,15 @@ exports.createGame = function(req, res) {
   newGame.save().then(game => res.json(game), err => res.json(['You can\'t have two games with the same name!'
 ]))
 }
+
+exports.fetchAll = function(req, res) { 
+  console.log('Hit the controller for fetchall')
+
+  Game.find({}, function(err, result) { 
+    if (err) {
+      res.status(404).json(err)
+    } else { 
+      res.json(result); 
+    }
+  })
+}
