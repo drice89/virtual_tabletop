@@ -43,10 +43,10 @@ exports.fetchAll = function(req, res) {
 }
 
 exports.joinGame = function(req, res) { 
-  const gameId = req.gameId; 
-  const userId = req.userId; 
+  const gameId = req.body.gameId; 
+  const userId = req.body.userId; 
   console.log(req)
-  debugger
+  //debugger
   Game.findById(gameId, function(gameErr, game) { 
     if (!game) return res.json({msg: 'no game'}); 
     User.findById(userId, function(userErr, user) {
