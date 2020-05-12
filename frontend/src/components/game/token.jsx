@@ -20,9 +20,6 @@ export default class Token extends React.Component {
     }
     componentDidMount() {
             let token = document.getElementById("token-1")
-       
-            
-            console.log(token)
             token.addEventListener("dragstart", (event) => {
                 // event.preventDefault();
                 event.dataTransfer.setData("Text", event.target.id);
@@ -35,23 +32,13 @@ export default class Token extends React.Component {
 
             document.addEventListener("dragover", (event) => {
                 event.preventDefault();
-                let offsetY = grid.offsetTop
-                let offsetX = grid.offsetLeft
-
-
-                // console.log(event.target)
-
-
-                // console.log(`${event.pageX - offsetX} ${event.pageY - offsetY}`)
-             
-                
             });
 
 
             grid.addEventListener("drop", (event) => {
                 event.preventDefault();
-                let x = event.target.layerX;
-                let y = event.target.layerY;
+                // let x = event.target.layerX;
+                // let y = event.target.layerY;
 
 
                 var data = event.dataTransfer.getData("Text");
@@ -60,7 +47,12 @@ export default class Token extends React.Component {
                     // console.log(document.getElementById(data))
                     //     event.target.parentNode.appendChild(document.getElementById(data));
                     // } else {
-                    event.target.appendChild(document.getElementById(data));
+                    
+                    if (document.getElementById(data)){
+
+                        event.target.appendChild(document.getElementById(data));
+                    }
+                    
                     // }
 
                 }
