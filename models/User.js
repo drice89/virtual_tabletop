@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   displayName: {
     type: String,
     required: true, 
-    index: { unique: true }, 
+    //index: { unique: true }, 
     minlength: [3, 'Must be 3 or more characters']
   },
   email: {
