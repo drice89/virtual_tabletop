@@ -26,6 +26,8 @@ const GameSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'boards'
   }], 
-})
+});
+
+GameSchema.index({'creatorId': 1, 'name': 1}, { unique: true});
 
 module.exports = Game = mongoose.model('Game', GameSchema); 

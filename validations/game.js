@@ -16,10 +16,14 @@ module.exports = function validateGameRegister(data) {
     errors.name = 'Game must have a name';
   }
   
-  Game.find({creatorId})   //find all the games with that creatorId, pull out names, run callback that will 
+  Game.find({creatorId}).forEach(game => {
+    if(game.name === data.name) {
+      errors.name = "There is already a game with that name";
+    }
+  });   //find all the games with that creatorId, pull out names, run callback that will 
   
   return {
     errors,
     isValid: Object.keys(errors).length === 0
-  }
-}
+  };
+};
