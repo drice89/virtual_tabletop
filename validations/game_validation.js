@@ -1,10 +1,11 @@
 const Validator = require('validator');
 const validText = require('./valid-text');
-const Game = require('../models/Game'); 
+const mongoose = require('mongoose')
+const Game = require('../models/Game')
+const ObjectId = require('mongoose').Types.ObjectId; 
 
 module.exports = function validateGameRegister(data) {
   let errors = {};
-
   data.name = validText(data.name) ? data.name : '';
   const creatorId = data.creatorId; 
 
@@ -15,13 +16,8 @@ module.exports = function validateGameRegister(data) {
   if (Validator.isEmpty(data.name)) {
     errors.name = 'Game must have a name';
   }
-  
-  Game.find({creatorId}).forEach(game => {
-    if(game.name === data.name) {
-      errors.name = "There is already a game with that name";
-    }
-  });   //find all the games with that creatorId, pull out names, run callback that will 
-  
+  // debugger
+  // Game.find({creatorId: creatorId,name: data.name })
   return {
     errors,
     isValid: Object.keys(errors).length === 0
