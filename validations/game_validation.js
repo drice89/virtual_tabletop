@@ -23,5 +23,4 @@ module.exports = function validateGameRegister(data) {
     isValid: Object.keys(errors).length === 0
   };
   
-  
 };
