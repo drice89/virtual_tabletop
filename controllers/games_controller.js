@@ -1,4 +1,5 @@
 const Game = require('../models/Game'); 
+const User = require('../models/User'); 
 const validateGameRegister = require('../validations/game_validation'); 
 
 exports.createGame = function (req, res) {
@@ -38,5 +39,29 @@ exports.fetchAll = function(req, res) {
     } else { 
       res.json(result); 
     }
+  })
+}
+
+exports.joinGame = function(req, res) { 
+  const gameId = req.gameId; 
+  const userId = req.userId; 
+  console.log(req)
+  debugger
+  Game.findById(gameId, function(gameErr, game) { 
+    if (!game) return res.json({msg: 'no game'}); 
+    User.findById(userId, function(userErr, user) {
+      if (!user) return res.json(user);
+
+      user.gameSubscriptions.push(game)
+      user.save(function(userSaveErr) { 
+        if (userSaveErr) return res.json(userSaveErr);
+      })
+
+      game.players.push(user)
+      game.save(function (gameSaveErr) {
+        if (gameSaveErr) return res.json(gameSaveErr);
+     })
+     res.json({status: 'done'})
+    })
   })
 }

@@ -7,7 +7,7 @@ router.get('/test', (req, res) => res.json({ msg: 'this is msg' }))
 router.get('', gameController.fetchAll)
 
 router.post('/create', passport.authenticate('jwt', {session: false}), gameController.createGame)
-router.post('/addPlayer')
+router.post('/join', gameController.joinGame)
 
 
 module.exports = router; 

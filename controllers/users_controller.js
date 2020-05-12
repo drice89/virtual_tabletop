@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); 
 const keys = require('../config/keys'); 
 const User = require('../models/User'); 
+const Game = require('../models/Game');
 const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
 
@@ -104,3 +105,9 @@ exports.register = function(req, res)  {
       }
     })
 }
+
+// exports.addGame = function(req, res) { 
+//   const GameId = req.gameId; 
+
+//   Game.findById({ GameId }, )
+// }
