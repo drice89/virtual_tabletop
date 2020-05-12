@@ -2,6 +2,8 @@ import React from "react"
 import map from "../../images/battlemap.jpg"
 import './grid.css'
 import TokenBar from "./token-bar"
+import empty from "../../images/empty.png"
+
 export default class Grid extends React.Component{
 
     constructor(props){
@@ -40,12 +42,52 @@ export default class Grid extends React.Component{
             }, 500);
         }
 
+
+        let zoom1 = 0.5;
+        let background = document.getElementById("board-background")
+        background.addEventListener('wheel', (e) => checkScrollDirection(e, background));
+
+        let wheeling1 = null
+        function checkScrollDirection(event, element) {
+
+            if (checkScrollDirectionIsUp(event)) {
+                zoom1 += 0.005;
+                element.style.zoom = zoom1;
+            } else {
+                zoom1 -= 0.005;
+                element.style.zoom = zoom1
+            }
+            document.body.style.overflow= "hidden"
+            // document.body.style.overflowX = "hidden"
+
+            clearTimeout(wheeling1);
+            wheeling1 = setTimeout(() => {
+                document.body.style.overflowY = "auto"
+                document.body.style.overflowX = "auto"
+
+            }, 500);
+        }
+
+
         function checkScrollDirectionIsUp(event) {
             if (event.wheelDelta) {
                 return event.wheelDelta > 0;
             }
             return event.deltaY < 0;
         }
+
+        //////
+        ////background image
+
+
+        background.addEventListener("dragstart", (event) => {
+            let emptyImg = document.getElementById("empty")
+            event.dataTransfer.setDragImage(emptyImg, 0, 0);
+        });
+        background.addEventListener("drag", (event) => {
+            let emptyImg = document.getElementById("empty")
+            background.style.transform = `translate(${event.layerX * (1 / zoom1) - (background.width/2)}px,${event.layerY * (1 / zoom1) - (background.height/2)}px)`
+        });
 
 
     }
@@ -62,6 +104,8 @@ export default class Grid extends React.Component{
 
         const backgroundW = document.getElementById("board-background").width;
         const backgroundH = document.getElementById("board-background").height;
+        // const backgroundW = document.getElementById("board-background").width;
+        // const backgroundH = document.getElementById("board-background").height;
 
         const boxW = backgroundW / row;
         const boxH = backgroundH / col;
@@ -105,7 +149,8 @@ export default class Grid extends React.Component{
                             {this.state.grid ? this.state.grid : null}
                         </div>
 
-                        <img id="board-background" src={map} className="background-image" />
+                        <img id="board-background" src={map} draggable="true" className="background-image" />
+                        <img id="empty" src={empty} />
                 </div>
 
                 <TokenBar/>
