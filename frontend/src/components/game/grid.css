@@ -1,7 +1,7 @@
 .grid {
     zoom: 1;
     position: absolute;
-    z-index: 0;
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     
@@ -22,18 +22,19 @@
     position: relative;
     height: 50px;
     width: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.164);
+    border: 1px solid rgba(255, 255, 255, 0.411);
     margin-left: -1px;
     margin-bottom: -1px;
 }
 
 .container {
-    width: 700px;
-    height: 700px;
+    width: 550px;
+    height: 550px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
+    background-color: rgb(66, 66, 66);
 }
 
 #token {
@@ -43,6 +44,9 @@
 }
 
 .background-image{
+    /* position: absolute; */
+    overflow: hidden;
+    object-fit: none;
     height: 100%;
     width: 100%;
 }
@@ -66,4 +70,9 @@ img{
     width: 50px;
     height: 50px;
 
+}
+
+#empty{
+    height: 1px;
+    width: 1px;
 }
