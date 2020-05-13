@@ -29,7 +29,7 @@ export default class Carousel extends React.Component {
       } else {
         this.button1.click();
       }
-    }, 4000);
+    }, 6000);
   }
 
   componentWillUnmount() {
@@ -74,6 +74,9 @@ export default class Carousel extends React.Component {
   render() {
     return (
       <div className="index-carousel">
+        <div className="carousel-text-header">
+            Virtual Tabletop: Welcome to the Heart of Perfect Gaming
+          </div>
         <div className="carousel-buttons">
           <div
             onClick={this.handleClick}

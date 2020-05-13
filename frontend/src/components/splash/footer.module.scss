@@ -2,22 +2,32 @@
 @import "../font.scss";
 
 .footer {
+  //position: fixed;
+  left: 0;
+  bottom: 0;
   height: auto;
   width: 100%;
   background-color: $light-grey;
   border-top: 1px solid $dark-grey;
-}
-
-.footer ul {
-  padding: 16px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-evenly;
 }
 
-.footer li {
-  padding: 0px 32px;
+.footerItem {
+  margin-bottom: 10px;
 }
+
+// .footer ul {
+//   padding: 16px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .footer li {
+//   padding: 0px 32px;
+// }
 
 .footer img {
   width: 32px;
