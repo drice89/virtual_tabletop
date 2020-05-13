@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './app';
 
 const Root = ({ store }) => (
-    // <Provider store={store}>
+    <Provider store={store}>
         <BrowserRouter>
             <App />
         </BrowserRouter>
-    // </Provider>
+    </Provider>
 );
 
 export default Root;

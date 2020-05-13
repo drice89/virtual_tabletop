@@ -48,10 +48,10 @@ exports.login = function(req, res)  {
             errors.password = 'Incorrect password' 
             return res.status(400).json(errors);
           }
-        })
-    })
+        });
+    });
   
-}
+};
 
 exports.register = function(req, res)  { 
  const {errors, isValid} = validateRegisterInput(req.body);
