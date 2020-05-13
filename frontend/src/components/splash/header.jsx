@@ -1,15 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { logout } from "../../actions/session_action";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/session_action';
+import buttonStyles from '../buttons.module.scss';
+import styles from './header.module.scss';
+
 const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.isAuthenticated),
-  displayName: state.session.isAuthenticated ? state.session.user.displayName : "",
-  userId: state.session.userId
+  displayName: state.session.isAuthenticated ? state.entities.users[state.session.userId].displayName : '',
+  userId: state.session.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logout)
+  logout: () => dispatch(logout()),
 });
 
 const Header = (props) => {
@@ -17,7 +20,7 @@ const Header = (props) => {
     <>
       <div>
         <Link to={`/user/${props.userId}`}>
-          <button>
+          <button className={buttonStyles.signUp}>
             {props.displayName}
           </button>
         </Link>
@@ -26,28 +29,27 @@ const Header = (props) => {
         <button onClick={props.logout}>Logout</button>
       </div>
     </>
-  )
-  
+  );
+
   const loginAndSignUp = (
     <>
       <div>
-        <Link to={`/signup`}>
-          <button>Sign Up</button>
+        <Link to="/signup">
+          <button className={buttonStyles.signUp}>Sign Up</button>
         </Link>
       </div>
       <div>
-        <Link to={`/Login`}>
-          <button>Login</button>
+        <Link to="/Login">
+          <button className={buttonStyles.signIn}>Login</button>
         </Link>
       </div>
     </>
   );
-    
 
 
-  return(
+  return (
     <div>
-      <nav>
+      <nav className={styles.headerContainer}>
         <div>
           Logo
         </div>
@@ -64,12 +66,13 @@ const Header = (props) => {
               </button>
             </li>
           </ul>
-            {
+          {
               props.loggedIn ? launchAndLogout : loginAndSignUp
             }
         </div>
       </nav>
     </div>
-  )};
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
