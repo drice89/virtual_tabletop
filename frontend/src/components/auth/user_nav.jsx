@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './user_nav.module.scss';
 import buttons from '../buttons.module.scss';
+import { AuthRoute, ProtectedRoute } from '../../util/route_util';
+import UserInfoContainer from './user_info_container';
 
 const UserNav = () => (
   <div className={styles.nav}>
@@ -32,15 +34,7 @@ const UserNav = () => (
         <span>Login</span>
       </div>
     </button>
-    <div className={styles.userInfo}>
-      <span>Hello, userName</span>
-      <button type="button" className={buttons.none}>
-        <div className={styles.btn}>
-          <i className="ra ra-footprint" />
-          <span>Logout</span>
-        </div>
-      </button>
-    </div>
+    <UserInfoContainer />
   </div>
 );
 
