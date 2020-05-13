@@ -8,6 +8,7 @@ const passport = require('passport');
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
 const boards = require('./routes/api/boards')
+const path = require('path');
 
 
 mongoose
@@ -25,7 +26,6 @@ app.use('/api/users', users);
 app.use('/api/games', games); 
 app.use('/api/boards', boards); 
 
-console.log(process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
