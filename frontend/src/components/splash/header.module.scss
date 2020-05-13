@@ -1,6 +1,8 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
 .headerContainer { 
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 5px 25px;
 }
@@ -12,13 +14,14 @@
 }
 
 .background {
+  background-color: $primary-dark;
   flex: 1;
   position: relative;
   z-index: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  // align-items: center;
+  justify-content: space-between;
+  // flex-direction: column;
 }
 
 .logo {
@@ -28,7 +31,8 @@
   font-weight: 700;
   line-height: 3rem;
   margin-bottom: 16px;
-  //text-shadow: 2px 2px 5px $dark-grey;
+  text-shadow: 2px 2px 5px $dark-grey;
+  margin-left: 48%;
 }
 
 .logo > i {
@@ -38,7 +42,7 @@
 
 .background::after {
   content: "";
-  background-image: url('/snow_landscape.jpg');
+  //background-image: url('/snow_landscape.jpg');
   background-size: cover;
   top: 0;
   left: 0;
@@ -49,4 +53,13 @@
   opacity: 0.5;
   z-index: -1;
  
+}
+
+.main{ 
+  background-color: white;
+  //background-image: url('/snow_landscape.jpg');
+}
+
+.aboutUs { 
+  margin-right: 10px;
 }
