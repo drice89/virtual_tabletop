@@ -28,6 +28,3 @@ app.use('/api/boards', boards);
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`listening on port ${port}`));
 
-
-//placeholder
-app.get("/", (req, res) => res.send("Hello World"));
