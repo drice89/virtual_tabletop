@@ -1,6 +1,8 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
 .headerContainer { 
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 5px 25px;
 }
@@ -9,4 +11,55 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+.background {
+  background-color: $primary-dark;
+  flex: 1;
+  position: relative;
+  z-index: 0;
+  display: flex;
+  // align-items: center;
+  justify-content: space-between;
+  // flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  color: white;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 3rem;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 5px $dark-grey;
+  margin-left: 48%;
+}
+
+.logo > i {
+  font-size: 6rem;
+  margin-right: 8px;
+}
+
+.background::after {
+  content: "";
+  //background-image: url('/snow_landscape.jpg');
+  background-size: cover;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  filter: blur(4px);
+  opacity: 0.5;
+  z-index: -1;
+ 
+}
+
+.main{ 
+  background-color: white;
+  //background-image: url('/snow_landscape.jpg');
+}
+
+.aboutUs { 
+  margin-right: 10px;
 }

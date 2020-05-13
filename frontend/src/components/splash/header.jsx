@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/session_action';
 import buttonStyles from '../buttons.module.scss';
 import styles from './header.module.scss';
+import userStyles from '../auth/user_nav.module.scss';
 
 const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.isAuthenticated),
@@ -33,28 +34,34 @@ const Header = (props) => {
 
   const loginAndSignUp = (
     <>
-      <div>
-        <Link to="/signup">
-          <button className={buttonStyles.signUp}>Sign Up</button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/Login">
-          <button className={buttonStyles.signIn}>Login</button>
-        </Link>
-      </div>
+      <Link to="/signup">
+        <button type="button" className={buttonStyles.none}>
+          <div className={userStyles.btn}>
+            <i className="ra ra-scroll-unfurled" />
+            <span>Sign Up</span>
+          </div>
+        </button>
+      </Link>
+      <Link to="/login">
+        <button type="button" className={buttonStyles.none}>
+          <div className={userStyles.btn}>
+            <i className="ra ra-key" />
+            <span>Login</span>
+          </div>
+        </button>
+      </Link>
     </>
   );
 
 
   return (
-    <div>
+    <div className={styles.background}>
+      <div className={styles.logo}>
+        <i className="ra ra-hood" />
+      </div>
       <nav className={styles.headerContainer}>
-        <div>
-          Logo
-        </div>
-        <div>
-          <ul>
+        <div className={styles.navRight}>
+          <ul className={styles.aboutUs}>
             <li>
               <button>
                 About Us
