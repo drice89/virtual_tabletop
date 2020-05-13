@@ -7,7 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import Splash from './splash/splash';
 import Grid from './game/grid';
 import UI from './ui/ui';
-import LoginForm from './auth/login/login_form';
+import LoginFormContainer from './auth/login/login_form_container';
 import './reset.css';
 import './structure.scss';
 
@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
-        <Route path="/login" component={LoginForm} />
+        <Route path="/login" component={LoginFormContainer} />
         {/* <AuthRoute exact path="/login" component={LoginContainer} />
         <AuthRoute exact path="/signup" component={SignupContainer} />
         <AuthRoute exact path="/" component={MainPage} /> */}
