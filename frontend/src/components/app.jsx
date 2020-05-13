@@ -7,7 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import Grid from './game/grid';
 import UI from './ui/ui';
 import './reset.css';
-import './structure.css';
+import './structure.scss';
 
 function App() {
   return (

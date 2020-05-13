@@ -1,0 +1,11 @@
+@import './_colors.scss';
+
+.none {
+  border-color: transparent;
+  background-color: transparent;
+  color: $light-grey;
+}
+
+.none:hover {
+  color: $white
+}
