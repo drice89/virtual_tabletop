@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 // import MainPage from "./main/main_page"
 import Grid from './game/grid';
 import UI from './ui/ui';
+import './reset.css';
 
 function App() {
   return (
