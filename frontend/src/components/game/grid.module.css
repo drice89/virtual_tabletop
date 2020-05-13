@@ -1,0 +1,48 @@
+.grid {
+    zoom: 1;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* .row {
+
+}
+.outer-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.box {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.411);
+    margin-left: -1px;
+    margin-bottom: -1px;
+}
+
+.container {
+    width: 550px;
+    height: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: rgb(66, 66, 66);
+}
+
+.backgroundImage {
+    /* position: absolute; */
+    overflow: hidden;
+    object-fit: none;
+    height: 100%;
+    width: 100%;
+}
+
+.empty {
+    height: 1px;
+    width: 1px;
+}

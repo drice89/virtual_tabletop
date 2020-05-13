@@ -2,9 +2,23 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); 
 const keys = require('../config/keys'); 
 const User = require('../models/User'); 
+const Game = require('../models/Game');
 const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
 
+exports.fetchUserGames = function(req, res) { 
+  const userId = req.params.id; 
+
+  User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
+                                                                                              for each gameObject, exec returns all games */
+  // User.findById(userId, function(err, user) { 
+  //   if (!user) return res.json({msg: 'user not fond'});
+  //   const games = []; 
+  //   let test = user.gameSubscriptions
+  //   res.json(test)
+  // })
+
+}
 
 exports.login = function(req, res)  { 
  const { errors, isValid } = validateLoginInput(req.body);
@@ -48,10 +62,10 @@ exports.login = function(req, res)  {
             errors.password = 'Incorrect password' 
             return res.status(400).json(errors);
           }
-        })
-    })
+        });
+    });
   
-}
+};
 
 exports.register = function(req, res)  { 
  const {errors, isValid} = validateRegisterInput(req.body);
@@ -104,3 +118,4 @@ exports.register = function(req, res)  {
       }
     })
 }
+
