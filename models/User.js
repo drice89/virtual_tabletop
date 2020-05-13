@@ -1,14 +1,14 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema; 
 
-const games = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId
-  },
-  owner: {
-    type: Boolean
-  }
-})
+// const games = new Schema({
+//   _id: {
+//     type: Schema.Types.ObjectId
+//   },
+//   owner: {
+//     type: Boolean
+//   }
+// })
 
 const UserSchema = new Schema({
   displayName: {
@@ -35,7 +35,10 @@ const UserSchema = new Schema({
     type: String,
     default: 'https://cdn.getstickerpack.com/storage/uploads/sticker-pack/pickle-rick-rick-and-morty/sticker_3.png?9aff3e41c31ab27d820e8d52d28aef43'
   }, 
-  gameSubscriptions: [games]
+  gameSubscriptions: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Game'
+  }]
 })
 
 

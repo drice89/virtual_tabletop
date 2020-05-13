@@ -1,5 +1,26 @@
 const Game = require('../models/Game'); 
+const User = require('../models/User'); 
 const validateGameRegister = require('../validations/game_validation'); 
+
+exports.fetchAll = function(req, res) { 
+  // console.log('Hit the controller for fetch all')
+  // Game.find({}).populate('players').exec((err, player) => console.log(player))
+  Game.find({}, function(err, result) { 
+    if (err) {
+      res.status(404).json(err)
+    } else { 
+      res.json(result); 
+    }
+  })
+}
+
+exports.fetchGame = function(req, res) { 
+  const gameId = req.params.id; 
+  Game.findById(gameId, function(err, game) {
+    if (!game) return res.json({msg: 'no game found'}); 
+    res.json(game); 
+  })
+}
 
 exports.createGame = function (req, res) {
   const { errors, isValid } = validateGameRegister(req.body);
@@ -23,20 +44,41 @@ exports.createGame = function (req, res) {
           description: req.body.description,
           backgroundImage: req.body.backgroundImage
         });
-
-        newGame.save().then(game => res.json(game), err => res.json(err))
+        // newGame.save().then(game => res.json(game), err => res.json(err))
+        newGame.save(function(err, game) {
+          User.findById(req.body.creatorId, function(userErr, user) {
+            if (!user) return res.json({msg: 'user not found'}); 
+            user.gameSubscriptions.push(game); 
+            user.save()
+            return res.json(game); 
+          })
+        }) 
       }
     })
 }
 
-exports.fetchAll = function(req, res) { 
-  console.log('Hit the controller for fetchall')
+exports.joinGame = function(req, res) { 
+  const gameId = req.body.gameId; 
+  const userId = req.body.userId; 
 
-  Game.find({}, function(err, result) { 
-    if (err) {
-      res.status(404).json(err)
-    } else { 
-      res.json(result); 
-    }
+  Game.findById(gameId, function(gameErr, game) { 
+    if (!game) return res.json({msg: 'no game'}); 
+    
+    User.findById(userId, function(userErr, user) {
+      if (!user) return res.json(user);
+     
+        user.gameSubscriptions.push(game) // subscribes user to game push game ref into array 
+        user.save(function(userSaveErr) { 
+        if (userSaveErr) return res.json(userSaveErr);
+      })
+
+       game.players.push(user)
+       game.save(function (gameSaveErr) {
+        if (gameSaveErr) return res.json(gameSaveErr);
+
+      })
+    })
+
+    return res.json({status: 'done'});
   })
 }

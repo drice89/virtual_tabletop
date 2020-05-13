@@ -1,5 +1,5 @@
-const mongoose = require('mongoose'); 
-const Schema = mongoose.Schema; 
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const BoardSchema = new Schema({
   gameId: {
@@ -8,9 +8,10 @@ const BoardSchema = new Schema({
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    minlength: [3, 'Must be 3 or more characters']
   },
-  gridSize: { 
+  gridSize: {
     rows: {
       type: Number,
       required: true
@@ -44,42 +45,46 @@ const BoardSchema = new Schema({
       default: '#808080'
     },
     opacity: {
-      type: { 
-        min: 0, 
+      type: {
+        min: 0,
         max: 1
       },
       default: 1
     }
   },
-  tokens: [
-    {
-      _id: {
-        type: Schema.Types.ObjectId,
-        required: true
-      },
-      pos: {
-        x : {
-          type: Number,
-          required: true
-        },
-        y: {
-          type: Number,
-          required: true
-        }
-      },
-      size: {
+  tokens: [{
+    _id: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+
+    pos: {
+      x: {
         type: Number,
-        default: 1,
-      },
-      pieceId: {
-        type: Schema.Types.ObjectId,
         required: true
       },
-      player: {
-        type: Schema.Types.ObjectId
+      y: {
+        type: Number,
+        required: true
       }
+    },
+
+    size: {
+      type: Number,
+      default: 1,
+    },
+
+    pieceId: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+
+    player: {
+      type: Schema.Types.ObjectId
     }
-  ]
+  }]
 });
 
 module.exports = Board = mongoose.model("Board", BoardSchema);
+
+
