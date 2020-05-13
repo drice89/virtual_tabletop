@@ -8,6 +8,7 @@ const passport = require('passport');
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
 const boards = require('./routes/api/boards')
+const path = require('path');
 
 
 mongoose
@@ -28,9 +29,10 @@ app.use('/api/boards', boards);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
-  app.get("/", (req, res) => {
+  app.get("/*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
+
 }
 
 const port = process.env.PORT || 5000;
