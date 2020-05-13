@@ -8,15 +8,8 @@ const validateRegisterInput = require('../validations/register');
 
 exports.fetchUserGames = function(req, res) { 
   const userId = req.params.id; 
-
   User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
                                                                                               for each gameObject, exec returns all games */
-  // User.findById(userId, function(err, user) { 
-  //   if (!user) return res.json({msg: 'user not fond'});
-  //   const games = []; 
-  //   let test = user.gameSubscriptions
-  //   res.json(test)
-  // })
 
 }
 
