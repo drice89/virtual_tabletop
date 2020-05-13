@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Nav from '../user_nav';
 import styles from '../form.module.scss';
 import buttons from '../../buttons.module.scss';
@@ -43,6 +44,10 @@ class LoginForm extends React.Component {
             <input type="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
             <button type="submit" className={buttons.secondary}>Login</button>
           </form>
+          <span className={styles.linkAway}>
+            New to Virtual Tabletop?&nbsp;
+            <Link to="/signup">Sign Up</Link>
+          </span>
         </div>
       </div>
     );

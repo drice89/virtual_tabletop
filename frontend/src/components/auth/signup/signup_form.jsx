@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Nav from '../user_nav';
 import styles from '../form.module.scss';
 import buttons from '../../buttons.module.scss';
@@ -51,6 +52,10 @@ class SignupForm extends React.Component {
             <input type="text" placeholder="Repeat Password" value={password2} onChange={this.handleChange('password2')} />
             <button type="submit" className={buttons.secondary}>Sign Up</button>
           </form>
+          <span className={styles.linkAway}>
+            Have an account?&nbsp;
+            <Link to="/login">Login</Link>
+          </span>
         </div>
       </div>
     );
