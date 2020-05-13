@@ -1,11 +1,14 @@
 import React from 'react';
+import Nav from './nav';
 import styles from './ui.module.scss';
 
+// eslint-disable-next-line react/prefer-stateless-function
 class UI extends React.Component {
   render() {
     return (
       <div className={styles.main}>
-        <button className={styles.btn}>123</button>
+        <Nav />
+        123
       </div>
     );
   }
