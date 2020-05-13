@@ -1,6 +1,6 @@
 import React from 'react';
 import image1 from '../../images/battlemap.jpg';
-import image2 from '../../images/battlemap.jpg';
+import image2 from '../../images/Image2.jpg';
 import './carousel.css';
 
 export default class Carousel extends React.Component {

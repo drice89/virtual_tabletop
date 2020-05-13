@@ -15,7 +15,13 @@
 }
 
 .footerItem {
+  margin-top: 3px;
   margin-bottom: 10px;
+  font-size: 12px;
+  color: $dark-grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // .footer ul {
@@ -34,5 +40,9 @@
   font-size: $small;
 }
 
+.footerImage { 
+  margin-left: 5px;
+  font-size: 16px;
+}
 
 
