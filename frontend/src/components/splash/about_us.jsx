@@ -1,9 +1,11 @@
 import React from "react";
 
-export default AboutUs = () => (
+const AboutUs = () => (
   <main>
     <div>
       Dias Is
     </div>
   </main>
 )
+
+export default AboutUs;
