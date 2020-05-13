@@ -6,6 +6,18 @@ const Game = require('../models/Game');
 const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
 
+exports.fetchUserGames = function(req, res) { 
+  const userId = req.params.id; 
+
+  User.findById(userId).populate('gameSubscriptions').exec((err, games) => console.log(games))
+  User.findById(userId, function(err, user) { 
+    if (!user) return res.json({msg: 'user not fond'});
+    const games = []; 
+    let test = user.gameSubscriptions
+    res.json(test)
+  })
+
+}
 
 exports.login = function(req, res)  { 
  const { errors, isValid } = validateLoginInput(req.body);
@@ -106,8 +118,3 @@ exports.register = function(req, res)  {
     })
 }
 
-// exports.addGame = function(req, res) { 
-//   const GameId = req.gameId; 
-
-//   Game.findById({ GameId }, )
-// }

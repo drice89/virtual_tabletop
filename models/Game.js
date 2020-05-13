@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const GameSchema = new Schema({
   creatorId: {
     type: Schema.Types.ObjectId, 
-    ref: 'users'
+    ref: 'User'
   }, 
   name: { 
     type: String, 
@@ -20,11 +20,11 @@ const GameSchema = new Schema({
   }, 
   players: [{ 
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'User'
   }], 
   boards: [{ 
     type: Schema.Types.ObjectId,
-    ref: 'boards'
+    ref: 'Board'
   }], 
 });
 
