@@ -33,3 +33,23 @@
   text-decoration: underline;
   color: darken($color: #0ef8f8, $amount: 15%) 
 };
+
+.secondary {
+  width: 100%;
+  background-color: $secondary;
+  border-radius: 4px;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  font-size: 1.4rem;
+  transition: all 0.3s;
+}
+
+.secondary:hover {
+  background-color: $secondary-light;
+}
+
+.secondary:active {
+  background-color: $secondary-dark;
+}

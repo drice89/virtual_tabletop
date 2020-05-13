@@ -1,0 +1,75 @@
+@import '../../_colors.scss';
+@import '../../_font.scss';
+
+.main {
+  height: 100%;
+  background-color: $background;
+  display: flex;
+  flex-direction: column;
+}
+
+.background {
+  flex: 1;
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  color: white;
+  font-size: 3.2rem;
+  font-weight: 700;
+  line-height: 3rem;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 5px $dark-grey;
+}
+
+.logo > i {
+  font-size: 6rem;
+  margin-right: 8px;
+}
+
+.background::after {
+  content: "";
+  background-image: url('/snow_landscape.jpg');
+  background-size: cover;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  filter: blur(4px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.formContainer {
+  background-color: $primary-dark;
+  border-radius: 4px;
+  padding: 16px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formContainer > * ~ *{
+  margin-top: 16px;
+}
+
+.formContainer input {
+  background-color: $white;
+  font-size: $small;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 40px;
+}
+
+.formContainer input:focus {
+  border-color: $secondary-light;
+  box-shadow: 0 0px 8px $secondary-light;
+}

@@ -4,17 +4,19 @@ import { Switch, Route } from 'react-router-dom';
 // import SignupContainer from './users/signup_container';
 // import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 // import MainPage from "./main/main_page"
-import Splash from "./splash/splash";
+import Splash from './splash/splash';
 import Grid from './game/grid';
 import UI from './ui/ui';
+import LoginForm from './auth/login/login_form';
 import './reset.css';
 import './structure.scss';
 
 function App() {
   return (
     <div className="App">
-    <Switch> 
-      <Route exact path="/" component={Splash} />
+      <Switch>
+        <Route exact path="/" component={Splash} />
+        <Route path="/login" component={LoginForm} />
         {/* <AuthRoute exact path="/login" component={LoginContainer} />
         <AuthRoute exact path="/signup" component={SignupContainer} />
         <AuthRoute exact path="/" component={MainPage} /> */}

@@ -1,0 +1,72 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.nav {
+  background-color: $primary-dark;
+  color: white;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  // padding: 0 16px;
+}
+
+.nav > * {
+  margin-right: 8px;
+}
+
+.btn {
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  font-size: $small;
+  line-height: 1;
+}
+
+.btn > *:first-child {
+  margin-right: 6px;
+  font-size: $medium;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  background-color: $secondary;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  padding: 0 16px;
+}
+
+.logo i {
+  font-size: 3.2rem;
+  margin-right: 4px;
+}
+
+.logo p {
+  line-height: 1;
+}
+
+.logoTri {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 32px 10px 0 0;
+  border-color: $secondary transparent transparent transparent;
+}
+
+.userInfo {
+  margin-left: auto;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.userInfo > * {
+  margin-left: 8px;
+}
