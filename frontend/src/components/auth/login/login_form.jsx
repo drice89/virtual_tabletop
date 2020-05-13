@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Nav from '../user_nav';
 import styles from '../form.module.scss';
 import buttons from '../../buttons.module.scss';
+import Logo from '../../logo/logo';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -35,13 +36,7 @@ class LoginForm extends React.Component {
       <div className={styles.main}>
         <Nav />
         <div className={styles.background}>
-          <div className={styles.logo}>
-            <i className="ra ra-hood" />
-            <div>
-              <p>Virtual</p>
-              <p>Tabletop</p>
-            </div>
-          </div>
+          <Logo />
           <form className={styles.formContainer} onSubmit={this.handleSubmit}>
             {errors.email ? <span className={styles.errors}>{errors.email}</span> : ''}
             <input type="text" placeholder="Email" value={email} onChange={this.handleChange('email')} />
