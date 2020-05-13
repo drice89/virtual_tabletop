@@ -44,8 +44,15 @@ exports.createGame = function (req, res) {
           description: req.body.description,
           backgroundImage: req.body.backgroundImage
         });
-
-        newGame.save().then(game => res.json(game), err => res.json(err))
+        // newGame.save().then(game => res.json(game), err => res.json(err))
+        newGame.save(function(err, game) {
+          User.findById(req.body.creatorId, function(userErr, user) {
+            if (!user) return res.json({msg: 'user not found'}); 
+            user.gameSubscriptions.push(game); 
+            user.save()
+            return res.json(game); 
+          })
+        }) 
       }
     })
 }
