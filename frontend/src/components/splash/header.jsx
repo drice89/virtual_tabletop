@@ -48,12 +48,12 @@ const Header = (props) => {
 
 
   return (
-    <div>
+    <div className={styles.background}>
       <nav className={styles.headerContainer}>
-        <div>
-          Logo
+        <div className={styles.logo}>
+          <i className="ra ra-hood" />
         </div>
-        <div>
+        <div className={styles.navRight}>
           <ul>
             <li>
               <button>
