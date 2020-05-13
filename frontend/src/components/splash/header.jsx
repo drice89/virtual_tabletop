@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-dom";
+import { connect } from "react-redux";
 import { logout } from "../../actions/session_action";
 const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.isAuthenticated),
@@ -23,7 +23,7 @@ const Header = (props) => {
         </Link>
       </div>
       <div>
-        <button onClick={this.props.logout.bind(this)}>Logout</button>
+        <button onClick={props.logout}>Logout</button>
       </div>
     </>
   )
@@ -49,7 +49,7 @@ const Header = (props) => {
     <div>
       <nav>
         <div>
-          <Logo />
+          Logo
         </div>
         <div>
           <ul>

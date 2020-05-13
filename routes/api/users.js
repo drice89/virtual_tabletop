@@ -1,6 +1,7 @@
 const express = require('express'); 
 const router = express.Router();
 const userController = require("../../controllers/users_controller");
+const passport = require("passport");
 
 
 
@@ -12,4 +13,4 @@ router.post('/login', userController.login);
 
 
 
-module.exports = router; 
+module.exports = router;

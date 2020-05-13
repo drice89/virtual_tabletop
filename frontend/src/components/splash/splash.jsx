@@ -1,7 +1,8 @@
-import React from "react";
-import Header from "./header";
-import Banner from "./content";
-import Footer from "./footer"
+import React from 'react';
+import Header from './header';
+import Content from './content';
+import Footer from './footer';
+import AboutUs from './about_us';
 
 const Splash = () => (
   <div>
@@ -12,4 +13,4 @@ const Splash = () => (
   </div>
 )
 
-export default Splash
+export default Splash;
