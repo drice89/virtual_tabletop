@@ -13,10 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setAuthToken(localStorage.jwtToken);
     const decodedUser = jwtDecode(localStorage.jwtToken);
     const preloadedState = {
+      entities: {
+        users: {
+          [decodedUser.id]: decodedUser,
+        },
+      },
       session: {
         isAuthenticated: true,
-        user: decodedUser,
-      }
+        userId: decodedUser.id,
+      },
     };
 
     store = configureStore(preloadedState);
@@ -29,11 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
 
-  // window.dispatch = store.dispatch;
-  // window.getState = store.getState;
-  // window.login = login;
-  // window.logout = logout;
-  // window.signup = signup;
+  window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.login = login;
+  window.logout = logout;
+  window.signup = signup;
 
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root)

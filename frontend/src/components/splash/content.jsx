@@ -1,10 +1,11 @@
 import React from "react";
+import Carousel from "./carousel"
 
 const Content = () => (
   <div>
     <header>Bruce BANNER
       <div>
-        Hero image here
+       <Carousel />
       </div>
       <div> 
         absolutely positioned message
