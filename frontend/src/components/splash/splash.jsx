@@ -3,12 +3,13 @@ import Header from "./header";
 import Banner from "./content";
 import Footer from "./footer"
 
-const splash = () => (
+const Splash = () => (
   <div>
     <Header />
     <Content />
+    <AboutUs />
     <Footer />
   </div>
 )
 
-export default splash
+export default Splash

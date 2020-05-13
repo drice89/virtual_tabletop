@@ -16,7 +16,7 @@ const Header = (props) => {
   const launchAndLogout = (
     <>
       <div>
-        <Link to={`/user/${userId}`}>
+        <Link to={`/user/${props.userId}`}>
           <button>
             {props.displayName}
           </button>

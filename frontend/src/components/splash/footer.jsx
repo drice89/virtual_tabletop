@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer = () => (
+export default Footer = () => (
   <div>
     <footer>
       <ul>
@@ -8,9 +8,10 @@ const Footer = () => (
           GitHub svg
         </li>
         <li>
-          Dias Iskrayev
+          Created by Dias Iskrayev, Dillon Rice, Steven Touba, Wayne Su
         </li>
       </ul>
     </footer>
   </div>
 )
+

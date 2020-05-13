@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutUs = () => (
+export default AboutUs = () => (
   <main>
     <div>
       Dias Is
