@@ -60,7 +60,7 @@ exports.joinGame = function(req, res) {
     User.findById(userId, function(userErr, user) {
       if (!user) return res.json(user);
      
-        user.gameSubscriptions.push(game)
+        user.gameSubscriptions.push(game) // subscribes user to game push game ref into array 
         user.save(function(userSaveErr) { 
         if (userSaveErr) return res.json(userSaveErr);
       })
