@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../actions/session_action";
+import buttonStyles from '../buttons.module.scss';
+import styles from './header.module.scss';
+
 const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.isAuthenticated),
   displayName: state.session.isAuthenticated ? state.session.user.displayName : "",
@@ -17,7 +20,7 @@ const Header = (props) => {
     <>
       <div>
         <Link to={`/user/${props.userId}`}>
-          <button>
+          <button className={buttonStyles.signUp}>
             {props.displayName}
           </button>
         </Link>
@@ -32,12 +35,12 @@ const Header = (props) => {
     <>
       <div>
         <Link to={`/signup`}>
-          <button>Sign Up</button>
+          <button className={buttonStyles.signUp}>Sign Up</button>
         </Link>
       </div>
       <div>
         <Link to={`/Login`}>
-          <button>Login</button>
+          <button className={buttonStyles.signIn}>Login</button>
         </Link>
       </div>
     </>
@@ -47,7 +50,7 @@ const Header = (props) => {
 
   return(
     <div>
-      <nav>
+      <nav className={styles.headerContainer}>
         <div>
           Logo
         </div>

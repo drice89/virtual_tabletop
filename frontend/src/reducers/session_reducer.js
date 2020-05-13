@@ -2,8 +2,8 @@ import { LOGOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from '../actions/session_ac
 
 const initialState = {
   isAuthenticated: false,
-  user: {},
-}
+  userId: null,
+};
 
 const sessionReducer = (state = initialState, action) => {
   Object.freeze(state);
@@ -12,12 +12,12 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
-        user: action.currentUser
+        userId: action.currentUser.id,
       };
     case LOGOUT_CURRENT_USER:
       return {
         isAuthenticated: false,
-        user: undefined,
+        userId: undefined,
       };
     default:
       return state;

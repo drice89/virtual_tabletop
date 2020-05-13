@@ -9,3 +9,27 @@
 .none:hover {
   color: $white
 }
+
+.signUp, .signIn { 
+  margin: 5px; 
+}; 
+
+.signUp, .signIn { 
+  padding: 12px 16px;
+  border: 1px solid #072d91;
+  background-color: #072d91;
+  border-radius: 10px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+};
+
+.signUp:hover { 
+  background-color: darken($color: #072d91, $amount: 7%);
+  text-decoration: underline;
+};
+
+.signIn:hover { 
+  text-decoration: underline;
+  color: darken($color: #0ef8f8, $amount: 15%) 
+};
