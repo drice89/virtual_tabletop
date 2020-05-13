@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { AuthRoute, ProtectedRoute } from '../util/route_util';
 // import LoginContainer from './users/login_container.js';
 // import SignupContainer from './users/signup_container';
 // import { AuthRoute, ProtectedRoute } from '../utils/route_util';
@@ -17,8 +18,8 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
-        <Route path="/login" component={LoginFormContainer} />
-        <Route path="/signup" component={SignupFormContainer} />
+        <AuthRoute path="/login" component={LoginFormContainer} />
+        <AuthRoute path="/signup" component={SignupFormContainer} />
         {/* <AuthRoute exact path="/login" component={LoginContainer} />
         <AuthRoute exact path="/signup" component={SignupContainer} />
         <AuthRoute exact path="/" component={MainPage} /> */}
