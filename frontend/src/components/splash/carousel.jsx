@@ -97,11 +97,11 @@ export default class Carousel extends React.Component {
             <div className="carousel-text">
               <h3>Build your own board!</h3>
               <p>
-                Play with other peeps
+                Play with other peeps, if you have them
                 <br />
                 It is free lol
                 <br />
-                You can do whatever you want
+                I try to break it
               </p>
               <button className="carousel-text-button">
                 Start playing
@@ -117,11 +117,11 @@ export default class Carousel extends React.Component {
             <div className="carousel-text git">
               <h3>Virtual Tabletop</h3>
               <p>
-                Boom headshot
+                Changed my life!
                 <br />
-                So anyways, I started blasting
+                Once you go virtual you never go back
                 <br />
-                GITHUB!!!!
+                I will never go back
               </p>
               <button className="carousel-text-button">
                 <a
