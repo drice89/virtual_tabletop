@@ -54,7 +54,7 @@ class SignupForm extends React.Component {
             {errors.password ? <span className={styles.errors}>{errors.password}</span> : ''}
             <input type="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
             {errors.password2 ? <span className={styles.errors}>{errors.password2}</span> : ''}
-            <input type="text" placeholder="Repeat Password" value={password2} onChange={this.handleChange('password2')} />
+            <input type="password" placeholder="Repeat Password" value={password2} onChange={this.handleChange('password2')} />
             <button type="submit" className={buttons.secondary}>Sign Up</button>
           </form>
           <span className={styles.linkAway}>
