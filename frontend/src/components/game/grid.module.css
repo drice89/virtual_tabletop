@@ -4,19 +4,16 @@
     z-index: 1;
     display: flex;
     flex-wrap: wrap;
-    
-
 }
 
-.row {
+/* .row {
 
 }
 .outer-box {
     display: flex;
     justify-content: center;
     align-items: center;
-
-}
+} */
 
 .box {
     position: relative;
@@ -37,13 +34,7 @@
     background-color: rgb(66, 66, 66);
 }
 
-#token {
-    position: absolute;
-    height: 200%;
-    width: 200%;
-}
-
-.background-image{
+.backgroundImage {
     /* position: absolute; */
     overflow: hidden;
     object-fit: none;
@@ -51,28 +42,7 @@
     width: 100%;
 }
 
-
-.token-bar{
-    width: 300px;
-    height: 150px;
-    background-color: aliceblue;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-img{
-    height: 100%;
-    width: 100%;
-}
-
-.token-bar-item{
-    width: 50px;
-    height: 50px;
-
-}
-
-#empty{
+.empty {
     height: 1px;
     width: 1px;
 }
