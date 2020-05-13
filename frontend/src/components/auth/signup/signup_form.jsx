@@ -3,10 +3,12 @@ import Nav from '../user_nav';
 import styles from '../form.module.scss';
 import buttons from '../../buttons.module.scss';
 
-class LoginForm extends React.Component {
+class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = {
+      displayName: '', email: '', password: '', password2: '',
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -23,7 +25,9 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    const { email, password } = this.state;
+    const {
+      displayName, email, password, password2,
+    } = this.state;
     const { errors } = this.props;
     return (
       <div className={styles.main}>
@@ -37,11 +41,15 @@ class LoginForm extends React.Component {
             </div>
           </div>
           <form className={styles.formContainer} onSubmit={this.handleSubmit}>
+            {errors.displayName ? <span className={styles.errors}>{errors.displayName}</span> : ''}
+            <input type="text" placeholder="Display Name" value={displayName} onChange={this.handleChange('displayName')} />
             {errors.email ? <span className={styles.errors}>{errors.email}</span> : ''}
             <input type="text" placeholder="Email" value={email} onChange={this.handleChange('email')} />
             {errors.password ? <span className={styles.errors}>{errors.password}</span> : ''}
             <input type="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
-            <button type="submit" className={buttons.secondary}>Login</button>
+            {errors.password2 ? <span className={styles.errors}>{errors.password2}</span> : ''}
+            <input type="text" placeholder="Repeat Password" value={password2} onChange={this.handleChange('password2')} />
+            <button type="submit" className={buttons.secondary}>Sign Up</button>
           </form>
         </div>
       </div>
@@ -49,4 +57,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm;
+export default SignupForm;
