@@ -117,13 +117,14 @@ export default class Grid extends React.Component {
 
       grid.push(<div key={`grid-${i}`} className={styles.row}>{rows}</div>);
     }
-    componentDidUpdate(){
-        let grid = document.getElementsByClassName('box')
-        for (let i = 0; i < grid.length; i++) {
-            grid[i].style.border=`1px solid ${this.state.color}`
-            grid[i].style.opacity=`${this.state.opacity / 100}`
-             
-        }
+  }
+
+  componentDidUpdate() {
+    const grid = document.getElementsByClassName('box');
+    for (let i = 0; i < grid.length; i++) {
+      grid[i].style.border = `1px solid ${this.state.color}`;
+      grid[i].style.opacity = `${this.state.opacity / 100}`;
+    }
 
     this.setState({ grid });
   }
