@@ -1,3 +1,6 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
 .background {
   position: relative;
   z-index: 0;
@@ -11,7 +14,7 @@
 .background::after {
   content: "";
   background-image: url('/snow_landscape.webp');
-  background-size: contain;
+  background-size: 100% auto;
   background-repeat: no-repeat;
   top: 0;
   left: 0;
@@ -29,8 +32,66 @@
   overflow-x: hidden;
 }
 
-.test {
-  height: 5000px;
+.contentContainer {
+  width: 960px;
+  border-radius: 8px;
+  background-color: $primary-dark;
+  padding: 60px 16px 16px;
+  position: relative;
+  margin-top: 300px;
+}
+
+.profile {
+  position: absolute;
+  top: -120px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
   color: white;
-  width: 200px;
+  font-size: $small;
+  left: 0;
+  right: 0;
+}
+
+.profile h1 {
+  color: $white;
+  font-size: 3.2rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.profileImg {
+  top: -52px;
+  border: 4px solid $white;
+  border-radius: 50%;
+  width: 150px;
+  margin-right: 24px;
+}
+
+.content {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  color: $white
+}
+
+.sidebar {
+  background-color: red;
+  width: 260px;
+}
+
+.stats {
+  display: flex;
+  margin-left: auto;
+}
+
+.stats > * {
+  padding: 0 16px;
+  text-align: center;
+}
+
+.stats > div ~ div {
+  border-left: 1px solid $light-grey;
 }
