@@ -1,0 +1,109 @@
+@import '../_colors.scss';
+
+.barContainer{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    margin: auto;
+}
+
+
+.tokenBar{
+    
+    max-width: 500px;
+    /* height: 100px; */
+    background-color: $primary;
+    // margin: auto;
+    overflow: auto;
+
+    display: flex;
+    white-space: nowrap;
+    border-radius: 10px;
+    border: 1px solid black;
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+    box-shadow: 0 0px 8px white;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+.tokenBar::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
+.tokenBarContainer{
+    display: inline-block;
+}
+
+
+.tokenBarItem{
+    margin: auto;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: 2px solid rgb(209, 209, 209);
+    margin: 10px;
+    background-color: $primary-dark;
+}
+.tokenBarItem:hover{
+     box-shadow: 0 0px 8px white;
+     border: 2px solid rgb(255, 255, 255);
+}
+
+.tokenBarItem img{
+    border-radius: 50px;
+
+}
+
+.addTokenContainer{
+    margin: 0;
+    display: inline-block;
+    border-left: 2px solid rgba(156, 156, 156, 0.452);
+    
+}
+
+.addToken{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: $primary-dark;
+    border: 2px solid rgb(0, 224, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: rgb(0, 224, 0);
+    margin: 10px;
+}
+
+.addToken:hover{
+    box-shadow: 0 0px 8px white;
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.arrows{
+    font-size: 3.6rem;
+    padding-top: 3px;
+    color: rgb(185, 185, 185);
+
+}
+.rightArrow:hover,
+.leftArrow:hover{
+    color: white;
+}
