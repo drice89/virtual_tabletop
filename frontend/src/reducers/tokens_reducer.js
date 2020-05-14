@@ -1,5 +1,5 @@
 import { RECEIVE_GAME } from '../actions/games_actions';
-import { DELETE_BOARD } from '../actions/token_actions';
+import { DELETE_BOARD } from '../actions/board_actions';
 import { RECEIVE_TOKEN, DELETE_TOKEN } from '../actions/token_actions';
 
 export default (state = {}, action) => {
