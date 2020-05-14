@@ -72,8 +72,8 @@ exports.createGame = function (req, res) {
         console.log(user)
         if (userErr) return res.status(400).json(userErr); 
         user.gameSubscriptions.push(game._id); 
-        user.save()
-        return res.json({payload: game}); 
+        user.save();
+        return res.json({ game }); 
       })
     })
    }
