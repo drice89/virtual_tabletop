@@ -9,65 +9,38 @@ const validateRegisterInput = require('../validations/register');
 
 const validatePiece = require('../validations/piece_validation')
 
-// exports.fetchUserGames = function(req, res) { 
-//   const userId = req.params.id; 
-
-//   User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
-//                                                                                               for each gameObject, exec returns all games */
-//   // User.findById(userId, function(err, user) { 
-//   //   if (!user) return res.json({msg: 'user not fond'});
-//   //   const games = []; 
-//   //   let test = user.gameSubscriptions
-//   //   res.json(test)
-//   // })
-// }
-
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
 
-  User.findById(userId, '_id displayName profilePicture email').
+  User.findById(userId, '_id displayName profilePicture email gameSubscriptions').
     populate({
       path: 'gameSubscriptions',
       select: '_id name description creatorId backgroundImage'
     }).exec(function(err, results) {
-      if (err) return res.json(err); 
-      return res.json(results); 
-    } )
-
-  // User.findById(userId, function(err, user) {
-  //   User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). // this may work for fetching all users belongs to specfic games 
-  //     then((result) => res.json(result), (err) => res.json(err))                        // but subscriptions unreliable/messed up so hard to tell 
-  // })
-
-  // Game.find({creat})
-
-    // User.find({gameSubscriptions: {$elemMatch: {_id: {$in: gameSubscriptions, from: "User"}}}}). //gameSubscriptions needs to be an array error, it's percived as string
-    //   then((result) => res.json(result), (err) => res.json(err))                                 // need access to actual user model 
-  
-
-  // User.findById(userId, '_id displayName email profilePicture',
-  //   function (err, result) {
-  //     User.find()
-  //   }
-  // )
- 
-  // User.findById(userId, '_id displayName email profilePicture').
-  //   populate({
-  //     path: 'gameSubscriptions', 
-  //     select: '_id name description',
-  //     populate: { path: 'players', select: '_id displayName profilePicture email'} 
-  //   }).exec((err, results) => Structure(results))
+      if (err) return res.json(err);  
+      return res.json(StructurePayload(results.toJSON()))
+    })
 }
 
-// function Structure (response) { 
-//   debugger
-//   console.log(response)
-//   const players = {}; 
-//   const games = {}; 
-//   response
+function StructurePayload(response) { 
+  const payload = {
+    games: {}, 
+    user: {
+      _id: response._id , 
+      displayName: response.displayName, 
+      email: response.email,
+      profilePicture: response.profilePicture,  
+      gameSubscriptions: getIds(response.gameSubscriptions)
+    }
+  }
 
-// }
+  response.gameSubscriptions.map(game => payload.games[game._id] = game)
+  return payload; 
+}
 
+function getIds(games) { 
+  return games.map(game => game._id); 
+}
 
 exports.login = function(req, res)  { 
  const { errors, isValid } = validateLoginInput(req.body);
@@ -169,7 +142,6 @@ exports.register = function(req, res)  {
 }
 
 
-
 //fetch all the pieces 
 exports.fetchPieces = function (req, res) {
   User.findOne({_id: req.params.userId})
@@ -181,8 +153,6 @@ exports.fetchPieces = function (req, res) {
 
 }
 
-
-
 //create a piece
 exports.createPiece = function (req, res) {
   const {errors, isValid} = validatePiece(req.body);
@@ -190,7 +160,6 @@ exports.createPiece = function (req, res) {
   if (!isValid) { 
     return res.status(400).json(errors)
   }
-
 
   User.findOne({_id: req.params.userId})
     .then((user) => {
@@ -207,7 +176,6 @@ exports.createPiece = function (req, res) {
 
 
 }
-
 
 //delete single piece
 exports.deletePiece = function (req, res){
@@ -226,4 +194,41 @@ exports.deletePiece = function (req, res){
 }
 
 
+//for testing 
 
+ // User.findById(userId, function(err, user) {
+  //   User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). // this may work for fetching all users belongs to specfic games 
+  //     then((result) => res.json(result), (err) => res.json(err))                        // but subscriptions unreliable/messed up so hard to tell 
+  // })
+
+  // Game.find({creat})
+
+    // User.find({gameSubscriptions: {$elemMatch: {_id: {$in: gameSubscriptions, from: "User"}}}}). //gameSubscriptions needs to be an array error, it's percived as string
+    //   then((result) => res.json(result), (err) => res.json(err))                                 // need access to actual user model 
+
+
+  // User.findById(userId, '_id displayName email profilePicture',
+  //   function (err, result) {
+  //     User.find()
+  //   }
+  // )
+
+  // User.findById(userId, '_id displayName email profilePicture').
+  //   populate({
+  //     path: 'gameSubscriptions', 
+  //     select: '_id name description',
+  //     populate: { path: 'players', select: '_id displayName profilePicture email'} 
+  //   }).exec((err, results) => Structure(results))
+
+  // exports.fetchUserGames = function(req, res) { 
+//   const userId = req.params.id; 
+
+//   User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
+//                                                                                               for each gameObject, exec returns all games */
+//   // User.findById(userId, function(err, user) { 
+//   //   if (!user) return res.json({msg: 'user not fond'});
+//   //   const games = []; 
+//   //   let test = user.gameSubscriptions
+//   //   res.json(test)
+//   // })
+// }
