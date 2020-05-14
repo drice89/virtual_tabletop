@@ -35,7 +35,7 @@
 .contentContainer {
   width: 960px;
   border-radius: 8px;
-  background-color: $primary-dark;
+  background-color: $white;
   padding: 60px 16px 16px;
   position: relative;
   margin-top: 300px;
@@ -51,6 +51,7 @@
   font-size: $small;
   left: 0;
   right: 0;
+  text-shadow: 0px 1px 5px $dark-grey;
 }
 
 .profile h1 {
@@ -66,19 +67,25 @@
   border-radius: 50%;
   width: 150px;
   margin-right: 24px;
+  box-shadow: 0px 1px 10px $dark-grey;
 }
 
 .content {
   display: flex;
+  flex-direction: column;
+  padding: 0 16px;
 }
 
 .main {
   flex: 1;
-  color: $white
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  margin: 16px -1rem;
 }
 
 .sidebar {
-  background-color: red;
+  background-color: $primary-dark;
   width: 260px;
 }
 
@@ -94,4 +101,91 @@
 
 .stats > div ~ div {
   border-left: 1px solid $light-grey;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.topBar h2 {
+  font-size: 2rem;
+}
+
+.gameContainer {
+  width: 50%;
+  height: 240px;
+  box-sizing: border-box;
+  padding: 1rem;
+  display: flex;
+  transition: all 0.2s;
+}
+
+.gameContainer:hover {
+  padding: 0.8rem;
+}
+
+// .card::after {
+//   content: "";
+//   background-image: url('/snow_landscape.webp');
+//   background-size: 100% auto;
+//   background-repeat: no-repeat;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+//   position: absolute;
+//   // filter: blur(4px);
+//   opacity: 0.7;
+//   z-index: -1;
+//   border-radius: 8px;
+// }
+
+.cardBack {
+  background-image: url('/snow_landscape.webp');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  // filter: blur(4px);
+  opacity: 0.5;
+  z-index: -1;
+  border-radius: 8px;
+}
+
+.card {
+  background-color: $primary-dark;
+  position: relative;
+  flex: 1 1 auto;
+  border-radius: 8px;
+  z-index: 0;
+  box-shadow: 2px 2px 5px $dark-grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  box-sizing: border-box;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.card h1 {
+  font-size: 2.4rem;
+}
+
+.status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: $small;
+}
+
+.dot {
+  margin-right: 4px;
+  color: $secondary-light;
+  // text-shadow: 0 0 3px $secondary;
 }
