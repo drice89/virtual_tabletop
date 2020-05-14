@@ -59,14 +59,14 @@ exports.fetchUserGames = function (req, res) {
   //   }).exec((err, results) => Structure(results))
 }
 
-function Structure (response) { 
-  debugger
-  console.log(response)
-  const players = {}; 
-  const games = {}; 
-  response
+// function Structure (response) { 
+//   debugger
+//   console.log(response)
+//   const players = {}; 
+//   const games = {}; 
+//   response
 
-}
+// }
 
 
 exports.login = function(req, res)  { 
