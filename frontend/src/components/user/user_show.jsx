@@ -9,10 +9,43 @@ import CreateGameContainer from './create_game_container';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { createForm: false };
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.toggleCreate = this.toggleCreate.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  toggleCreate() {
+    const { createForm } = this.state;
+    this.setState({ createForm: !createForm });
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef
+      && !this.wrapperRef.contains(event.target)) {
+      this.setState({ createForm: false });
+    }
+  }
+
   render() {
+    const { createForm } = this.state;
     return (
       <>
-        <div className={styles.container}>
+        <div className={createForm ? `${styles.container} ${styles.blurred}` : styles.container}>
           <div className={styles.background}>
             <div className={styles.contentContainer}>
               <div className={styles.profile}>
@@ -36,7 +69,7 @@ class UserShow extends React.Component {
                 <div className={styles.topBar}>
                   <h2>My Games</h2>
                   <div>
-                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`}>
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreate}>
                       <i className="ra ra-anvil ra-lg" />
                       <span>
                         Create New Game
@@ -66,9 +99,14 @@ class UserShow extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.modal}>
-          <CreateGameContainer />
-        </div>
+        {createForm ? (
+          <div className={styles.modal}>
+            <div ref={this.setWrapperRef}>
+              <CreateGameContainer />
+            </div>
+          </div>
+        ) : ''}
+
       </>
     );
   }
