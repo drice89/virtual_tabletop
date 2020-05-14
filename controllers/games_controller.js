@@ -92,7 +92,7 @@ exports.joinGame = function(req, res) {
 
 exports.createGame = function (req, res) { 
   const { errors , isValid } = validateGameRegister(req.body); 
-  
+
   if (!isValid) return res.status(400).json(errors); 
   Game.find({creatorId: req.body.creatorId, name: req.body.name}, function (gameErr, game) {
     console.log(gameErr)
@@ -110,7 +110,12 @@ exports.createGame = function (req, res) {
     newGame.players.push(newGame.creatorId)
     newGame.save(function(saveErr, game) { 
       if (saveErr) return res.status(400).json(saveErr); 
-      return res.json(game)
+      User.findById(game.creatorId, function(userErr, user) { 
+        console.log(user)
+        if (userErr) return res.status(400).json(userErr); 
+        user.gameSubscriptions.push(game._id); 
+        return res.json(user); 
+      })
     })
    }
   })
