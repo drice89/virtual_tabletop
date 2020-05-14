@@ -4,14 +4,14 @@ export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
 export const RECIEVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
 
-export const receiveGames = (games) => ({
+export const receiveGames = (payload) => ({
   type: RECEIVE_GAMES,
-  games,
+  payload,
 });
 
-export const receiveGame = (game) => ({
+export const receiveGame = (payload) => ({
   type: RECEIVE_GAME,
-  game,
+  payload,
 });
 
 export const receiveGameErrors = (errors) => ({
