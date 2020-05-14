@@ -18,11 +18,8 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { login, history } = this.props;
-    login(this.state)
-      .then((res) => {
-        history.push(`/user/${res.id}`);
-      });
+    const { login } = this.props;
+    login(this.state);
   }
 
   handleChange(form) {
@@ -39,9 +36,9 @@ class LoginForm extends React.Component {
         <Logo />
         <form className={styles.formContainer} onSubmit={this.handleSubmit}>
           {errors.email ? <span className={styles.errors}>{errors.email}</span> : ''}
-          <input type="text" placeholder="Email" value={email} onChange={this.handleChange('email')} />
+          <input type="text" name="email" placeholder="Email" value={email} onChange={this.handleChange('email')} />
           {errors.password ? <span className={styles.errors}>{errors.password}</span> : ''}
-          <input type="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
+          <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
           <button type="submit" className={buttons.secondary}>Login</button>
         </form>
         <span className={styles.linkAway}>

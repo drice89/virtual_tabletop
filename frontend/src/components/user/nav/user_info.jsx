@@ -34,7 +34,7 @@ const UserInfo = ({ currentUser, logout }) => {
       </span>
       <button type="button" className={buttons.none} onClick={logout}>
         <div className={styles.btn}>
-          <i className="ra ra-footprint" />
+          <i className="ra ra-hole-ladder" />
           <span>Logout</span>
         </div>
       </button>
