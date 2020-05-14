@@ -9,9 +9,9 @@ import UserShow from './user_show';
 const Main = () => (
   <div className={styles.main}>
     <NavContainer />
-    <AuthRoute path="/login" component={LoginFormContainer} />
-    <AuthRoute path="/signup" component={SignupFormContainer} />
-    <ProtectedRoute path="/user/:userId" component={UserShow} />
+    <AuthRoute exact path="/login" component={LoginFormContainer} />
+    <AuthRoute exact path="/signup" component={SignupFormContainer} />
+    <ProtectedRoute exact path="/user/:userId" component={UserShow} />
   </div>
 );
 

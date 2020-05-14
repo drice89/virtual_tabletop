@@ -16,8 +16,8 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
-        <Route path="/" component={Main} />
         <ProtectedRoute path="/game" component={GameContainer} />
+        <Route path="/" component={Main} />
       </Switch>
     </div>
   );
