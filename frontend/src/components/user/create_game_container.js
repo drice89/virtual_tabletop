@@ -4,7 +4,7 @@ import { createGame } from '../../actions/games_actions';
 
 const mapStateToProps = (state) => ({
   creatorId: state.session.userId,
-  errors: state.errors.session,
+  errors: state.errors.games,
 });
 
 const mapDispatchToProps = (dispatch) => ({

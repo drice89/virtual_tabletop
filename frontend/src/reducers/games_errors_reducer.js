@@ -1,12 +1,11 @@
+import { RECEIVE_GAME_ERRORS, RECEIVE_GAME, CLEAR_ERRORS } from '../actions/games_actions';
 
-import { RECEIVE_SESSION_ERRORS, RECEIVE_CURRENT_USER, CLEAR_ERRORS } from '../actions/session_action';
-
-const sessionErrorsReducer = (state = [], action) => {
+const gamesErrorsReducer = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_SESSION_ERRORS:
+    case RECEIVE_GAME_ERRORS:
       return action.errors;
-    case RECEIVE_CURRENT_USER:
+    case RECEIVE_GAME:
       return [];
     case CLEAR_ERRORS:
       return [];
@@ -15,4 +14,4 @@ const sessionErrorsReducer = (state = [], action) => {
   }
 };
 
-export default sessionErrorsReducer;
+export default gamesErrorsReducer;

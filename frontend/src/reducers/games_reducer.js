@@ -3,11 +3,12 @@ import { RECEIVE_USER } from '../actions/users_actions';
 
 export default (state = {}, action) => {
   Object.freeze(state);
+  debugger;
   switch (action.type) {
     case RECEIVE_GAMES:
       return action.games;
     case RECEIVE_GAME:
-      return { ...state, ...{ [action.game.id]: action.game } };
+      return { ...state, ...{ [action.payload.game._id]: action.payload.game } };
     case RECEIVE_USER:
       return { ...state, ...action.payload.games };
     default:

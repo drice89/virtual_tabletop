@@ -19,6 +19,8 @@ class UserShow extends React.Component {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
+    const { fetchUser } = this.props;
+    fetchUser();
   }
 
   componentWillUnmount() {
@@ -43,15 +45,19 @@ class UserShow extends React.Component {
 
   render() {
     const { createForm } = this.state;
+    const { user } = this.props;
+    if (!user) return null;
     return (
       <>
         <div className={createForm ? `${styles.container} ${styles.blurred}` : styles.container}>
           <div className={styles.background}>
             <div className={styles.contentContainer}>
               <div className={styles.profile}>
-                <img className={styles.profileImg} src="https://via.placeholder.com/150/000000" alt="" />
+                <div className={styles.profileImg}>
+                  <img src={user.profilePicture} alt="" />
+                </div>
                 <div>
-                  <h1>Username</h1>
+                  <h1>{user.displayName}</h1>
                   <span>Level 7 Novice</span>
                 </div>
                 <div className={styles.stats}>

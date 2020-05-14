@@ -22,40 +22,40 @@ exports.fetchGame = function(req, res) {
   })
 }
 
-exports.createGame = function (req, res) {
-  const { errors, isValid } = validateGameRegister(req.body);
+// exports.createGame = function (req, res) {
+//   const { errors, isValid } = validateGameRegister(req.body);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+//   if (!isValid) {
+//     return res.status(400).json(errors);
+//   }
 
-  Game.find({
-    creatorId: req.body.creatorId.trim(),
-    name: req.body.name.trim()
-  })
-    .then((foundGame) => {
-      if (foundGame.length > 0) {
-        res.status(422).json(["This game is already exist"])
-      } else {
-        const newGame = new Game({
-          creatorId: req.body.creatorId.trim(),
-          name: req.body.name.trim(),
-          description: req.body.description.trim(),
-          backgroundImage: req.body.backgroundImage.trim()
-        });
-        // newGame.save().then(game => res.json(game), err => res.json(err))
-        newGame.save(function(err, game) {
-          User.findById(req.body.creatorId.trim(), function(userErr, user) {
-            if (!user) return res.json({msg: 'user not found'}); 
-            user.gameSubscriptions.push(game); 
-            newGame.players.push(user._id)
-            user.save()
-            return res.json(game); 
-          })
-        }) 
-      }
-    })
-}
+//   Game.find({
+//     creatorId: req.body.creatorId.trim(),
+//     name: req.body.name.trim()
+//   })
+//     .then((foundGame) => {
+//       if (foundGame.length > 0) {
+//         res.status(422).json(["This game is already exist"])
+//       } else {
+//         const newGame = new Game({
+//           creatorId: req.body.creatorId.trim(),
+//           name: req.body.name.trim(),
+//           description: req.body.description.trim(),
+//           backgroundImage: req.body.backgroundImage.trim()
+//         });
+//         // newGame.save().then(game => res.json(game), err => res.json(err))
+//         newGame.save(function(err, game) {
+//           User.findById(req.body.creatorId.trim(), function(userErr, user) {
+//             if (!user) return res.json({msg: 'user not found'}); 
+//             user.gameSubscriptions.push(game); 
+//             newGame.players.push(user._id)
+//             user.save()
+//             return res.json({ payload: game }); 
+//           })
+//         }) 
+//       }
+//     })
+// }
 
 exports.joinGame = function(req, res) { 
   const gameId = req.body.gameId; 
@@ -108,7 +108,8 @@ exports.createGame = function (req, res) {
         console.log(user)
         if (userErr) return res.status(400).json(userErr); 
         user.gameSubscriptions.push(game._id); 
-        return res.json(user); 
+        user.save();
+        return res.json({ game }); 
       })
     })
    }
