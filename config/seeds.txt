@@ -1,0 +1,1 @@
+window.createGame({name: "WaynesCoolGame", desciption: "WAYNES WORLD PARTY TIME.... EXCELLENT", backgroundImage:"https://i.ytimg.com/vi/pAuvAkVtyd8/maxresdefault.jpg", creatorId:"5ebbc88637f38ddcb053f8c5" })

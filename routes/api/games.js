@@ -10,7 +10,8 @@ router.get('', gameController.fetchAll)
 //index for user
 router.get('/:id', gameController.fetchGame)
 //create
-router.post('/create', passport.authenticate('jwt', {session: false}), gameController.createGame)
+// router.post('/create', passport.authenticate('jwt', {session: false}), gameController.createGame)
+router.post('/create', gameController.createGame)
 //patch
 router.patch('/join', passport.authenticate('jwt', { session: false }), gameController.joinGame)
 

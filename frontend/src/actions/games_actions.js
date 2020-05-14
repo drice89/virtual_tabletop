@@ -22,24 +22,24 @@ export const receiveGameErrors = (errors) => ({
 
 export const fetchUserGames = (userId) => (dispatch) => (
   gameAPIUtil.fetchUserGames(userId)
-    .then((games) => dispatch(receiveGames(games)))
+    .then((games) => dispatch(receiveGames(games.data)))
     .catch((err) => dispatch(receiveGameErrors(err)))
 );
 
-export const createGame = (game) => (dispatch) => (
-  gameAPIUtil.createGame(game)
-    .then((res) => dispatch(receiveGame(res)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
-);
+export const createGame = (game) => (dispatch) => {
+  return gameAPIUtil.createGame(game)
+    .then((resGame) => dispatch(receiveGame(resGame.data)))
+    .catch((err) => dispatch(receiveGameErrors(err)));
+};
 
 export const joinGame = (gameIdAndUserId) => (dispatch) => (
   gameAPIUtil.joinGame(gameIdAndUserId)
-    .then(res => dispatch(receiveGame(res)))
+    .then((res) => dispatch(receiveGame(res.data)))
     .catch((err) => dispatch(receiveGameErrors(err)))
 );
 
 export const fetchAll = () => (dispatch) => (
   gameAPIUtil.fetchAll()
-    .then((games) => dispatch(receiveGames(games)))
+    .then((games) => dispatch(receiveGames(games.data)))
     .catch((err) => dispatch(receiveGameErrors(err)))
 );

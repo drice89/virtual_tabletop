@@ -25,7 +25,6 @@ exports.fetchGame = function(req, res) {
 exports.createGame = function (req, res) {
   const { errors, isValid } = validateGameRegister(req.body);
 
-  console.log(errors)
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -33,10 +32,10 @@ exports.createGame = function (req, res) {
   Game.find({
     creatorId: req.body.creatorId,
     name: req.body.name
-  })
-    .then((foundGame) => {
+  }, (err, foundGame) => {
+    //.then((foundGame) => {
       if (foundGame.length > 0) {
-        res.status(422).json(["This game is already exist"])
+        res.status(422).json({msg: 'Same Player can\'t have two games with the same name'})
       } else {
         const newGame = new Game({
           creatorId: req.body.creatorId,
@@ -44,15 +43,22 @@ exports.createGame = function (req, res) {
           description: req.body.description,
           backgroundImage: req.body.backgroundImage
         });
-        // newGame.save().then(game => res.json(game), err => res.json(err))
-        newGame.save(function(err, game) {
-          User.findById(req.body.creatorId, function(userErr, user) {
-            if (!user) return res.json({msg: 'user not found'}); 
-            user.gameSubscriptions.push(game); 
-            user.save()
-            return res.json(game); 
+        //return newGame.save().then(game => res.json(game.data), err => res.json(err))
+          newGame.save(function (err, game) { 
+            if (err) return res.status(422).json(err);
+            console.log(game) 
+            return res.status(200).json(game);
           })
-        }) 
+  
+        // newGame.save(function(err, game) {
+        //   User.findById(req.body.creatorId, function(userErr, user) {
+        //     console.log(user)
+        //     if (!user || userErr) return res.status(404).json(['user not found']); 
+        //     user.gameSubscriptions.push(game); 
+        //     user.save()
+        //     return res.json(game.data); 
+        //   })
+        // }) 
       }
     })
 }
@@ -82,3 +88,15 @@ exports.joinGame = function(req, res) {
     return res.json({status: 'done'});
   })
 }
+
+
+// exports.createGame = function (req, res) { 
+//   const { errors , isValid } = validateGameRegister(req.body); 
+
+//   if (!isValid) return res.status(400).json(errors); 
+//   Game.find({creatorId: req.body.creatorId, name: req.body.name}, function (gameErr, game) {
+//    if (game) return res.status(400).json()
+//})
+
+
+// };
