@@ -31,24 +31,25 @@ exports.createGame = function (req, res) {
   }
 
   Game.find({
-    creatorId: req.body.creatorId,
-    name: req.body.name
+    creatorId: req.body.creatorId.trim(),
+    name: req.body.name.trim()
   })
     .then((foundGame) => {
       if (foundGame.length > 0) {
         res.status(422).json(["This game is already exist"])
       } else {
         const newGame = new Game({
-          creatorId: req.body.creatorId,
-          name: req.body.name,
-          description: req.body.description,
-          backgroundImage: req.body.backgroundImage
+          creatorId: req.body.creatorId.trim(),
+          name: req.body.name.trim(),
+          description: req.body.description.trim(),
+          backgroundImage: req.body.backgroundImage.trim()
         });
         // newGame.save().then(game => res.json(game), err => res.json(err))
         newGame.save(function(err, game) {
-          User.findById(req.body.creatorId, function(userErr, user) {
+          User.findById(req.body.creatorId.trim(), function(userErr, user) {
             if (!user) return res.json({msg: 'user not found'}); 
             user.gameSubscriptions.push(game); 
+            newGame.players.push(user._id)
             user.save()
             return res.json(game); 
           })
