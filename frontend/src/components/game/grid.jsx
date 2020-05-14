@@ -16,15 +16,31 @@ export default class Grid extends React.Component {
     this.handleBuildGrid = this.handleBuildGrid.bind(this);
     this.handlePieceDrop = this.handlePieceDrop.bind(this);
 
+    this.handleLock = this.handleLock.bind(this)
+    this.checkScroll = this.checkScroll.bind(this)
+    this.dataTransfer = this.dataTransfer.bind(this)
+    this.moveBackground = this.moveBackground.bind(this)
+
 
     this.state = {
       row: null,
       col: null,
       grid: null,
       opacity: 1,
+      gridLocked: true,
+      
     };
 
     this.ENPOINT = 'localhost:5000'
+
+
+    this.zoomGrid = {zoom: 1};
+    this.zoomBackground = { zoom: 1};
+    this.zoomContainer = { zoom: 1};
+
+
+    
+    
 
    
 
@@ -66,75 +82,14 @@ export default class Grid extends React.Component {
 
     // setting up the socket
     socket = io(this.ENPOINT)
+    this.container = document.getElementById('grid-container')
+    this.container.addEventListener('wheel', this.checkScroll);
 
+   
+  }
 
-    let zoom = 1;
-    const grid = document.getElementById('grid');
-    grid.addEventListener('wheel', (e) => checkScrollDirection(e, grid));
-    
-    let wheeling = null;
-    function checkScrollDirection(event, element) {
-      if (checkScrollDirectionIsUp(event)) {
-        zoom += 0.01;
-        element.style.zoom = zoom;
-      } else {
-        zoom -= 0.01;
-        element.style.zoom = zoom;
-      }
-      document.body.style.overflowY = 'hidden';
-      document.body.style.overflowX = 'hidden';
-
-      clearTimeout(wheeling);
-      wheeling = setTimeout(() => {
-        document.body.style.overflowY = 'auto';
-        document.body.style.overflowX = 'auto';
-      }, 500);
-    }
-
-
-    let zoom1 = 0.5;
-    const background = document.getElementById('board-background');
-    background.addEventListener('wheel', (e) => checkScrollDirection(e, background));
-
-    let wheeling1 = null;
-    function checkScrollDirection(event, element) {
-      if (checkScrollDirectionIsUp(event)) {
-        zoom1 += 0.005;
-        element.style.zoom = zoom1;
-      } else {
-        zoom1 -= 0.005;
-        element.style.zoom = zoom1;
-      }
-      document.body.style.overflow = 'hidden';
-      // document.body.style.overflowX = "hidden"
-
-      clearTimeout(wheeling1);
-      wheeling1 = setTimeout(() => {
-        document.body.style.overflowY = 'auto';
-        document.body.style.overflowX = 'auto';
-      }, 500);
-    }
-
-
-    function checkScrollDirectionIsUp(event) {
-      if (event.wheelDelta) {
-        return event.wheelDelta > 0;
-      }
-      return event.deltaY < 0;
-    }
-
-    // ////
-    // //background image
-
-
-    background.addEventListener('dragstart', (event) => {
-      const emptyImg = document.getElementById('empty');
-      event.dataTransfer.setDragImage(emptyImg, 0, 0);
-    });
-    background.addEventListener('drag', (event) => {
-      const emptyImg = document.getElementById('empty');
-      background.style.transform = `translate(${event.layerX * (1 / zoom1) - (background.width / 2)}px,${event.layerY * (1 / zoom1) - (background.height / 2)}px)`;
-    });
+  componentWillUnmount(){
+    this.container.removeEventListener('wheel', this.checkScroll);
   }
 
   update(value) {
@@ -147,16 +102,16 @@ export default class Grid extends React.Component {
     const { row } = this.state;
     const { col } = this.state;
 
-    const backgroundW = document.getElementById('board-background').width;
-    const backgroundH = document.getElementById('board-background').height;
-    // const backgroundW = document.getElementById("board-background").width;
-    // const backgroundH = document.getElementById("board-background").height;
-
+    // const backgroundW = document.getElementById('board-background').width;
+    // const backgroundH = document.getElementById('board-background').height;
+    const backgroundW = document.getElementById('grid-container').offsetWidth;
+    const backgroundH = document.getElementById('grid-container').offsetHeight;
+    
     const boxW = backgroundW / row;
     const boxH = backgroundH / col;
-
+    
     const boxStyle = { width: boxW, height: boxH };
-
+    
     const grid = [];
 
 
@@ -173,11 +128,104 @@ export default class Grid extends React.Component {
      this.setState({ grid });
   }
 
+  
+
+
+  checkScrollDirection(event, element, zoomFactor, zoomSpeed){
+    if (checkScrollDirectionIsUp(event)) {
+      zoomFactor.zoom += zoomSpeed;
+      element.style.zoom = zoomFactor.zoom;
+    } else {
+      zoomFactor.zoom -= zoomSpeed;
+      element.style.zoom = zoomFactor.zoom;
+    }
+    document.body.style.overflowY = 'hidden';
+    document.body.style.overflowX = 'hidden';
+
+    // clearTimeout(wheeling);
+    // wheeling = setTimeout(() => {
+    //   document.body.style.overflowY = 'auto';
+    //   document.body.style.overflowX = 'auto';
+    // }, 2000);
+
+    function checkScrollDirectionIsUp(event) {
+      if (event.wheelDelta) {
+        return event.wheelDelta > 0;
+      }
+      return event.deltaY < 0;
+    }
+
+
+  }
+
+  checkScroll(e){
+    // e.stopPropagation()
+    if(this.state.gridLocked){
+      this.checkScrollDirection(e, this.container, this.zoomContainer, 0.005)
+    }else{
+      if (e.target === document.getElementById('board-background')) {
+        this.checkScrollDirection(e, this.background, this.zoomBackground, 0.005)
+      } else {
+        this.checkScrollDirection(e, this.grid, this.zoomGrid, 0.005)
+      }
+    }
+  }
+
+
+  handleLock(){
+    this.grid = document.getElementById('grid');
+
+    this.background = document.getElementById('board-background');
+
+    
+    
+    if(this.state.gridLocked){
+
+      this.grid.addEventListener('wheel', this.checkScroll);
+      this.background.addEventListener('wheel', this.checkScroll);
+
+
+      this.background.addEventListener('dragstart', this.dataTransfer);
+      this.background.addEventListener('drag', this.moveBackground);
+      this.setState({gridLocked: false})
+     
+      
+    }else{
+
+      this.setState({ gridLocked: true })
+      this.background.removeEventListener('wheel', this.checkScroll);
+      this.grid.removeEventListener('wheel', this.checkScroll);
+      this.background.removeEventListener('dragstart', this.dataTransfer);
+      this.background.removeEventListener('drag', this.moveBackground);
+
+
+      
+
+
+
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'auto';
+    }
+    
+
+
+  }
+
+
+  dataTransfer(event){
+    const emptyImg = document.getElementById('empty');
+    event.dataTransfer.setDragImage(emptyImg, 0, 0);
+  }
+
+  moveBackground(event){
+    this.background.style.transform = `translate(${event.layerX * (1 / this.zoomBackground.zoom) - (this.background.width / 2)}px,${event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2)}px)`;
+  }
+
 
 
   render() {
     return (
-      <div>
+      <div style={{color: "white"}}>
 
 
         <div>
@@ -191,7 +239,7 @@ export default class Grid extends React.Component {
         </div>
 
 
-        <div className={styles.container}>
+        <div className={styles.container} id="grid-container">
           <div id="grid" className={styles.grid}>
             {this.state.grid ? this.state.grid : null}
           </div>
@@ -199,6 +247,8 @@ export default class Grid extends React.Component {
           <img id="board-background" src={map} draggable="true" className={styles.backgroundImage} />
           <img id="empty" src={empty} className={styles.empty} />
         </div>
+
+        <button onClick={this.handleLock}>{this.state.gridLocked ? "Unlock grid" : "Lock grid"}</button>
 
         <TokenBar handlePieceDrop={this.handlePieceDrop}/>
 
