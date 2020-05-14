@@ -25,6 +25,6 @@ const Protected = ({
 
 const mapStateToProps = (state) => ({ currentUserId: state.session.userId });
 
-export const AuthRoute = withRouter(connect(mapStateToProps, null)(Auth));
+export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 
-export const ProtectedRoute = withRouter(connect(mapStateToProps, null)(Protected));
+export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));

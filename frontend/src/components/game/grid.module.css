@@ -2,14 +2,15 @@
     zoom: 1;
     position: absolute;
     z-index: 1;
+    /* display: flex;
+    flex-wrap: wrap; */
+}
+
+.row {
     display: flex;
-    flex-wrap: wrap;
-}
-
-/* .row {
 
 }
-.outer-box {
+/* .outer-box {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -3,8 +3,11 @@ const bcrypt = require('bcryptjs');
 const keys = require('../config/keys'); 
 const User = require('../models/User'); 
 const Game = require('../models/Game');
+const Piece = require('../models/Piece');
 const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
+
+const validatePiece = require('../validations/piece_validation')
 
 exports.fetchUserGames = function(req, res) { 
   const userId = req.params.id; 
@@ -118,4 +121,63 @@ exports.register = function(req, res)  {
       }
     })
 }
+
+
+
+//fetch all the pieces 
+exports.fetchPieces = function (req, res) {
+  User.findOne({_id: req.params.userId})
+    .then((user) => {
+      Piece.find({uploaderId: req.params.userId})
+        .then((pieces) => res.json(pieces))
+    })
+    .catch(() => res.status(404).json(["User was not found"]))
+
+}
+
+
+
+//create a piece
+exports.createPiece = function (req, res) {
+  const {errors, isValid} = validatePiece(req.body);
+
+  if (!isValid) { 
+    return res.status(400).json(errors)
+  }
+
+
+  User.findOne({_id: req.params.userId})
+    .then((user) => {
+      const newPiece = new Piece({
+        uploaderId: req.params.userId,
+        imageUrl: req.body.imageUrl
+      })
+
+      newPiece.save()
+        .then(() => res.status(200).json(["The piece was created"]))
+        .catch(() => res.status(422).json(["The piece was not created."]))
+    })
+    .catch(() => res.status(404).json(["User was not found"]))
+
+
+}
+
+
+//delete single piece
+exports.deletePiece = function (req, res){
+
+  User.findOne({_id: req.params.userId})
+    .then((user) => {
+      
+      Piece.findOne({uploaderId: req.params.userId})
+        .then((piece) => {
+          piece.remove()
+          return res.json('Piece was deleted.')
+        })
+    })
+    .catch(() => res.status(404).json(["User was not found"]))
+
+}
+
+
 
