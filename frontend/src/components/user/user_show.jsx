@@ -5,8 +5,7 @@ import noThumb from '../../images/noThumb.webp';
 import styles from './user_show.module.scss';
 import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
-import CreateGame from './create_game';
-import SignupFormContainer from '../auth/signup/signup_form_container';
+import CreateGameContainer from './create_game_container';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
@@ -68,7 +67,7 @@ class UserShow extends React.Component {
           </div>
         </div>
         <div className={styles.modal}>
-          <CreateGame />
+          <CreateGameContainer />
         </div>
       </>
     );

@@ -1,24 +1,24 @@
 import React from 'react';
 import styles from './create_game.module.scss';
-import logoStyles from '../logo/logo.module.scss';
 import buttons from '../buttons.module.scss';
 
 class CreateGame extends React.Component {
   constructor(props) {
     super(props);
-    const { creatorId } = 'creatorId';
+    const { creatorId } = this.props;
     this.state = {
       name: '',
       description: '',
       backgroundImage: '',
       creatorId,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { login } = this.props;
-    login(this.state);
+    const { createGame } = this.props;
+    createGame(this.state);
   }
 
   handleChange(form) {
