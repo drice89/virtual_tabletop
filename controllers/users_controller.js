@@ -9,19 +9,49 @@ const validateRegisterInput = require('../validations/register');
 
 const validatePiece = require('../validations/piece_validation')
 
-exports.fetchUserGames = function(req, res) { 
-  const userId = req.params.id; 
+// exports.fetchUserGames = function(req, res) { 
+//   const userId = req.params.id; 
 
-  User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
-                                                                                              for each gameObject, exec returns all games */
-  // User.findById(userId, function(err, user) { 
-  //   if (!user) return res.json({msg: 'user not fond'});
-  //   const games = []; 
-  //   let test = user.gameSubscriptions
-  //   res.json(test)
+//   User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
+//                                                                                               for each gameObject, exec returns all games */
+//   // User.findById(userId, function(err, user) { 
+//   //   if (!user) return res.json({msg: 'user not fond'});
+//   //   const games = []; 
+//   //   let test = user.gameSubscriptions
+//   //   res.json(test)
+//   // })
+// }
+
+exports.fetchUserGames = function (req, res) {
+  const userId = req.params.id;
+  // User.findById(userId, function(err, user) {
+  //   User.find({gameSubscriptions: {$elemMatch: {[user]: {$in: gameSubscriptions, from: "User"}}}}).
+  //     then((result) => res.json(result), (err) => res.json(err))
   // })
 
+  // User.findById(userId, '_id displayName email profilePicture',
+  //   function (err, result) {
+  //     User.find()
+  //   }
+  // )
+ 
+  User.findById(userId, '_id displayName email profilePicture').
+    populate({
+      path: 'gameSubscriptions', 
+      select: '_id name description',
+      populate: { path: 'players', select: '_id displayName profilePicture email'} 
+    }).exec((err, results) => Structure(results))
 }
+
+function Structure (response) { 
+  debugger
+  console.log(response)
+  const players = {}; 
+  const games = {}; 
+  response
+
+}
+
 
 exports.login = function(req, res)  { 
  const { errors, isValid } = validateLoginInput(req.body);
