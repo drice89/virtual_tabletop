@@ -1,4 +1,4 @@
-import * as gameAPIUtil from "../util/games_api_util";
+import * as gameAPIUtil from '../util/games_api_util';
 
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
@@ -26,11 +26,11 @@ export const fetchUserGames = (userId) => (dispatch) => (
     .catch((err) => dispatch(receiveGameErrors(err)))
 );
 
-export const createGame = (game) => (dispatch) => {
-  return gameAPIUtil.createGame(game)
+export const createGame = (game) => (dispatch) => (
+  gameAPIUtil.createGame(game)
     .then((resGame) => dispatch(receiveGame(resGame.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)));
-};
+    .catch((err) => dispatch(receiveGameErrors(err)))
+);
 
 export const joinGame = (gameIdAndUserId) => (dispatch) => (
   gameAPIUtil.joinGame(gameIdAndUserId)
