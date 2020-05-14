@@ -13,13 +13,13 @@ router.post('/login', usersController.login);
 
 
 //fetch all pieces for this user
-router.get('/:userId/pieces', userController.fetchPieces);
+router.get('/:userId/pieces', usersController.fetchPieces);
 
 //create a piece
-router.post('/:userId/pieces', userController.createPiece);
+router.post('/:userId/pieces', usersController.createPiece);
 
 //delete a piece
-router.delete('/:userId/pieces/:pieceId', userController.deletePiece);
+router.delete('/:userId/pieces/:pieceId', usersController.deletePiece);
 
 
 
