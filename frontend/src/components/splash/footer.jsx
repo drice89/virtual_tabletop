@@ -4,7 +4,7 @@ import Dias from '../../images/Dias.jpg';
 import style from './footer.module.scss'
 
 const Footer = () => (
-  <div if ='footer' className={style.footer}>
+  <div id ='footer' className={style.footer}>
     {/* <div className={style.footerItem}>
       <div>Dias Iskrayev</div>
       <a href="https://github.com/iskraev">
