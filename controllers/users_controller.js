@@ -25,14 +25,24 @@ const validatePiece = require('../validations/piece_validation')
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
 
-  User.findById(userId, function(err, user) {
-    User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). //gameSubscriptions needs to be an array error
-      then((result) => res.json(result), (err) => res.json(err))
-  })
+  User.findById(userId, '_id displayName profilePicture email').
+    populate({
+      path: 'gameSubscriptions',
+      select: '_id name description creatorId'
+    }).exec(function(err, results) {
+      if (err) return res.json(err); 
+      return res.json(results); 
+    } )
 
+  // User.findById(userId, function(err, user) {
+  //   User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). //this may work for fetching all users belongs to specfic games 
+  //     then((result) => res.json(result), (err) => res.json(err))                         // but subscriptions unreliable/messed up so hard to tell 
+  // })
 
-    // User.find({gameSubscriptions: {$elemMatch: {_id: {$in: gameSubscriptions, from: "User"}}}}). //gameSubscriptions needs to be an array error
-    //   then((result) => res.json(result), (err) => res.json(err))
+  // Game.find({creat})
+
+    // User.find({gameSubscriptions: {$elemMatch: {_id: {$in: gameSubscriptions, from: "User"}}}}). //gameSubscriptions needs to be an array error, it's percived as string
+    //   then((result) => res.json(result), (err) => res.json(err))                                 // need access to actual user model 
   
 
   // User.findById(userId, '_id displayName email profilePicture',
