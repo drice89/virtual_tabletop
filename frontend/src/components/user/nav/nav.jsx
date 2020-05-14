@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './nav.module.scss';
-import UserInfoContainer from './user_info_container';
+import UserInfo from './user_info';
 
-const Nav = () => (
+const Nav = ({ logout, currentUser }) => (
   <div className={styles.nav}>
-    <Link to="/">
+    <Link to={currentUser ? `/user/${currentUser.id}` : '/login'}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
           <i className="ra ra-hood" />
@@ -17,7 +17,7 @@ const Nav = () => (
         <div className={styles.logoTri} />
       </div>
     </Link>
-    <UserInfoContainer />
+    <UserInfo logout={logout} currentUser={currentUser} />
   </div>
 );
 
