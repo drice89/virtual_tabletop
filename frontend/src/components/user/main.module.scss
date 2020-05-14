@@ -1,0 +1,9 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.main {
+  height: 100%;
+  background-color: $background;
+  display: flex;
+  flex-direction: column;
+}
