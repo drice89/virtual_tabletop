@@ -30,7 +30,7 @@ exports.deleteBoard = function (req, res) {
 
     //find the board by id and delete it
     Board.findById(req.params.id)
-        .then(board => board.remove())
+        .then(board => res.json(board.remove()))
         .catch(err => res.json(err))
    
 }

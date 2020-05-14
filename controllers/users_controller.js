@@ -11,16 +11,8 @@ const validatePiece = require('../validations/piece_validation')
 
 exports.fetchUserGames = function(req, res) { 
   const userId = req.params.id; 
-
-  User.findById(userId).populate('gameSubscriptions').exec( (err, games) => res.json(games)) /* finds user and builds path  to Games collection 
+  User.findById(userId).populate('gameSubscriptions', "-board").exec( (err, games) => games.populate('players').exec( (err, players) => console.log(players))) /* finds user and builds path  to Games collection 
                                                                                               for each gameObject, exec returns all games */
-  // User.findById(userId, function(err, user) { 
-  //   if (!user) return res.json({msg: 'user not fond'});
-  //   const games = []; 
-  //   let test = user.gameSubscriptions
-  //   res.json(test)
-  // })
-
 }
 
 exports.login = function(req, res)  { 

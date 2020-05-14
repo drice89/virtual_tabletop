@@ -22,40 +22,46 @@ exports.fetchGame = function(req, res) {
   })
 }
 
-exports.createGame = function (req, res) {
-  const { errors, isValid } = validateGameRegister(req.body);
+// exports.createGame = function (req, res) {
+//   const { errors, isValid } = validateGameRegister(req.body);
 
-  console.log(errors)
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+//   if (!isValid) {
+//     return res.status(400).json(errors);
+//   }
 
-  Game.find({
-    creatorId: req.body.creatorId,
-    name: req.body.name
-  })
-    .then((foundGame) => {
-      if (foundGame.length > 0) {
-        res.status(422).json(["This game is already exist"])
-      } else {
-        const newGame = new Game({
-          creatorId: req.body.creatorId,
-          name: req.body.name,
-          description: req.body.description,
-          backgroundImage: req.body.backgroundImage
-        });
-        // newGame.save().then(game => res.json(game), err => res.json(err))
-        newGame.save(function(err, game) {
-          User.findById(req.body.creatorId, function(userErr, user) {
-            if (!user) return res.json({msg: 'user not found'}); 
-            user.gameSubscriptions.push(game); 
-            user.save()
-            return res.json(game); 
-          })
-        }) 
-      }
-    })
-}
+//   Game.find({
+//     creatorId: req.body.creatorId,
+//     name: req.body.name
+//   }, (err, foundGame) => {
+//     //.then((foundGame) => {
+//       if (foundGame.length > 0) {
+//         res.status(422).json({msg: 'Same Player can\'t have two games with the same name'})
+//       } else {
+//         const newGame = new Game({
+//           creatorId: req.body.creatorId,
+//           name: req.body.name,
+//           description: req.body.description,
+//           backgroundImage: req.body.backgroundImage
+//         });
+//         //return newGame.save().then(game => res.json(game.data), err => res.json(err))
+//           newGame.save(function (err, game) { 
+//             if (err) return res.status(422).json(err);
+//             console.log(game) 
+//             return res.status(200).json(game);
+//           })
+  
+//         // newGame.save(function(err, game) {
+//         //   User.findById(req.body.creatorId, function(userErr, user) {
+//         //     console.log(user)
+//         //     if (!user || userErr) return res.status(404).json(['user not found']); 
+//         //     user.gameSubscriptions.push(game); 
+//         //     user.save()
+//         //     return res.json(game.data); 
+//         //   })
+//         // }) 
+//       }
+//     })
+// }
 
 exports.joinGame = function(req, res) { 
   const gameId = req.body.gameId; 
@@ -82,3 +88,35 @@ exports.joinGame = function(req, res) {
     return res.json({status: 'done'});
   })
 }
+
+
+exports.createGame = function (req, res) { 
+  const { errors , isValid } = validateGameRegister(req.body); 
+
+  if (!isValid) return res.status(400).json(errors); 
+  Game.find({creatorId: req.body.creatorId, name: req.body.name}, function (gameErr, game) {
+    console.log(gameErr)
+   if (game.length > 0) {
+    return res.status(400).json({error: 'Same user can\'t have two game with the same name'}); 
+   } else if (gameErr) { 
+    return res.status(400).json(gameErr);
+   } else { 
+     const newGame = new Game({
+      creatorId: req.body.creatorId,
+      name: req.body.name,
+      description: req.body.description,
+      backgroundImage: req.body.backgroundImage 
+    })
+    newGame.players.push(newGame.creatorId)
+    newGame.save(function(saveErr, game) { 
+      if (saveErr) return res.status(400).json(saveErr); 
+      User.findById(game.creatorId, function(userErr, user) { 
+        console.log(user)
+        if (userErr) return res.status(400).json(userErr); 
+        user.gameSubscriptions.push(game._id); 
+        return res.json(user); 
+      })
+    })
+   }
+  })
+};  
