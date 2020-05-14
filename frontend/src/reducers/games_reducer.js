@@ -3,7 +3,6 @@ import { RECEIVE_USER } from '../actions/users_actions';
 
 export default (state = {}, action) => {
   Object.freeze(state);
-  debugger;
   switch (action.type) {
     case RECEIVE_GAMES:
       return action.games;
