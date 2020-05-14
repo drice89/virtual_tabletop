@@ -6,6 +6,7 @@ import { setAuthToken } from './util/session_api_util';
 import configureStore from './store/store';
 import { login, logout, signup } from './actions/session_action';
 import { createGame, fetchUserGames, fetchAll } from './actions/games_actions';
+import { fetchUser } from './actions/users_actions';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.createGame = createGame;
   window.fetchUserGames = fetchUserGames;
   window.fetchAll = fetchAll;
+  window.fetchUser = fetchUser;
 
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root)
