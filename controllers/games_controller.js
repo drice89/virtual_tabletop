@@ -22,6 +22,65 @@ exports.fetchGame = function(req, res) {
   })
 }
 
+exports.joinGame = function(req, res) { 
+  const gameId = req.body.gameId; 
+  const userId = req.body.userId; 
+
+  Game.findById(gameId, function(gameErr, game) { 
+    if (!game) return res.json({msg: 'no game'}); 
+    
+    User.findById(userId, function(userErr, user) {
+      if (!user) return res.json(user);
+     
+        user.gameSubscriptions.push(game) // subscribes user to game push game ref into array 
+        user.save(function(userSaveErr) { 
+        if (userSaveErr) return res.json(userSaveErr);
+      })
+
+       game.players.push(user)
+       game.save(function (gameSaveErr) {
+        if (gameSaveErr) return res.json(gameSaveErr);
+
+      })
+    })
+
+    return res.json({status: 'done'});
+  })
+}
+
+exports.createGame = function (req, res) { 
+  const { errors , isValid } = validateGameRegister(req.body); 
+
+  if (!isValid) return res.status(400).json(errors); 
+  Game.find({creatorId: req.body.creatorId.trim(), name: req.body.name.trim()}, function (gameErr, game) {
+    console.log(gameErr)
+   if (game.length > 0) {
+    return res.status(400).json({error: 'Same user can\'t have two game with the same name'}); 
+   } else if (gameErr) { 
+    return res.status(400).json(gameErr);
+   } else { 
+     const newGame = new Game({
+      creatorId: req.body.creatorId.trim(),
+      name: req.body.name.trim(),
+      description: req.body.description.trim(),
+      backgroundImage: req.body.backgroundImage.trim() 
+    })
+    newGame.players.push(newGame.creatorId)
+    newGame.save(function(saveErr, game) { 
+      if (saveErr) return res.status(400).json(saveErr); 
+      User.findById(game.creatorId, function(userErr, user) { 
+        console.log(user)
+        if (userErr) return res.status(400).json(userErr); 
+        user.gameSubscriptions.push(game._id); 
+        user.save()
+        return res.json({payload: game}); 
+      })
+    })
+   }
+  })
+};  
+
+//For testing only 
 // exports.createGame = function (req, res) {
 //   const { errors, isValid } = validateGameRegister(req.body);
 
@@ -56,62 +115,3 @@ exports.fetchGame = function(req, res) {
 //       }
 //     })
 // }
-
-exports.joinGame = function(req, res) { 
-  const gameId = req.body.gameId; 
-  const userId = req.body.userId; 
-
-  Game.findById(gameId, function(gameErr, game) { 
-    if (!game) return res.json({msg: 'no game'}); 
-    
-    User.findById(userId, function(userErr, user) {
-      if (!user) return res.json(user);
-     
-        user.gameSubscriptions.push(game) // subscribes user to game push game ref into array 
-        user.save(function(userSaveErr) { 
-        if (userSaveErr) return res.json(userSaveErr);
-      })
-
-       game.players.push(user)
-       game.save(function (gameSaveErr) {
-        if (gameSaveErr) return res.json(gameSaveErr);
-
-      })
-    })
-
-    return res.json({status: 'done'});
-  })
-}
-
-
-exports.createGame = function (req, res) { 
-  const { errors , isValid } = validateGameRegister(req.body); 
-
-  if (!isValid) return res.status(400).json(errors); 
-  Game.find({creatorId: req.body.creatorId.trim(), name: req.body.name.trim()}, function (gameErr, game) {
-    console.log(gameErr)
-   if (game.length > 0) {
-    return res.status(400).json({error: 'Same user can\'t have two game with the same name'}); 
-   } else if (gameErr) { 
-    return res.status(400).json(gameErr);
-   } else { 
-     const newGame = new Game({
-      creatorId: req.body.creatorId.trim(),
-      name: req.body.name.trim(),
-      description: req.body.description.trim(),
-      backgroundImage: req.body.backgroundImage.trim() 
-    })
-    newGame.players.push(newGame.creatorId)
-    newGame.save(function(saveErr, game) { 
-      if (saveErr) return res.status(400).json(saveErr); 
-      User.findById(game.creatorId, function(userErr, user) { 
-        console.log(user)
-        if (userErr) return res.status(400).json(userErr); 
-        user.gameSubscriptions.push(game._id); 
-        user.save()
-        return res.json({payload: game}); 
-      })
-    })
-   }
-  })
-};  
