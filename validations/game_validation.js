@@ -5,6 +5,7 @@ const Game = require('../models/Game')
 const ObjectId = require('mongoose').Types.ObjectId; 
 
 module.exports = function validateGameRegister(data) {
+  console.log(data)
   let errors = {};
   data.name = validText(data.name) ? data.name : '';
   const creatorId = data.creatorId; 

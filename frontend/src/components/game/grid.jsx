@@ -33,6 +33,8 @@ export default class Grid extends React.Component {
     this.dataTransfer = this.dataTransfer.bind(this);
     this.moveBackground = this.moveBackground.bind(this);
 
+    this.showHideTokenBar = this.showHideTokenBar.bind(this)
+
 
     this.state = {
       // row: (this.props.board.row || null),
@@ -79,14 +81,29 @@ export default class Grid extends React.Component {
   }
 
 
-  componentDidMount() {
+  showHideTokenBar(e){
+    if(e.pageY > window.innerHeight * 0.8){
+      this.bar.style.display = 'flex'
+    }else{
+      this.bar.style.display = 'none'
+    }
+  }
+
+  componentDidMount(){
+
+    this.bar = document.getElementById('bar-container')
+    console.log(this.bar)
+    document.addEventListener('mousemove', this.showHideTokenBar)
+    document.addEventListener('dragover', this.showHideTokenBar)
+    this.bar.style.display = 'none'
+
+    
+
     // setting up the socket
-    socket = io(this.ENPOINT);
-    if(this.props.match.params.boardId){
-      
-      this.container = document.getElementById('grid-container');
-      this.container.addEventListener('wheel', this.checkScroll);
-      this.handleBuildGrid()
+    socket = io(this.ENPOINT)
+    this.container = document.getElementById('grid-container')
+
+    this.container.addEventListener('wheel', this.checkScroll);
 
     }else{
       

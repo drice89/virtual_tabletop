@@ -1,0 +1,123 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.background {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  filter: blur(4px);
+}
+
+.background::after {
+  content: "";
+  background-image: url('/snow_landscape.webp');
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  filter: blur(4px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.container {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.contentContainer {
+  width: 960px;
+  border-radius: 8px;
+  background-color: $white;
+  padding: 60px 16px 16px;
+  position: relative;
+  margin-top: 300px;
+}
+
+.profile {
+  position: absolute;
+  top: -120px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: $small;
+  left: 0;
+  right: 0;
+  text-shadow: 0px 1px 5px $dark-grey;
+}
+
+.profile h1 {
+  color: $white;
+  font-size: 3.2rem;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.profileImg {
+  top: -52px;
+  border: 4px solid $white;
+  border-radius: 50%;
+  width: 150px;
+  margin-right: 24px;
+  box-shadow: 0px 1px 10px $dark-grey;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  margin: 16px -1rem;
+}
+
+.stats {
+  display: flex;
+  margin-left: auto;
+}
+
+.stats > * {
+  padding: 0 16px;
+  text-align: center;
+}
+
+.stats > div ~ div {
+  border-left: 1px solid $light-grey;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.topBar h2 {
+  font-size: 2rem;
+}
+
+.modal {
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

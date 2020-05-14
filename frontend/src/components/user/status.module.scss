@@ -1,0 +1,14 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: $small;
+}
+
+.dot {
+  margin-right: 4px;
+  color: $secondary-light;
+}

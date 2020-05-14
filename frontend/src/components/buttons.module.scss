@@ -42,9 +42,12 @@
   color: $white;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 40px;
   font-size: 1.4rem;
   transition: all 0.3s;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 
 .secondary:hover {
@@ -53,4 +56,8 @@
 
 .secondary:active {
   background-color: $secondary-dark;
+}
+
+.btnIcon > * ~ * {
+  margin-left: 4px;
 }
