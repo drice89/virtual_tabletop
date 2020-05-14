@@ -24,10 +24,16 @@ const validatePiece = require('../validations/piece_validation')
 
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
-  // User.findById(userId, function(err, user) {
-  //   User.find({gameSubscriptions: {$elemMatch: {[user]: {$in: gameSubscriptions, from: "User"}}}}).
-  //     then((result) => res.json(result), (err) => res.json(err))
-  // })
+
+  User.findById(userId, function(err, user) {
+    User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). //gameSubscriptions needs to be an array error
+      then((result) => res.json(result), (err) => res.json(err))
+  })
+
+
+    // User.find({gameSubscriptions: {$elemMatch: {_id: {$in: gameSubscriptions, from: "User"}}}}). //gameSubscriptions needs to be an array error
+    //   then((result) => res.json(result), (err) => res.json(err))
+  
 
   // User.findById(userId, '_id displayName email profilePicture',
   //   function (err, result) {
@@ -35,12 +41,12 @@ exports.fetchUserGames = function (req, res) {
   //   }
   // )
  
-  User.findById(userId, '_id displayName email profilePicture').
-    populate({
-      path: 'gameSubscriptions', 
-      select: '_id name description',
-      populate: { path: 'players', select: '_id displayName profilePicture email'} 
-    }).exec((err, results) => Structure(results))
+  // User.findById(userId, '_id displayName email profilePicture').
+  //   populate({
+  //     path: 'gameSubscriptions', 
+  //     select: '_id name description',
+  //     populate: { path: 'players', select: '_id displayName profilePicture email'} 
+  //   }).exec((err, results) => Structure(results))
 }
 
 function Structure (response) { 
