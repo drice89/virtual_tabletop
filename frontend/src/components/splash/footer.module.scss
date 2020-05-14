@@ -1,0 +1,48 @@
+@import "../_colors.scss";
+@import "../font.scss";
+
+.footer {
+  //position: fixed;
+  left: 0;
+  bottom: 0;
+  height: auto;
+  width: 100%;
+  background-color: $light-grey;
+  border-top: 1px solid $dark-grey;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.footerItem {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: $dark-grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// .footer ul {
+//   padding: 16px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .footer li {
+//   padding: 0px 32px;
+// }
+
+.footer img {
+  width: 32px;
+  font-size: $small;
+}
+
+.footerImage { 
+  margin-left: 5px;
+  font-size: 16px;
+}
+
+

@@ -16,16 +16,17 @@
 
 .signUp, .signIn { 
   padding: 12px 16px;
-  border: 1px solid #072d91;
-  background-color: #072d91;
-  border-radius: 10px;
+  //border: 1px solid $secondary;
+  //background-color: #072d91;
+ //background-color: $secondary;
+  //border-radius: 10px;
   color: white;
   text-transform: uppercase;
   font-weight: bold;
 };
 
 .signUp:hover { 
-  background-color: darken($color: #072d91, $amount: 7%);
+  //background-color: darken($color: #072d91, $amount: 7%);
   text-decoration: underline;
 };
 
