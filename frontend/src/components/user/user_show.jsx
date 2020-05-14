@@ -3,6 +3,7 @@ import map from '../../images/battlemap.jpg';
 import snow from '../../images/snow_landscape.jpg';
 import styles from './user_show.module.scss';
 import buttons from '../buttons.module.scss';
+import GameCard from './game_card';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
@@ -41,72 +42,22 @@ class UserShow extends React.Component {
                 </div>
               </div>
               <section className={styles.main}>
-                <div className={styles.gameContainer}>
-                  <div className={styles.card}>
-                    <div className={styles.status}>
-                      <div className={styles.dot}>⬤</div>
-                      <span>4 Online</span>
-                    </div>
-                    <div className={styles.title}>
-                      <h1>Wayne's World</h1>
-                      <span>The example description of Wayne's World</span>
-                    </div>
-                    <div className={styles.cardBack} style={{ backgroundImage: `url(${snow})` }} />
-                  </div>
-                </div>
-                {/* <img src={map} alt=""/> */}
-                <div className={styles.gameContainer}>
-                  <div className={styles.card} style={{}}>
-                    <div className={styles.status}>
-                      <div className={styles.dot} style={{ color: '#ccc' }}>⬤</div>
-                      <span>Offline</span>
-                    </div>
-                    <div className={styles.title}>
-                      <h1>Dillon's World</h1>
-                      <span>The example description of Dillon's World</span>
-                    </div>
-                    <div className={styles.cardBack} style={{ backgroundImage: `url(${map})` }} />
-                  </div>
-                </div>
-                <div className={styles.gameContainer}>
-                  <div className={styles.card} style={{}}>
-                    <div className={styles.status}>
-                      <div className={styles.dot} style={{ color: '#ccc' }}>⬤</div>
-                      <span>Offline</span>
-                    </div>
-                    <div className={styles.title}>
-                      <h1>Dillon's World</h1>
-                      <span>The example description of Dillon's World</span>
-                    </div>
-                    <div className={styles.cardBack} style={{ backgroundImage: `url(${map})` }} />
-                  </div>
-                </div>
-                <div className={styles.gameContainer}>
-                  <div className={styles.card} style={{}}>
-                    <div className={styles.status}>
-                      <div className={styles.dot} style={{ color: '#ccc' }}>⬤</div>
-                      <span>Offline</span>
-                    </div>
-                    <div className={styles.title}>
-                      <h1>Dillon's World</h1>
-                      <span>The example description of Dillon's World</span>
-                    </div>
-                    <div className={styles.cardBack} style={{ backgroundImage: `url(${map})` }} />
-                  </div>
-                </div>
-                <div className={styles.gameContainer}>
-                  <div className={styles.card} style={{}}>
-                    <div className={styles.status}>
-                      <div className={styles.dot} style={{ color: '#ccc' }}>⬤</div>
-                      <span>Offline</span>
-                    </div>
-                    <div className={styles.title}>
-                      <h1>Dillon's World</h1>
-                      <span>The example description of Dillon's World</span>
-                    </div>
-                    <div className={styles.cardBack} style={{ backgroundImage: `url(${map})` }} />
-                  </div>
-                </div>
+                <GameCard
+                  game={{
+                    title: 'Wayne\'s World',
+                    description: 'The example description of Wayne\'s World',
+                    thumb: snow,
+                    online: 4,
+                  }}
+                />
+                <GameCard
+                  game={{
+                    title: 'Dillon\'s World',
+                    description: 'The example description of Dillon\'s World',
+                    thumb: map,
+                    online: 0,
+                  }}
+                />
               </section>
             </div>
           </div>
