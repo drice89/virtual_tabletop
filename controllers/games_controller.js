@@ -22,12 +22,12 @@ exports.fetchGame = function(req, res) {
   })
 }
 
-// exports.createGame = function (req, res) {
-//   const { errors, isValid } = validateGameRegister(req.body);
+exports.createGame = function (req, res) {
+  const { errors, isValid } = validateGameRegister(req.body);
 
-//   if (!isValid) {
-//     return res.status(400).json(errors);
-//   }
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
 
   Game.find({
     creatorId: req.body.creatorId.trim(),
