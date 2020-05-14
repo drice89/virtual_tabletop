@@ -7,11 +7,14 @@ import styles from './game.module.scss';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Game extends React.Component {
+  constructor(props){
+    super(props)
+  }
   render() {
     return (
       <div className={styles.main}>
         <Nav />
-        <Grid />
+        <Grid {...this.props}/>
       </div>
     );
   }

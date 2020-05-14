@@ -35,17 +35,17 @@ export default class Grid extends React.Component {
 
 
     this.state = {
-      row: (this.props.board.row || null),
-      col: (this.props.board.col || null),
-      zoomFactorGrid: (this.props.board.zoomFactor || null),
-      zoomFactorImage: 0,
-      imagePosX: "",
-      imagePosY: "",
-      grid: null,
-      opacity: 1,
-      borderColor: "" ,
+      // row: (this.props.board.row || null),
+      // col: (this.props.board.col || null),
+      // zoomFactorGrid: (this.props.board.zoomFactor || null),
+      // zoomFactorImage: 0,
+      // imagePosX: "",
+      // imagePosY: "",
+      // grid: null,
+      // opacity: 1,
+      // borderColor: "" ,
       gridLocked: true,
-      boardBackground: (this.props.board.background || '')
+      // boardBackground: (this.props.board.background || '')
 
     };
 
@@ -57,9 +57,6 @@ export default class Grid extends React.Component {
 
 
   componentDidUpdate() {
-    if(this.props.match.params.boardId && (this.props.location.pathname.split('/')[this.props.location.pathname.split('/').length-1]=== "boards")) {
-      this.props.history.push(`${this.props.location.pathname}/${this.props.match.params.boardId}`)
-    });
     const grid = document.getElementsByClassName('box');
     for (let i = 0; i < grid.length; i++) {
       grid[i].style.border = `1px solid ${this.state.color}`;
@@ -85,9 +82,15 @@ export default class Grid extends React.Component {
   componentDidMount() {
     // setting up the socket
     socket = io(this.ENPOINT);
-    this.container = document.getElementById('grid-container');
-    this.container.addEventListener('wheel', this.checkScroll);
-    this.handleBuildGrid()
+    if(this.props.match.params.boardId){
+      
+      this.container = document.getElementById('grid-container');
+      this.container.addEventListener('wheel', this.checkScroll);
+      this.handleBuildGrid()
+
+    }else{
+      
+    }
   }
 
   componentWillUnmount() {
@@ -206,10 +209,6 @@ export default class Grid extends React.Component {
   }
 
 
-  handleImageUpload() {
-    this.state.
-
-  }
   render() {
     return (
       <div style={{ color: 'white' }}>
@@ -238,7 +237,7 @@ export default class Grid extends React.Component {
 
         <button onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
 
-        <TokenBar handlePieceDrop={this.handlePieceDrop} />
+        {this.props.params.boardId ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
 
 
       </div>
