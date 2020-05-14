@@ -4,6 +4,8 @@ import styles from './token.module.css';
 import token1 from '../../images/token1.png';
 
 
+
+
 export default class Token extends React.Component {
   constructor(props) {
     super(props);
@@ -11,15 +13,20 @@ export default class Token extends React.Component {
       moved: false,
       image: token1,
     };
-    // this.onDragStart = this.onDragStart.bind(this)
-    // this.onDragEnd = this.onDragEnd.bind(this)
+    
   }
 
+
+
+
   componentDidUpdate() {
-    // console.log(this.state.moved)
   }
 
   componentDidMount() {
+
+
+
+
     const token = document.getElementById('token-1');
     token.addEventListener('dragstart', (event) => {
       // event.preventDefault();
@@ -37,9 +44,6 @@ export default class Token extends React.Component {
 
     grid.addEventListener('drop', (event) => {
       event.preventDefault();
-      // let x = event.target.layerX;
-      // let y = event.target.layerY;
-
 
       const data = event.dataTransfer.getData('Text');
       if (event.target !== document.getElementById(data)) {
@@ -49,7 +53,26 @@ export default class Token extends React.Component {
         // } else {
 
         if (document.getElementById(data)) {
+
+          let prev = document.getElementById(data).parentNode.id.split('-')
+          let next = event.target.id.split('-')
+
+           let move = {
+            prev:
+              { row: prev[0] , col: prev[1] },
+            next:
+              { row: next[0] , col: next[1]  }
+          }
+          
+          
           event.target.appendChild(document.getElementById(data));
+         
+          
+          this.props.handlePieceDrop(move)
+
+
+
+
         }
 
         // }
@@ -61,14 +84,6 @@ export default class Token extends React.Component {
       // token.style.transform = `translate(${x}px,${y}px)`;
     });
   }
-
-  // onDragStart(event){
-  //     event.dataTransfer.setData("Text", event.target.id);
-  //     event.dataTransfer.setDragImage(this.state.image, 0, 0);
-  // }
-  // onDragEnd(){
-
-  // }
 
   render() {
     return (

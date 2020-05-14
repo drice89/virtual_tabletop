@@ -4,22 +4,74 @@ import styles from './grid.module.css';
 import TokenBar from './token_bar';
 import empty from '../../images/empty.png';
 
+
+import io from 'socket.io-client'
+let socket;
+
+
+
 export default class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.handleBuildGrid = this.handleBuildGrid.bind(this);
+    this.handlePieceDrop = this.handlePieceDrop.bind(this);
+
+
     this.state = {
       row: null,
       col: null,
+      grid: null,
+      opacity: 1,
     };
+
+    this.ENPOINT = 'localhost:5000'
+
+   
+
   }
 
 
-  componentDidMount() {
+
+
+  componentDidUpdate() {
+    const grid = document.getElementsByClassName('box');
+    for (let i = 0; i < grid.length; i++) {
+      grid[i].style.border = `1px solid ${this.state.color}`;
+      grid[i].style.opacity = `${this.state.opacity / 100}`;
+    }
+    socket.on("tokenMoved", (move) => {
+      let prev = document.getElementById(`${move.prev.row}-${move.prev.col}`)
+      let next = document.getElementById(`${move.next.row}-${move.next.col}`)
+
+      if (!next.innerHTML) {
+        next.innerHTML = prev.innerHTML
+        prev.innerHTML = ""
+      }
+    })
+    
+  }
+
+
+  handlePieceDrop(move){
+    socket.emit('move', move);
+  }
+
+
+
+  componentDidMount(){
+
+    
+
+    
+
+    // setting up the socket
+    socket = io(this.ENPOINT)
+
+
     let zoom = 1;
     const grid = document.getElementById('grid');
     grid.addEventListener('wheel', (e) => checkScrollDirection(e, grid));
-
+    
     let wheeling = null;
     function checkScrollDirection(event, element) {
       if (checkScrollDirectionIsUp(event)) {
@@ -112,22 +164,15 @@ export default class Grid extends React.Component {
       const rows = [];
 
       for (let j = 0; j < col; j++) {
-        rows.push(<div key={`grid-${i}-${j}`} className={styles.box} style={boxStyle} />);
+        rows.push(<div key={`grid-${i}-${j}`} id={`${i}-${j}`} className={styles.box} style={boxStyle} />);
       }
 
       grid.push(<div key={`grid-${i}`} className={styles.row}>{rows}</div>);
     }
+
+     this.setState({ grid });
   }
 
-  componentDidUpdate() {
-    const grid = document.getElementsByClassName('box');
-    for (let i = 0; i < grid.length; i++) {
-      grid[i].style.border = `1px solid ${this.state.color}`;
-      grid[i].style.opacity = `${this.state.opacity / 100}`;
-    }
-
-    this.setState({ grid });
-  }
 
 
   render() {
@@ -137,10 +182,10 @@ export default class Grid extends React.Component {
 
         <div>
           Rows
-          {' '}
+         
           <input onChange={this.update('row')} id="row" type="text" name="" id="" />
           Cols
-          {' '}
+         
           <input onChange={this.update('col')} id="col" type="text" name="" id="" />
           <button onClick={this.handleBuildGrid} id="set-grid">SET GRID</button>
         </div>
@@ -155,7 +200,7 @@ export default class Grid extends React.Component {
           <img id="empty" src={empty} className={styles.empty} />
         </div>
 
-        <TokenBar />
+        <TokenBar handlePieceDrop={this.handlePieceDrop}/>
 
 
       </div>

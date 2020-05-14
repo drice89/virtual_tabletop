@@ -11,6 +11,14 @@ const boards = require('./routes/api/boards')
 const path = require('path');
 
 
+const http = require("http");
+const socketIo = require("socket.io");
+const server = http.createServer(app);
+const io = socketIo(server);
+
+
+
+
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB successfully"))
@@ -35,6 +43,25 @@ if (process.env.NODE_ENV === "production") {
 
 }
 
+
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`listening on port ${port}`));
+
+
+io.on("connection", socket => {
+  console.log("New client connected");
+
+  //Here we listen on a new namespace called "incoming data"
+  socket.on("move", (move) => {
+    // console.log(move)
+    socket.broadcast.emit('tokenMoved', move)
+  });
+
+  
+ 
+  //A special namespace "disconnect" for when a client disconnects
+  socket.on("disconnect", () => console.log("Client disconnected"));
+});
+
+// app.listen(port, () => console.log(`list ening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
 

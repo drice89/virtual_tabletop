@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './nav.module.scss';
-import buttons from '../buttons.module.scss';
+import buttons from '../../buttons.module.scss';
 
 const Nav = () => (
   <div className={styles.nav}>

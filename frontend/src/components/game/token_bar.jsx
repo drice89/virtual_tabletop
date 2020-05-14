@@ -24,11 +24,11 @@ export default class TokenBar extends React.Component {
   render() {
     return (
       <div className={styles.tokenBar}>
-        <div className={styles.tokenBarItem}>
-          <Token />
+        <div className={styles.tokenBarItem} id="bar-1" >
+          <Token handlePieceDrop={this.props.handlePieceDrop}/>
         </div>
         <div className={styles.tokenBarItem}>
-          <Token />
+          {/* <Token handlePieceDrop={this.props.handlePieceDrop} /> */}
           {/* <img id="token-2" src={token2} className="token" /> */}
         </div>
       </div>

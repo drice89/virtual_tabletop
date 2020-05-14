@@ -8,7 +8,7 @@ const Auth = ({
   <Route
     path={path}
     exact={exact}
-    render={(props) => (!loggedIn ? <Component {...props} /> : <Redirect to="/" />)}
+    render={(props) => (!loggedIn ? <Component {...props} /> : <Redirect to="/game" />)}
   />
 );
 
@@ -22,9 +22,9 @@ const Protected = ({
   />
 );
 
-
 const mapStateToProps = (state) => ({ loggedIn: Boolean(state.session.userId) });
 
-export const AuthRoute = withRouter(connect(mapStateToProps, null)(Auth));
 
-export const ProtectedRoute = withRouter(connect(mapStateToProps, null)(Protected));
+export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
+
+export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));

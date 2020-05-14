@@ -1,17 +1,20 @@
 import React from 'react';
-import Nav from './nav';
-import styles from './ui.module.scss';
+import Nav from './ui/nav';
+import Grid from './grid'
+
+import styles from './game.module.scss';
+
 
 // eslint-disable-next-line react/prefer-stateless-function
-class UI extends React.Component {
+class Game extends React.Component {
   render() {
     return (
       <div className={styles.main}>
         <Nav />
-        123
+        <Grid />
       </div>
     );
   }
 }
 
-export default UI;
+export default Game;
