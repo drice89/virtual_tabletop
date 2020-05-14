@@ -28,15 +28,15 @@ exports.fetchUserGames = function (req, res) {
   User.findById(userId, '_id displayName profilePicture email').
     populate({
       path: 'gameSubscriptions',
-      select: '_id name description creatorId'
+      select: '_id name description creatorId backgroundImage'
     }).exec(function(err, results) {
       if (err) return res.json(err); 
       return res.json(results); 
     } )
 
   // User.findById(userId, function(err, user) {
-  //   User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). //this may work for fetching all users belongs to specfic games 
-  //     then((result) => res.json(result), (err) => res.json(err))                         // but subscriptions unreliable/messed up so hard to tell 
+  //   User.find({gameSubscriptions: {$elemMatch: {_id: {$in: user.gameSubscriptions}}}}). // this may work for fetching all users belongs to specfic games 
+  //     then((result) => res.json(result), (err) => res.json(err))                        // but subscriptions unreliable/messed up so hard to tell 
   // })
 
   // Game.find({creat})
