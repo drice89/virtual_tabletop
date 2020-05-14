@@ -30,9 +30,10 @@ export const login = (user) => (dispatch) => SessionAPIUtil.login(user)
     const { token } = res.data;
 
     localStorage.setItem('jwtToken', token);
-    SessionAPIUtil.setAuthToken(token)
+    SessionAPIUtil.setAuthToken(token);
     const decoded = jwtDecode(token);
     dispatch(receiveCurrentUser(decoded));
+    return decoded;
   })
   .catch((err) => {
     dispatch(receiveErrors(err.response.data));
@@ -40,7 +41,7 @@ export const login = (user) => (dispatch) => SessionAPIUtil.login(user)
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('jwtToken');
-  SessionAPIUtil.setAuthToken(false)
+  SessionAPIUtil.setAuthToken(false);
   dispatch(logoutCurrentUser());
 };
 
@@ -49,7 +50,7 @@ export const signup = (user) => (dispatch) => SessionAPIUtil.signup(user)
     const { token } = res.data;
 
     localStorage.setItem('jwtToken', token);
-    SessionAPIUtil.setAuthToken(token)
+    SessionAPIUtil.setAuthToken(token);
     const decoded = jwtDecode(token);
     dispatch(receiveCurrentUser(decoded));
   })

@@ -8,8 +8,6 @@ import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import Splash from './splash/splash';
 import Grid from './game/grid';
 import UI from './ui/ui';
-import LoginFormContainer from './auth/login/login_form_container';
-import SignupFormContainer from './auth/signup/signup_form_container';
 import './reset.css';
 import './structure.scss';
 import Main from './user/main';

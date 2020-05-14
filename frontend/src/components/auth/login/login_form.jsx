@@ -18,8 +18,11 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { login } = this.props;
-    login(this.state);
+    const { login, history } = this.props;
+    login(this.state)
+      .then((res) => {
+        history.push(`/user/${res.id}`);
+      });
   }
 
   handleChange(form) {
