@@ -12,21 +12,16 @@ import LoginFormContainer from './auth/login/login_form_container';
 import SignupFormContainer from './auth/signup/signup_form_container';
 import './reset.css';
 import './structure.scss';
+import Main from './user/main';
 
 function App() {
   return (
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
-        {/* <AuthRoute path="/login" component={LoginFormContainer} />
-        <AuthRoute path="/signup" component={SignupFormContainer} /> */}
-        <Route path="/login" component={LoginFormContainer} />
-        <Route path="/signup" component={SignupFormContainer} />
-        {/* <AuthRoute exact path="/login" component={LoginContainer} />
-        <AuthRoute exact path="/signup" component={SignupContainer} />
-        <AuthRoute exact path="/" component={MainPage} /> */}
         <Route path="/game" component={UI} />
         <Route path="/game" component={Grid} />
+        <Route path="/" component={Main} />
       </Switch>
     </div>
   );

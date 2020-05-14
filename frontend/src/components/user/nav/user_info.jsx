@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './user_nav.module.scss';
-import buttons from '../buttons.module.scss';
+import styles from './nav.module.scss';
+import buttons from '../../buttons.module.scss';
 
 const UserInfo = ({ currentUser, logout }) => {
   if (!currentUser) return null;

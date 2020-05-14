@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './user_nav.module.scss';
-import buttons from '../buttons.module.scss';
-import { AuthRoute, ProtectedRoute } from '../../util/route_util';
+import styles from './nav.module.scss';
+import buttons from '../../buttons.module.scss';
 import UserInfoContainer from './user_info_container';
 
-const UserNav = () => (
+const Nav = () => (
   <div className={styles.nav}>
     <div className={styles.logoContainer}>
       <div className={styles.logo}>
@@ -45,4 +44,4 @@ const UserNav = () => (
   </div>
 );
 
-export default UserNav;
+export default Nav;

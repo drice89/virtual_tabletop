@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/session_action';
 import buttonStyles from '../buttons.module.scss';
 import styles from './header.module.scss';
-import userStyles from '../auth/user_nav.module.scss';
+import userStyles from '../user/nav/nav.module.scss';
 
 const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.isAuthenticated),
