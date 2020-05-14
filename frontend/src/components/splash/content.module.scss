@@ -1,0 +1,44 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+
+.header { 
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+}
+.headerContent { 
+  position: absolute;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+// .absolute { 
+//   position: absolute;
+//   border: 1px solid black;
+//   margin-left: 10px;
+//   width: 25%;
+// }
+  .hookBox { 
+    margin: auto;
+    margin-top: 20px;
+    width: 60%;
+  }
+
+.hook { 
+  font-size: 36px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+.hookBody { 
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.hookTagline { 
+  font-size: 28px;
+}

@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutUs = () => (
   <main>
-    <div>
+    {/* <div>
       Dias Iskrayev
     </div>
     <div>
@@ -13,7 +13,7 @@ const AboutUs = () => (
     </div>
     <div>
       Wayne Su
-    </div>
+    </div> */}
   </main>
 )
 

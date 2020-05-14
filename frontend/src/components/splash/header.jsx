@@ -62,15 +62,13 @@ const Header = (props) => {
       <nav className={styles.headerContainer}>
         <div className={styles.navRight}>
           <ul className={styles.aboutUs}>
-            <li>
-              <button>
-                About Us
-              </button>
-            </li>
-            <li>
-              <button>
-                Docs
-              </button>
+            <li className={userStyles.btn}>  
+              <a href="#footer">
+                <button type="button" className={buttonStyles.none}>
+                  <i className="ra ra-double-team" />
+                  About Us
+                </button>
+              </a>
             </li>
           </ul>
           {
