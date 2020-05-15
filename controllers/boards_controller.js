@@ -6,9 +6,11 @@ const awsInterface = require('../config/aws_interface')
 //board creating
 exports.createBoard = function (data) {
     //check boards validations
+    console.log("hit controller", data)
     const {errors,isValid} = validateBoardRegister(data);
     
     if (!isValid) {
+        console.log(errors)
         return errors
     }
     //create new board
@@ -17,12 +19,12 @@ exports.createBoard = function (data) {
         name: data.name,
         gridSize: data.gridSize,
         backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
-        squareSize: data.squareSize,
-        settings: data.settings,
+        imageAttributes: data.imageAttributes,
+        settings: data.settings
     })
+    //save to the database 
     console.log(newBoard)
-    //save to the database
-    return newBoard.save()
+    return newBoard.save().then(console.log)
 }
 
 
