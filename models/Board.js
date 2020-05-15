@@ -79,6 +79,11 @@ const BoardSchema = new Schema({
       required: true
     },
 
+    imageUrl: {
+      type: String,
+      required: true
+    },
+
     player: {
       type: Schema.Types.ObjectId
     }

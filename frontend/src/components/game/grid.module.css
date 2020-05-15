@@ -26,7 +26,8 @@
 }
 
 .container {
-    width: 550px;
+    width: 775px;
+    min-height: 775px;
     height: 550px;
     display: flex;
     justify-content: center;
@@ -37,10 +38,14 @@
 
 .backgroundImage {
     /* position: absolute; */
-    overflow: hidden;
-    object-fit: none;
-    height: 100%;
-    width: 100%;
+    /* overflow: hidden; */
+    /* object-fit: contain; */
+    /* height: 100%;
+    width: 100%; */
+}
+
+.imageContainer {
+  /* object-fit: contain; */
 }
 
 .empty {

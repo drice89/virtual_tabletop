@@ -4,18 +4,18 @@ import map from '../../images/battlemap.jpg';
 import styles from './grid.module.css';
 import TokenBar from './token_bar';
 import empty from '../../images/empty.png';
+import { receiveBoard } from '../../actions/board_actions';
 
 
-//Get all elements nececssary into state
-//dispatch create board
-//create board on controller should call image upload
-//return res and dispatch changes to state
+// Get all elements nececssary into state
+// dispatch create board
+// create board on controller should call image upload
+// return res and dispatch changes to state
 
 
 // /games/:gameid/boards
 
-//games/chess/boards/
-
+// games/chess/boards/
 
 
 let socket;
@@ -32,9 +32,10 @@ export default class Grid extends React.Component {
     this.dataTransfer = this.dataTransfer.bind(this);
     this.moveBackground = this.moveBackground.bind(this);
 
-    this.showHideTokenBar = this.showHideTokenBar.bind(this)
+    this.showHideTokenBar = this.showHideTokenBar.bind(this);
 
-    this.createBoard = this.createBoard.bind(this)
+    this.createBoard = this.createBoard.bind(this);
+    this.handleImage = this.handleImage.bind(this);
 
 
     this.state = {
@@ -48,8 +49,9 @@ export default class Grid extends React.Component {
       opacity: null,
       borderColor: null,
       gridLocked: true,
-      boardBackground: this.props.board.background,
-      showInitialEdit: false
+      boardBackground: null,
+      showInitialEdit: false,
+      previewUrl: null,
 
     };
 
@@ -59,52 +61,26 @@ export default class Grid extends React.Component {
     this.zoomContainer = { zoom: 1 };
   }
 
-
-  componentDidUpdate() {
-    const grid = document.getElementsByClassName('box');
-    for (let i = 0; i < grid.length; i++) {
-      grid[i].style.border = `1px solid ${ this.state.color }`;
-      grid[i].style.opacity = `${this.state.opacity / 100}`;
-    }
-    socket.on('tokenMoved', (move) => {
-      const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
-      const next = document.getElementById(`${move.next.row}-${move.next.col}`);
-
-      if (!next.innerHTML) {
-        next.innerHTML = prev.innerHTML;
-        prev.innerHTML = '';
-      }
-    });
-  }
-
-  handleCreateGame() {
-    const board = this.state
-    socket.emit('createGame', board)
-  }
-  
   handlePieceDrop(move) {
     socket.emit('move', move);
   }
 
 
-  showHideTokenBar(e){
-    if(e.pageY > window.innerHeight * 0.8){
-      this.bar.style.display = 'flex'
-    }else{
-      this.bar.style.display = 'none'
+  showHideTokenBar(e) {
+    if (e.pageY > window.innerHeight * 0.8) {
+      this.bar.style.display = 'flex';
+    } else {
+      this.bar.style.display = 'none';
     }
   }
 
-  componentDidMount(){
-
+  componentDidMount() {
     if (this.props.match.params.boardId) {
-
       this.container = document.getElementById('grid-container');
       this.container.addEventListener('wheel', this.checkScroll);
 
 
-
-      let state = {
+      const state = {
         row: this.props.board.row,
         col: this.props.board.col,
         zoomFactorGrid: this.props.board.zoomFactorGrid,
@@ -113,35 +89,25 @@ export default class Grid extends React.Component {
         imagePosY: this.props.board.imagePosY,
         // grid: null,
         opacity: this.props.board.opacity,
-        borderColor: this.props.board.borderColor, 
-        boardBackground: this.props.board.background,
-        
-
+        borderColor: this.props.board.borderColor,
+        boardBackground: this.props.board.backgroundImageUrl,
       };
 
 
-      this.setState(state, this.handleBuildGrid)
+      this.setState(state, this.handleBuildGrid);
 
-      this.bar = document.getElementById('bar-container')
-      document.addEventListener('mousemove', this.showHideTokenBar)
-      document.addEventListener('dragover', this.showHideTokenBar)
-      this.bar.style.display = 'none'
-
-    }else{
-      this.setState({ showInitialEdit: true})
+      this.bar = document.getElementById('bar-container');
+      document.addEventListener('mousemove', this.showHideTokenBar);
+      document.addEventListener('dragover', this.showHideTokenBar);
+      this.bar.style.display = 'none';
+      this.renderBoard();
+    } else {
+      this.setState({ showInitialEdit: true });
     }
 
 
-
-    
-
-    
-
     // setting up the socket
-    socket = io(this.ENPOINT)
-
-
-    
+    socket = io(this.ENPOINT);
   }
 
   componentWillUnmount() {
@@ -155,20 +121,20 @@ export default class Grid extends React.Component {
   }
 
   handleBuildGrid() {
+    this.setState({ grid: null });
 
-    this.setState({grid: null})
-
-    console.log()
+    console.log();
     const { row } = this.state;
     const { col } = this.state;
 
-    const backgroundW = document.getElementById('board-background').width;
+    const backgroundW = document.getElementById('board-background').offsetWidth;
+    debugger
     const backgroundH = document.getElementById('board-background').height;
-    // const backgroundW = document.getElementById('grid-container').offsetWidth;
-    // const backgroundH = document.getElementById('grid-container').offsetHeight;
+    // const backgroundW = document.getElementById('grid-container').width;
+    // const backgroundH = document.getElementById('grid-container').height;
 
-    const boxW = backgroundW / col;
     const boxH = backgroundH / row;
+    const boxW = backgroundW / col;
 
     const boxStyle = { width: boxW, height: boxH };
 
@@ -179,10 +145,10 @@ export default class Grid extends React.Component {
       const rows = [];
 
       for (let j = 0; j < col; j++) {
-        rows.push(<div key={`grid-${i}-${j}`} id={`${i}-${j}`} className={styles.box} style={boxStyle} />);
+        rows.push(<div key={`grid-${i}-${j}`} id={`${i}-${j}`} className={`${styles.box} box`} style={boxStyle} />);
       }
 
-      grid.push(<div key={`grid-${i}`} className={styles.row}>{rows}</div>);
+      grid.push(<div key={`grid-${i}`} className={`${styles.row} row`} >{rows}</div>);
     }
 
     this.setState({ grid });
@@ -255,86 +221,149 @@ export default class Grid extends React.Component {
 
   moveBackground(event) {
     this.background.style.transform = `translate(${event.layerX * (1 / this.zoomBackground.zoom) - (this.background.width / 2)}px,${event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2)}px)`;
-    //need to check if we need that
+    // need to check if we need that
     this.posX = event.layerX * (1 / this.zoomBackground.zoom) - (this.background.width / 2);
     this.posY = event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2);
   }
 
-  createBoard(){
-    let background = document.getElementById('board-background')
+  createBoard() {
+    const background = document.getElementById('board-background');
 
-    //another
-    var rect = background.getBoundingClientRect();
+    // another
+    const rect = background.getBoundingClientRect();
 
-    //we can try this.posX this.posY
-    
-    let board = {};
-    board.row = this.state.row
-    board.col = this.state.col
-    //we can try this.posX this.posY
+    // we can try this.posX this.posY
+
+    const board = {};
+    board.row = this.state.row;
+    board.col = this.state.col;
+    // we can try this.posX this.posY
     board.imagePosX = rect.x;
     board.imagePosY = rect.y;
-    
-    
+
+
     board.opacity = 1;
-    board.borderColor = "white";
+    board.borderColor = 'white';
     board.boardBackground = this.state.boardBackground;
     board.zoomFactorGrid = this.zoomGrid.zoom;
     board.zoomFactorImage = this.zoomBackground.zoom;
 
-    //this.props.createBoard(board)
+    // this.props.createBoard(board)
     //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
-
-
-
+    console.log(board)
+    socket.emit('createBoard', board);
   }
 
-  handleImageClick(){
-    let file = document.getElementById('image-upload');
+  handleImageClick() {
+    const file = document.getElementById('image-upload');
     file.click();
   }
 
-  handleImage(e){
-    let img = e.currentTarget.files[0];
-    this.setState({ boardBackground: img});
-
+  handleImage(e) {
+    const img = e.currentTarget.files[0];
+    
+    const fileReader = new FileReader();
+    console.log(fileReader.result);
+    
+    fileReader.onloadend = () => {
+      this.setState({ imageFile: img, previewUrl: fileReader.result });
+    };
+    if (img) {
+      fileReader.readAsDataURL(img);
+    }
   }
+
+
+  renderBoard(){
+    const grid = document.getElementsByClassName('box');
+    for (let i = 0; i < grid.length; i++) {
+      grid[i].style.border = `1px solid ${this.state.color}`;
+      grid[i].style.opacity = `${this.state.opacity / 100}`;
+      grid[i].innerHTML = ''
+    }
+
+    for (let i = 0; i < this.board.tokens.length; i++) {
+      let x = this.board.tokens[i].pos.x;
+      let y = this.board.tokens[i].pos.y;
+
+      let box = document.getElementById(`grid-${x}-${y}`)
+      let img = document.createElement('img')
+      //GOTTA ADD IMAGE URL
+      img.src = this.board.tokens[i].imageUrl//
+    }
+
+    const gridHTML = document.getElementsByClassName("row");
+    this.setState({grid: gridHTML})
+  }
+
+  renderImage() {
+    if(this.state.boardBackground) {
+      return this.state.boardBackground;
+    } else {
+      if(this.state.previewUrl){
+        return this.state.previewUrl;
+      } else {
+        return null;
+      }
+    }
+  }
+    componentDidUpdate() {
+    
+    socket.on('tokenMoved', (move) => {
+      // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
+      // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
+
+      // if (!next.innerHTML) {
+      //   next.innerHTML = prev.innerHTML;
+      //   prev.innerHTML = '';
+      // }
+      this.renderBoard();
+    });
+    socket.on('boardCreated', (board) =>{
+      this.props.receiveBoard(board);
+    })
+  }
+
 
 
   render() {
     return (
-      <div > 
+      <div>
 
-        {this.state.showInitialEdit ? <div className={styles.initialSetup}>
-          <div className={styles.initialInputs}>
-            Rows
-              <input onChange={this.update('row')} id="row" className={styles.gridInputs} type="text" name="" maxlength="2" />
+        {this.state.showInitialEdit ? (
+          <div className={styles.initialSetup}>
+            <div className={styles.initialInputs}>
+              Rows
+              <input onChange={this.update('row')} id="row" className={styles.gridInputs} type="text" name="" maxLength="2" />
 
               Cols
-              <input onChange={this.update('col')} id="col" className={styles.gridInputs} type="text" name="" maxlength="2" />
-          </div>
+              <input onChange={this.update('col')} id="col" className={styles.gridInputs} type="text" name="" maxLength="2" />
+            </div>
+          {/* {console.log(this.state.backgroundImage)} */}
+            <div className={styles.gridButtons}>
+              <button onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
+              <button className={styles.lockButton} onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
+              <button onClick={this.handleImageClick}>Upload background</button>
+              <button onClick={this.createBoard}>Create board</button>
+            </div>
 
-          <div className={styles.gridButtons}>
-            <button onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
-            <button className={styles.lockButton} onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
-            <button onClick={this.handleImageClick}>Upload background</button>
-            <button onClick={this.createBoard}>Create board</button>
+            <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" />
           </div>
-
-          <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload"></input> 
-        </div> : null}
+        ) : null}
 
 
         <div className={styles.container} id="grid-container">
+          
           <div id="grid" className={styles.grid}>
             {this.state.grid ? this.state.grid : null}
           </div>
-
-          <img id="board-background" src={this.state.boardBackground} draggable="true" className={styles.backgroundImage} />
+          <div className={styles.imageContainer} >
+            <img id="board-background" src={this.renderImage()} draggable="true" className={styles.backgroundImage} />
+          </div>
+          
           <img id="empty" src={empty} className={styles.empty} />
         </div>
 
-        
 
         {this.props.match.params.boardId ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
 
