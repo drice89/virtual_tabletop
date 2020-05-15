@@ -43,8 +43,8 @@ export default class Grid extends React.Component {
       col: null,
       zoomFactorGrid: null,
       zoomFactorImage: null,
-      imagePosX: null,
-      imagePosY: null,
+      offSetX: null,
+      offSetY: null,
       grid: null,
       opacity: null,
       borderColor: null,
@@ -128,7 +128,6 @@ export default class Grid extends React.Component {
     const { col } = this.state;
 
     const backgroundW = document.getElementById('board-background').offsetWidth;
-    debugger
     const backgroundH = document.getElementById('board-background').height;
     // const backgroundW = document.getElementById('grid-container').width;
     // const backgroundH = document.getElementById('grid-container').height;
@@ -235,22 +234,31 @@ export default class Grid extends React.Component {
     // we can try this.posX this.posY
 
     const board = {};
-    board.row = this.state.row;
-    board.col = this.state.col;
-    // we can try this.posX this.posY
-    board.imagePosX = rect.x;
-    board.imagePosY = rect.y;
+
+    //  const formData = new FormData();
+        
+    //   formData.append('name', 'test');
+    //   formData.append('gameId', this.props.match.params.gameId);
+    //   formData.append('gridSize', { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom });
+    //   formData.append('imageAttributes', { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom });
+    //   formData.append('settings', { gridColor: "#FFF", opacity: 1 });
+    //   formData.append('backgroundImage', this.state.imageFile);
 
 
-    board.opacity = 1;
-    board.borderColor = 'white';
-    board.boardBackground = this.state.boardBackground;
-    board.zoomFactorGrid = this.zoomGrid.zoom;
-    board.zoomFactorImage = this.zoomBackground.zoom;
+      debugger
 
+
+    board.name = 'thisIsStaticForNow';
+    board.gameId = this.props.match.params.gameId;
+    board.gridSize = { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom };
+    board.imageAttributes = { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
+    board.settings = { gridColor: "#FFF", opacity: 1 };
+    board.backgroundImage = this.state.imageFile;
+
+    //console.log(formData)
     // this.props.createBoard(board)
     //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
-    console.log(board)
+    // console.log(board);
     socket.emit('createBoard', board);
   }
 
