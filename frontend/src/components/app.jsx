@@ -16,8 +16,10 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
+        {/* <ProtectedRoute exact path="/games" component={GameContainer} /> */}
+        <ProtectedRoute exact path="/games/:gameId/boards" component={GameContainer} />
+        <ProtectedRoute exact path="/games/:gameId/boards/:boardId" component={GameContainer} />
         <Route path="/" component={Main} />
-        <ProtectedRoute path="/game" component={GameContainer} />
       </Switch>
     </div>
   );

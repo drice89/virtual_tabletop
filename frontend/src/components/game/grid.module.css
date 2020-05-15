@@ -47,3 +47,50 @@
     height: 1px;
     width: 1px;
 }
+
+.initialSetup{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: ivory;
+    width: 650px;
+    height: 45px;
+    vertical-align: middle;
+    margin: auto;
+    border: 1px solid rgb(255, 0, 0);
+    border-radius: 5px;
+}
+
+.initialSetup button{
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.initialInputs{
+    width: 200px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.gridButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+}
+.gridInputs{
+    width: 20px;
+    padding: 5px 10px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.lockButton{
+    text-align: center;
+    width: 70px;
+}
+.imageFile{
+    display: none;
+}
