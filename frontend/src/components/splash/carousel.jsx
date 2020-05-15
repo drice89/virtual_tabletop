@@ -74,9 +74,6 @@ export default class Carousel extends React.Component {
   render() {
     return (
       <div className="index-carousel">
-        <div className="carousel-text-header">
-            Virtual Tabletop: Welcome to the Heart of Perfect Gaming
-          </div>
         <div className="carousel-buttons">
           <div
             onClick={this.handleClick}

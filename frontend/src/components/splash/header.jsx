@@ -57,23 +57,30 @@ const Header = (props) => {
   return (
     <div className={styles.background}>
       <div className={styles.logo}>
-        <i className="ra ra-hood" />
+        <div className={styles.logoBack}>
+          <i className="ra ra-shield" />
+        </div>
+        <div className={styles.logoFront}>
+          <i className="ra ra-hood" />
+        </div>
       </div>
-      <nav className={styles.headerContainer}>
-        <div className={styles.navRight}>
+      <nav>
+        <div className={styles.navLeft}>
           <ul className={styles.aboutUs}>
-            <li className={userStyles.btn}>  
+            <li className={userStyles.btn}>
               <a href="#footer">
                 <button type="button" className={buttonStyles.none}>
-                  <i className="ra ra-double-team" />
-                  About Us
+                  <div className={userStyles.btn}>
+                    <i className="ra ra-double-team" />
+                    <span>About Us</span>
+                  </div>
                 </button>
               </a>
             </li>
           </ul>
-          {
-              props.loggedIn ? launchAndLogout : loginAndSignUp
-            }
+        </div>
+        <div className={styles.navRight}>
+          {props.loggedIn ? launchAndLogout : loginAndSignUp}
         </div>
       </nav>
     </div>
