@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
-const boards = require('./routes/api/boards')
+//const boards = require('./routes/api/boards')
 const path = require('path');
 
 
@@ -15,6 +15,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
+const boardsController = require('./controllers/boards_controller')
 
 
 
@@ -32,7 +33,8 @@ app.use(bodyParser.json());
 
 app.use('/api/users', users); 
 app.use('/api/games', games); 
-app.use('/api/boards', boards); 
+//board CRUD actions are accessed by websocket
+//app.use('/api/boards', boards); 
 
 
 if (process.env.NODE_ENV === "production") {
@@ -56,6 +58,10 @@ io.on("connection", socket => {
     socket.broadcast.emit('tokenMoved', move)
   });
 
+  socket.on("createBoard", (board) => {
+    boardsController.createBoard(board)
+      .then( res => socket.broadcast.emit('boardCreated', res))
+  })
   
  
   //A special namespace "disconnect" for when a client disconnects
@@ -65,3 +71,18 @@ io.on("connection", socket => {
 // app.listen(port, () => console.log(`list ening on port ${port}`));
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
+
+
+//test
+boardsController.createBoard({
+  gameId: "5eba2f9a17a87bf5d073bec3" ,
+  name: "asdsdasd",
+  gridSize: { rows: 4, cols: 4 },
+  backgroundImageUrl: "www.google.com", 
+  squareSize: { offsetX: 2, offsetY: 3, zoomFactor: 0.4 },
+  settings: {gridColor: "white", opacity: 0.6 }
+       
+}).then(board => console.log(board), console.log)
+
+//uploadImage(data.backgroundImage, "vttokenimages"),
+// tokens: data.tokens,

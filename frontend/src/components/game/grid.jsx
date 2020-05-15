@@ -76,7 +76,10 @@ export default class Grid extends React.Component {
     });
   }
 
-
+  handleCreateGame(board) {
+    socket.emit('createGame', board)
+  }
+  
   handlePieceDrop(move) {
     socket.emit('move', move);
   }
