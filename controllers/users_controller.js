@@ -12,7 +12,7 @@ const validatePiece = require('../validations/piece_validation')
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
 
-  User.findById(userId, '_id displayName profilePicture email gameSubscriptions').
+  User.findById(userId, '-password').
     populate({
       path: 'gameSubscriptions',
       select: '_id name description creatorId backgroundImage'
@@ -76,7 +76,7 @@ exports.login = function(req, res)  {
               id: user.id, 
               displayName: user.displayName, 
               profilePicture: user.profilePicture, 
-              subcribedGames: user.gameSubscriptions
+              createdAt: user.createdAt
             }; //payload to be sent to redux store with jwt
   
             jwt.sign(
