@@ -115,11 +115,6 @@ export default class Grid extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    this.container = document.getElementById('grid-container');
-    this.container.removeEventListener('wheel', this.checkScroll);
-  }
-
   update(value) {
     return (e) => {
       this.setState({ [value]: e.currentTarget.value });
@@ -255,22 +250,8 @@ export default class Grid extends React.Component {
 
     formData.append('gridColor', "#FFF");
     formData.append('opacity', 1);
+    formData.append('backgroundImage', this.state.imageFile);
 
-
-      formData.append('backgroundImage', this.state.imageFile);
-
-
-    // board.name = 'thisIsStaticForNow';
-    // board.gameId = this.props.match.params.gameId;
-    // board.gridSize = { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom };
-    // board.imageAttributes = { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
-    // board.settings = { gridColor: "#FFF", opacity: 1 };
-    // board.backgroundImage = this.state.imageFile;
-
-    //console.log(formData)
-    // this.props.createBoard(board)
-    //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
-    // console.log(board);
     this.props.createBoard(formData)
       .then(() => console.log("TEST"))
       .catch((err)=> console.log(err))
@@ -295,8 +276,8 @@ export default class Grid extends React.Component {
     }
   }
 
-
-  renderBoard(){
+ 
+  renderBoard() {
     const grid = document.getElementsByClassName('box');
     for (let i = 0; i < grid.length; i++) {
       grid[i].style.border = `1px solid ${this.state.color}`;
@@ -329,8 +310,8 @@ export default class Grid extends React.Component {
       }
     }
   }
+
     componentDidUpdate() {
-    
     socket.on('tokenMoved', (move) => {
       // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
       // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
@@ -351,6 +332,10 @@ export default class Grid extends React.Component {
     // })
   }
 
+  componentWillUnmount() {
+    this.container = document.getElementById('grid-container');
+    this.container.removeEventListener('wheel', this.checkScroll);
+  }
 
 
   render() {

@@ -1,14 +1,15 @@
-import {connect} from 'react-redux'
+import { connect } from 'react-redux';
 import Game from './game';
-import { createBoard } from '../../actions/board_actions';
+import { createBoard, receiveBoard } from '../../actions/board_actions';
 
 
 const mapStateToProps = (state) => ({
-    board: {}
-    // tokens: state.
-})
-const mapDispatchToProps = (dispatch) => ({
-    createBoard: (board) => dispatch(createBoard(board))
-})
+  board: {},
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
+const mapDispatchToProps = (dispatch) => ({
+  createBoard: (board) => dispatch(createBoard(board)),
+  receiveBoard: (board) => dispatch(receiveBoard(board)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
