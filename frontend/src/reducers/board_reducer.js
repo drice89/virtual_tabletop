@@ -8,7 +8,8 @@ export default (state = {}, action) => {
     // case RECEIVE_GAME:
     //   return action.boards;
     case RECEIVE_BOARD:
-      return { ...state, ...{ [action.game.id]: action.game } };
+      // debugger
+      return { ...state, ...{ [action.board._id]: action.board } };
     case DELETE_BOARD:
       delete nextState[action.boardId];
       return nextState;

@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
-//const boards = require('./routes/api/boards')
+// const boards = require('./routes/api/boards')
 const path = require('path');
 
 
@@ -52,6 +52,7 @@ const port = process.env.PORT || 5000;
 io.on("connection", socket => {
   console.log("New client connected");
 
+
   //Here we listen on a new namespace called "incoming data"
   socket.on("move", (move) => {
     // console.log(move)
@@ -59,9 +60,12 @@ io.on("connection", socket => {
   });
 
   socket.on("createBoard", (board) => {
-    console.log(board.backgroundImage)
-   const res = boardsController.createBoard(board)
-      socket.broadcast.emit('boardCreated', res)
+    console.log(board.backgroundImageURL)
+    boardsController.createBoard(board)
+    .then((board) => {
+      // console.log('haha')
+      socket.emit('boardCreated', board)
+    })
   })
   
  

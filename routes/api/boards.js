@@ -5,6 +5,9 @@ const boardController = require('../../controllers/boards_controller');
 
 const passport = require('passport');
 
+//fetch board
+// router.get('/:id', passport.authenticate('jwt', {session: false}), boardController.fetchBoard)
+
 //board create route
 router.post('', passport.authenticate('jwt', {session: false}), boardController.createBoard)
 

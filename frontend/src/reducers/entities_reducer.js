@@ -7,7 +7,7 @@ import tokensReducer from './tokens_reducer';
 const entitiesReducer = combineReducers({
   users: usersReducer,
   games: gamesReducer,
-  board: boardReducer,
+  boards: boardReducer,
   tokens: tokensReducer,
 });
 

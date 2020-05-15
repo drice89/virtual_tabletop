@@ -52,7 +52,7 @@ export default class Grid extends React.Component {
       boardBackground: null,
       showInitialEdit: false,
       previewUrl: null,
-
+      imageUrl: null,
     };
 
     this.ENPOINT = 'localhost:5000';
@@ -78,18 +78,18 @@ export default class Grid extends React.Component {
     if (this.props.match.params.boardId) {
       this.container = document.getElementById('grid-container');
       this.container.addEventListener('wheel', this.checkScroll);
-
-
+      
+      // debugger
       const state = {
-        row: this.props.board.row,
-        col: this.props.board.col,
-        zoomFactorGrid: this.props.board.zoomFactorGrid,
-        zoomFactorImage: this.props.board.zoomFactorImage,
-        imagePosX: this.props.board.imagePosX,
-        imagePosY: this.props.board.imagePosY,
+        row: this.props.board.gridSize.rows,
+        col: this.props.board.gridSize.cols,
+        zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
+        zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
+        imagePosX: this.props.board.imageAttributes.offsetX,
+        imagePosY: this.props.board.imageAttributes.offsetY,
         // grid: null,
-        opacity: this.props.board.opacity,
-        borderColor: this.props.board.borderColor,
+        opacity: this.props.board.settings.opacity,
+        borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
       };
 
@@ -111,6 +111,7 @@ export default class Grid extends React.Component {
   }
 
   componentWillUnmount() {
+    this.container = document.getElementById('grid-container');
     this.container.removeEventListener('wheel', this.checkScroll);
   }
 
@@ -245,15 +246,15 @@ export default class Grid extends React.Component {
     //   formData.append('backgroundImage', this.state.imageFile);
 
 
-      debugger
+      // debugger
 
 
     board.name = 'thisIsStaticForNow';
     board.gameId = this.props.match.params.gameId;
     board.gridSize = { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom };
-    board.imageAttributes = { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
+    board.imageAttributes = { offsetX: rect.x, offsetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
     board.settings = { gridColor: "#FFF", opacity: 1 };
-    board.backgroundImage = this.state.imageFile;
+    board.backgroundImageUrl = this.state.imageUrl;
 
     //console.log(formData)
     // this.props.createBoard(board)
@@ -315,8 +316,8 @@ export default class Grid extends React.Component {
       }
     }
   }
-    componentDidUpdate() {
-    
+    componentDidUpdate(prevProps) {
+    // debugger
     socket.on('tokenMoved', (move) => {
       // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
       // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
@@ -328,22 +329,26 @@ export default class Grid extends React.Component {
       this.renderBoard();
     });
     socket.on('boardCreated', (board) =>{
-      this.props.receiveBoard(board);
+      this.props.receiveBoard(board)
+      // debugger
+      this.props.history.push(`/games/${board.gameId}/boards/${board._id}`)
     })
   }
 
 
 
   render() {
+    const { imageUrl } = this.state;
     return (
       <div>
 
         {this.state.showInitialEdit ? (
           <div className={styles.initialSetup}>
             <div className={styles.initialInputs}>
+              Image
+              <input onChange={this.update('imageUrl')} id="image" className={styles.gridInputs} value={imageUrl} type="text" name="" />
               Rows
               <input onChange={this.update('row')} id="row" className={styles.gridInputs} type="text" name="" maxLength="2" />
-
               Cols
               <input onChange={this.update('col')} id="col" className={styles.gridInputs} type="text" name="" maxLength="2" />
             </div>
@@ -351,11 +356,11 @@ export default class Grid extends React.Component {
             <div className={styles.gridButtons}>
               <button onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
               <button className={styles.lockButton} onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
-              <button onClick={this.handleImageClick}>Upload background</button>
+              {/* <button onClick={this.handleImageClick}>Upload background</button> */}
               <button onClick={this.createBoard}>Create board</button>
             </div>
 
-            <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" />
+            {/* <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" /> */}
           </div>
         ) : null}
 
@@ -366,7 +371,7 @@ export default class Grid extends React.Component {
             {this.state.grid ? this.state.grid : null}
           </div>
           <div className={styles.imageContainer} >
-            <img id="board-background" src={this.renderImage()} draggable="true" className={styles.backgroundImage} />
+            <img id="board-background" src={imageUrl} draggable="true" className={styles.backgroundImage} />
           </div>
           
           <img id="empty" src={empty} className={styles.empty} />

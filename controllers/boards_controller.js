@@ -3,6 +3,16 @@ const validateBoardRegister = require('../validations/board_validation');
 const awsInterface = require('../config/aws_interface')
 
 
+
+exports.fetchBoard = function(req, res) { 
+    console.log('user is fetching')
+  const boardId = req.params.id; 
+  Board.findById(boardId, function(err, board) {
+    if (!board) return res.json({msg: 'no board found'}); 
+    res.json(board); 
+  })
+}
+
 //board creating
 exports.createBoard = function (data) {
     //check boards validations
@@ -18,13 +28,14 @@ exports.createBoard = function (data) {
         gameId: data.gameId,
         name: data.name,
         gridSize: data.gridSize,
-        backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
+        // backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
+        backgroundImageUrl: data.backgroundImageUrl,
         imageAttributes: data.imageAttributes,
-        settings: data.settings
+        settings: data.settings,
     })
     //save to the database 
     console.log(newBoard)
-    return newBoard.save().then(console.log)
+    return newBoard.save()
 }
 
 
