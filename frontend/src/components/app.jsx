@@ -16,11 +16,11 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={Splash} />
-        <ProtectedRoute path="/game" component={GameContainer} />
-        <Route path="/" component={Main} />
+        {/* <ProtectedRoute path="/game" component={GameContainer} /> */}
 
-        <ProtectedRoute exact path="/games/:gameId/boards" component={GameContainer} />
+        <ProtectedRoute exact path="/games/:gameId/boards/" component={GameContainer} />
         <ProtectedRoute exact path="/games/:gameId/boards/:boardId" component={GameContainer} />
+        <Route path="/" component={Main} />
       </Switch>
     </div>
   );

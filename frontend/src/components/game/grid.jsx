@@ -35,19 +35,22 @@ export default class Grid extends React.Component {
 
     this.showHideTokenBar = this.showHideTokenBar.bind(this)
 
+    this.createBoard = this.createBoard.bind(this)
+
 
     this.state = {
-      // row: (this.props.board.row || null),
-      // col: (this.props.board.col || null),
-      // zoomFactorGrid: (this.props.board.zoomFactor || null),
-      // zoomFactorImage: 0,
-      // imagePosX: "",
-      // imagePosY: "",
-      // grid: null,
-      // opacity: 1,
-      // borderColor: "" ,
+      row: null,
+      col: null,
+      zoomFactorGrid: null,
+      zoomFactorImage: null,
+      imagePosX: null,
+      imagePosY: null,
+      grid: null,
+      opacity: null,
+      borderColor: null,
       gridLocked: true,
-      // boardBackground: (this.props.board.background || '')
+      boardBackground: this.props.board.background,
+      showInitialEdit: false
 
     };
 
@@ -91,23 +94,51 @@ export default class Grid extends React.Component {
 
   componentDidMount(){
 
-    this.bar = document.getElementById('bar-container')
-    console.log(this.bar)
-    document.addEventListener('mousemove', this.showHideTokenBar)
-    document.addEventListener('dragover', this.showHideTokenBar)
-    this.bar.style.display = 'none'
+    if (this.props.match.params.boardId) {
+
+      this.container = document.getElementById('grid-container');
+      this.container.addEventListener('wheel', this.checkScroll);
+
+
+
+      let state = {
+        row: this.props.board.row,
+        col: this.props.board.col,
+        zoomFactorGrid: this.props.board.zoomFactorGrid,
+        zoomFactorImage: this.props.board.zoomFactorImage,
+        imagePosX: this.props.board.imagePosX,
+        imagePosY: this.props.board.imagePosY,
+        // grid: null,
+        opacity: this.props.board.opacity,
+        borderColor: this.props.board.borderColor, 
+        boardBackground: this.props.board.background,
+        
+
+      };
+
+
+      this.setState(state, this.handleBuildGrid)
+
+      this.bar = document.getElementById('bar-container')
+      document.addEventListener('mousemove', this.showHideTokenBar)
+      document.addEventListener('dragover', this.showHideTokenBar)
+      this.bar.style.display = 'none'
+
+    }else{
+      this.setState({ showInitialEdit: true})
+    }
+
+
+
+    
 
     
 
     // setting up the socket
     socket = io(this.ENPOINT)
-    this.container = document.getElementById('grid-container')
 
-    this.container.addEventListener('wheel', this.checkScroll);
 
-    }else{
-      
-    }
+    
   }
 
   componentWillUnmount() {
@@ -121,16 +152,20 @@ export default class Grid extends React.Component {
   }
 
   handleBuildGrid() {
+
+    this.setState({grid: null})
+
+    console.log()
     const { row } = this.state;
     const { col } = this.state;
 
-    // const backgroundW = document.getElementById('board-background').width;
-    // const backgroundH = document.getElementById('board-background').height;
-    const backgroundW = document.getElementById('grid-container').offsetWidth;
-    const backgroundH = document.getElementById('grid-container').offsetHeight;
+    const backgroundW = document.getElementById('board-background').width;
+    const backgroundH = document.getElementById('board-background').height;
+    // const backgroundW = document.getElementById('grid-container').offsetWidth;
+    // const backgroundH = document.getElementById('grid-container').offsetHeight;
 
-    const boxW = backgroundW / row;
-    const boxH = backgroundH / col;
+    const boxW = backgroundW / col;
+    const boxH = backgroundH / row;
 
     const boxStyle = { width: boxW, height: boxH };
 
@@ -161,12 +196,6 @@ export default class Grid extends React.Component {
     }
     document.body.style.overflowY = 'hidden';
     document.body.style.overflowX = 'hidden';
-
-    // clearTimeout(wheeling);
-    // wheeling = setTimeout(() => {
-    //   document.body.style.overflowY = 'auto';
-    //   document.body.style.overflowX = 'auto';
-    // }, 2000);
 
     function checkScrollDirectionIsUp(event) {
       if (event.wheelDelta) {
@@ -223,24 +252,74 @@ export default class Grid extends React.Component {
 
   moveBackground(event) {
     this.background.style.transform = `translate(${event.layerX * (1 / this.zoomBackground.zoom) - (this.background.width / 2)}px,${event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2)}px)`;
+    //need to check if we need that
+    this.posX = event.layerX * (1 / this.zoomBackground.zoom) - (this.background.width / 2);
+    this.posY = event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2);
+  }
+
+  createBoard(){
+    let background = document.getElementById('board-background')
+
+    //another
+    var rect = background.getBoundingClientRect();
+
+    //we can try this.posX this.posY
+    
+    let board = {};
+    board.row = this.state.row
+    board.col = this.state.col
+    //we can try this.posX this.posY
+    board.imagePosX = rect.x;
+    board.imagePosY = rect.y;
+    
+    
+    board.opacity = 1;
+    board.borderColor = "white";
+    board.boardBackground = this.state.boardBackground;
+    board.zoomFactorGrid = this.zoomGrid.zoom;
+    board.zoomFactorImage = this.zoomBackground.zoom;
+
+    //this.props.createBoard(board)
+    //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
+
+
+
+  }
+
+  handleImageClick(){
+    let file = document.getElementById('image-upload');
+    file.click();
+  }
+
+  handleImage(e){
+    let img = e.currentTarget.files[0];
+    this.setState({ boardBackground: img});
+
   }
 
 
   render() {
     return (
-      <div style={{ color: 'white' }}>
+      <div > 
 
+        {this.state.showInitialEdit ? <div className={styles.initialSetup}>
+          <div className={styles.initialInputs}>
+            Rows
+              <input onChange={this.update('row')} id="row" className={styles.gridInputs} type="text" name="" maxlength="2" />
 
-        <div>
-          Rows
+              Cols
+              <input onChange={this.update('col')} id="col" className={styles.gridInputs} type="text" name="" maxlength="2" />
+          </div>
 
-          <input onChange={this.update('row')} id="row" type="text" name="" id="" />
-          Cols
+          <div className={styles.gridButtons}>
+            <button onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
+            <button className={styles.lockButton} onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
+            <button onClick={this.handleImageClick}>Upload background</button>
+            <button onClick={this.createBoard}>Create board</button>
+          </div>
 
-          <input onChange={this.update('col')} id="col" type="text" name="" id="" />
-          <button onClick={this.handleBuildGrid} id="set-grid">SET GRID</button>
-          <input type="file" onClick={this.handleImageUpload} id="image-upload">upload image</input> 
-        </div>
+          <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload"></input> 
+        </div> : null}
 
 
         <div className={styles.container} id="grid-container">
@@ -252,9 +331,9 @@ export default class Grid extends React.Component {
           <img id="empty" src={empty} className={styles.empty} />
         </div>
 
-        <button onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
+        
 
-        {this.props.params.boardId ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
+        {this.props.match.params.boardId ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
 
 
       </div>
