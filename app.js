@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
-// const boards = require('./routes/api/boards')
+const boards = require('./routes/api/boards')
 const path = require('path');
 
 
@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use('/api/users', users); 
 app.use('/api/games', games); 
 //board CRUD actions are accessed by websocket
-//app.use('/api/boards', boards); 
+app.use('/api/boards', boards); 
 
 
 if (process.env.NODE_ENV === "production") {

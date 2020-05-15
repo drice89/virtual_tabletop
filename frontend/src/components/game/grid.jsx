@@ -76,31 +76,38 @@ export default class Grid extends React.Component {
 
   componentDidMount() {
     if (this.props.match.params.boardId) {
-      this.container = document.getElementById('grid-container');
-      this.container.addEventListener('wheel', this.checkScroll);
-      
-      // debugger
-      const state = {
-        row: this.props.board.gridSize.rows,
-        col: this.props.board.gridSize.cols,
-        zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
-        zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
-        imagePosX: this.props.board.imageAttributes.offsetX,
-        imagePosY: this.props.board.imageAttributes.offsetY,
-        // grid: null,
-        opacity: this.props.board.settings.opacity,
-        borderColor: this.props.board.settings.gridColor,
-        boardBackground: this.props.board.backgroundImageUrl,
-      };
+      this.props.fetchBoard(this.props.match.params.boardId)
+        .then(()=>{
+          
+          this.container = document.getElementById('grid-container');
+          
+          this.container.addEventListener('wheel', this.checkScroll);
+          console.log(this.props.board)
+          // debugger
+          const state = {
+            row: this.props.board.gridSize.rows,
+            col: this.props.board.gridSize.cols,
+            zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
+            zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
+            imagePosX: this.props.board.imageAttributes.offsetX,
+            imagePosY: this.props.board.imageAttributes.offsetY,
+            opacity: this.props.board.settings.opacity,
+            borderColor: this.props.board.settings.gridColor,
+            imageUrl: this.props.board.backgroundImageUrl,
+          };
+          this.grid = document.getElementById('grid');
+          this.grid.style.zoom = this.props.board.gridSize.gridZoomFactor;
+          this.zoomGrid = { zoom: this.props.board.gridSize.gridZoomFactor };
 
 
-      this.setState(state, this.handleBuildGrid);
+          this.setState(state, this.handleBuildGrid);
 
-      this.bar = document.getElementById('bar-container');
-      document.addEventListener('mousemove', this.showHideTokenBar);
-      document.addEventListener('dragover', this.showHideTokenBar);
-      this.bar.style.display = 'none';
-      this.renderBoard();
+          this.bar = document.getElementById('bar-container');
+          document.addEventListener('mousemove', this.showHideTokenBar);
+          document.addEventListener('dragover', this.showHideTokenBar);
+          this.bar.style.display = 'none';
+          // this.handleBuildGri .d();
+        })
     } else {
       this.setState({ showInitialEdit: true });
     }
@@ -136,7 +143,7 @@ export default class Grid extends React.Component {
     const boxH = backgroundH / row;
     const boxW = backgroundW / col;
 
-    const boxStyle = { width: boxW, height: boxH };
+    const boxStyle = { width: boxW, height: boxH};
 
     const grid = [];
 
@@ -291,18 +298,18 @@ export default class Grid extends React.Component {
       grid[i].innerHTML = ''
     }
 
-    for (let i = 0; i < this.board.tokens.length; i++) {
-      let x = this.board.tokens[i].pos.x;
-      let y = this.board.tokens[i].pos.y;
+    for (let i = 0; i < this.props.board.tokens.length; i++) {
+      let x = this.props.board.tokens[i].pos.x;
+      let y = this.props.board.tokens[i].pos.y;
 
       let box = document.getElementById(`grid-${x}-${y}`)
       let img = document.createElement('img')
       //GOTTA ADD IMAGE URL
-      img.src = this.board.tokens[i].imageUrl//
+      img.src = this.props.board.tokens[i].imageUrl//
     }
 
     const gridHTML = document.getElementsByClassName("row");
-    this.setState({grid: gridHTML})
+    this.setState({grid: [gridHTML]})
   }
 
   renderImage() {
@@ -326,10 +333,10 @@ export default class Grid extends React.Component {
       //   next.innerHTML = prev.innerHTML;
       //   prev.innerHTML = '';
       // }
-      this.renderBoard();
+      // this.renderBoard();
     });
     socket.on('boardCreated', (board) =>{
-      this.props.receiveBoard(board)
+      // this.props.receiveBoard(board)
       // debugger
       this.props.history.push(`/games/${board.gameId}/boards/${board._id}`)
     })
