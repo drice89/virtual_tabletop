@@ -70,19 +70,3 @@ io.on("connection", socket => {
 
 // app.listen(port, () => console.log(`list ening on port ${port}`));
 server.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-
-//test
-boardsController.createBoard({
-  gameId: "5eba2f9a17a87bf5d073bec3" ,
-  name: "asdsdasd",
-  gridSize: { rows: 4, cols: 4 },
-  backgroundImageUrl: "www.google.com", 
-  squareSize: { offsetX: 2, offsetY: 3, zoomFactor: 0.4 },
-  settings: {gridColor: "white", opacity: 0.6 }
-       
-}).then(board => console.log(board), console.log)
-
-//uploadImage(data.backgroundImage, "vttokenimages"),
-// tokens: data.tokens,
