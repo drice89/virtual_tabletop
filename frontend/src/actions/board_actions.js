@@ -1,4 +1,4 @@
-import * as BoardAPIUtil from '../util/board_api_util'
+import * as BoardAPIUtil from '../util/boards_api_util';
 export const RECEIVE_BOARD = 'RECEIVE_BOARD';
 export const DELETE_BOARD = 'DELETE_BOARD';
 export const RECEIVE_BOARD_ERRORS = 'RECEIVE_BOARD_ERRORS';
@@ -25,3 +25,8 @@ export const createBoard = board => dispatch => (
     .then(() => dispatch(receiveBoard(board)))
 
 )
+export const fetchBoard = (boardId) => (dispatch) => (
+  BoardAPIUtil.fetchBoard(boardId)
+    .then((board) => dispatch(receiveBoard(board.data)))
+    .catch((err) => dispatch(receiveBoardErrors(err.response.data)))
+);

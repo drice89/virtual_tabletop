@@ -4,16 +4,25 @@ const awsInterface = require('../config/aws_interface')
 const app = require('../app') 
 
 
+
+exports.fetchBoard = function(req, res) { 
+    console.log('user is fetching')
+  const boardId = req.params.id; 
+  Board.findById(boardId, function(err, board) {
+    if (!board) return res.json({msg: 'no board found'}); 
+    res.json(board); 
+  })
+}
+
 //board creating
 exports.createBoard = function (req, res) {
     //check boards validations
-
     
-    // const {errors,isValid} = validateBoardRegister(req.body);
+    const {errors,isValid} = validateBoardRegister(req.body);
     
-    // if (!isValid) {
-    //     return res.status(400).json(errors);
-    // }
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
        
     
     return awsInterface.uploadImage(req.file.path, "vtboardimages")
