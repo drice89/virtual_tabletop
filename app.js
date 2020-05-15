@@ -51,11 +51,16 @@ const port = process.env.PORT || 5000;
 const nsp = io.of('/gamesNamespace');
 nsp.on('connection', function(socket){
   socket.on('joinRoom', (room) => {
+    // console.log(room)
     socket.join(room.roomId);
+
   }) 
 });
 
-exports.transmitData = (room, actionName, action) => io.to(room).emit(actionName, action);
+exports.transmitData = function (room, actionName, action) {
+  // console.log(room, actionName, action)
+  return io.to(room).emit(actionName, action)
+ };
 
 // dias's websocket code
 // io.on("connection", socket => {
@@ -78,6 +83,6 @@ exports.transmitData = (room, actionName, action) => io.to(room).emit(actionName
 //   socket.on("disconnect", () => console.log("Client disconnected"));
 // });
 
-app.listen(port, () => console.log(`list ening on port ${port}`));
-// server.listen(port, () => console.log(`Listening on port ${port}`));
- 
+// app.listen(port, () => console.log(`list ening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
+  

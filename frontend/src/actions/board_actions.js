@@ -20,8 +20,8 @@ export const receiveBoardErrors = (errors) => ({
 });
 
 
-export const createBoard = board => dispatch => {
+export const createBoard = board => dispatch => (
   BoardAPIUtil.createBoard(board)
     .then(() => dispatch(receiveBoard(board)))
 
-}
+)

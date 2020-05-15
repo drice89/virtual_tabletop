@@ -239,14 +239,23 @@ export default class Grid extends React.Component {
     // we can try this.posX this.posY
 
     // const board = {};
-
      const formData = new FormData();
         
       formData.append('name', 'test');
       formData.append('gameId', this.props.match.params.gameId);
-      formData.append('gridSize', { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom });
-      formData.append('imageAttributes', { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom });
-      formData.append('settings', { gridColor: "#FFF", opacity: 1 });
+
+    formData.append('rows', this.state.row);
+    formData.append('cols', this.state.col);
+    formData.append('gridZoomFactor', this.zoomGrid.zoom);
+
+    formData.append('offsetX', rect.x);
+    formData.append('offsetY', rect.y);
+    formData.append('imageZoomFactor', this.zoomBackground.zoom);
+
+    formData.append('gridColor', "#FFF");
+    formData.append('opacity', 1);
+
+
       formData.append('backgroundImage', this.state.imageFile);
 
 
@@ -261,7 +270,10 @@ export default class Grid extends React.Component {
     // this.props.createBoard(board)
     //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
     // console.log(board);
-    this.props.createBoard(formData) //.then(console.log, console.log);
+    this.props.createBoard(formData)
+      .then(() => console.log("TEST"))
+      .catch(()=> console.log("ERRORRRRRRR"))
+       //.then(console.log, console.log);
   }
 
   handleImageClick() {
@@ -330,6 +342,7 @@ export default class Grid extends React.Component {
     });
     socket.on('boardCreated', (board) =>{
       this.props.receiveBoard(board);
+      console.log("AAAAAAAA")
     })
   }
 

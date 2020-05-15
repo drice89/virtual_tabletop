@@ -1,7 +1,7 @@
 const Board = require('../models/Board');
 const validateBoardRegister = require('../validations/board_validation');
 const awsInterface = require('../config/aws_interface')
-const transmitData = require('../app.js').transmitData 
+const app = require('../app') 
 
 
 //board creating
@@ -15,22 +15,42 @@ exports.createBoard = function (req, res) {
     // }
        
     
-    awsInterface.uploadImage(req.file.path, "vtboardimages")
+    return awsInterface.uploadImage(req.file.path, "vtboardimages")
     .then((location)=> {
-            console.log("FINALLLYYY")
-            console.log(location)
+
+            let gridSize = {
+                rows: req.body.rows,
+                cols: req.body.cols,
+                gridZoomFactor: req.body.gridZoomFactor
+            };
+
+
+            let imageAttributes = {
+                offsetX: req.body.offsetX,
+                offsetY: req.body.offsetY,
+                imageZoomFactor: req.body.imageZoomFactor
+            }
+
+            let settings={ 
+                gridColor: req.body.gridColor,
+                opacity: req.body.opacity,
+            }
+
+
             const newBoard = new Board({
                 gameId: req.body.gameId,
                 name: req.body.name,
-                gridSize: req.body.gridSize,
+                gridSize: gridSize,
                 backgroundImageUrl: location,
-                imageAttributes: req.body.imageAttributes,
-                settings: req.body.settings
+                imageAttributes: imageAttributes,
+                settings: settings
             })
 
-            transmitData(`${newBoard.gameId}`, 'createBoard', newBoard.save());
+            return newBoard.save().then(board => {
+                app.transmitData(`${newBoard.gameId}`, 'boardCreated', board)
+            });
         })
-        .catch(() => console.log("hello from boardController"))
+        .catch((err) => console.log(err))
     
 
      //newBoard.save().then(board => res.json(board), err => res.json(err))
