@@ -16,11 +16,11 @@ exports.createBoard = function (data) {
         gameId: data.gameId,
         name: data.name,
         gridSize: data.gridSize,
-        backgroundImageUrl: data.backgroundImageUrl, //awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
+        backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
         squareSize: data.squareSize,
         settings: data.settings,
-        tokens: data.tokens,
     })
+    console.log(newBoard)
     //save to the database
     return newBoard.save()
 }

@@ -61,6 +61,7 @@ io.on("connection", socket => {
   socket.on("createBoard", (board) => {
     boardsController.createBoard(board)
       .then( res => socket.broadcast.emit('boardCreated', res))
+      .catch( err => socket.broadcast.emit('boardCreated', res))
   })
   
  
