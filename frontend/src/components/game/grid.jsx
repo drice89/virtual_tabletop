@@ -324,7 +324,6 @@ export default class Grid extends React.Component {
     });
     socket.on('boardCreated', (board) =>{
       this.props.receiveBoard(board);
-      console.log("AAAAAAAA")
     })
 
     // socket.on('action', (data)=>{
