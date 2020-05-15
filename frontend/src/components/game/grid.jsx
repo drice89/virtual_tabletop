@@ -1,7 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 import map from '../../images/battlemap.jpg';
-import styles from './grid.module.css';
+import styles from './grid.module.scss';
 import TokenBar from './token_bar';
 import empty from '../../images/empty.png';
 import { receiveBoard } from '../../actions/board_actions';
@@ -111,6 +111,7 @@ export default class Grid extends React.Component {
   }
 
   componentWillUnmount() {
+    this.container = document.getElementById('grid-container');
     this.container.removeEventListener('wheel', this.checkScroll);
   }
 
@@ -341,10 +342,10 @@ export default class Grid extends React.Component {
             </div>
           {/* {console.log(this.state.backgroundImage)} */}
             <div className={styles.gridButtons}>
-              <button onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
+              <button className={styles.setGrid} onClick={this.handleBuildGrid} id="set-grid">Set grid</button>
               <button className={styles.lockButton} onClick={this.handleLock}>{this.state.gridLocked ? 'Unlock grid' : 'Lock grid'}</button>
-              <button onClick={this.handleImageClick}>Upload background</button>
-              <button onClick={this.createBoard}>Create board</button>
+              <button className={styles.uploadBackground} onClick={this.handleImageClick}>Upload background</button>
+              <button className={styles.createBoard} onClick={this.createBoard}>Create board</button>
             </div>
 
             <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" />
