@@ -16,7 +16,7 @@ exports.createBoard = function (data) {
         gameId: data.gameId,
         name: data.name,
         gridSize: data.gridSize,
-        backgroundImageUrl: data.backgroundImageUrl, //awsInterface.uploadImage(data.backgroundImage, "vttokenimages"),
+        backgroundImageUrl: data.backgroundImageUrl, //awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
         squareSize: data.squareSize,
         settings: data.settings,
         tokens: data.tokens,

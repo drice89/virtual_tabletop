@@ -18,7 +18,6 @@ import empty from '../../images/empty.png';
 
 
 
-
 let socket;
 
 
@@ -57,12 +56,12 @@ export default class Grid extends React.Component {
 
 
   componentDidUpdate() {
-    if(this.props.match.params.boardId && (this.props.location.pathname.split('/')[this.props.location.pathname.split('/').length-1]=== "boards")) {
-      this.props.history.push(`${this.props.location.pathname}/${this.props.match.params.boardId}`)
-    });
+    if(this.props.match.params.boardId && (this.props.location.pathname.split('/')[this.props.location.pathname.split('/').length - 1] === 'boards')) {
+      this.props.history.push(`${this.props.location.pathname}/${this.props.match.params.boardId}`);
+    }
     const grid = document.getElementsByClassName('box');
     for (let i = 0; i < grid.length; i++) {
-      grid[i].style.border = `1px solid ${this.state.color}`;
+      grid[i].style.border = `1px solid ${ this.state.color }`;
       grid[i].style.opacity = `${this.state.opacity / 100}`;
     }
     socket.on('tokenMoved', (move) => {
@@ -76,7 +75,8 @@ export default class Grid extends React.Component {
     });
   }
 
-  handleCreateGame(board) {
+  handleCreateGame() {
+    const board = this.state
     socket.emit('createGame', board)
   }
   
@@ -209,10 +209,6 @@ export default class Grid extends React.Component {
   }
 
 
-  handleImageUpload() {
-    this.state.
-
-  }
   render() {
     return (
       <div style={{ color: 'white' }}>
