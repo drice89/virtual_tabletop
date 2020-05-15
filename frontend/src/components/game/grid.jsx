@@ -5,7 +5,8 @@ import styles from './grid.module.css';
 import TokenBar from './token_bar';
 import empty from '../../images/empty.png';
 import { receiveBoard } from '../../actions/board_actions';
-import { createBoard } from '../../util/board_api_util';
+import FormData from 'form-data'
+// import { createBoard } from '../../util/board_api_util';
 
 // Get all elements nececssary into state
 // dispatch create board
@@ -260,7 +261,7 @@ export default class Grid extends React.Component {
     // this.props.createBoard(board)
     //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
     // console.log(board);
-    createBoard(formData).then(console.log, console.log);
+    this.props.createBoard(formData) //.then(console.log, console.log);
   }
 
   handleImageClick() {
@@ -272,7 +273,6 @@ export default class Grid extends React.Component {
     const img = e.currentTarget.files[0];
     
     const fileReader = new FileReader();
-    console.log(fileReader.result);
     
     fileReader.onloadend = () => {
       this.setState({ imageFile: img, previewUrl: fileReader.result });

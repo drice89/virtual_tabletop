@@ -78,6 +78,6 @@ exports.transmitData = (room, actionName, action) => io.to(room).emit(actionName
 //   socket.on("disconnect", () => console.log("Client disconnected"));
 // });
 
-// app.listen(port, () => console.log(`list ening on port ${port}`));
-server.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`list ening on port ${port}`));
+// server.listen(port, () => console.log(`Listening on port ${port}`));
  
