@@ -1,31 +1,32 @@
 const Board = require('../models/Board');
 const validateBoardRegister = require('../validations/board_validation');
+const awsInterface = require('../config/aws_interface')
 
 
 //board creating
-exports.createBoard = function (req, res) {
-    
+exports.createBoard = function (data) {
     //check boards validations
-    const {errors,isValid} = validateBoardRegister(req.body);
+    const {errors,isValid} = validateBoardRegister(data);
     
     if (!isValid) {
-        return res.status(400).json(errors);
+        return errors
     }
     //create new board
     const newBoard = new Board({
-        gameId: req.body.gameId,
-        name: req.body.name,
-        gridSize: req.body.gridSize,
-        backgroundImageUrl: req.body.backgroundImageUrl,
-        squareSize: req.body.squareSize,
-        settings: req.body.settings,
-        tokens: req.body.tokens,
+        gameId: data.gameId,
+        name: data.name,
+        gridSize: data.gridSize,
+        backgroundImageUrl: data.backgroundImageUrl, //awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
+        squareSize: data.squareSize,
+        settings: data.settings,
+        tokens: data.tokens,
     })
     //save to the database
-    newBoard.save().then(board => res.json(board), err => res.json(err))
+    return newBoard.save()
 }
 
-//board deleting 
+
+//board deleting
 exports.deleteBoard = function (req, res) {
 
     //find the board by id and delete it

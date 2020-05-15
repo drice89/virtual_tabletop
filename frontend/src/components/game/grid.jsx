@@ -18,7 +18,6 @@ import empty from '../../images/empty.png';
 
 
 
-
 let socket;
 
 
@@ -64,7 +63,7 @@ export default class Grid extends React.Component {
   componentDidUpdate() {
     const grid = document.getElementsByClassName('box');
     for (let i = 0; i < grid.length; i++) {
-      grid[i].style.border = `1px solid ${this.state.color}`;
+      grid[i].style.border = `1px solid ${ this.state.color }`;
       grid[i].style.opacity = `${this.state.opacity / 100}`;
     }
     socket.on('tokenMoved', (move) => {
@@ -78,7 +77,11 @@ export default class Grid extends React.Component {
     });
   }
 
-
+  handleCreateGame() {
+    const board = this.state
+    socket.emit('createGame', board)
+  }
+  
   handlePieceDrop(move) {
     socket.emit('move', move);
   }

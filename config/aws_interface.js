@@ -7,7 +7,7 @@ const s3 = new AWS.S3({
   secretAccessKey: keys.secretKey
 })
 
-module.exports = (fileName, s3bucket) => {
+exports.uploadImage = (fileName, s3bucket) => {
   const fileContent = fs.readFileSync(fileName);
   const params = {
     Bucket: BUCKET_NAME,
