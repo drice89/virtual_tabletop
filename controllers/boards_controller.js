@@ -7,10 +7,11 @@ const app = require('../app')
 //board creating
 exports.createBoard = function (req, res) {
     //check boards validations
+
+    
     // const {errors,isValid} = validateBoardRegister(req.body);
-    debugger
+    
     // if (!isValid) {
-    //     c
     //     return res.status(400).json(errors);
     // }
        
@@ -46,6 +47,7 @@ exports.createBoard = function (req, res) {
                 settings: settings
             })
 
+            console.log(newBoard)
             return newBoard.save().then(board => {
                 app.transmitData(`${newBoard.gameId}`, 'boardCreated', board)
             });

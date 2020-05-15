@@ -53,13 +53,23 @@ nsp.on('connection', function(socket){
   socket.on('joinRoom', (room) => {
     // console.log(room)
     socket.join(room.roomId);
-
+    console.log(`joined ${room.roomId}`)
+    //socket.broadcast.to(room.roomId).emit('action', {test: "a test"});
+    //nsp.to('304i3049').emit('action', {test: "a test"})
   }) 
 });
 
+
+// io.on('connection', function(socket){
+//   socket.on('say to someone', function(id, msg){
+//     
+//   });
+// });
+
 exports.transmitData = function (room, actionName, action) {
   // console.log(room, actionName, action)
-  return io.to(room).emit(actionName, action)
+  return nsp.to(room).emit(actionName, action)
+  //return nsp.to(room).emit(actionName, action)
  };
 
 // dias's websocket code

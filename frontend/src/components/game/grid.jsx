@@ -272,7 +272,7 @@ export default class Grid extends React.Component {
     // console.log(board);
     this.props.createBoard(formData)
       .then(() => console.log("TEST"))
-      .catch(()=> console.log("ERRORRRRRRR"))
+      .catch((err)=> console.log(err))
        //.then(console.log, console.log);
   }
 
@@ -344,6 +344,10 @@ export default class Grid extends React.Component {
       this.props.receiveBoard(board);
       console.log("AAAAAAAA")
     })
+
+    // socket.on('action', (data)=>{
+    //   console.log(data)
+    // })
   }
 
 
