@@ -17,8 +17,12 @@ class CreateGame extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { createGame } = this.props;
-    createGame(this.state);
+    const { createGame, history, errors } = this.props;
+    createGame(this.state).then((gameId) => {
+      if (gameId) {
+        history.push(`/games/${gameId}/boards`);
+      }
+    });
   }
 
   handleChange(form) {
@@ -28,6 +32,7 @@ class CreateGame extends React.Component {
   }
 
   render() {
+    const { errors } = this.props;
     const { name, description, backgroundImage } = this.state;
     return (
       <div className={styles.container}>
@@ -36,7 +41,7 @@ class CreateGame extends React.Component {
           <p>Create New Game</p>
         </div>
         <form className={styles.formContainer} onSubmit={this.handleSubmit}>
-          {/* {errors.name ? <span className={styles.errors}>{errors.name}</span> : ''} */}
+          {errors.name ? <span className={styles.errors}>{errors.name}</span> : ''}
           <input type="text" placeholder="Name" value={name} onChange={this.handleChange('name')} />
           {/* {errors.description ? <span className={styles.errors}>{errors.description}</span> : ''} */}
           <input type="text" placeholder="Description" value={description} onChange={this.handleChange('description')} />
