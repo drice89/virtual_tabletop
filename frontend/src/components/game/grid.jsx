@@ -5,7 +5,7 @@ import styles from './grid.module.css';
 import TokenBar from './token_bar';
 import empty from '../../images/empty.png';
 import { receiveBoard } from '../../actions/board_actions';
-
+import { createBoard } from '../../util/board_api_util';
 
 // Get all elements nececssary into state
 // dispatch create board
@@ -55,7 +55,7 @@ export default class Grid extends React.Component {
 
     };
 
-    this.ENPOINT = 'localhost:5000';
+    this.ENPOINT = 'localhost:5000/gamesNamespace';
     this.zoomGrid = { zoom: 1 };
     this.zoomBackground = { zoom: 1 };
     this.zoomContainer = { zoom: 1 };
@@ -107,7 +107,11 @@ export default class Grid extends React.Component {
 
 
     // setting up the socket
+    const roomId = this.props.match.params.gameId;
     socket = io(this.ENPOINT);
+    socket.on('connect', () => {
+      socket.emit('joinRoom', { roomId });
+    });
   }
 
   componentWillUnmount() {
@@ -233,33 +237,30 @@ export default class Grid extends React.Component {
 
     // we can try this.posX this.posY
 
-    const board = {};
+    // const board = {};
 
-    //  const formData = new FormData();
+     const formData = new FormData();
         
-    //   formData.append('name', 'test');
-    //   formData.append('gameId', this.props.match.params.gameId);
-    //   formData.append('gridSize', { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom });
-    //   formData.append('imageAttributes', { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom });
-    //   formData.append('settings', { gridColor: "#FFF", opacity: 1 });
-    //   formData.append('backgroundImage', this.state.imageFile);
+      formData.append('name', 'test');
+      formData.append('gameId', this.props.match.params.gameId);
+      formData.append('gridSize', { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom });
+      formData.append('imageAttributes', { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom });
+      formData.append('settings', { gridColor: "#FFF", opacity: 1 });
+      formData.append('backgroundImage', this.state.imageFile);
 
 
-      debugger
-
-
-    board.name = 'thisIsStaticForNow';
-    board.gameId = this.props.match.params.gameId;
-    board.gridSize = { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom };
-    board.imageAttributes = { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
-    board.settings = { gridColor: "#FFF", opacity: 1 };
-    board.backgroundImage = this.state.imageFile;
+    // board.name = 'thisIsStaticForNow';
+    // board.gameId = this.props.match.params.gameId;
+    // board.gridSize = { rows: this.state.row, cols: this.state.col, gridZoomFactor: this.zoomGrid.zoom };
+    // board.imageAttributes = { offSetX: rect.x, offSetY: rect.y, imageZoomFactor: this.zoomBackground.zoom };
+    // board.settings = { gridColor: "#FFF", opacity: 1 };
+    // board.backgroundImage = this.state.imageFile;
 
     //console.log(formData)
     // this.props.createBoard(board)
     //  .then((board) => this.props.history.push(`{this.props.history.path}/${board.id}`))
     // console.log(board);
-    socket.emit('createBoard', board);
+    createBoard(formData).then(console.log, console.log);
   }
 
   handleImageClick() {

@@ -1,32 +1,36 @@
 const Board = require('../models/Board');
 const validateBoardRegister = require('../validations/board_validation');
 const awsInterface = require('../config/aws_interface')
+const transmitData = require('../app.js').transmitData 
 
 
 //board creating
-exports.createBoard = function (data) {
+exports.createBoard = function (req, res) {
+    console.log("hello from boardController")
     //check boards validations
-    console.log("hit controller", data)
-    const {errors,isValid} = validateBoardRegister(data);
+    const {errors,isValid} = validateBoardRegister(req.body);
     
     if (!isValid) {
-        console.log(errors)
-        return errors
+        return res.status(400).json(errors);
     }
+    debugger
+    console.log(req.body) 
     //create new board
     const newBoard = new Board({
-        gameId: data.gameId,
-        name: data.name,
-        gridSize: data.gridSize,
-        backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
-        imageAttributes: data.imageAttributes,
-        settings: data.settings
+        gameId: req.body.gameId,
+        name: req.body.name,
+        gridSize: req.body.gridSize,
+        backgroundImageUrl: awsInterface.uploadImage(req.body.backgroundImage, "vtboardimages"),
+        imageAttributes: req.body.imageAttributes,
+        settings: req.body.settings
     })
-    //save to the database 
-    console.log(newBoard)
-    return newBoard.save().then(console.log)
-}
+    debugger
+    //save to the database
+    transmitData(`${newBoard.gameId}`, 'createBoard', newBoard.save());
 
+     //newBoard.save().then(board => res.json(board), err => res.json(err))
+}
+ 
 
 //board deleting
 exports.deleteBoard = function (req, res) {

@@ -7,15 +7,14 @@ const passport = require('passport');
 
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
-//const boards = require('./routes/api/boards')
+const boards = require('./routes/api/boards')
 const path = require('path');
 
 
 const http = require("http");
-const socketIo = require("socket.io");
 const server = http.createServer(app);
+const socketIo = require("socket.io");
 const io = socketIo(server);
-const boardsController = require('./controllers/boards_controller')
 
 
 
@@ -33,8 +32,7 @@ app.use(bodyParser.json());
 
 app.use('/api/users', users); 
 app.use('/api/games', games); 
-//board CRUD actions are accessed by websocket
-//app.use('/api/boards', boards); 
+app.use('/api/boards', boards); 
 
 
 if (process.env.NODE_ENV === "production") {
@@ -49,25 +47,37 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 5000;
 
 
-io.on("connection", socket => {
-  console.log("New client connected");
 
-  //Here we listen on a new namespace called "incoming data"
-  socket.on("move", (move) => {
-    // console.log(move)
-    socket.broadcast.emit('tokenMoved', move)
-  });
+const nsp = io.of('/gamesNamespace');
+nsp.on('connection', function(socket){
+  socket.on('joinRoom', (room) => {
+    socket.join(room.roomId);
+  }) 
+});
 
-  socket.on("createBoard", (board) => {
-    console.log(board.backgroundImage)
-   const res = boardsController.createBoard(board)
-      socket.broadcast.emit('boardCreated', res)
-  })
+exports.transmitData = (room, actionName, action) => io.to(room).emit(actionName, action);
+
+// dias's websocket code
+// io.on("connection", socket => {
+//   console.log("New client connected");
+
+//   //Here we listen on a new namespace called "incoming data"
+//   socket.on("move", (move) => {
+//     // console.log(move)
+//     socket.broadcast.emit('tokenMoved', move)
+//   });
+
+//   socket.on("createBoard", (board) => {
+//     console.log(board.backgroundImage)
+//    const res = boardsController.createBoard(board)
+//       socket.broadcast.emit('boardCreated', res)
+//   })
   
  
-  //A special namespace "disconnect" for when a client disconnects
-  socket.on("disconnect", () => console.log("Client disconnected"));
-});
+//   //A special namespace "disconnect" for when a client disconnects
+//   socket.on("disconnect", () => console.log("Client disconnected"));
+// });
 
 // app.listen(port, () => console.log(`list ening on port ${port}`));
 server.listen(port, () => console.log(`Listening on port ${port}`));
+ 
