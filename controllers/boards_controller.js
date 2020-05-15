@@ -1,30 +1,72 @@
 const Board = require('../models/Board');
 const validateBoardRegister = require('../validations/board_validation');
 const awsInterface = require('../config/aws_interface')
+const app = require('../app') 
 
 
-//board creating
-exports.createBoard = function (data) {
-    //check boards validations
-    const {errors,isValid} = validateBoardRegister(data);
-    
-    if (!isValid) {
-        return errors
-    }
-    //create new board
-    const newBoard = new Board({
-        gameId: data.gameId,
-        name: data.name,
-        gridSize: data.gridSize,
-        backgroundImageUrl: awsInterface.uploadImage(data.backgroundImage, "vtboardimages"),
-        squareSize: data.squareSize,
-        settings: data.settings,
-    })
-    console.log(newBoard)
-    //save to the database
-    return newBoard.save()
+
+exports.fetchBoard = function(req, res) { 
+    console.log('user is fetching')
+  const boardId = req.params.id; 
+  Board.findById(boardId, function(err, board) {
+    if (!board) return res.json({msg: 'no board found'}); 
+    res.json(board); 
+  })
 }
 
+//board creating
+exports.createBoard = function (req, res) {
+    //check boards validations
+    
+    const {errors,isValid} = validateBoardRegister(req.body);
+    
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+       
+    
+    return awsInterface.uploadImage(req.file.path, "vtboardimages")
+    .then((location)=> {
+
+            let gridSize = {
+                rows: req.body.rows,
+                cols: req.body.cols,
+                gridZoomFactor: req.body.gridZoomFactor
+            };
+
+
+            let imageAttributes = {
+                offsetX: req.body.offsetX,
+                offsetY: req.body.offsetY,
+                imageZoomFactor: req.body.imageZoomFactor
+            }
+
+            let settings={ 
+                gridColor: req.body.gridColor,
+                opacity: req.body.opacity,
+            }
+
+
+            const newBoard = new Board({
+                gameId: req.body.gameId,
+                name: req.body.name,
+                gridSize: gridSize,
+                backgroundImageUrl: location,
+                imageAttributes: imageAttributes,
+                settings: settings
+            })
+
+            console.log(newBoard)
+            return newBoard.save().then(board => {
+                app.transmitData(`${newBoard.gameId}`, 'boardCreated', board)
+            });
+        })
+        .catch((err) => console.log(err))
+    
+
+     //newBoard.save().then(board => res.json(board), err => res.json(err))
+}         
+ 
 
 //board deleting
 exports.deleteBoard = function (req, res) {

@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
+
+
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const boardController = require('../../controllers/boards_controller');
 
 const passport = require('passport');
 
+//fetch board
+router.get('/:id', passport.authenticate('jwt', {session: false}), boardController.fetchBoard)
+
 //board create route
-router.post('', passport.authenticate('jwt', {session: false}), boardController.createBoard)
+router.post('', upload.single('backgroundImage'), passport.authenticate('jwt', {session: false}), boardController.createBoard)
 
 //board delete route
 router.delete('/:id', passport.authenticate('jwt', {session: false}), boardController.deleteBoard)
@@ -24,5 +32,6 @@ router.patch('/:boardId/token/:tokenId', passport.authenticate('jwt', {session: 
 router.delete('/:boardId/token/:tokenId', passport.authenticate('jwt', {session: false}), boardController.deleteToken)
 
 
-
-module.exports = router;
+ 
+module.exports = router;    
+    

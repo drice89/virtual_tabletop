@@ -8,17 +8,26 @@ const s3 = new AWS.S3({
 })
 
 exports.uploadImage = (fileName, s3bucket) => {
+  // console.log(fileName)
   const fileContent = fs.readFileSync(fileName);
   const params = {
-    Bucket: BUCKET_NAME,
+    Bucket: s3bucket,
     Key: fileName,
     Body: fileContent
   }
+ 
+  return s3UploadPromise = new Promise(function (resolve, reject) {
+    s3.upload(params, function (err, data) {
+      if (err) {
+        throw err;
+      } else {
+        // console.log(data)
+        resolve(data.Location)
 
-  s3.upload(params, function(err, data) {
-    if (err) {
-      throw err;
-    }
-    return data.location
-  })
+      }
+    })
+
+  });
 }
+
+

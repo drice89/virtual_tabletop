@@ -20,9 +20,9 @@ module.exports = function validateBoard(data) {
     //     console.log(data.backgroundImageUrl)
     //     errors.backgroundImageUrl = 'Background image must have valid url.';
     // }
-    if (Validator.isEmpty(data.backgroundImageUrl)) {
-        errors.backgroundImageUrl = 'Background image must to be uploaded.';
-    }
+    // if (Validator.isEmpty(data.backgroundImageUrl)) {
+    //     errors.backgroundImageUrl = 'Background image must to be uploaded.';
+    // }
 
 
     return {
