@@ -9,7 +9,6 @@
   justify-content: center;
   flex-direction: column;
   width: 100vw;
-  filter: blur(4px);
 }
 
 .background::after {
@@ -68,8 +67,11 @@
   border: 4px solid $white;
   border-radius: 50%;
   width: 150px;
+  height: 150px;
   margin-right: 24px;
   box-shadow: 0px 1px 10px $dark-grey;
+  overflow: hidden;
+  background-color: $primary-dark;
 }
 
 .content {
@@ -120,4 +122,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.blurred {
+  filter: blur(4px);
 }
