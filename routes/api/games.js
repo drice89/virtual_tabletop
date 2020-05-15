@@ -17,3 +17,4 @@ router.patch('/join', passport.authenticate('jwt', { session: false }), gameCont
 
 
 module.exports = router; 
+module.exports = router; 

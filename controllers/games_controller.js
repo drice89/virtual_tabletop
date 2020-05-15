@@ -1,5 +1,7 @@
 const Game = require('../models/Game'); 
 const User = require('../models/User'); 
+const Board = require('../models/Board'); 
+const Piece = require('../models/Piece');
 const validateGameRegister = require('../validations/game_validation'); 
 
 exports.fetchAll = function(req, res) { 
@@ -16,10 +18,27 @@ exports.fetchAll = function(req, res) {
 
 exports.fetchGame = function(req, res) { 
   const gameId = req.params.id; 
-  Game.findById(gameId, function(err, game) {
-    if (!game) return res.json({msg: 'no game found'}); 
-    res.json(game); 
-  })
+  const response = {game: null, boards: null }
+  Game.findById(gameId, '-boards', function(gameErr, game) { 
+      if(gameErr) {
+        return res.json(gameErr);
+      } else if (game === null) { 
+        res.json({message: 'Could not locate game'})
+      } else { 
+        response.game = game
+        Board.find({gameId: game._id},function (boardErr, boards) {
+          if (boardErr) {
+            return res.json(boardErr)
+          } else if (boards === null) { 
+            return res.json({message: 'Could not locate boards for this game'})
+          } else {
+            response.boards = boards
+            return res.json(response);
+          }
+        })
+      }
+
+    })
 }
 
 exports.joinGame = function(req, res) { 
