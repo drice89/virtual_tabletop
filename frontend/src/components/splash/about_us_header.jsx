@@ -68,11 +68,11 @@ const Header = (props) => {
         <div className={styles.navLeft}>
           <ul className={styles.aboutUs}>
             <li className={userStyles.btn}>
-              <Link to="/about">
+              <Link to="/">
                 <button type="button" className={buttonStyles.none}>
                   <div className={userStyles.btn}>
-                    <i className="ra ra-double-team" />
-                    <span>About Us</span>
+                    <i className="ra ra-player-teleport" />
+                    <span>Home</span>
                   </div>
                 </button>
               </Link>

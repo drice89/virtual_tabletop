@@ -6,12 +6,12 @@ import AboutUs from './about_us';
 import styles from './header.module.scss';
 
 const Splash = () => (
-  <div className={styles.main} >
+  <div className={styles.main}>
     <Header />
     <Content />
-    <AboutUs />
+  {/* <AboutUs /> */}
     <Footer />
   </div>
-)
+);
 
 export default Splash;

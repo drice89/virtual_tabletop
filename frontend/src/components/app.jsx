@@ -10,11 +10,13 @@ import GameContainer from './game/game_container';
 import './reset.css';
 import './structure.scss';
 import Main from './user/main';
+import AboutUs from './splash/about_us'
 
 function App() {
   return (
     <div className="App">
       <Switch>
+        <Route exact path="/about" component={AboutUs} />
         <Route exact path="/" component={Splash} />
         {/* <ProtectedRoute exact path="/games" component={GameContainer} /> */}
         <ProtectedRoute exact path="/games/:gameId/boards" component={GameContainer} />
