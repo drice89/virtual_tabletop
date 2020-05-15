@@ -2,7 +2,8 @@ import * as gameAPIUtil from '../util/games_api_util';
 
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
-export const RECIEVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
+export const RECEIVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export const receiveGames = (payload) => ({
   type: RECEIVE_GAMES,
@@ -15,7 +16,7 @@ export const receiveGame = (payload) => ({
 });
 
 export const receiveGameErrors = (errors) => ({
-  type: RECIEVE_GAME_ERRORS,
+  type: RECEIVE_GAME_ERRORS,
   errors,
 });
 
