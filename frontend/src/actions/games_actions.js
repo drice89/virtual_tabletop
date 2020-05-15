@@ -29,8 +29,10 @@ export const fetchUserGames = (userId) => (dispatch) => (
 
 export const createGame = (game) => (dispatch) => (
   gameAPIUtil.createGame(game)
-    .then((resGame) => dispatch(receiveGame(resGame.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
+    .then((resGame) => {dispatch(receiveGame(resGame.data))
+    return resGame.data.game._id;
+    })
+    .catch((err) => {dispatch(receiveGameErrors(err.response.data))})
 );
 
 export const joinGame = (gameIdAndUserId) => (dispatch) => (

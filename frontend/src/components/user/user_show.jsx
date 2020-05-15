@@ -45,7 +45,8 @@ class UserShow extends React.Component {
 
   render() {
     const { createForm } = this.state;
-    const { user } = this.props;
+    const { user, createdGames, subscribedGames } = this.props;
+    const hrsOld = Math.floor((Date.now() - new Date(user.createdAt)) / 3600000);
     if (!user) return null;
     return (
       <>
@@ -58,22 +59,28 @@ class UserShow extends React.Component {
                 </div>
                 <div>
                   <h1>{user.displayName}</h1>
-                  <span>Level 7 Novice</span>
+                  <span>
+                    Level
+                    {' '}
+                    {hrsOld}
+                    {' '}
+                    Novice
+                  </span>
                 </div>
                 <div className={styles.stats}>
                   <div>
-                    <h1>2</h1>
+                    <h1>{createdGames.length}</h1>
                     Created Games
                   </div>
                   <div>
-                    <h1>5</h1>
-                    Joined Games
+                    <h1>{subscribedGames.length}</h1>
+                    Subscribed Games
                   </div>
                 </div>
               </div>
               <div className={styles.content}>
                 <div className={styles.topBar}>
-                  <h2>My Games</h2>
+                  <h2>Created Games</h2>
                   <div>
                     <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreate}>
                       <i className="ra ra-anvil ra-lg" />
@@ -84,22 +91,32 @@ class UserShow extends React.Component {
                   </div>
                 </div>
                 <section className={styles.main}>
-                  <GameCard
-                    game={{
-                      title: 'Wayne\'s World',
-                      description: 'The example description of Wayne\'s World',
-                      thumb: noThumb,
-                      online: 4,
-                    }}
-                  />
-                  <GameCard
-                    game={{
-                      title: 'Dillon\'s World',
-                      description: 'The example description of Dillon\'s World',
-                      thumb: map,
-                      online: 0,
-                    }}
-                  />
+                  {createdGames.map((game) => (
+                    <GameCard game={game} />
+                  ))}
+                  {createdGames.length ? '' : (
+                    <div className={styles.noGames} onClick={this.toggleCreate}>
+                      Glory awaits for
+                      {' '}
+                      {user.displayName}
+                      {', '}
+                      <u>Create a Game</u>
+                    </div>
+                  )}
+
+                </section>
+                <div className={styles.topBar}>
+                  <h2>Subscribed Games</h2>
+                </div>
+                <section className={styles.main}>
+                  {subscribedGames.map((game) => (
+                    <GameCard game={game} />
+                  ))}
+                  {subscribedGames.length ? '' : (
+                    <div className={styles.noSubs}>
+                      &quot;I&apos;m Going on an Adventure!&quot;
+                    </div>
+                  )}
                 </section>
               </div>
             </div>

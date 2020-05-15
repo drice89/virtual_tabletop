@@ -28,11 +28,16 @@
   border-radius: 8px;
 }
 
+.cardContainer {
+  flex: 1 1 auto;
+  display: block;
+}
+
 .card {
   background-color: $primary-dark;
   position: relative;
-  flex: 1 1 auto;
   border-radius: 8px;
+  height: 100%;
   z-index: 0;
   box-shadow: 2px 2px 5px $dark-grey;
   display: flex;

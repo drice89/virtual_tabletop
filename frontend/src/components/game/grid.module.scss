@@ -1,20 +1,14 @@
-.grid {
+@import '../_colors.scss';
+
+.grid{
     zoom: 1;
     position: absolute;
     z-index: 1;
-    /* display: flex;
-    flex-wrap: wrap; */
 }
 
 .row {
     display: flex;
-
 }
-/* .outer-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
 
 .box {
     position: relative;
@@ -54,23 +48,30 @@
 }
 
 .initialSetup{
+    position: absolute;
+    top: 2px;
+    left: 600px;
+    font-size: 1.2rem;
     display: flex;
-    /* flex-direction: column; */
     justify-content: space-evenly;
     align-items: center;
-    background-color: ivory;
+    background-color: $primary;
+    color: rgb(228, 228, 228);
     width: 650px;
-    height: 45px;
+    height: 25px;
     vertical-align: middle;
     margin: auto;
-    border: 1px solid rgb(255, 0, 0);
+    border: 1px solid rgba(255, 255, 255, 0.568);
     border-radius: 5px;
+    box-shadow: 0 0px 8px $primary;
 }
 
 .initialSetup button{
-    padding: 5px 10px;
+    padding: 1px 10px;
     border: 1px solid black;
     border-radius: 5px;
+    font-size: 1.2rem;
+    background-color: $secondary;
 }
 .initialInputs{
     width: 200px;
@@ -86,16 +87,38 @@
 }
 .gridInputs{
     width: 20px;
-    padding: 5px 10px;
+    padding: 1px 10px;
     text-align: center;
     border: 1px solid black;
     border-radius: 5px;
+    background-color: rgb(175, 175, 175);
+    color: white;
+}
+
+.gridInputs:focus {
+    color: black;
+    background-color: white;
+}
+
+.imageFile{
+    display: none;
 }
 
 .lockButton{
     text-align: center;
     width: 70px;
 }
-.imageFile{
-    display: none;
+
+.lockButton:hover,
+.uploadBackground:hover,
+.setGrid:hover,
+.createBoard:hover {
+    background-color: $secondary-light;
+    color: white;
+}
+
+.createBoard:active{
+    background-color: rgb(145, 211, 14);
+    color: black;
+    font-weight: 400;
 }
