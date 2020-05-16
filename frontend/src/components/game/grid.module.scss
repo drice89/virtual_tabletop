@@ -1,0 +1,124 @@
+@import '../_colors.scss';
+
+.grid{
+    zoom: 1;
+    position: absolute;
+    z-index: 1;
+}
+
+.row {
+    display: flex;
+}
+
+.box {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.411);
+    margin-left: -1px;
+    margin-bottom: -1px;
+}
+
+.container {
+    width: 775px;
+    min-height: 775px;
+    height: 550px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    background-color: rgb(66, 66, 66);
+}
+
+.backgroundImage {
+    /* position: absolute; */
+    /* overflow: hidden; */
+    /* object-fit: contain; */
+    /* height: 100%;
+    width: 100%; */
+}
+
+.imageContainer {
+  /* object-fit: contain; */
+}
+
+.empty {
+    height: 1px;
+    width: 1px;
+}
+
+.initialSetup{
+    position: absolute;
+    top: 2px;
+    left: 600px;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: $primary;
+    color: rgb(228, 228, 228);
+    width: 650px;
+    height: 25px;
+    vertical-align: middle;
+    margin: auto;
+    border: 1px solid rgba(255, 255, 255, 0.568);
+    border-radius: 5px;
+    box-shadow: 0 0px 8px $primary;
+}
+
+.initialSetup button{
+    padding: 1px 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    background-color: $secondary;
+}
+.initialInputs{
+    width: 200px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.gridButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+}
+.gridInputs{
+    width: 20px;
+    padding: 1px 10px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(175, 175, 175);
+    color: white;
+}
+
+.gridInputs:focus {
+    color: black;
+    background-color: white;
+}
+
+.imageFile{
+    display: none;
+}
+
+.lockButton{
+    text-align: center;
+    width: 70px;
+}
+
+.lockButton:hover,
+.uploadBackground:hover,
+.setGrid:hover,
+.createBoard:hover {
+    background-color: $secondary-light;
+    color: white;
+}
+
+.createBoard:active{
+    background-color: rgb(145, 211, 14);
+    color: black;
+    font-weight: 400;
+}

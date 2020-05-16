@@ -6,25 +6,22 @@ import { AuthRoute, ProtectedRoute } from '../util/route_util';
 // import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 // import MainPage from "./main/main_page"
 import Splash from './splash/splash';
-import Grid from './game/grid';
-import UI from './ui/ui';
-import LoginFormContainer from './auth/login/login_form_container';
-import SignupFormContainer from './auth/signup/signup_form_container';
+import GameContainer from './game/game_container';
 import './reset.css';
 import './structure.scss';
+import Main from './user/main';
+import AboutUs from './splash/about_us'
 
 function App() {
   return (
     <div className="App">
       <Switch>
+        <Route exact path="/about" component={AboutUs} />
         <Route exact path="/" component={Splash} />
-        <AuthRoute path="/login" component={LoginFormContainer} />
-        <AuthRoute path="/signup" component={SignupFormContainer} />
-        {/* <AuthRoute exact path="/login" component={LoginContainer} />
-        <AuthRoute exact path="/signup" component={SignupContainer} />
-        <AuthRoute exact path="/" component={MainPage} /> */}
-        <Route path="/game" component={UI} />
-        <Route path="/game" component={Grid} />
+        {/* <ProtectedRoute exact path="/games" component={GameContainer} /> */}
+        <ProtectedRoute exact path="/games/:gameId/boards" component={GameContainer} />
+        <ProtectedRoute exact path="/games/:gameId/boards/:boardId" component={GameContainer} />
+        <Route path="/" component={Main} />
       </Switch>
     </div>
   );

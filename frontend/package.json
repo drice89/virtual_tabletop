@@ -7,17 +7,21 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "form-data": "^3.0.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "rpg-awesome": "^0.2.0"
+    "rpg-awesome": "^0.2.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "proxy": "http://localhost:5000",
   "scripts": {

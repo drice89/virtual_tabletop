@@ -19,13 +19,16 @@ const BoardSchema = new Schema({
     cols: {
       type: Number,
       required: true
+    },
+    gridZoomFactor: {
+      type: Number
     }
   },
   backgroundImageUrl: {
     type: String,
     required: true
   },
-  squareSize: {
+  imageAttributes: {
     offsetX: {
       type: Number,
       required: true
@@ -34,7 +37,7 @@ const BoardSchema = new Schema({
       type: Number,
       required: true
     },
-    zoomFactor: {
+    imageZoomFactor: {
       type: Number,
       required: true
     }
@@ -76,6 +79,11 @@ const BoardSchema = new Schema({
 
     pieceId: {
       type: Schema.Types.ObjectId,
+      required: true
+    },
+
+    imageUrl: {
+      type: String,
       required: true
     },
 
