@@ -58,7 +58,7 @@ exports.createBoard = function (req, res) {
 
             console.log(newBoard)
             return newBoard.save().then(board => {
-                app.transmitData(`${newBoard.gameId}`, 'boardCreated', board)
+                app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board)
             });
         })
         .catch((err) => console.log(err))
@@ -69,68 +69,90 @@ exports.createBoard = function (req, res) {
  
 
 //board deleting
-exports.deleteBoard = function (req, res) {
+exports.deleteBoard = function (board) {
 
     //find the board by id and delete it
-    Board.findById(req.params.id)
-        .then(board => res.json(board.remove()))
-        .catch(err => res.json(err))
+    Board.findById(board.id, (err, result) => {
+        if(result && result.remove() ) {
+            //transmits board.id
+            app.transmitData(`${result.gameId}`, 'boardDeleted', board)
+        } else {
+            app.transmitData(`${result.gameId}`, 'error', err)
+        }
+    })
    
 }
 
 //update the board
-exports.updateBoard = function (req, res) {
+exports.updateBoard = function (board) {
 
     //find the board by id and update it
-    Board.findById(req.params.id)
-        .then(board => board.updateOne(req.body))
-        .catch(err => res.json(err))
-   
+    //needs to be changed to findOneAndUpdate
+    Board.find(board.id, (err, result) => {
+        if(result) {
+            const updatedBoard = result.updateOne()
+            //returns board document
+            app.transmitData(`${result.gameId}`, 'boardUpdated', updatedBoard)
+        } else {
+            app.transmitData(`${board.gameId}`, 'error', err)
+        }
+    })
 }
 
 //create token
-exports.createToken = function (req, res) {
-    Board.findOne({_id: req.params.boardId})
-        .then(board => {
-          board.tokens.push(req.body)
-          board.save()
-          res.json(board)
-        })
-        .catch(err => res.json(err))
-   
+exports.createToken = function (token) {
+    Board.findOne({_id: token.boardId} , (err, board) => {
+        if(board) {
+            board.tokens.push(req.body)
+            //why are we saving here and not updating above
+            const updatedBoard = board.save() 
+            
+            //returns entire board
+            app.transmitData(`${updatedBoard.gameId}`, 'tokenUpdated', updatedBoard.tokens)
+        } else {
+            throw err
+        }
+    })
 }
 
 //edit token
-exports.editToken = function (req, res) {
+exports.editToken = function (token) {
 
     //find the board and update the token
     Board.findOneAndUpdate(
-        { _id: req.params.boardId, "tokens._id": req.params.tokenId }, 
+        { _id: token.boardId, "tokens._id": token.tokenId }, 
         {
         "tokens.$": {
             "pos": {
-                "x": req.body.pos.x,
-                "y": req.body.pos.y
+                "x": token.pos.x,
+                "y": token.pos.y
             },
-
-            "size": req.body.size,
-
-            "player": req.body.player
+            "size": token.size,
+            "player": token.player
         }
-    }, (err, doc) => res.json(doc))
+    }, (err, board) => {
+        if (board) {
+            //returns updated token
+            const resToken = board.tokens.id(board.tokenId)
+            app.transmitData(`${board.gameId}`, 'tokenUpdated', resToken)
+        } else {
+            throw err
+        }
+    })
 }
 
 
 //delete token
-exports.deleteToken = function (req, res) {
-
+exports.deleteToken = function (token) {
     //find the board by id and delete it
-    Board.findOne({_id: req.params.boardId})
-        .then(board => {
-            board.tokens.id(req.params.tokenId).remove()
+    Board.findOne({_id: token.boardId}, (err, board) => {
+        if(board) {
+            board.tokens.id(board.tokenId).remove()
             board.save()
-            res.json(board)
-        })
-        .catch(err => res.json(err))
+            app.transmitData(`${board.gameId}`, 'tokenDeleted', token)
+        } else {
+            throw err
+        }
+    })
 }
 

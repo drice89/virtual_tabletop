@@ -8,6 +8,7 @@ const passport = require('passport');
 const users = require('./routes/api/users'); 
 const games = require('./routes/api/games');
 const boards = require('./routes/api/boards')
+const boardController = require('./controllers/boards_controller')
 const path = require('path');
 
 
@@ -54,23 +55,47 @@ nsp.on('connection', function(socket){
     // console.log(room)
     socket.join(room.roomId);
     console.log(`joined ${room.roomId}`)
+
     //socket.broadcast.to(room.roomId).emit('action', {test: "a test"});
     //nsp.to('304i3049').emit('action', {test: "a test"})
   }) 
+
+  // exppected input format: { id: "some_id_string_here"}
+  socket.on("deleteBoard", (board) => {
+    boardController.deleteBoard(board)
+  })
+
+  // expected input format: send board
+  socket.on("updateBoard", (board) => {
+    boardController.updateBoard(board)
+  })
+
+  //expected input format: { boardId: "some_id_string_here", pos: { x: num, y: num}, 
+  //size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId: 
+  //"playerId" }
+  socket.on("createToken", (token) => {
+    boardController.createBoard(token)
+  })
+
+  //expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
+  socket.on("editToken", (token) => {
+    boardController.editToken(token)
+  })
+
+  //expected input format { boardId: "string", tokenId: "string"}
+  socket.on("deleteToken", (token) => {
+    boardController.deleteToken(token)
+  })
 });
 
-
-// io.on('connection', function(socket){
-//   socket.on('say to someone', function(id, msg){
-//     
-//   });
-// });
 
 exports.transmitData = function (room, actionName, action) {
   // console.log(room, actionName, action)
   return nsp.to(room).emit(actionName, action)
   //return nsp.to(room).emit(actionName, action)
  };
+
+ socket.broadcast.emit('tokenMoved', move)
 
 // dias's websocket code
 // io.on("connection", socket => {

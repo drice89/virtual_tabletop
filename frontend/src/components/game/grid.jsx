@@ -62,7 +62,7 @@ export default class Grid extends React.Component {
   }
 
   handlePieceDrop(move) {
-    socket.emit('move', move);
+    socket.emit('updateToken', move);
   }
 
 
@@ -336,7 +336,7 @@ export default class Grid extends React.Component {
       // }
       // this.renderBoard();
     });
-    socket.on('boardCreated', (board) =>{
+    socket.on('boardUpdated', (board) =>{
       // this.props.receiveBoard(board)
       // debugger
       this.props.history.push(`/games/${board.gameId}/boards/${board._id}`)

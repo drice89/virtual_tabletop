@@ -77,18 +77,26 @@ const BoardSchema = new Schema({
       default: 1,
     },
 
-    pieceId: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
-
     imageUrl: {
       type: String,
       required: true
     },
 
+    pieceId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Piece'
+    },
+
+    boardId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Board'
+    },
+
     player: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     }
   }]
 });
