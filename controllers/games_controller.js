@@ -46,6 +46,7 @@ exports.fetchGame = function (req, res) {
         } else if (boards === null) {
           return res.json({ message: 'Could not locate boards for this game' });
         } else {
+          payload.game.boards = boards.map((board) => board._id);
           payload.boards = structureBoardsPayload(boards);
           return res.json(payload);
         }

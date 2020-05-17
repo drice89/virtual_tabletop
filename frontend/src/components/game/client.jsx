@@ -4,7 +4,7 @@ class Client extends React.Component {
   componentDidMount() {
     const { fetchGame } = this.props;
     // set up sockets
-    // fetchGame();
+    fetchGame();
   }
 
   render() {

@@ -5,8 +5,8 @@ export default (state = {}, action) => {
   Object.freeze(state);
   const nextState = { ...state };
   switch (action.type) {
-    // case RECEIVE_GAME:
-    //   return action.boards;
+    case RECEIVE_GAME:
+      return { ...state, ...action.payload.boards };
     case RECEIVE_BOARD:
       return { ...state, ...{ [action.board._id]: action.board } };
     case DELETE_BOARD:

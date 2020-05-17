@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const fetchGame = (gameId) => axios.get(`/api/games/${gameId}`);
+
 // this is a call to the users route that returns games only - we may need to modify the
 export const fetchUserGames = (userId) => axios.get(`/api/users/${userId}`);
 
