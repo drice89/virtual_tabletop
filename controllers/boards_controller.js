@@ -68,7 +68,6 @@ function addBoardToGame(board) {
     })
 }
 
-
 //board deleting
 exports.deleteBoard = function (board) {
 
@@ -168,7 +167,6 @@ exports.editToken = function (token) {
     })
 
 }
-
 
 
 //delete token
