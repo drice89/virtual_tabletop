@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-
-
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
-
+const upload = require('../../config/aws_interface')
 const boardController = require('../../controllers/boards_controller');
 
 const passport = require('passport');
@@ -14,7 +9,7 @@ const passport = require('passport');
 router.get('/:id', passport.authenticate('jwt', {session: false}), boardController.fetchBoard)
 
 //board create route
-router.post('', upload.single('backgroundImage'), passport.authenticate('jwt', {session: false}), boardController.createBoard)
+router.post('', upload.uploadBoardImage.single('backgroundImage'), passport.authenticate('jwt', {session: false}), boardController.createBoard)
 
 //board delete route
 router.delete('/:id', passport.authenticate('jwt', {session: false}), boardController.deleteBoard)

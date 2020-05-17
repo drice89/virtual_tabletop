@@ -1,6 +1,5 @@
 const Board = require('../models/Board');
 const validateBoardRegister = require('../validations/board_validation');
-const awsInterface = require('../config/aws_interface')
 const app = require('../app') 
 
 
@@ -23,48 +22,39 @@ exports.createBoard = function (req, res) {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-       
     
-    return awsInterface.uploadImage(req.file.path, "vtboardimages")
-    .then((location)=> {
-
-            let gridSize = {
-                rows: req.body.rows,
-                cols: req.body.cols,
-                gridZoomFactor: req.body.gridZoomFactor
-            };
+    let gridSize = {
+        rows: req.body.rows,
+        cols: req.body.cols,
+        gridZoomFactor: req.body.gridZoomFactor
+    };
 
 
-            let imageAttributes = {
-                offsetX: req.body.offsetX,
-                offsetY: req.body.offsetY,
-                imageZoomFactor: req.body.imageZoomFactor
-            }
+    let imageAttributes = {
+        offsetX: req.body.offsetX,
+        offsetY: req.body.offsetY,
+        imageZoomFactor: req.body.imageZoomFactor
+    }
 
-            let settings={ 
-                gridColor: req.body.gridColor,
-                opacity: req.body.opacity,
-            }
+    let settings={ 
+        gridColor: req.body.gridColor,
+        opacity: req.body.opacity,
+    }
 
 
-            const newBoard = new Board({
-                gameId: req.body.gameId,
-                name: req.body.name,
-                gridSize: gridSize,
-                backgroundImageUrl: location,
-                imageAttributes: imageAttributes,
-                settings: settings
-            })
+    const newBoard = new Board({
+        gameId: req.body.gameId,
+        name: req.body.name,
+        gridSize: gridSize,
+        backgroundImageUrl: req.file.location,
+        imageAttributes: imageAttributes,
+        settings: settings
+    })
 
-            console.log(newBoard)
-            return newBoard.save().then(board => {
-                app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board)
-            });
-        })
-        .catch((err) => console.log(err))
-    
+    return newBoard.save().then(board => {
+        app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board)
+    });
 
-     //newBoard.save().then(board => res.json(board), err => res.json(err))
 }         
  
 
