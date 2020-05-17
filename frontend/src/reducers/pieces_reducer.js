@@ -7,17 +7,16 @@ import {
 
 export default (state = {}, action) => {
     Object.freeze(state);
+    let nextState = Object.assign({}, state)
     switch (action.type) {
         case RECEIVE_PIECES:
             return action.pieces
         case RECEIVE_PIECE:
-            return action.pieces.push(action.piece)
+            nextState[action.piece._id] = action.piece
+            return nextState
         case REMOVE_PIECE:
-            let nextState = Object.assign({}, state)
-            nextState[action.]
-            return {
-                ...state, ...action.pieces
-            };
+            delete nextState[action.pieceId]
+            return nextState
         default:
             return state;
     }

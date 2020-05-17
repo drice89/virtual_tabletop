@@ -23,13 +23,13 @@ router.delete('/:id', passport.authenticate('jwt', {session: false}), boardContr
 router.patch('/:id', passport.authenticate('jwt', {session: false}), boardController.updateBoard)
 
 //board create token
-router.post('/:boardId/token/', passport.authenticate('jwt', {session: false}), boardController.createToken)
+router.post('/:boardId/tokens/', passport.authenticate('jwt', {session: false}), boardController.createToken)
 
 //board edit token
-router.patch('/:boardId/token/:tokenId', passport.authenticate('jwt', {session: false}), boardController.editToken)
+router.patch('/:boardId/tokens/:tokenId', passport.authenticate('jwt', {session: false}), boardController.editToken)
 
 //board delete token
-router.delete('/:boardId/token/:tokenId', passport.authenticate('jwt', {session: false}), boardController.deleteToken)
+router.delete('/:boardId/tokens/:tokenId', passport.authenticate('jwt', {session: false}), boardController.deleteToken)
 
 
  

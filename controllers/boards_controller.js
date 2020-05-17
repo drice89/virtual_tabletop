@@ -6,7 +6,7 @@ const app = require('../app')
 
 
 exports.fetchBoard = function(req, res) { 
-    console.log('user is fetching')
+    // console.log('user is fetching')
   const boardId = req.params.id; 
   Board.findById(boardId, function(err, board) {
     if (!board) return res.json({msg: 'no board found'}); 
@@ -56,7 +56,7 @@ exports.createBoard = function (req, res) {
                 settings: settings
             })
 
-            console.log(newBoard)
+            // console.log(newBoard)
             return newBoard.save().then(board => {
                 app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board)
             });
@@ -92,22 +92,23 @@ exports.updateBoard = function (board) {
             //returns board document = result may need .toJSON()
             app.transmitData(`${result.gameId}`, 'boardUpdated', result)
         } else {
-            console.log(err)
+            // console.log(err)
             app.transmitData(`${board.gameId}`, 'error', err)
         }
     })
 }
 
 //create token
-exports.createToken = function (token) {
-    Board.findOne({_id: token.boardId} , (err, board) => {
+exports.createToken = function (req, res) {
+    let token = req.body
+    Board.findById(token.boardId , (err, board) => {
         if(board) {
             //const newToken = new Board.TokenSchema({... token})
             board.tokens.push(token)
             //why are we saving here and not updating above
             const updatedBoard = board.save()
                 .then(board =>  app.transmitData(`${updatedBoard.gameId}`, 'tokenUpdated', board.tokens[board.tokens.length - 1]))
-            //returns entire board
+            return res.status(200).json(["Token created"])
         } else {
             throw err
         }
