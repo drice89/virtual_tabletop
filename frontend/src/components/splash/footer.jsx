@@ -43,7 +43,7 @@ const Footer = () => (
     </div> */}
     <div className={style.footerItem}>
       <div>
-        Created by Dias Iskrayev, Dillon Rice, Steven Touba, Wayne Su
+        Created by <a href="https://github.com/iskraev" className={style.footerDias}>Dias Iskrayev</a>,<a href="https://github.com/drice89" className={style.footerDillon}> Dillon Rice</a>, <a href="https://github.com/steventouba" className={style.footerSteven}>Steven Touba</a>, <a href="https://github.com/breakfasting" className={style.footerWayne}>Wayne Su</a>
       </div>
       <div className={style.footerImage}>
         <i  className="ra ra-hydra"/>

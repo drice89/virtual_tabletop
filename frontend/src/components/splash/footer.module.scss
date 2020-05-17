@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  padding: 25px 0;
 }
 
 .footerItem {
@@ -22,6 +23,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+ font-size: 1.5rem;
+ padding: 5px 30px;
+ border: 1px solid $secondary;
+ border-radius: 10px;
+ background-color: $background;
+ color: white;
+
 }
 
 // .footer ul {
@@ -45,4 +53,23 @@
   font-size: 16px;
 }
 
+.footerDias:hover{
+  color: rgb(42, 207, 42);
+
+}
+
+.footerDillon:hover{
+  color: green;
+
+}
+
+.footerSteven:hover{
+  color: rgb(91, 91, 255);
+
+}
+
+.footerWayne:hover{
+ color: $secondary;
+
+}
 
