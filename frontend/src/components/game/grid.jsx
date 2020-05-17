@@ -134,36 +134,46 @@ export default class Grid extends React.Component {
   }
 
   handleBuildGrid() {
-    this.setState({ grid: null });
 
-    console.log();
-    const { row } = this.state;
-    const { col } = this.state;
+    let img = document.getElementById('board-background')
+      img.onload = () => {
+        this.setState({ grid: null });
 
-    const backgroundW = document.getElementById('board-background').offsetWidth;
-    const backgroundH = document.getElementById('board-background').height;
-    // const backgroundW = document.getElementById('grid-container').width;
-    // const backgroundH = document.getElementById('grid-container').height;
+        const { row } = this.state;
+        const { col } = this.state;
 
-    const boxH = backgroundH / row;
-    const boxW = backgroundW / col;
+        const backgroundW = img.offsetWidth;
+        const backgroundH = img.height;
+        // const backgroundW = document.getElementById('grid-container').width;
+        // const backgroundH = document.getElementById('grid-container').height;
 
-    const boxStyle = { width: boxW, height: boxH};
+        const boxH = backgroundH / row;
+        const boxW = backgroundW / col;
+        console.log("TEST")
+        const boxStyle = { width: boxW, height: boxH };
 
-    const grid = [];
+        const grid = [];
 
 
-    for (let i = 0; i < row; i++) {
-      const rows = [];
+        for (let i = 0; i < row; i++) {
+          const rows = [];
 
-      for (let j = 0; j < col; j++) {
-        rows.push(<div key={`grid-${i}-${j}`} id={`${i}-${j}`} className={`${styles.box} box`} style={boxStyle} />);
+          for (let j = 0; j < col; j++) {
+            rows.push(<div key={`grid-${i}-${j}`} id={`${i}-${j}`} className={`${styles.box} box`} style={boxStyle} />);
+          }
+
+          grid.push(<div key={`grid-${i}`} className={`${styles.row} row`} >{rows}</div>);
+        }
+
+        this.setState({ grid });
+
+        // clearInterval(upload)
+
       }
+    img.src = "https://wallpaperplay.com/walls/full/d/6/8/178663.jpg"
 
-      grid.push(<div key={`grid-${i}`} className={`${styles.row} row`} >{rows}</div>);
-    }
 
-    this.setState({ grid });
+    
   }
 
 
@@ -313,9 +323,9 @@ export default class Grid extends React.Component {
 
   renderImage() {
     console.log(this.state)
-    if(this.state.boardBackground) {
-      console.log(this.state.boardBackground);
-      return this.state.boardBackground;
+    if ("https://wallpaperplay.com/walls/full/d/6/8/178663.jpg") {
+      // console.log(this.state.boardBackground);
+      return "https://wallpaperplay.com/walls/full/d/6/8/178663.jpg";
     } else {
       if(this.state.previewUrl){
         return this.state.previewUrl;
@@ -323,6 +333,16 @@ export default class Grid extends React.Component {
         return null;
       }
     }
+    // if(this.state.boardBackground) {
+    //   console.log(this.state.boardBackground);
+    //   return this.state.boardBackground;
+    // } else {
+    //   if(this.state.previewUrl){
+    //     return this.state.previewUrl;
+    //   } else {
+    //     return null;
+    //   }
+    // }
   }
     componentDidUpdate(prevProps) {
     // debugger
