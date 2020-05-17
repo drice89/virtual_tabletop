@@ -1,5 +1,6 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema; 
+import PieceSchema from './Piece'
 
 // const games = new Schema({
 //   _id: {
@@ -38,7 +39,8 @@ const UserSchema = new Schema({
   gameSubscriptions: [{
     type: Schema.Types.ObjectId,
     ref: 'Game'
-  }]
+  }],
+  pieces: [PieceSchema]
 })
 
 

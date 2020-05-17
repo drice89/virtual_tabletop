@@ -1,4 +1,4 @@
-import * as usersAPIUtil from '../util/users_api_util';
+import * as UsersAPIUtil from '../util/users_api_util';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const RECEIVE_USER_ERRORS = 'RECEIVE_USER_ERRORS';
@@ -15,7 +15,14 @@ const receiveErrors = (errors) => ({
 });
 
 export const fetchUser = (userId) => (dispatch) => (
-  usersAPIUtil.fetchUser(userId)
+  UsersAPIUtil.fetchUser(userId)
+    .then((payload) => dispatch(receiveUser(payload.data)))
+    .catch((err) => dispatch(receiveErrors(err)))
+);
+
+
+export const fetchPieces = (userId) => (dispatch) => (
+  UsersAPIUtil.fetchPieces(userId)
     .then((payload) => dispatch(receiveUser(payload.data)))
     .catch((err) => dispatch(receiveErrors(err)))
 );
