@@ -1,8 +1,7 @@
 const Board = require('../models/Board');
+const Game = require('../models/Game'); 
 const validateBoardRegister = require('../validations/board_validation');
 const app = require('../app') 
-
-
 
 exports.fetchBoard = function(req, res) { 
     // console.log('user is fetching')
@@ -29,7 +28,6 @@ exports.createBoard = function (req, res) {
         gridZoomFactor: req.body.gridZoomFactor
     };
 
-
     let imageAttributes = {
         offsetX: req.body.offsetX,
         offsetY: req.body.offsetY,
@@ -41,7 +39,6 @@ exports.createBoard = function (req, res) {
         opacity: req.body.opacity,
     }
 
-
     const newBoard = new Board({
         gameId: req.body.gameId,
         name: req.body.name,
@@ -52,11 +49,25 @@ exports.createBoard = function (req, res) {
     })
 
     return newBoard.save().then(board => {
-        app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board)
+        app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board),
+        addBoardToGame(board)
     });
 
 }         
  
+function addBoardToGame(board) { 
+    Game.findById(board.gameId, (err, game) => {
+        if (err) { 
+            console.log(err)
+        } else if (!game) { 
+            console.log('game not found')
+        } else { 
+            game.boards.push(board._id) 
+            game.save().then(console.log, console.log)
+        }
+    })
+}
+
 
 //board deleting
 exports.deleteBoard = function (board) {
