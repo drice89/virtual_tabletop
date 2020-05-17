@@ -53,7 +53,6 @@ exports.createGame = function (req, res) {
 
   if (!isValid) return res.status(400).json(errors); 
   Game.find({creatorId: req.body.creatorId.trim(), name: req.body.name.trim()}, function (gameErr, game) {
-    console.log(gameErr)
    if (game.length > 0) {
     return res.status(400).json({error: 'Same user can\'t have two game with the same name'}); 
    } else if (gameErr) { 
@@ -69,7 +68,6 @@ exports.createGame = function (req, res) {
     newGame.save(function(saveErr, game) { 
       if (saveErr) return res.status(400).json(saveErr); 
       User.findById(game.creatorId, function(userErr, user) { 
-        console.log(user)
         if (userErr) return res.status(400).json(userErr); 
         user.gameSubscriptions.push(game._id); 
         user.save();

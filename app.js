@@ -95,7 +95,7 @@ exports.transmitData = function (room, actionName, action) {
   //return nsp.to(room).emit(actionName, action)
  };
 
- socket.broadcast.emit('tokenMoved', move)
+ //socket.broadcast.emit('tokenMoved', move)
 
 // dias's websocket code
 // io.on("connection", socket => {
@@ -119,5 +119,5 @@ exports.transmitData = function (room, actionName, action) {
 // });
 
 // app.listen(port, () => console.log(`list ening on port ${port}`));
+boardController.editToken({ tokenId:'5ec077d81b21e81926c14db2', boardId: '5ebed3ef3dda9e104684bff1', pos: {x: 10, y:10}, imageUrl: 'www.google.com', pieceId: '5ebca6cfa2af7e68e47030aa'})
 server.listen(port, () => console.log(`Listening on port ${port}`));
-  
