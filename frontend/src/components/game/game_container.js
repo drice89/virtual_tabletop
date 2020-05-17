@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Game from './game';
-import { receiveBoard, fetchBoard, createBoard} from '../../actions/board_actions';
+import { receiveBoard, fetchBoard, createBoard } from '../../actions/board_actions';
 
 const mapStateToProps = (state, ownProps) => ({
   board: state.entities.boards[ownProps.match.params.boardId],

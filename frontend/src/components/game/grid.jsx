@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import { withRouter } from 'react-router-dom';
 import map from '../../images/battlemap.jpg';
 import styles from './grid.module.scss';
 import TokenBar from './token_bar';
@@ -22,7 +23,7 @@ import FormData from 'form-data'
 let socket;
 
 
-export default class Grid extends React.Component {
+class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.handleBuildGrid = this.handleBuildGrid.bind(this);
@@ -75,9 +76,9 @@ export default class Grid extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.boardId) {
-      this.props.fetchBoard(this.props.match.params.boardId)
-        .then(()=>{
+    if (!this.props.create) {
+      // this.props.fetchBoard(this.props.match.params.boardId)
+        // .then(()=>{
           
           this.container = document.getElementById('grid-container');
           
@@ -108,7 +109,7 @@ export default class Grid extends React.Component {
           document.addEventListener('dragover', this.showHideTokenBar);
           this.bar.style.display = 'none';
           // this.handleBuildGri .d();
-        })
+        // })
     } else {
       this.setState({ showInitialEdit: true });
     }
@@ -238,6 +239,7 @@ export default class Grid extends React.Component {
     this.posY = event.layerY * (1 / this.zoomBackground.zoom) - (this.background.height / 2);
   }
 
+
   createBoard() {
     const background = document.getElementById('board-background');
 
@@ -247,27 +249,31 @@ export default class Grid extends React.Component {
     // we can try this.posX this.posY
 
     // const board = {};
-     const formData = new FormData();
-        
-      formData.append('name', 'test');
-      formData.append('gameId', this.props.match.params.gameId);
+    // const formData = new FormData();
+    // formData.append('name', 'test');
+    // formData.append('gameId', this.props.match.params.gameId);
 
-    formData.append('rows', this.state.row);
-    formData.append('cols', this.state.col);
-    formData.append('gridZoomFactor', this.zoomGrid.zoom);
+    // formData.append('rows', this.state.row);
+    // formData.append('cols', this.state.col);
+    // formData.append('gridZoomFactor', this.zoomGrid.zoom);
 
-    formData.append('offsetX', rect.x);
-    formData.append('offsetY', rect.y);
-    formData.append('imageZoomFactor', this.zoomBackground.zoom);
+    // formData.append('offsetX', rect.x);
+    // formData.append('offsetY', rect.y);
+    // formData.append('imageZoomFactor', this.zoomBackground.zoom);
 
-    formData.append('gridColor', "#FFF");
-    formData.append('opacity', 1);
-    formData.append('backgroundImage', this.state.imageFile);
+    // formData.append('gridColor', "#FFF");
+    // formData.append('opacity', 1);
+    // formData.append('backgroundImage', this.state.imageFile);
 
-    this.props.createBoard(formData)
-      .then(() => console.log("TEST"))
-      .catch((err)=> console.log(err))
-       //.then(console.log, console.log);
+    // this.props.createBoard(formData)
+    //   .then(() => console.log("TEST"))
+    //   .catch((err)=> console.log(err))
+    //    //.then(console.log, console.log);
+
+    // createBoard from client
+    const { createBoard } = this.props;
+    const { row, col, imageFile } = this.state;
+    createBoard(row, col, this.zoomGrid.zoom, rect.x, rect.y, this.zoomBackground.zoom, imageFile);
   }
 
   handleImageClick() {
@@ -325,6 +331,7 @@ export default class Grid extends React.Component {
     }
   }
     componentDidUpdate(prevProps) {
+      // debugger
     // debugger
     socket.on('tokenMoved', (move) => {
       // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
@@ -345,6 +352,27 @@ export default class Grid extends React.Component {
     // socket.on('action', (data)=>{
     //   console.log(data)
     // })
+
+    if (this.props.board && ( !prevProps.board || prevProps.board._id !== this.props.board._id)) {
+
+      const state = {
+        row: this.props.board.gridSize.rows,
+        col: this.props.board.gridSize.cols,
+        zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
+        zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
+        imagePosX: this.props.board.imageAttributes.offsetX,
+        imagePosY: this.props.board.imageAttributes.offsetY,
+        opacity: this.props.board.settings.opacity,
+        borderColor: this.props.board.settings.gridColor,
+        boardBackground: this.props.board.backgroundImageUrl,
+      };
+      this.grid = document.getElementById('grid');
+      console.log(this.props.board.gridSize.gridZoomFactor);
+      this.grid.style.zoom = this.props.board.gridSize.gridZoomFactor;
+      this.zoomGrid = { zoom: this.props.board.gridSize.gridZoomFactor };
+  
+      this.setState(state, this.handleBuildGrid);
+    }
   }
 
   componentWillUnmount() {
@@ -355,10 +383,11 @@ export default class Grid extends React.Component {
 
   render() {
     const { imageUrl } = this.state;
+    const { create } = this.props;
     return (
       <div>
 
-        {this.state.showInitialEdit ? (
+        {create ? (
           <div className={styles.initialSetup}>
             <div className={styles.initialInputs}>
               {/* Image
@@ -394,10 +423,12 @@ export default class Grid extends React.Component {
         </div>
 
 
-        {this.props.match.params.boardId ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
+        {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} /> : null}
 
 
       </div>
     );
   }
 }
+
+export default withRouter(Grid);
