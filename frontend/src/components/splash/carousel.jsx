@@ -1,7 +1,7 @@
 import React from 'react';
 import image1 from '../../images/battlemap.jpg';
 import image2 from '../../images/Image2.jpg';
-import './carousel.css';
+import './carousel.scss';
 
 export default class Carousel extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ export default class Carousel extends React.Component {
       } else {
         this.button1.click();
       }
-    }, 4000);
+    }, 6000);
 
     const slide1 = document.getElementById('slide-1');
     const slide2 = document.getElementById('slide-2');
@@ -101,7 +101,7 @@ export default class Carousel extends React.Component {
                 I try to break it
               </p>
               <button className="carousel-text-button">
-                Start playing
+                <a href="/login">Start playing</a>
               </button>
             </div>
           </div>
@@ -122,7 +122,7 @@ export default class Carousel extends React.Component {
               </p>
               <button className="carousel-text-button">
                 <a
-                  href="https://github.com/iskraev/WaveSky"
+                  href="https://github.com/drice89/virtual_tabletop"
                   className="github"
                 >
                   GitHub

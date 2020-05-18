@@ -154,12 +154,32 @@ exports.register = function(req, res)  {
 }
 
 
+function structurePiecesPayload(pieces) {
+  const payload = {};
+  pieces.forEach((piece) => {
+    piece.toJSON();
+    payload[piece._id] = piece;
+  });
+  return payload;
+}
+
+
 //fetch all the pieces 
 exports.fetchPieces = function (req, res) {
-  User.findOne({_id: req.params.userId})
+  
+  User.findOne({
+      _id: req.params.userId
+    })
     .then((user) => {
-      Piece.find({uploaderId: req.params.userId})
-        .then((pieces) => res.json(pieces))
+      
+      Piece.find({
+          uploaderId: req.params.userId
+        })
+        .then((pieces) => {
+          console.log(pieces.data)
+          res.json(structurePiecesPayload(pieces))
+       
+        })
     })
     .catch(() => res.status(404).json(["User was not found"]))
 
@@ -181,7 +201,7 @@ exports.createPiece = function (req, res) {
       })
 
       newPiece.save()
-        .then(() => res.status(200).json(["The piece was created"]))
+        .then(() => res.status(200).json(newPiece))
         .catch(() => res.status(422).json(["The piece was not created."]))
     })
     .catch(() => res.status(404).json(["User was not found"]))

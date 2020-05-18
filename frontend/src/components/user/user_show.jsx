@@ -6,6 +6,7 @@ import styles from './user_show.module.scss';
 import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
+import Piece from "./piece"
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
@@ -105,9 +106,11 @@ class UserShow extends React.Component {
                   )}
 
                 </section>
+
                 <div className={styles.topBar}>
                   <h2>Subscribed Games</h2>
                 </div>
+
                 <section className={styles.main}>
                   {subscribedGames.map((game) => (
                     <GameCard game={game} />
@@ -118,6 +121,14 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
+{/*                   
+                <section className={styles.main}> 
+                    {this.props.pieces.map((piece) => (
+                      <Piece />
+                    ))}
+                </section> */}
+
+
               </div>
             </div>
           </div>

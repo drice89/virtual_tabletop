@@ -1,6 +1,46 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const TokenSchema = new Schema({
+    pos: {
+      x: {
+        type: Number,
+        //required: true
+      },
+      y: {
+        type: Number,
+        //required: true
+      }
+    },
+
+    size: {
+      type: Number,
+      default: 1,
+    },
+
+    imageUrl: {
+      type: String,
+      //required: true
+    },
+
+    pieceId: {
+      type: Schema.Types.ObjectId,
+      //required: true,
+      ref: 'Piece'
+    },
+
+    boardId: {
+      type: Schema.Types.ObjectId,
+      //required: true,
+      ref: 'Board'
+    },
+
+    player: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+})
+
 const BoardSchema = new Schema({
   gameId: {
     type: Schema.Types.ObjectId,
@@ -26,7 +66,6 @@ const BoardSchema = new Schema({
   },
   backgroundImageUrl: {
     type: String,
-    required: true
   },
   imageAttributes: {
     offsetX: {
@@ -55,42 +94,7 @@ const BoardSchema = new Schema({
       default: 1
     }
   },
-  tokens: [{
-    _id: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
-
-    pos: {
-      x: {
-        type: Number,
-        required: true
-      },
-      y: {
-        type: Number,
-        required: true
-      }
-    },
-
-    size: {
-      type: Number,
-      default: 1,
-    },
-
-    pieceId: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
-
-    imageUrl: {
-      type: String,
-      required: true
-    },
-
-    player: {
-      type: Schema.Types.ObjectId
-    }
-  }]
+  tokens: [TokenSchema]
 });
 
 module.exports = Board = mongoose.model("Board", BoardSchema);

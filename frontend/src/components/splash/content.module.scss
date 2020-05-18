@@ -10,7 +10,6 @@
   flex-direction: column;
   width: 100vw;
 }
-
 .background::after {
   content: "";
   background-image: url('/snow_landscape.webp');
@@ -29,12 +28,13 @@
 .hero {
   color: $primary-dark;
   padding-left: 32px;
-  height: 500px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 960px;
   box-sizing: border-box;
+  text-align: center;
 }
 
 .hero h1 {
@@ -72,11 +72,17 @@
 //   margin-left: 10px;
 //   width: 25%;
 // }
-  .hookBox { 
-    margin: auto;
-    margin-top: 20px;
-    width: 60%;
-  }
+.hookBox { 
+  margin: auto;
+  margin-top: 20px;
+  width: 60%;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 300px;
+  
+}
 
 .hook { 
   font-size: 36px;
@@ -91,4 +97,29 @@
 
 .hookTagline { 
   font-size: 28px;
+}
+
+.main{
+  margin-top: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ornament{
+  width: 600px;
+  height: 100px;
+}
+
+.footerLogin{
+  padding: 15px 25px;
+  background-color: $secondary;
+  width: 100px;
+  margin: auto;
+  color: white;
+  border: 1px solid $primary-dark;
+  border-radius: 10px;
+  font-size: 1.7rem;
 }
