@@ -60,7 +60,7 @@ class Grid extends React.Component {
       previewUrl: null,
     };
 
-    this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.ENPOINT = 'https://virtualtabletop.herokuapp.com/gamesNamespace';
     this.zoomGrid = { zoom: 1 };
     this.zoomBackground = { zoom: 1 };
     this.zoomContainer = { zoom: 1 };
