@@ -14,7 +14,7 @@ class Client extends React.Component {
     this.state = {
       currentBoard: null,
     };
-    this.ENDPOINT = `${process.env.PORT}/gamesNamespace`;
+    this.ENDPOINT = 'https://virtualtabletop.herokuapp.com/gamesNamespace';
     this.createBoard = this.createBoard.bind(this);
   }
 
