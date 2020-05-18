@@ -19,6 +19,7 @@ function App() {
       <Switch>
         <Route exact path="/about" component={AboutUs} />
         <Route exact path="/" component={Splash} />
+        <ProtectedRoute path="/client/:gameId/boards/:boardId" component={ClientContainer} />
         <ProtectedRoute path="/client/:gameId" component={ClientContainer} />
         {/* <ProtectedRoute exact path="/games" component={GameContainer} /> */}
         <ProtectedRoute exact path="/games/:gameId/boards" component={GameContainer} />

@@ -1,8 +1,9 @@
 import React from 'react';
 import FormData from 'form-data';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 import Nav from './ui/nav';
-import Grid from './grid';
+import GridContainer from './grid_container';
 import styles from './client.module.scss';
 
 let socket;
@@ -19,9 +20,9 @@ class Client extends React.Component {
 
   componentDidMount() {
     const { fetchGame, match } = this.props;
-    // set up sockets
     fetchGame();
 
+    // set up sockets
     const roomId = match.params.gameId;
     socket = io(this.ENPOINT);
     socket.on('connect', () => {
@@ -68,8 +69,9 @@ class Client extends React.Component {
   render() {
     const { currentBoard } = this.state;
     const {
-      boards, pieces, tokens, createPiece, userId, createToken,
+      game, boards, pieces, tokens, createPiece, userId, createToken, match
     } = this.props;
+    if (!game) return null;
     return (
       <div className={styles.main}>
         <Nav />
@@ -79,29 +81,25 @@ class Client extends React.Component {
             <h2>Boards</h2>
           </div>
           <div className={styles.boardList}>
-            <button type="button" onClick={() => this.changeBoard(null)} className={currentBoard === null ? styles.active : ''}>
-              Create A New Board
-            </button>
-            {boards.map((board, index) => (
-              <button type="button" onClick={() => this.changeBoard(index)} className={currentBoard === index ? styles.active : ''}>
-                {board.name}
+            <Link to={`/client/${game._id}`}>
+              <button type="button"  className={match.params.boardId === undefined ? styles.active : ''}>
+                Create A New Board
               </button>
+            </Link>
+            {boards.map((board, index) => (
+              <Link to={`/client/${game._id}/boards/${board._id}`}>
+                <button type="button" className={match.params.boardId === board._id ? styles.active : ''}>
+                  {board.name}
+                </button>
+              </Link>
             ))}
           </div>
         </div>
-        {currentBoard !== null
-          ? (
-            <Grid
-              userId={userId}
-              board={boards[currentBoard]}
-              pieces={pieces}
-              tokens={tokens}
-              createPiece={createPiece}
-              createToken={createToken}
-            />
-          )
-          : <Grid createBoard={this.createBoard} create />}
-
+        {match.params.boardId ? (
+          <GridContainer />
+        ) : (
+          <GridContainer create />
+        )}
       </div>
     );
   }
