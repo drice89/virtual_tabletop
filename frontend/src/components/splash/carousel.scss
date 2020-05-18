@@ -1,7 +1,8 @@
+@import '../_colors.scss';
+
 .index-carousel{
-    /* width: 500px; */
     width: 100%;
-    height: 500px;
+    height: 600px;
     position: relative;
     margin: auto;
     margin-top: 15px;
@@ -11,42 +12,33 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+    border-radius: 10px;
+    border: 5px solid $secondary;
 }
 .carousel-images{
     position: absolute;
     filter: brightness(75%); 
     height: 100%;
     width: 100%;
+
 }
 .carousel img{
    
     object-fit: fill;
+   
 }
 #slide-1{
     height: 100%;
     width: 100%;
-    /* object-fit: fill; */
-    /* position: relative; */
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
+    align-items: center; 
 }
 
-#slide-1 img{
-    /* top: -50px */
-}
+
 #slide-2{
     height: 100%;
     width: 100%;
-    /* position: absolute; */
-    /* top: 0; */
     transform: translateX(100%)
 }
-
-#slide-2 img{
-    /* bottom: -50px; */
-}
-
 
 .carousel-buttons{
     position: absolute;
@@ -98,7 +90,7 @@
     position: absolute;
     text-align: center;
     color: white;
-    font-size: 1.8em;
+    font-size: 2.5rem;
     font-weight: 100;
     text-shadow: 3px 3px 5px #000000;
     left: 0;
@@ -111,19 +103,24 @@
     align-items: center;
 }
 
+.carousel-text > h3{
+    font-size: 4rem;
+}
+
 .carousel-text-button {
     position: relative;
     top: 30px;
     color: white;
     font-weight: 300;
-    font-size: 1.5rem;
-    background-color: rgb(255, 75, 0);
-    border-radius: 4px;
-    padding: 4px 19px;
+    font-size: 2rem;
+    background-color: $secondary;
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 15px 35px;
 }
 
 .carousel-text-button:active {
-    background-color: rgba(255, 77, 0, 0.822);
+    background-color: $secondary-dark;
 }
 
 .github:hover {

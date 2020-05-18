@@ -171,7 +171,7 @@ export default class Grid extends React.Component {
         // clearInterval(upload)
 
       }
-    img.src = "https://wallpaperplay.com/walls/full/d/6/8/178663.jpg"
+    img.src = this.state.previewUrl
 
 
     
@@ -390,19 +390,9 @@ export default class Grid extends React.Component {
   }
 
   renderImage() {
-    if ("https://wallpaperplay.com/walls/full/d/6/8/178663.jpg") {
-      // console.log(this.state.boardBackground);
-      return "https://wallpaperplay.com/walls/full/d/6/8/178663.jpg";
-    } else {
-      if(this.state.previewUrl){
-        return this.state.previewUrl;
-      } else {
-        return null;
-      }
-    }
-    // if(this.state.boardBackground) {
-    //   console.log(this.state.boardBackground);
-    //   return this.state.boardBackground;
+    // if ("https://wallpaperplay.com/walls/full/d/6/8/178663.jpg") {
+    //   // console.log(this.state.boardBackground);
+    //   return "https://wallpaperplay.com/walls/full/d/6/8/178663.jpg";
     // } else {
     //   if(this.state.previewUrl){
     //     return this.state.previewUrl;
@@ -410,6 +400,16 @@ export default class Grid extends React.Component {
     //     return null;
     //   }
     // }
+    if(this.state.boardBackground) {
+      console.log(this.state.boardBackground);
+      return this.state.boardBackground;
+    } else {
+      if(this.state.previewUrl){
+        return this.state.previewUrl;
+      } else {
+        return null;
+      }
+    }
   }
   componentDidUpdate(prevProps) {
    
