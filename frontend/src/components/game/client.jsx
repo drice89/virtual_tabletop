@@ -29,10 +29,10 @@ class Client extends React.Component {
       socket.emit('joinRoom', { roomId });
     });
 
-    socket.on('boardCreated', (board) => {
+    socket.on('boardUpdated', (board) => {
       // this.props.receiveBoard(board);
       const { history } = this.props;
-      history.push(`/games/${board.gameId}/boards/${board._id}`);
+      history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
   }
 
