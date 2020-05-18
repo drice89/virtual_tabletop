@@ -1,4 +1,4 @@
-const express = require('express'); 
+const express = require('express');
 const router = express.Router();
 const usersController = require("../../controllers/users_controller");
 const passport = require("passport");
@@ -21,6 +21,4 @@ router.post('/:userId/pieces', usersController.createPiece);
 //delete a piece
 router.delete('/:userId/pieces/:pieceId', usersController.deletePiece);
 
-
 module.exports = router;
-
