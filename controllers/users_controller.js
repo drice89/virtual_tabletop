@@ -4,14 +4,19 @@
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-template */
+/* eslint-disable no-return-assign */
+/* eslint-disable consistent-return */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-arrow-callback */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const keys = require('../config/keys');
 const User = require('../models/User');
+const Game = require('../models/Game');
 const Piece = require('../models/Piece');
 const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
-
 const validatePiece = require('../validations/piece_validation');
 
 exports.fetchUserGames = function (req, res) {
@@ -42,7 +47,7 @@ function StructurePayload(response) {
     },
   };
 
-  response.gameSubscriptions.map((game) => { payload.games[game._id] = game; });
+  response.gameSubscriptions.map((game) => payload.games[game._id] = game);
   return payload;
 }
 
@@ -76,10 +81,11 @@ exports.login = function (req, res) {
         .then((isMatch) => {
           if (isMatch) {
             const payload = {
-              id: user.id,
+              id: user._id,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               createdAt: user.createdAt,
+              pieces: fetchUserPieces(user._id),
             }; // payload to be sent to redux store with jwt
 
             jwt.sign(
@@ -91,6 +97,7 @@ exports.login = function (req, res) {
                 res.json({
                   success: true,
                   token: 'Bearer ' + token,
+                  payload,
                 });
               },
             );
@@ -146,13 +153,13 @@ exports.register = function (req, res) {
                     });
                   },
                 );
-              });
+              })
+              .catch(err => console.log(err));
           });
         });
       }
     });
 };
-
 
 function structurePiecesPayload(pieces) {
   const payload = {};
@@ -163,23 +170,19 @@ function structurePiecesPayload(pieces) {
   return payload;
 }
 
-
-//fetch all the pieces 
+// fetch all the pieces
 exports.fetchPieces = function (req, res) {
-  
   User.findOne({
-      _id: req.params.userId
-    })
+    _id: req.params.userId,
+  })
     .then((user) => {
-      
       Piece.find({
-          uploaderId: req.params.userId
-        })
+        uploaderId: req.params.userId,
+      })
         .then((pieces) => {
-          console.log(pieces.data)
-          res.json(structurePiecesPayload(pieces))
-       
-        })
+          console.log(pieces.data);
+          res.json(structurePiecesPayload(pieces));
+        });
     })
     .catch(() => res.status(404).json(['User was not found']));
 };
@@ -201,7 +204,7 @@ exports.createPiece = function (req, res) {
 
       newPiece.save()
         .then(() => res.status(200).json(newPiece))
-        .catch(() => res.status(422).json(["The piece was not created."]))
+        .catch(() => res.status(422).json(["The piece was not created."]));
     })
     .catch(() => res.status(404).json(['User was not found']));
 };

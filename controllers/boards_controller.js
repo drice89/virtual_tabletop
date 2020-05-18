@@ -1,4 +1,5 @@
 const Board = require('../models/Board');
+const Game = require('../models/Game');
 const validateBoardRegister = require('../validations/board_validation');
 const app = require('../app');
 
@@ -40,7 +41,6 @@ exports.createBoard = function (req, res) {
     opacity: req.body.opacity,
   };
 
-
   const newBoard = new Board({
     gameId: req.body.gameId,
     name: req.body.name,
@@ -51,10 +51,23 @@ exports.createBoard = function (req, res) {
   });
 
   return newBoard.save().then((board) => {
-    app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board);
+    app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board),
+    addBoardToGame(board);
   });
 };
 
+function addBoardToGame(board) {
+  Game.findById(board.gameId, (err, game) => {
+    if (err) {
+    //   console.log(err);
+    } else if (!game) {
+    //   console.log('game not found');
+    } else {
+      game.boards.push(board._id);
+      game.save().then(console.log, console.log);
+    }
+  });
+}
 
 // board deleting
 exports.deleteBoard = function (board) {
@@ -142,7 +155,7 @@ exports.editToken = function (token) {
       editedToken.player = token.player;
       editedToken.boardId = token.boardId;
       editedToken.pieceId = token.pieceId;
-    //   debugger;
+      //   debugger;
 
       res.save().then((res) => app.transmitData(`${res.gameId}`, 'tokenUpdated', res.tokens.id(token.tokenId)));
     } else {
@@ -150,7 +163,6 @@ exports.editToken = function (token) {
     }
   });
 };
-
 
 // delete token
 exports.deleteToken = function (token) {

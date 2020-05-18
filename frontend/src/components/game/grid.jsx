@@ -55,7 +55,7 @@ class Grid extends React.Component {
       opacity: null,
       borderColor: null,
       gridLocked: true,
-      boardBackground: null,
+      boardBackground: '',
       showInitialEdit: false,
       previewUrl: null,
     };
@@ -168,7 +168,6 @@ class Grid extends React.Component {
         grid.push(<div key={`grid-${i}`} className={`${styles.row} row`}>{rows}</div>);
       }
       this.setState({ grid }, this.renderBoard);
-
 
       // clearInterval(upload)
     };
@@ -386,36 +385,58 @@ class Grid extends React.Component {
     //     return null;
     //   }
     // }
-    if (this.state.boardBackground) {
+    if(this.state.boardBackground) {
+      console.log(this.state.boardBackground);
       return this.state.boardBackground;
+    } else {
+      if(this.state.previewUrl){
+        return this.state.previewUrl;
+      } else {
+        return '';
+      }
     }
-    if (this.state.previewUrl) {
-      return this.state.previewUrl;
-    }
-    return null;
   }
 
   componentDidUpdate(prevProps) {
     // debugger
-    socket.on('tokenMoved', (move) => {
-      // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
-      // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
+    // socket.on('tokenMoved', (move) => {
+    //   // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
+    //   // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
 
-      // if (!next.innerHTML) {
-      //   next.innerHTML = prev.innerHTML;
-      //   prev.innerHTML = '';
-      // }
-      // this.renderBoard();
-    });
-    socket.on('boardUpdated', (board) => {
-      // this.props.receiveBoard(board)
-      // debugger
-      this.props.history.push(`/games/${board.gameId}/boards/${board._id}`);
-    });
+    //   // if (!next.innerHTML) {
+    //   //   next.innerHTML = prev.innerHTML;
+    //   //   prev.innerHTML = '';
+    //   // }
+    //   // this.renderBoard();
+    // });
+    // socket.on('boardUpdated', (board) => {
+    //   // this.props.receiveBoard(board)
+    //   // debugger
+    //   this.props.history.push(`/games/${board.gameId}/boards/${board._id}`);
+    // });
 
     // socket.on('action', (data)=>{
     //   console.log(data)
     // })
+
+    if (!prevProps.create && this.props.create) {
+      const state = {
+        row: null,
+        col: null,
+        zoomFactorGrid: null,
+        zoomFactorImage: null,
+        offSetX: null,
+        offSetY: null,
+        grid: null,
+        opacity: null,
+        borderColor: null,
+        gridLocked: true,
+        boardBackground: '',
+        showInitialEdit: false,
+        previewUrl: null,
+      };
+      this.setState(state, this.handleBuildGrid);
+    }
 
     if (this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) {
       const state = {

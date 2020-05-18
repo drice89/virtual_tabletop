@@ -29,11 +29,11 @@ const UserInfo = ({ currentUser, logout }) => {
   return (
     <div className={styles.userInfo}>
       <span>
-        Hello,
+        Hello, {" "}
         {currentUser.displayName}
       </span>
       <button type="button" className={buttons.none} onClick={logout}>
-        <div className={styles.btn}>
+        <div className={styles.btnLogout}>
           <i className="ra ra-hole-ladder" />
           <span>Logout</span>
         </div>

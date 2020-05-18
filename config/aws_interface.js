@@ -13,6 +13,7 @@ const s3 = new AWS.S3({
   storage: multerS3({
     s3: s3,
     bucket: 'vtboardimages',
+    acl: 'public-read',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },

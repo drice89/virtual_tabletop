@@ -2,6 +2,8 @@ import React from 'react';
 import Carousel from './carousel';
 import styles from './content.module.scss';
 
+import ornament from '../../images/ornament.png'
+
 const Content = () => (
   <div className={styles.background}>
     <header>
@@ -12,10 +14,12 @@ const Content = () => (
         
       </div>
     </header>
+
     <div className={styles.header}>
       <Carousel />
     </div>
-    <main>
+
+    <main className={styles.main}>
       <aside className={styles.hookBox}>
         <div className={styles.hook}>
           Get Ready for the next generation of tabletop gaming.
@@ -32,8 +36,11 @@ const Content = () => (
       </aside>
       <aside className={styles.hookBox}>
         <div className={styles.hook}>
-          Not conivnced? CHECKOUT OUR COOL FEATURES
+          Not convinced? CHECKOUT OUR COOL FEATURES
         </div>
+
+        <button className={styles.footerLogin}><a href="/signup">Sign up</a></button>
+
         <div className={styles.hookBody}>
           Upload your own images and tokens! Too poor to afford your own? We got you covered with
           our high end fully immersive asset library! Build custom boards and grids with the click
@@ -45,6 +52,8 @@ const Content = () => (
           waiting for it's free!
         </div>
       </aside>
+
+      <img src={ornament} className={styles.ornament}/>
     </main>
   </div>
 );

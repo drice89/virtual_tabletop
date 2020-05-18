@@ -1,4 +1,4 @@
 node_modules/
 /config/keys_dev.js
-/config/aws_keys.js
+/config/aws_keys_dev.js
 /uploads
