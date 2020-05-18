@@ -10,6 +10,12 @@ class Game extends React.Component {
   constructor(props){
     super(props)
   }
+
+  componentDidMount(){
+    this.props.fetchPieces(this.props.userId)
+  }
+
+  
   render() {
     return (
       <div className={styles.main}>

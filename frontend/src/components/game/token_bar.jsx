@@ -17,15 +17,16 @@ export default class TokenBar extends React.Component {
 
     this.scrollLeft = this.scrollLeft.bind(this)
     this.scrollRight = this.scrollRight.bind(this)
+    this.createPiece = this.createPiece.bind(this)
   }
 
   componentDidUpdate() {
-    console.log(this.state.moved);
   }
 
   
 
   componentDidMount(){
+    
     this.bar = document.getElementById('token-bar')
   
 
@@ -41,6 +42,25 @@ export default class TokenBar extends React.Component {
     }, 20)
   }
 
+
+  renderPieces(){
+    return(
+      <>
+        {Object.values(this.props.pieces).map((piece) => (
+          <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
+            
+            <Token handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board}/>
+          </div>
+        ))}
+      </>
+    )
+
+  }
+
+  createPiece(){
+    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: "https://i.imgur.com/voyrG5I.png"}})
+  }
+
   render() {
     return (
       <div className={styles.barContainer} id="bar-container">
@@ -53,7 +73,11 @@ export default class TokenBar extends React.Component {
 
         <div className={styles.tokenBar} id="token-bar">
           <div className={styles.tokenBarContainer}>
-            <div className={styles.tokenBarItem} id="bar-1" >
+
+
+            {this.renderPieces()}
+
+            {/* <div className={styles.tokenBarItem} id="bar-1" >
               <Token handlePieceDrop={this.props.handlePieceDrop} />
             </div>
             <div className={styles.tokenBarItem} id="bar-1" >
@@ -91,13 +115,13 @@ export default class TokenBar extends React.Component {
             </div>
             <div className={styles.tokenBarItem} id="bar-1" >
               <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
+            </div> */}
 
           </div >
 
 
           <div className={styles.addTokenContainer}>
-            <div className={styles.addToken}>
+            <div className={styles.addToken} onClick={this.createPiece}>
               <i class="ra ra-health-increase"></i>
             </div>
           </div>

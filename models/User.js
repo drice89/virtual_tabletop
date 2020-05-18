@@ -1,14 +1,18 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema; 
+// import PieceSchema from './Piece'
 
-// const games = new Schema({
-//   _id: {
-//     type: Schema.Types.ObjectId
-//   },
-//   owner: {
-//     type: Boolean
-//   }
-// })
+const PieceSchema = new Schema({
+  uploaderId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+});
+
 
 const UserSchema = new Schema({
   displayName: {
@@ -38,7 +42,8 @@ const UserSchema = new Schema({
   gameSubscriptions: [{
     type: Schema.Types.ObjectId,
     ref: 'Game'
-  }]
+  }],
+  pieces: [PieceSchema]
 })
 
 
