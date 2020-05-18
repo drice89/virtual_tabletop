@@ -24,7 +24,7 @@ class Client extends React.Component {
 
     // set up sockets
     const roomId = match.params.gameId;
-    socket = io(this.ENDPOINT, { secure: true });
+    socket = io(this.ENDPOINT);
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
