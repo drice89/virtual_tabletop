@@ -14,7 +14,7 @@ class Client extends React.Component {
     this.state = {
       currentBoard: null,
     };
-    this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.ENDPOINT = `${process.env.PORT}/gamesNamespace`;
     this.createBoard = this.createBoard.bind(this);
   }
 
@@ -24,7 +24,7 @@ class Client extends React.Component {
 
     // set up sockets
     const roomId = match.params.gameId;
-    socket = io(this.ENPOINT);
+    socket = io(this.ENDPOINT);
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
