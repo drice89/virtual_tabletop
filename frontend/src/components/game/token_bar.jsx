@@ -46,7 +46,7 @@ export default class TokenBar extends React.Component {
   renderPieces(){
     return(
       <>
-        {Object.values(this.props.pieces).map((piece) => (
+        {this.props.pieces.map((piece) => (
           <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
             
             <Token handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board}/>

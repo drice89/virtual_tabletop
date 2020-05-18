@@ -3,7 +3,7 @@ import FormData from 'form-data';
 import io from 'socket.io-client';
 import Nav from './ui/nav';
 import Grid from './grid';
-import styles from './game.module.scss';
+import styles from './client.module.scss';
 
 let socket;
 
@@ -67,19 +67,41 @@ class Client extends React.Component {
 
   render() {
     const { currentBoard } = this.state;
-    const { boards } = this.props;
+    const {
+      boards, pieces, tokens, createPiece, userId, createToken,
+    } = this.props;
     return (
       <div className={styles.main}>
         <Nav />
-        <div>
-          {boards.map((board, index) => (
-            <button type="button" onClick={() => this.changeBoard(index)}>
-              {board.name}
+        <div className={styles.boardMenu}>
+          <div className={styles.menuTitle}>
+            <i className="ra ra-chessboard" />
+            <h2>Boards</h2>
+          </div>
+          <div className={styles.boardList}>
+            <button type="button" onClick={() => this.changeBoard(null)} className={currentBoard === null ? styles.active : ''}>
+              Create A New Board
             </button>
-          ))}
+            {boards.map((board, index) => (
+              <button type="button" onClick={() => this.changeBoard(index)} className={currentBoard === index ? styles.active : ''}>
+                {board.name}
+              </button>
+            ))}
+          </div>
         </div>
-        {currentBoard ? <Grid board={boards[currentBoard]} createBoard={this.createBoard} /> : <Grid createBoard={this.createBoard} create />}
-        
+        {currentBoard !== null
+          ? (
+            <Grid
+              userId={userId}
+              board={boards[currentBoard]}
+              pieces={pieces}
+              tokens={tokens}
+              createPiece={createPiece}
+              createToken={createToken}
+            />
+          )
+          : <Grid createBoard={this.createBoard} create />}
+
       </div>
     );
   }
