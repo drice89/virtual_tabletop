@@ -1,0 +1,63 @@
+@import '../_colors.scss';
+
+.main {
+  height: 100vh;
+  background-color: $background;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.boardMenu {
+  position: absolute;
+  width: 240px;
+  // overflow-y: auto;
+  top: 42px;
+  left: 10px;
+  background-color: $white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.boardList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.boardList button {
+  padding: 8px 16px;
+}
+
+.boardList button:hover {
+  background-color: $lighter-grey;
+}
+
+.boardList button:active {
+  background-color: $secondary;
+  color: $white;
+}
+
+.active {
+  background-color: $secondary;
+  color: $white;
+}
+
+button.active:hover {
+  background-color: $secondary;
+  color: $white;  
+}
+
+.menuTitle {
+  background-color: $primary-dark;
+  color: $white;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.menuTitle > i {
+  font-size: 1.6rem;
+  margin-right: 8px;
+}

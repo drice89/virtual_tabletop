@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const db = require("./config/keys").mongoURI;
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser'); 
-const passport = require('passport'); 
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
-const users = require('./routes/api/users'); 
+const users = require('./routes/api/users');
 const games = require('./routes/api/games');
-const boards = require('./routes/api/boards')
+const boards = require('./routes/api/boards');
+const pieces = require('./routes/api/pieces');
 const boardController = require('./controllers/boards_controller')
 const path = require('path');
 
@@ -31,9 +32,10 @@ require('./config/passport')(passport);
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(bodyParser.json()); 
 
-app.use('/api/users', users); 
-app.use('/api/games', games); 
-app.use('/api/boards', boards); 
+app.use('/api/users', users);
+app.use('/api/games', games);
+app.use('/api/boards', boards);
+app.use('/api/pieces', pieces);
 
 
 if (process.env.NODE_ENV === "production") {

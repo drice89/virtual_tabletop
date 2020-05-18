@@ -4,7 +4,7 @@ Virtual Tabletop is a sandbox to simulate grid-based tabletop enviornments. A li
 
 The project was built with the MERN stack and uses a combination of API calls and websockets to update the game players of changes to the game in real time. Examples of how user actions flow from the frontend to the backend are included below.
 
-![Action Flow](https://imgur.com/a/1VE1sq2)
+![Action Flow](https://i.imgur.com/Ov2BxIm.png)
 
 
 

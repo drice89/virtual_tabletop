@@ -1,21 +1,23 @@
 import { connect } from 'react-redux';
-import Game from './game';
+import { withRouter } from 'react-router-dom';
+import Grid from './grid';
 import { receiveBoard, fetchBoard, createBoard } from '../../actions/board_actions';
-
 import { fetchPieces, createPiece, deletePiece } from '../../actions/users_actions';
-
 import { createToken } from '../../actions/token_actions';
 
-const mapStateToProps = (state, ownProps) => ({
-  board: state.entities.boards[ownProps.match.params.boardId],
-  pieces: state.entities.pieces,
-  userId: state.session.userId,
-  tokens: Object.values(state.entities.tokens),
+const mapStateToProps = (state, ownProps) => {
+  const board = state.entities.boards[ownProps.match.params.boardId];
+  return {
+    create: ownProps.create,
+    userId: state.session.userId,
+    pieces: Object.values(state.entities.pieces),
+    board,
+    tokens: board && board.tokens ? board.tokens.map((tokenId) => state.entities.tokens[tokenId]) : [],
+  };
+};
 
-});
 const mapDispatchToProps = (dispatch) => ({
-  createBoard: (board) => dispatch(createBoard(board)),
-  receiveBoard: (board) => dispatch(receiveBoard(board)),
+  createBoard: (board) => dispatch(createBoard(board)), // good
   fetchBoard: (boardId) => dispatch(fetchBoard(boardId)),
 
   fetchPieces: (userId) => dispatch(fetchPieces(userId)),
@@ -25,4 +27,4 @@ const mapDispatchToProps = (dispatch) => ({
   createToken: (token) => dispatch(createToken(token)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Grid));
