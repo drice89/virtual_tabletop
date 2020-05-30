@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Nav from './ui/nav';
 import GridContainer from './grid_container';
 import styles from './client.module.scss';
+import BoardWidget from './widgets/board_widget';
 
 let socket;
 
@@ -15,7 +16,6 @@ class Client extends React.Component {
       currentBoard: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
-    this.createBoard = this.createBoard.bind(this);
   }
 
   componentDidMount() {
@@ -30,32 +30,10 @@ class Client extends React.Component {
     });
 
     socket.on('boardUpdated', (board) => {
-      // this.props.receiveBoard(board);
-      const { history } = this.props;
+      const { history, receiveBoard } = this.props;
+      receiveBoard(board);
       history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
-  }
-
-  createBoard(rows, cols, gridZoomFactor, offsetX, offsetY, imageZoomFactor, backgroundImage) {
-    const { createBoard, match } = this.props;
-    const formData = new FormData();
-
-    formData.append('name', 'Testing client component');
-    formData.append('gameId', match.params.gameId);
-
-    formData.append('rows', rows);
-    formData.append('cols', cols);
-    formData.append('gridZoomFactor', gridZoomFactor);
-
-    formData.append('offsetX', offsetX);
-    formData.append('offsetY', offsetY);
-    formData.append('imageZoomFactor', imageZoomFactor);
-
-    formData.append('gridColor', '#FFF');
-    formData.append('opacity', 1);
-    formData.append('backgroundImage', backgroundImage);
-
-    createBoard(formData);
   }
 
   handlePieceDrop(move) {
@@ -69,32 +47,13 @@ class Client extends React.Component {
   render() {
     const { currentBoard } = this.state;
     const {
-      game, boards, pieces, tokens, createPiece, userId, createToken, match
+      game, boards, match,
     } = this.props;
     if (!game) return null;
     return (
       <div className={styles.main}>
         <Nav />
-        <div className={styles.boardMenu}>
-          <div className={styles.menuTitle}>
-            <i className="ra ra-chessboard" />
-            <h2>Boards</h2>
-          </div>
-          <div className={styles.boardList}>
-            <Link to={`/client/${game._id}`}>
-              <button type="button"  className={match.params.boardId === undefined ? styles.active : ''}>
-                Create A New Board
-              </button>
-            </Link>
-            {boards.map((board, index) => (
-              <Link to={`/client/${game._id}/boards/${board._id}`}>
-                <button type="button" className={match.params.boardId === board._id ? styles.active : ''}>
-                  {board.name}
-                </button>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <BoardWidget boards={boards} gameId={game._id} />
         {match.params.boardId ? (
           <GridContainer />
         ) : (
