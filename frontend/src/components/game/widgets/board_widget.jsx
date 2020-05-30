@@ -5,12 +5,12 @@ import styles from './board_widget.module.scss';
 // eslint-disable-next-line react/prefer-stateless-function
 class BoardWidget extends React.Component {
   startDrag(ev) {
-    ev.target.style.transform = 'translateX(-9px)'
+    // ev.target.style.transform = 'translateX(-9px)'
     return false
   }
 
   dragOver(e) {
-    console.log(e.target.getBoundingClientRect())
+    // console.log(e.target.getBoundingClientRect())
   }
 
   render() {
