@@ -36,9 +36,9 @@ class Client extends React.Component {
     });
   }
 
-  handlePieceDrop(move) {
-    socket.emit('move', move);
-  }
+  // handlePieceDrop(move) {
+  //   socket.emit('move', move);
+  // }
 
   changeBoard(currentBoard) {
     this.setState({ currentBoard });

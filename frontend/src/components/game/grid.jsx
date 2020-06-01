@@ -70,6 +70,7 @@ class Grid extends React.Component {
     console.log(token);
     this.props.createToken(token);
     // socket.emit('updateToken', token);
+    
   }
 
 

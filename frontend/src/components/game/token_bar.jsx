@@ -11,7 +11,6 @@ export default class TokenBar extends React.Component {
     this.state = {
     };
 
-
     this.scrollLeft = this.scrollLeft.bind(this);
     this.scrollRight = this.scrollRight.bind(this);
     this.createPiece = this.createPiece.bind(this);
@@ -43,7 +42,6 @@ export default class TokenBar extends React.Component {
       <>
         {this.props.pieces.map((piece) => (
           <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
-
             <Token handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} />
           </div>
         ))}
@@ -59,15 +57,12 @@ export default class TokenBar extends React.Component {
     return (
       <div className={styles.barContainer} id="bar-container">
 
-
         <div className={styles.arrows} onMouseEnter={this.scrollLeft} onMouseLeave={() => clearInterval(this.interval)}>
           <FiChevronLeft className={styles.leftArrow} />
         </div>
 
-
         <div className={styles.tokenBar} id="token-bar">
           <div className={styles.tokenBarContainer}>
-
 
             {this.renderPieces()}
 
@@ -114,15 +109,19 @@ export default class TokenBar extends React.Component {
           </div>
 
 
-          <div className={styles.addTokenContainer}>
-            <div className={styles.addToken} onClick={this.createPiece}>
-              <i className="ra ra-health-increase" />
+          <div className={styles.tokenActionContainer}>
+            <div className={styles.tokenAction} onClick={this.createPiece}>
+              <i className="ra ra-health-increase" title="Add Piece"/>
             </div>
           </div>
 
+          <div className={styles.tokenActionContainer}>
+            <div className={styles.tokenAction} id={styles.deleteToken} onDrop={this.handleTokenDelete} onDragOver={e => e.preventDefault()}>
+              <i className="ra ra-guillotine" title="Delete Token"/>
+            </div>
+          </div>
 
         </div>
-
 
         <div className={styles.arrows} onMouseEnter={this.scrollRight} onMouseLeave={() => clearInterval(this.interval)}>
           <FiChevronRight className={styles.rightArrow} />
