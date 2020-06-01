@@ -58,6 +58,29 @@
   background-color: $secondary-dark;
 }
 
+.demo { 
+  width: 100%;
+  background-color: rgb(218, 168, 32);
+  border-radius: 4px;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 1.4rem;
+  transition: all 0.3s;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.demo:hover {
+  background-color: rgb(218, 150, 32);
+}
+
+.demo:active {
+  background-color: rgb(218, 168, 32);
+}
+
 .btnIcon > * ~ * {
   margin-left: 4px;
 }

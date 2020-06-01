@@ -3,7 +3,6 @@ const Game = require('../models/Game');
 const validateBoardRegister = require('../validations/board_validation');
 const app = require('../app');
 
-
 exports.fetchBoard = function (req, res) {
   // console.log('user is fetching')
   const boardId = req.params.id;

@@ -13,7 +13,6 @@ const PieceSchema = new Schema({
   },
 });
 
-
 const UserSchema = new Schema({
   displayName: {
     type: String,
