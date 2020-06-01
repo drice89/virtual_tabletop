@@ -85,7 +85,7 @@ exports.login = function (req, res) {
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               createdAt: user.createdAt,
-              pieces: fetchUserPieces(user._id),
+              // pieces: fetchUserPieces(user._id),
             }; // payload to be sent to redux store with jwt
 
             jwt.sign(

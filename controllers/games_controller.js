@@ -87,9 +87,9 @@ exports.createGame = function (req, res) {
     name: req.body.name.trim(),
   }, function (gameErr, game) {
     if (game.length > 0) {
-      return res.status(400).json({ error: 'Same user can\'t have two game with the same name' });
+      return res.status(400).json({ name: 'Same user can\'t have two game with the same name' });
     } else if (gameErr) {
-      return res.status(400).json(gameErr);
+      return res.status(400).json(errors.name);
     } else {
       const newGame = new Game({
         creatorId: req.body.creatorId.trim(),
@@ -104,7 +104,8 @@ exports.createGame = function (req, res) {
           if (userErr) return res.status(400).json(userErr);
           user.gameSubscriptions.push(game._id);
           user.save();
-          return res.json({ game });
+          const boards = {};
+          return res.json({ game, boards });
         });
       });
     }
