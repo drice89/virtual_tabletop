@@ -5,12 +5,14 @@ export default (state = {}, action) => {
   Object.freeze(state);
   const nextState = { ...state };
 
-
-
-
   switch (action.type) {
-    // case RECEIVE_GAME:
-    //   return action.boards;
+    case RECEIVE_GAME:
+      Object.values(action.payload.boards).forEach((board) => {
+        const newBoard = { ...board };
+        newBoard.tokens = newBoard.tokens.map((token) => token._id);
+        nextState[board._id] = newBoard;
+      });
+      return nextState;
     case RECEIVE_BOARD:
       let newBoard = Object.assign({}, action.board)
       newBoard.tokens = newBoard.tokens.map(token=> token._id)

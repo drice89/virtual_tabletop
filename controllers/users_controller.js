@@ -1,3 +1,9 @@
+/* eslint-disable no-else-return */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable func-names */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable prefer-template */
 /* eslint-disable no-return-assign */
 /* eslint-disable consistent-return */
@@ -71,7 +77,6 @@ exports.login = function (req, res) {
         errors.email = 'User not found';
         return res.status(404).json(errors);
       }
-
       bcrypt.compare(password, user.password) // returns boolean
         .then((isMatch) => {
           if (isMatch) {
@@ -80,7 +85,7 @@ exports.login = function (req, res) {
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               createdAt: user.createdAt,
-              pieces: fetchUserPieces(user._id),
+              // pieces: fetchUserPieces(user._id),
             }; // payload to be sent to redux store with jwt
 
             jwt.sign(
@@ -137,6 +142,7 @@ exports.register = function (req, res) {
                   subcribedGames: user.gameSubscriptions,
                 }; // payload to be sent to redux store with jwt
                 jwt.sign(
+                  payload,
                   keys.secretOrKey,
                   // there was something on the font end calling .exp
                   { expiresIn: '14 days' },
@@ -178,7 +184,7 @@ exports.fetchPieces = function (req, res) {
           res.json(structurePiecesPayload(pieces));
         });
     })
-    .catch(() => res.status(404).json(["User was not found"]));
+    .catch(() => res.status(404).json(['User was not found']));
 };
 
 // create a piece
@@ -200,11 +206,11 @@ exports.createPiece = function (req, res) {
         .then(() => res.status(200).json(newPiece))
         .catch(() => res.status(422).json(["The piece was not created."]));
     })
-    .catch(() => res.status(404).json(["User was not found"]));
+    .catch(() => res.status(404).json(['User was not found']));
 };
 
 // delete single piece
-exports.deletePiece = function (req, res){
+exports.deletePiece = function (req, res) {
   User.findOne({ _id: req.params.userId })
     .then((user) => {
       Piece.findOne({ uploaderId: req.params.userId })
@@ -213,5 +219,5 @@ exports.deletePiece = function (req, res){
           return res.json('Piece was deleted.');
         });
     })
-    .catch(() => res.status(404).json(["User was not found"]));
+    .catch(() => res.status(404).json(['User was not found']));
 };

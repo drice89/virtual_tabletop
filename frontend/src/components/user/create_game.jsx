@@ -20,7 +20,7 @@ class CreateGame extends React.Component {
     const { createGame, history, errors } = this.props;
     createGame(this.state).then((gameId) => {
       if (gameId) {
-        history.push(`/games/${gameId}/boards`);
+        history.push(`/client/${gameId}`);
       }
     });
   }

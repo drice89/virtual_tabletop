@@ -10,7 +10,8 @@ const GameCard = ({
   },
 }) => (
   <div className={styles.gameContainer}>
-    <Link to={`/games/${_id}/boards`} className={styles.cardContainer}>
+    {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
+    <Link to={`/client/${_id}`} className={styles.cardContainer}>
       <div className={styles.card}>
         <Status online={online} />
         <div className={styles.title}>
