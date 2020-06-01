@@ -1,4 +1,5 @@
 import React from 'react';
+import { FiTrash2, FiX } from 'react-icons/fi';
 import { Link, withRouter } from 'react-router-dom';
 import styles from './board_widget.module.scss';
 
@@ -19,12 +20,13 @@ class BoardWidget extends React.Component {
   }
 
   startDrag(e) {
-    this.setState({ opacity: 0.3 });
+    this.setState({ opacity: 0.001 });
     const { x, y } = this.state;
-    this.setState({ offsetX: e.clientX - x, offsetY: e.clientY - y});
+    this.setState({ offsetX: e.clientX - x, offsetY: e.clientY - y });
   }
 
   endDrag(e) {
+    // console.log('haha')
     this.setState({ opacity: 1 });
     const { offsetX, offsetY } = this.state;
     this.setState({ x: e.clientX - offsetX, y: e.clientY - offsetY });
@@ -32,6 +34,7 @@ class BoardWidget extends React.Component {
 
   dragOver(e) {
     e.preventDefault();
+    console.log('haha')
   }
 
   render() {
@@ -40,20 +43,24 @@ class BoardWidget extends React.Component {
     return (
       <div className={styles.container} onDragOver={this.dragOver} onDrop={this.endDrag}>
         <div className={styles.boardMenu} draggable onDragStart={this.startDrag} style={{ top: y, left: x, opacity }}>
-          <div className={styles.menuTitle}>
-            <i className="ra ra-chessboard" />
-            <h2>Boards</h2>
+          <div className={styles.menuBar}>
+            <div className={styles.menuTitle}>
+              <i className="ra ra-chessboard" />
+              <h2>Boards</h2>
+            </div>
+            <button type="button">
+              <FiX />
+            </button>
           </div>
           <div className={styles.boardList}>
-            <Link to={`/client/${gameId}`}>
-              <button type="button" className={match.params.boardId === undefined ? styles.active : ''}>
-                Create A New Board
-              </button>
+            <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? styles.active : ''}>
+              Create A New Board
             </Link>
             {boards.map((board) => (
-              <Link to={`/client/${gameId}/boards/${board._id}`}>
-                <button type="button" className={match.params.boardId === board._id ? styles.active : ''}>
-                  {board.name}
+              <Link key={board._id} to={`/client/${gameId}/boards/${board._id}`} className={match.params.boardId === board._id ? styles.active : ''}>
+                {board.name}
+                <button type="button" className={styles.delete}>
+                  <FiTrash2 />
                 </button>
               </Link>
             ))}
