@@ -1,6 +1,6 @@
 import React from 'react';
 import Nav from './ui/nav';
-import Grid from './grid'
+import Grid from './grid';
 
 import styles from './game.module.scss';
 
@@ -19,7 +19,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className={styles.main}>
-        <Nav />
+        <Nav currentUserId={this.props.userId} />
         <Grid {...this.props}/>
       </div>
     );
