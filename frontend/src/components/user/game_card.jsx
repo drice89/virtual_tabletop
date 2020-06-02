@@ -10,6 +10,7 @@ const GameCard = ({
     _id, name, description, backgroundImage, online = 0,
   },
   handleDelete,
+  setEditForm,
 }) => (
     <div className={styles.gameContainer}>
       {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
@@ -26,7 +27,7 @@ const GameCard = ({
       <div className={styles.dropdown}>
         <button  type="button" className={styles.dropdownbtn}>< FiChevronDown/></button>
         <div id="dropdown-content" className={styles.dropdowncontent}>
-          <button type="button" style={{ backgroundColor: "Blue" }}>Edit</button>
+          <button type="button" style={{ backgroundColor: "Blue" }} onClick={() => setEditForm(_id)}>Edit</button>
           <button style={{ backgroundColor: "Red" }} type="button" onClick={handleDelete(_id)}>Delete</button>
         </div>
       </div>

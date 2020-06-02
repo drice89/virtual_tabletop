@@ -6,17 +6,22 @@ import styles from './user_show.module.scss';
 import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
+import EditGameContainer from './edit_game_container';
 import Piece from "./piece"
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { createForm: false };
+    this.state = { 
+      createForm: false,
+      editGameId: null,
+    };
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.setEditForm = this.setEditForm.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +43,10 @@ class UserShow extends React.Component {
     this.setState({ createForm: !createForm });
   }
 
+  setEditForm(editGameId) {
+    this.setState({ editGameId });
+  }
+
   handleDelete(gameId) {
     const { deleteGame } = this.props;
     return (e) => { deleteGame(gameId); };
@@ -51,7 +60,7 @@ class UserShow extends React.Component {
   }
 
   render() {
-    const { createForm } = this.state;
+    const { createForm, editGameId } = this.state;
     const { user, createdGames, subscribedGames } = this.props;
     const hrsOld = Math.floor((Date.now() - new Date(user.createdAt)) / 3600000);
     if (!user) return null;
@@ -99,7 +108,7 @@ class UserShow extends React.Component {
                 </div>
                 <section className={styles.main}>
                   {createdGames.map((game) => (
-                    <GameCard game={game} handleDelete={this.handleDelete} />
+                    <GameCard game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
                   ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>
@@ -127,14 +136,6 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
-{/*                   
-                <section className={styles.main}> 
-                    {this.props.pieces.map((piece) => (
-                      <Piece />
-                    ))}
-                </section> */}
-
-
               </div>
             </div>
           </div>
@@ -146,7 +147,7 @@ class UserShow extends React.Component {
             </div>
           </div>
         ) : ''}
-
+        <EditGameContainer active={editGameId} toggleModal={this.setEditForm} gameId={editGameId} />
       </>
     );
   }
