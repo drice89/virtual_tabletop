@@ -8,21 +8,20 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 
-const DeleteTokenWindow = ({ tokens, socket}) => {
+const DeleteTokenWindow = ({ tokens, socket }) => {
 
   const [localTokens, deleteTokens] = useState({});
 
   const handleClick = () => {
     Object.keys(localTokens).forEach((tokenId) => {
-      const token = localTokens[tokenId]
-      socket.emit("deleteToken", token)
+      const token = localTokens[tokenId];
+      socket.emit("deleteToken", token);
     }); 
   };
 
 
   const handleChange = (token) => {
     return (e) => {
-      
       let nextTokens = { ...localTokens };
       if (e.currentTarget.checked) {
         nextTokens[token._id] = token;

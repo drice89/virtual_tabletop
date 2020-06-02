@@ -9,7 +9,7 @@ const users = require('./routes/api/users');
 const games = require('./routes/api/games');
 const boards = require('./routes/api/boards');
 const pieces = require('./routes/api/pieces');
-const boardController = require('./controllers/boards_controller')
+const boardController = require('./controllers/boards_controller');
 const path = require('path');
 
 
@@ -86,7 +86,6 @@ nsp.on('connection', function(socket){
 
   // expected input format { boardId: "string", tokenId: "string"}
   socket.on("deleteToken", (token) => {
-    console.log(token)
     boardController.deleteToken(token)
   })
 });

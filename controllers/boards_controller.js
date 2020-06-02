@@ -105,7 +105,7 @@ exports.createToken = function (req, res) {
       board.tokens.push(token);
       // why are we saving here and not updating above
       const updatedBoard = board.save()
-        .then((board) => app.transmitData(`${updatedBoard.gameId}`, 'tokenUpdated', board.tokens[board.tokens.length - 1]));
+        .then((resBoard) => app.transmitData(`${resBoard.gameId}`, 'tokenUpdated', resBoard.tokens[resBoard.tokens.length - 1]));
       return res.status(200).json(['Token created']);
     }
     throw err;
