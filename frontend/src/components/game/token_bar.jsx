@@ -92,7 +92,7 @@ export default class TokenBar extends React.Component {
             <FiChevronRight className={styles.rightArrow} />
           </div>
         </div>
-        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket}/> }
+        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket} tokens={this.props.tokens}/> }
       </>
     );
   }

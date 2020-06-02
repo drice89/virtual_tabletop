@@ -97,18 +97,17 @@ exports.updateBoard = function (board) {
 };
 
 // create token
-exports.createToken = function (req, res) {
-  const token = req.body;
+exports.createToken = function (token) {
   Board.findById(token.boardId, (err, board) => {
     if (board) {
       // const newToken = new Board.TokenSchema({... token})
       board.tokens.push(token);
       // why are we saving here and not updating above
       const updatedBoard = board.save()
-        .then((resBoard) => app.transmitData(`${resBoard.gameId}`, 'tokenUpdated', resBoard.tokens[resBoard.tokens.length - 1]));
-      return res.status(200).json(['Token created']);
+        .then(() => app.transmitData(`${board.gameId}`, 'tokenUpdated', board.tokens[board.tokens.length - 1]));
+    }else{
+      throw err;
     }
-    throw err;
   });
 };
 
@@ -142,11 +141,11 @@ exports.createToken = function (req, res) {
 //     })
 // }
 
-exports.editToken = function (token) {
+exports.updateToken = function (token) {
   // find the board and update the token
   Board.findOne({ _id: token.boardId }, (err, res) => {
     if (res) {
-      const editedToken = res.tokens.id(token.tokenId);
+      const editedToken = res.tokens.id(token._id);
 
       editedToken.pos.x = token.pos.x;
       editedToken.pos.y = token.pos.y;
@@ -155,7 +154,7 @@ exports.editToken = function (token) {
       editedToken.boardId = token.boardId;
       editedToken.pieceId = token.pieceId;
 
-      res.save().then((res) => app.transmitData(`${res.gameId}`, 'tokenUpdated', res.tokens.id(token.tokenId)));
+      res.save().then((res) => app.transmitData(`${res.gameId}`, 'tokenUpdated', res.tokens.id(token._id)));
     } else {
       throw err;
     }

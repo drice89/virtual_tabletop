@@ -132,7 +132,14 @@ class Grid extends React.Component {
 
           let gridArray = this.state.gridArray
           gridArray[pos[1]][pos[0]] = this.draggingPiece;
-          this.props.createToken(this.draggingPiece)
+
+
+
+          // this.props.createToken(this.draggingPiece)
+          this.props.socket.emit('createToken', this.draggingPiece)
+
+
+
           this.setState({ gridArray }, ()=>{
             this.draggingPiece = null;
             this.draw();
@@ -203,8 +210,13 @@ class Grid extends React.Component {
           mousePressed = false;
 
           let gridArray = this.state.gridArray;
+          dragToken.pos.x = pos[0];
+          dragToken.pos.y = pos[1];
           gridArray[pos[1]][pos[0]] = dragToken;
+          
+
           this.setState({gridArray}, () => {
+            this.props.socket.emit('updateToken', dragToken)
             dragToken = null;
             draggingImage.src = null;
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -443,6 +455,8 @@ class Grid extends React.Component {
 
   componentDidUpdate(prevProps) {
 
+   this.handleBuildGrid();
+
     if (!prevProps.create && this.props.create) {
       const state = {
         row: null,
@@ -646,7 +660,7 @@ setDraggingPiece(token){
         </div>
 
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket}/> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens}/> : null}
 
 
       </div>

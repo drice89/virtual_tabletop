@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from './token_bar.module.scss';
 
 const mapStateToProps = (state, ownProps) => ({
-  tokens: Object.values(state.entities.tokens),
+  tokens: ownProps.tokens,
   socket: ownProps.socket,
 });
 

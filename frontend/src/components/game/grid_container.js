@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
   createPiece: (payload) => dispatch(createPiece(payload)),
   deletePiece: (payload) => dispatch(deletePiece(payload)),
 
-  createToken: (token) => dispatch(createToken(token)),
+  // createToken: (token) => dispatch(createToken(token)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Grid));
