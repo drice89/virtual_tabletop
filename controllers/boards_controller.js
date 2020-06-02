@@ -154,7 +154,6 @@ exports.editToken = function (token) {
       editedToken.player = token.player;
       editedToken.boardId = token.boardId;
       editedToken.pieceId = token.pieceId;
-      //   debugger;
 
       res.save().then((res) => app.transmitData(`${res.gameId}`, 'tokenUpdated', res.tokens.id(token.tokenId)));
     } else {

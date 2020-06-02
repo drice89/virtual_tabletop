@@ -516,15 +516,15 @@ draw() {
 }
 
 drawGrid(row, col) {
-  
+
+  // Take canvas and set line width 1pc
   let canvas = document.getElementById('canvas')
   let context = canvas.getContext('2d');
   context.lineWidth = 1;
-
-  
-
+  // Width of the box is calculated using this formula
   let width = (canvas.width / this.dpr / this.state.col);
   let height = (canvas.height / this.dpr / this.state.row);
+  // 
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
 
@@ -549,11 +549,10 @@ drawGrid(row, col) {
 
 
 getBoxLocation(x, y) {
-
+  // Gets location of the mouse click on the canvas
   let canvas = document.getElementById('canvas')
   let boxWidth = (canvas.width / this.dpr / this.state.col);
   let boxHeight = (canvas.height / this.dpr / this.state.row);
-
   let colPicked = Math.floor(1 + (x / boxWidth));
   let rowPicked = Math.floor(1 + (y / boxHeight));
   return [colPicked - 1, rowPicked - 1];
@@ -562,7 +561,7 @@ getBoxLocation(x, y) {
 
 
 setupCanvas() {
-
+  // Scale canvas properly
   let canvas = document.getElementById('canvas')
   // Get the device pixel ratio, falling back to 1.
   // Get the size of the canvas in CSS pixels.
@@ -655,11 +654,6 @@ setDraggingPiece(token){
 
 
         <div className={styles.container} id="grid-container">
-
-          {/* <div id="grid" className={styles.grid}>
-            
-          </div> */}
-
           <canvas id='canvas'>
           </canvas>
 
