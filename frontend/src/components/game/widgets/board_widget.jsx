@@ -29,7 +29,22 @@ class BoardWidget extends React.Component {
   endDrag(e) {
     this.setState({ opacity: 1, dragging: false });
     const { offsetX, offsetY } = this.state;
-    this.setState({ x: e.clientX - offsetX, y: e.clientY - offsetY });
+    let endX = e.clientX - offsetX;
+    if (endX < 0) {
+      endX = 0;
+    } else if (endX > window.innerWidth - 240) {
+      endX = window.innerWidth - 240;
+    }
+
+    let endY = e.clientY - offsetY;
+    if (endY < 0) {
+      endY = 0;
+    } else if (endY > window.innerHeight - e.currentTarget.clientHeight) {
+      endY = window.innerHeight - e.currentTarget.clientHeight;
+    }
+
+    // console.log(endX);
+    this.setState({ x: endX, y: endY });
   }
 
   dragOver(e) {

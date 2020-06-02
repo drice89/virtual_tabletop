@@ -56,6 +56,13 @@ a.active:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.menuBar:hover:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .menuTitle {
