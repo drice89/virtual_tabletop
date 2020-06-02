@@ -121,11 +121,11 @@ class Grid extends React.Component {
 
 
     // setting up the socket
-    const roomId = this.props.match.params.gameId;
-    socket = io(this.ENPOINT);
-    socket.on('connect', () => {
-      socket.emit('joinRoom', { roomId });
-    });
+    // const roomId = this.props.match.params.gameId;
+    // socket = io(this.ENPOINT);
+    // socket.on('connect', () => {
+    //   socket.emit('joinRoom', { roomId });
+    // });
   }
 
   componentWillUnmount() {
@@ -509,8 +509,7 @@ class Grid extends React.Component {
           <img id="empty" src={empty} className={styles.empty} />
         </div>
 
-
-        {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} /> : null}
+          {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} /> : null}
 
 
       </div>

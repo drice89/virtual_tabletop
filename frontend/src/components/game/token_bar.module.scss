@@ -108,17 +108,21 @@
     color: white;
 }
 
-#deleteToken {
-}
-
-.deleteTokenDisplay {
-    display: none;
-}
-
-#deleteToken:hover .deleteTokenDisplay {
-    display: block;
-    position: absolute;
+.deleteTokenContainer {
+    position: fixed;
     width: 150px;
     height: 200px;
+    background-color: $dark-grey;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    border-radius: 3%;
+}
+
+.deleteTokenWrapper {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    justify-content: center;
 }
 

@@ -34,6 +34,8 @@ class Client extends React.Component {
       receiveBoard(board);
       history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
+
+    
   }
 
   // handlePieceDrop(move) {
@@ -55,9 +57,9 @@ class Client extends React.Component {
         <Nav />
         <BoardWidget boards={boards} gameId={game._id} />
         {match.params.boardId ? (
-          <GridContainer />
+            <GridContainer socket={socket}/>
         ) : (
-          <GridContainer create />
+            <GridContainer create socket={socket} />
         )}
       </div>
     );

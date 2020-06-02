@@ -169,7 +169,7 @@ exports.deleteToken = function (token) {
   // find the board by id and delete it
   Board.findOne({ _id: token.boardId }, (err, board) => {
     if (board) {
-      board.tokens.id(board.tokenId).remove();
+      board.tokens.id(token._id).remove();
       board.save();
       app.transmitData(`${board.gameId}`, 'tokenDeleted', token);
     } else {
