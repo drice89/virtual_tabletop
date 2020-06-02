@@ -30,17 +30,17 @@
     background-color: rgb(66, 66, 66);
 }
 
-.backgroundImage {
-    /* position: absolute; */
-    /* overflow: hidden; */
-    /* object-fit: contain; */
-    /* height: 100%;
-    width: 100%; */
-}
+// .backgroundImage {
+//     /* position: absolute; */
+//     /* overflow: hidden; */
+//     /* object-fit: contain; */
+//     /* height: 100%;
+//     width: 100%; */
+// }
 
-.imageContainer {
-  /* object-fit: contain; */
-}
+// .imageContainer {
+//   /* object-fit: contain; */
+// }
 
 .empty {
     height: 1px;
@@ -132,7 +132,6 @@ canvas{
     // width: 200px;
     // height: 200px;
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     border: 1px solid white;
-
 }

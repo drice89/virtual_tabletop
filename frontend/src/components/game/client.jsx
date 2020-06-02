@@ -1,11 +1,10 @@
 import React from 'react';
-import FormData from 'form-data';
 import io from 'socket.io-client';
-import { Link } from 'react-router-dom';
 import Nav from './ui/nav';
 import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
+
 
 let socket;
 
@@ -34,10 +33,16 @@ class Client extends React.Component {
       receiveBoard(board);
       history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
-  }
 
-  handlePieceDrop(move) {
-    socket.emit('move', move);
+    socket.on('tokenUpdated', (token) => {
+      const { receiveToken } = this.props;
+      receiveToken(token);
+    });
+
+    socket.on('tokenDeleted', (token) => {
+      const { deleteToken } = this.props;
+      deleteToken(token._id);
+    });
   }
 
   changeBoard(currentBoard) {
@@ -45,20 +50,19 @@ class Client extends React.Component {
   }
 
   render() {
-    const { currentBoard } = this.state;
     const {
       game, boards, match,
     } = this.props;
     if (!game) return null;
     return (
       <div className={styles.main}>
+        <BoardWidget boards={boards} gameId={game._id} />
         <Nav />
         {match.params.boardId ? (
-          <GridContainer />
+          <GridContainer socket={socket} />
         ) : (
-          <GridContainer create />
+          <GridContainer create socket={socket} />
         )}
-        {/* <BoardWidget boards={boards} gameId={game._id} /> */}
       </div>
     );
   }

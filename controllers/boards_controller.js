@@ -105,7 +105,7 @@ exports.createToken = function (req, res) {
       board.tokens.push(token);
       // why are we saving here and not updating above
       const updatedBoard = board.save()
-        .then((board) => app.transmitData(`${updatedBoard.gameId}`, 'tokenUpdated', board.tokens[board.tokens.length - 1]));
+        .then((resBoard) => app.transmitData(`${resBoard.gameId}`, 'tokenUpdated', resBoard.tokens[resBoard.tokens.length - 1]));
       return res.status(200).json(['Token created']);
     }
     throw err;
@@ -167,7 +167,7 @@ exports.deleteToken = function (token) {
   // find the board by id and delete it
   Board.findOne({ _id: token.boardId }, (err, board) => {
     if (board) {
-      board.tokens.id(board.tokenId).remove();
+      board.tokens.id(token._id).remove();
       board.save();
       app.transmitData(`${board.gameId}`, 'tokenDeleted', token);
     } else {

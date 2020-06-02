@@ -1,16 +1,16 @@
 import React from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import styles from './token_bar.module.scss';
-import token2 from '../../images/token2.png';
 import Token from './token';
+import DeleteTokenWindow from "./delete_token_window"
 
 
 export default class TokenBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      deleteToken: false,
     };
-
 
     this.scrollLeft = this.scrollLeft.bind(this);
     this.scrollRight = this.scrollRight.bind(this);
@@ -25,6 +25,10 @@ export default class TokenBar extends React.Component {
     this.bar = document.getElementById('token-bar');
   }
 
+  toggleDeleteToken() {
+    this.setState({ deleteToken: !this.state.deleteToken });
+  }
+
   scrollLeft() {
     this.interval = setInterval(() => {
       this.bar.scrollLeft -= 3;
@@ -36,6 +40,8 @@ export default class TokenBar extends React.Component {
       this.bar.scrollLeft += 3;
     }, 20);
   }
+
+
 
 
   renderPieces() {
@@ -57,77 +63,37 @@ export default class TokenBar extends React.Component {
 
   render() {
     return (
-      <div className={styles.barContainer} id="bar-container">
+      <>
+        <div className={styles.barContainer} id="bar-container">
+          <div className={styles.arrows} onMouseEnter={this.scrollLeft} onMouseLeave={() => clearInterval(this.interval)}>
+            <FiChevronLeft className={styles.leftArrow} />
+          </div>
 
+          <div className={styles.tokenBar} id="token-bar">
+            <div className={styles.tokenBarContainer}>
+              {this.renderPieces()}
+            </div>
 
-        <div className={styles.arrows} onMouseEnter={this.scrollLeft} onMouseLeave={() => clearInterval(this.interval)}>
-          <FiChevronLeft className={styles.leftArrow} />
-        </div>
+            <div className={styles.tokenActionContainer}>
+              <div className={styles.tokenAction} onClick={this.createPiece}>
+                <i className="ra ra-health-increase" title="Add Piece"/>
+              </div>
+            </div>
 
-
-        <div className={styles.tokenBar} id="token-bar">
-          <div className={styles.tokenBarContainer}>
-
-
-            {this.renderPieces()}
-
-            {/* <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
+            <div className={styles.tokenActionContainer}>
+              <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
+                <i className="ra ra-guillotine" title="Delete Token" onClick={() => this.toggleDeleteToken() } />
+              </div>
             </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div>
-            <div className={styles.tokenBarItem} id="bar-1" >
-              <Token handlePieceDrop={this.props.handlePieceDrop} />
-            </div> */}
 
           </div>
 
-
-          <div className={styles.addTokenContainer}>
-            <div className={styles.addToken} onClick={this.createPiece}>
-              <i className="ra ra-health-increase" />
-            </div>
+          <div className={styles.arrows} onMouseEnter={this.scrollRight} onMouseLeave={() => clearInterval(this.interval)}>
+            <FiChevronRight className={styles.rightArrow} />
           </div>
-
-
         </div>
-
-
-        <div className={styles.arrows} onMouseEnter={this.scrollRight} onMouseLeave={() => clearInterval(this.interval)}>
-          <FiChevronRight className={styles.rightArrow} />
-        </div>
-      </div>
+        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket}/> }
+      </>
     );
   }
 }

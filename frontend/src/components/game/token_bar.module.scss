@@ -13,8 +13,7 @@
 }
 
 
-.tokenBar{
-    
+.tokenBar{ 
     max-width: 500px;
     /* height: 100px; */
     background-color: $primary;
@@ -72,14 +71,14 @@
 
 }
 
-.addTokenContainer{
+.tokenActionContainer{
     margin: 0;
     display: inline-block;
     border-left: 2px solid rgba(156, 156, 156, 0.452);
     
 }
 
-.addToken{
+.tokenAction{
     width: 50px;
     height: 50px;
     border-radius: 50px;
@@ -93,7 +92,7 @@
     margin: 10px;
 }
 
-.addToken:hover{
+.tokenAction:hover{
     box-shadow: 0 0px 8px white;
     border: 2px solid rgb(255, 255, 255);
 }
@@ -108,3 +107,22 @@
 .leftArrow:hover{
     color: white;
 }
+
+.deleteTokenContainer {
+    position: fixed;
+    width: 150px;
+    height: 200px;
+    background-color: $dark-grey;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    border-radius: 3%;
+}
+
+.deleteTokenWrapper {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    justify-content: center;
+}
+

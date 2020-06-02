@@ -13,6 +13,7 @@ import './structure.scss';
 import Main from './user/main';
 import AboutUs from './splash/about_us';
 
+
 function App() {
   return (
     <div className="App">

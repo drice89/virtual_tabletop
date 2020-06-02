@@ -56,6 +56,13 @@ a.active:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.menuBar:hover:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .menuTitle {
@@ -75,6 +82,10 @@ a.active:hover {
   right: 0;
   position: absolute;
   // z-index: 10;
+}
+
+.coverContainer {
+  z-index: 10;
 }
 
 .delete {

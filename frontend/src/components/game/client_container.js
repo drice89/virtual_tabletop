@@ -3,7 +3,7 @@ import Client from './client';
 import { fetchGame } from '../../actions/games_actions';
 import { receiveBoard, createBoard } from '../../actions/board_actions';
 import { fetchPieces, createPiece, deletePiece } from '../../actions/users_actions';
-import { createToken } from '../../actions/token_actions';
+import { createToken, receiveToken, deleteToken } from '../../actions/token_actions';
 
 const mapStateToProps = (state, ownProps) => {
   const game = state.entities.games[ownProps.match.params.gameId];
@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   deletePiece: (payload) => dispatch(deletePiece(payload)),
 
   createToken: (token) => dispatch(createToken(token)),
+  receiveToken: (token) => dispatch(receiveToken(token)),
+  deleteToken: (tokenId) => dispatch(deleteToken(tokenId)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Client);
