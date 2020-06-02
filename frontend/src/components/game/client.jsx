@@ -4,6 +4,7 @@ import Nav from './ui/nav';
 import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
+import ConfirmModal from './widgets/confirm_modal';
 
 
 let socket;
@@ -12,9 +13,11 @@ class Client extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBoard: null,
+      modalDelete: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
+    // this.toggleModal = this.toggleModal.bind(this);
+    this.setBoardToDelete = this.setBoardToDelete.bind(this);
   }
 
   componentDidMount() {
@@ -45,25 +48,29 @@ class Client extends React.Component {
     });
   }
 
-  changeBoard(currentBoard) {
-    this.setState({ currentBoard });
+  setBoardToDelete(modalDelete) {
+    this.setState({ modalDelete });
   }
 
   render() {
     const {
       game, boards, match,
     } = this.props;
+    const { modalDelete, boardToDelete } = this.state;
     if (!game) return null;
     return (
-      <div className={styles.main}>
-        <BoardWidget boards={boards} gameId={game._id} />
-        <Nav />
-        {match.params.boardId ? (
-          <GridContainer socket={socket} />
-        ) : (
-          <GridContainer create socket={socket} />
-        )}
-      </div>
+      <>
+        <div className={styles.main}>
+          <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
+          <Nav />
+          {match.params.boardId ? (
+            <GridContainer socket={socket} />
+          ) : (
+            <GridContainer create socket={socket} />
+          )}
+        </div>
+        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} boardId={modalDelete} />
+      </>
     );
   }
 }
