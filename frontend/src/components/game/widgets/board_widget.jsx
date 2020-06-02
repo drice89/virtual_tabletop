@@ -8,6 +8,7 @@ class BoardWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dragging: false,
       opacity: 1,
       x: 10,
       y: 42,
@@ -15,34 +16,34 @@ class BoardWidget extends React.Component {
       offsetY: 0,
     };
     this.startDrag = this.startDrag.bind(this);
-    this.endDrag = this.endDrag.bind(this);
     this.dragOver = this.dragOver.bind(this);
+    this.endDrag = this.endDrag.bind(this);
   }
 
   startDrag(e) {
-    this.setState({ opacity: 0.001 });
+    this.setState({ opacity: 0.5, dragging: true });
     const { x, y } = this.state;
     this.setState({ offsetX: e.clientX - x, offsetY: e.clientY - y });
   }
 
   endDrag(e) {
-    // console.log('haha')
-    this.setState({ opacity: 1 });
+    this.setState({ opacity: 1, dragging: false });
     const { offsetX, offsetY } = this.state;
     this.setState({ x: e.clientX - offsetX, y: e.clientY - offsetY });
   }
 
   dragOver(e) {
     e.preventDefault();
-    console.log('haha')
   }
 
   render() {
     const { boards, gameId, match } = this.props;
-    const { opacity, x, y } = this.state;
+    const {
+      dragging, opacity, x, y,
+    } = this.state;
     return (
-      <div className={styles.container} onDragOver={this.dragOver} onDrop={this.endDrag}>
-        <div className={styles.boardMenu} draggable onDragStart={this.startDrag} style={{ top: y, left: x, opacity }}>
+      <div className={dragging ? `${styles.coverContainer} ${styles.container}` : styles.container} onDragOver={this.dragOver}>
+        <div className={styles.boardMenu} draggable onDragStart={this.startDrag} onDragEnd={this.endDrag} style={{ top: y, left: x, opacity }} bounds="parent">
           <div className={styles.menuBar}>
             <div className={styles.menuTitle}>
               <i className="ra ra-chessboard" />

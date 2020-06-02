@@ -52,13 +52,13 @@ class Client extends React.Component {
     if (!game) return null;
     return (
       <div className={styles.main}>
+        <BoardWidget boards={boards} gameId={game._id} />
         <Nav />
         {match.params.boardId ? (
           <GridContainer />
         ) : (
           <GridContainer create />
         )}
-        <BoardWidget boards={boards} gameId={game._id} />
       </div>
     );
   }
