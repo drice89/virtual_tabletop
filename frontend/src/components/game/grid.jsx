@@ -131,9 +131,12 @@ class Grid extends React.Component {
 
           let gridArray = this.state.gridArray
           gridArray[pos[1]][pos[0]] = this.draggingPiece;
-          this.setState({ gridArray })
-          this.draggingPiece = null;
-          this.draw();
+          this.props.createToken(this.draggingPiece)
+          this.setState({ gridArray }, ()=>{
+            this.draggingPiece = null;
+            this.draw();
+          });
+          
         }
       })
 
@@ -147,15 +150,16 @@ class Grid extends React.Component {
 
       canvas.addEventListener('mousedown', (e) => {
         let pos = this.getBoxLocation(e.layerX, e.layerY);
-        let gridArray = this.state.gridArray;
+        let gridArray = Object.assign({}, this.state.gridArray)
+        console.log(this.state.gridArray)
         if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
 
           
-
+         
           dragToken = this.state.gridArray[pos[1]][pos[0]];
-          draggingImage.src = dragToken.imageUrl;
-
+          
           if (dragToken) {
+            draggingImage.src = dragToken.imageUrl;
             mousePressed = true;;
             gridArray[pos[1]][pos[0]] = null;
             this.setState({ gridArray })
@@ -163,11 +167,13 @@ class Grid extends React.Component {
         } else {
           mousePressed = false;;
           gridArray[pos[1]][pos[0]] = dragToken;
-          this.setState({ gridArray })
-          dragToken = null;
-          draggingImage.src = null;
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          this.draw();
+          this.setState({ gridArray }, () => {
+            dragToken = null;
+            draggingImage.src = null;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            this.draw();
+          })
+         
         }
 
       })
@@ -197,12 +203,14 @@ class Grid extends React.Component {
 
           let gridArray = this.state.gridArray;
           gridArray[pos[1]][pos[0]] = dragToken;
-          this.setState({gridArray})
+          this.setState({gridArray}, () => {
+            dragToken = null;
+            draggingImage.src = null;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            this.draw();
+          })
 
-          dragToken = null;
-          draggingImage.src = null;
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          this.draw();
+          
         }
       })
 
@@ -246,23 +254,29 @@ class Grid extends React.Component {
   handleBuildGrid() {
     const img = document.getElementById('board-background');
     img.onload = () => {
-      let gridArray = new Array(this.state.row).fill(null).map(() => new Array(this.state.col).fill(null));
-      console.log(this.state)
-      this.setState({gridArray}, this.draw());
+      let image = document.getElementById('board-background')
+      let canvas = document.getElementById('canvas')
+      canvas.style.width = `${image.offsetWidth}px`;
+      canvas.style.height = `${image.offsetHeight}px`;
+
+      this.setupCanvas();
+      let intRow = parseInt(this.state.row);
+      let intCol = parseInt(this.state.col);
+      let gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
+
+      this.props.tokens.forEach(token => {
+        let x = token.pos.x;
+        let y = token.pos.y;
+        gridArray[y][x] = token;
+      })
+        
+      
+
+      this.setState({ gridArray, row: intRow, col: intCol }, this.draw);
     };
 
-    let image = document.getElementById('board-background')
-    let canvas = document.getElementById('canvas')
-    canvas.style.width = `${image.offsetWidth}px`;
-    canvas.style.height = `${image.offsetHeight}px`;
     
-    this.setupCanvas();
-    let intRow = parseInt(this.state.row);
-    let intCol = parseInt(this.state.col);
-    let gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
-    
-    this.setState({ gridArray, row: intRow, col: intCol }, this.draw);
-    // img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
+    img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
   }
 
 
@@ -416,7 +430,6 @@ class Grid extends React.Component {
     //   }
     // }
     if(this.state.boardBackground) {
-      console.log(this.state.boardBackground);
       return this.state.boardBackground;
     } else {
       if(this.state.previewUrl){
@@ -499,7 +512,6 @@ class Grid extends React.Component {
 
 
 draw() {
- console.log()
   this.drawGrid(this.state.row, this.state.col);
 }
 
