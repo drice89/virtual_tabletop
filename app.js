@@ -98,5 +98,4 @@ exports.transmitData = function (room, actionName, action) {
   //return nsp.to(room).emit(actionName, action)
  };
 
-
 server.listen(port, () => console.log(`Listening on port ${port}`));

@@ -54,8 +54,8 @@ class Client extends React.Component {
     if (!game) return null;
     return (
       <div className={styles.main}>
-        <Nav />
         <BoardWidget boards={boards} gameId={game._id} />
+        <Nav />
         {match.params.boardId ? (
             <GridContainer socket={socket}/>
         ) : (
