@@ -111,3 +111,10 @@ exports.createGame = function (req, res) {
     }
   });
 };
+
+exports.deleteGame = function (req, res) {
+  const { id } = req.params;
+  Game.findByIdAndDelete(id)
+    .then((game) => res.json(game))
+    .catch(err => console.log(err));
+};

@@ -16,6 +16,7 @@ class UserShow extends React.Component {
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,11 @@ class UserShow extends React.Component {
   toggleCreate() {
     const { createForm } = this.state;
     this.setState({ createForm: !createForm });
+  }
+
+  handleDelete(gameId) {
+    const { deleteGame } = this.props;
+    return (e) => { deleteGame(gameId); };
   }
 
   handleClickOutside(event) {
@@ -93,7 +99,7 @@ class UserShow extends React.Component {
                 </div>
                 <section className={styles.main}>
                   {createdGames.map((game) => (
-                    <GameCard game={game} />
+                    <GameCard game={game} handleDelete={this.handleDelete} />
                   ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>

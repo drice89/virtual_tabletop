@@ -2,12 +2,18 @@ import * as gameAPIUtil from '../util/games_api_util';
 
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
+export const DELETE_GAME = 'DELETE_GAME';
 export const RECEIVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export const receiveGames = (payload) => ({
   type: RECEIVE_GAMES,
   payload,
+});
+
+export const removeGame = (game) => ({
+  type: DELETE_GAME,
+  game,
 });
 
 export const receiveGame = (payload) => ({
@@ -26,7 +32,6 @@ export const fetchGame = (gameId) => (dispatch) => (
     .catch((err) => { dispatch(receiveGameErrors(err.response.data)); })
 );
 
-
 export const fetchUserGames = (userId) => (dispatch) => (
   gameAPIUtil.fetchUserGames(userId)
     .then((games) => dispatch(receiveGames(games.data)))
@@ -40,6 +45,12 @@ export const createGame = (game) => (dispatch) => (
       return resGame.data.game._id;
     })
     .catch((err) => { dispatch(receiveGameErrors(err.response.data)); })
+);
+
+export const deleteGame = (gameId) => (dispatch) => (
+  gameAPIUtil.deleteGame(gameId)
+    .then((res) => dispatch(removeGame(res.data)))
+    .catch((err) => dispatch(receiveGameErrors(err)))
 );
 
 export const joinGame = (gameIdAndUserId) => (dispatch) => (
