@@ -43,6 +43,7 @@ class Grid extends React.Component {
     this.createBoard = this.createBoard.bind(this);
     this.handleImage = this.handleImage.bind(this);
 
+    this.setDraggingPiece = this.setDraggingPiece.bind(this)
 
     this.state = {
       row: null,
@@ -51,7 +52,7 @@ class Grid extends React.Component {
       zoomFactorImage: null,
       offSetX: null,
       offSetY: null,
-      grid: null,
+      gridArray: null,
       opacity: null,
       borderColor: null,
       gridLocked: true,
@@ -64,10 +65,13 @@ class Grid extends React.Component {
     this.zoomGrid = { zoom: 1 };
     this.zoomBackground = { zoom: 1 };
     this.zoomContainer = { zoom: 1 };
+
+
+    this.dpr = 2;
+    this.draggingPiece = null;
   }
 
   handlePieceDrop(token) {
-    console.log(token);
     this.props.createToken(token);
     // socket.emit('updateToken', token);
   }
@@ -82,6 +86,7 @@ class Grid extends React.Component {
   }
 
   componentDidMount() {
+    
     if (!this.props.create) {
       // this.props.fetchBoard(this.props.match.params.boardId)
       // .then(()=>{
@@ -101,19 +106,119 @@ class Grid extends React.Component {
         borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
       };
-      this.grid = document.getElementById('grid');
-      this.grid.style.zoom = this.props.board.gridSize.gridZoomFactor;
-      this.zoomGrid = { zoom: this.props.board.gridSize.gridZoomFactor };
 
-
-      this.setState(state, this.handleBuildGrid());
+      this.setState(state, this.handleBuildGrid);
 
       this.bar = document.getElementById('bar-container');
       document.addEventListener('mousemove', this.showHideTokenBar);
       document.addEventListener('dragover', this.showHideTokenBar);
       this.bar.style.display = 'none';
-      // this.handleBuildGri .d();
-      // })
+
+
+
+      document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      })
+
+
+      let canvas = document.getElementById('canvas');
+      canvas.addEventListener("drop",(e)=>{
+        if (this.draggingPiece) {
+          let pos = this.getBoxLocation(e.layerX, e.layerY);
+
+          this.draggingPiece.pos.x = pos[0];
+          this.draggingPiece.pos.y = pos[1];
+
+          let gridArray = this.state.gridArray
+          gridArray[pos[1]][pos[0]] = this.draggingPiece;
+          this.setState({ gridArray })
+          this.draggingPiece = null;
+          this.draw();
+        }
+      })
+
+
+
+      let mousePressed = false;
+      let dragToken = null;
+      let draggingImage = new Image;
+
+      let context = canvas.getContext('2d');
+
+      canvas.addEventListener('mousedown', (e) => {
+        let pos = this.getBoxLocation(e.layerX, e.layerY);
+        let gridArray = this.state.gridArray;
+        if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
+
+          
+
+          dragToken = this.state.gridArray[pos[1]][pos[0]];
+          draggingImage.src = dragToken.imageUrl;
+
+          if (dragToken) {
+            mousePressed = true;;
+            gridArray[pos[1]][pos[0]] = null;
+            this.setState({ gridArray })
+          }
+        } else {
+          mousePressed = false;;
+          gridArray[pos[1]][pos[0]] = dragToken;
+          this.setState({ gridArray })
+          dragToken = null;
+          draggingImage.src = null;
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          this.draw();
+        }
+
+      })
+
+
+
+      canvas.addEventListener('mousemove', (e) => {
+        let changedCanvas = document.getElementById('canvas')
+        let width = (changedCanvas.width / this.dpr / this.state.col);
+        let height = (changedCanvas.height / this.dpr / this.state.row);
+        if (mousePressed) {
+          context.clearRect(0, 0, changedCanvas.width, changedCanvas.height);
+
+          let x = e.layerX;
+          let y = e.layerY;
+
+          context.drawImage(draggingImage, x - width / 2, y - height / 2, width, height)
+          this.draw();
+        }
+      })
+
+
+      canvas.addEventListener('mouseup', (e) => {
+        if (mousePressed) {
+          let pos = this.getBoxLocation(e.layerX, e.layerY);
+          mousePressed = false;
+
+          let gridArray = this.state.gridArray;
+          gridArray[pos[1]][pos[0]] = dragToken;
+          this.setState({gridArray})
+
+          dragToken = null;
+          draggingImage.src = null;
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          this.draw();
+        }
+      })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     } else {
       this.setState({ showInitialEdit: true });
     }
@@ -141,37 +246,23 @@ class Grid extends React.Component {
   handleBuildGrid() {
     const img = document.getElementById('board-background');
     img.onload = () => {
-      this.setState({ grid: null });
-
-      const { row } = this.state;
-      const { col } = this.state;
-
-      const backgroundW = img.offsetWidth;
-      const backgroundH = img.height;
-      // const backgroundW = document.getElementById('grid-container').width;
-      // const backgroundH = document.getElementById('grid-container').height;
-
-      const boxH = backgroundH / row;
-      const boxW = backgroundW / col;
-      const boxStyle = { width: boxW, height: boxH };
-
-      const grid = [];
-
-
-      for (let i = 0; i < row; i++) {
-        const rows = [];
-
-        for (let j = 0; j < col; j++) {
-          rows.push(<div key={`grid-${i}-${j}`} id={`grid-${i}-${j}`} className={`${styles.box} box`} style={boxStyle} />);
-        }
-
-        grid.push(<div key={`grid-${i}`} className={`${styles.row} row`}>{rows}</div>);
-      }
-      this.setState({ grid }, this.renderBoard);
-
-      // clearInterval(upload)
+      let gridArray = new Array(this.state.row).fill(null).map(() => new Array(this.state.col).fill(null));
+      console.log(this.state)
+      this.setState({gridArray}, this.draw());
     };
-    img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
+
+    let image = document.getElementById('board-background')
+    let canvas = document.getElementById('canvas')
+    canvas.style.width = `${image.offsetWidth}px`;
+    canvas.style.height = `${image.offsetHeight}px`;
+    
+    this.setupCanvas();
+    let intRow = parseInt(this.state.row);
+    let intCol = parseInt(this.state.col);
+    let gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
+    
+    this.setState({ gridArray, row: intRow, col: intCol }, this.draw);
+    // img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
   }
 
 
@@ -303,75 +394,14 @@ class Grid extends React.Component {
 
 
   renderBoard() {
-    // const grid = document.getElementsByClassName('box');
-    // for (let i = 0; i < grid.length; i++) {
-    //   grid[i].style.border = `1px solid ${this.state.color}`;
-    //   grid[i].style.opacity = `${this.state.opacity / 100}`;
-    //   grid[i].innerHTML = ''
-    // }
-    const img = document.getElementById('board-background');
 
-    const prevGrid = document.getElementById('grid');
-    // prevGrid.innerHTML = ""
+    let gridArray = Object.assign({}, this.state.gridArray);
 
-
-    const { row } = this.state;
-    const { col } = this.state;
-
-    const backgroundW = img.offsetWidth;
-    const backgroundH = img.height;
-    // const backgroundW = document.getElementById('grid-container').width;
-    // const backgroundH = document.getElementById('grid-container').height;
-
-    const boxH = backgroundH / row;
-    const boxW = backgroundW / col;
-    const boxStyle = { width: boxW, height: boxH };
-
-    const grid = [];
-
-
-    for (let i = 0; i < row; i++) {
-      const rows = [];
-
-      for (let j = 0; j < col; j++) {
-        let found = false;
-
-        for (let t = 0; t < this.props.tokens.length; t++) {
-          if (this.props.tokens[t].pos.x === i && this.props.tokens[t].pos.y === j) {
-            rows.push(<div key={`grid-${i}-${j}`} id={`grid-${i}-${j}`} className={`${styles.box} box`} style={boxStyle}>
-              <img src={this.props.tokens[t].imageUrl} className={styles.token} />
-
-            </div>);
-            found = true;
-            // console.log("FOUND")
-            break;
-          }
-        }
-
-        if (!found) {
-          rows.push(<div key={`grid-${i}-${j}`} id={`grid-${i}-${j}`} className={`${styles.box} box`} style={boxStyle} />);
-        }
-      }
-
-      grid.push(<div key={`grid-${i}`} className={`${styles.row} row`}>{rows}</div>);
+    for(let token in this.props.tokens){
+      gridArray[token.pos.x][token.pos.y] = token;
     }
-    // console.log(grid)
-    this.setState({ grid });
 
-
-    // for (let i = 0; i < this.props.tokens.length; i++) {
-    //   let x = this.props.tokens[i].pos.x;
-    //   let y = this.props.tokens[i].pos.y;
-    //   let box = document.getElementById(`grid-${x}-${y}`)
-    //   let img = document.createElement('img')
-    //   img.src = this.props.tokens[i].imageUrl//
-    //   // box.appendChild(img)
-    //   console.log(box)
-    // }
-    // const gridHTML = document.getElementsByClassName("row");
-    // console.log(this.state.grid, "THISI S GRId")
-    // console.log(JSX.Element {return gridHTML}, "THISI S SECOND")
-    // this.setState({ grid: })
+    this.setState({ gridArray });
   }
 
   renderImage() {
@@ -427,7 +457,7 @@ class Grid extends React.Component {
         zoomFactorImage: null,
         offSetX: null,
         offSetY: null,
-        grid: null,
+        gridArray: null,
         opacity: null,
         borderColor: null,
         gridLocked: true,
@@ -450,11 +480,11 @@ class Grid extends React.Component {
         borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
       };
-      this.grid = document.getElementById('grid');
-      console.log(this.props.board.gridSize.gridZoomFactor);
-      this.grid.style.zoom = this.props.board.gridSize.gridZoomFactor;
-      this.zoomGrid = { zoom: this.props.board.gridSize.gridZoomFactor };
-      // debugger
+      // this.grid = document.getElementById('grid');
+      // console.log(this.props.board.gridSize.gridZoomFactor);
+      // this.grid.style.zoom = this.props.board.gridSize.gridZoomFactor;
+      // this.zoomGrid = { zoom: this.props.board.gridSize.gridZoomFactor };
+      // // debugger
       this.setState(state, this.handleBuildGrid);
     }
   }
@@ -463,6 +493,123 @@ class Grid extends React.Component {
     this.container = document.getElementById('grid-container');
     this.container.removeEventListener('wheel', this.checkScroll);
   }
+
+/////////////////////////////////////////////////////////////////
+
+
+
+draw() {
+ console.log()
+  this.drawGrid(this.state.row, this.state.col);
+}
+
+drawGrid(row, col) {
+  
+  let canvas = document.getElementById('canvas')
+  let context = canvas.getContext('2d');
+  context.lineWidth = 1;
+
+  
+
+  let width = (canvas.width / this.dpr / this.state.col);
+  let height = (canvas.height / this.dpr / this.state.row);
+  for (let i = 0; i < row; i++) {
+    for (let j = 0; j < col; j++) {
+
+      if (this.state.gridArray[i][j]) {
+        let token = this.state.gridArray[i][j]
+        let image = new Image();
+        image.src = token.imageUrl
+        context.drawImage(image, j * width, i * height, width, height);
+      }
+
+      context.beginPath();
+      context.strokeStyle = "white"
+      context.rect(j * width + 0.5, i * height + 0.5, i * width, j * height)
+      context.stroke();
+    }
+  }
+
+}
+
+
+
+
+
+getBoxLocation(x, y) {
+
+  let canvas = document.getElementById('canvas')
+  let boxWidth = (canvas.width / this.dpr / this.state.col);
+  let boxHeight = (canvas.height / this.dpr / this.state.row);
+
+  let colPicked = Math.floor(1 + (x / boxWidth));
+  let rowPicked = Math.floor(1 + (y / boxHeight));
+  return [colPicked - 1, rowPicked - 1];
+}
+
+
+
+setupCanvas() {
+
+  let canvas = document.getElementById('canvas')
+  // Get the device pixel ratio, falling back to 1.
+  // Get the size of the canvas in CSS pixels.
+  var rect = canvas.getBoundingClientRect();
+  // Give the canvas pixel dimensions of their CSS
+  // size * the device pixel ratio.
+  canvas.width = rect.width * this.dpr;
+  canvas.height = rect.height * this.dpr;
+  var ctx = canvas.getContext('2d');
+  // Scale all drawing operations by the dpr, so you
+  // don't have to worry about the difference.
+  ctx.scale(this.dpr, this.dpr);
+  ctx.lineWidth = 1;
+}
+
+
+setDraggingPiece(token){
+  this.draggingPiece = token;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   render() {
@@ -497,10 +644,13 @@ class Grid extends React.Component {
 
         <div className={styles.container} id="grid-container">
 
-          <div id="grid" className={styles.grid}>
-            {console.log(this.state.grid)}
-            {this.state.grid}
-          </div>
+          {/* <div id="grid" className={styles.grid}>
+            
+          </div> */}
+
+          <canvas id='canvas'>
+          </canvas>
+
           <div className={styles.imageContainer}>
             <img id="board-background" src={this.renderImage()} draggable="true" className={styles.backgroundImage} />
           </div>
@@ -509,7 +659,7 @@ class Grid extends React.Component {
         </div>
 
 
-        {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} /> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} /> : null}
 
 
       </div>

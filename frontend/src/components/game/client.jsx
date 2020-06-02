@@ -58,7 +58,7 @@ class Client extends React.Component {
         ) : (
           <GridContainer create />
         )}
-        <BoardWidget boards={boards} gameId={game._id} />
+        {/* <BoardWidget boards={boards} gameId={game._id} /> */}
       </div>
     );
   }
