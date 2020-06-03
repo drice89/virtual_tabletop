@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './confirm_modal.module.scss';
 import buttons from '../../buttons.module.scss';
+import { FiTrash2 } from 'react-icons/fi';
 import withModal from '../util/with_modal';
 
 class ConfirmModal extends React.Component {
@@ -33,23 +34,24 @@ class ConfirmModal extends React.Component {
   }
 
   render() {
-    const { errors } = this.props;
-    const { name, description, backgroundImage } = this.state;
+    const { board, toggleModal } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.logo}>
-          <i className="ra ra-anvil" />
-          <p>Delete</p>
+          <i className="ra ra-demolish" />
+          <p>Delete Board?</p>
         </div>
         <form className={styles.formContainer} onSubmit={this.handleSubmit}>
-          {/* {errors.name ? <span className={styles.errors}>{errors.name}</span> : ''} */}
-          <input type="text" placeholder="Name" value={name} onChange={this.handleChange('name')} />
-          {/* {errors.description ? <span className={styles.errors}>{errors.description}</span> : ''} */}
-          <input type="text" placeholder="Description" value={description} onChange={this.handleChange('description')} />
-          {/* {errors.backgroundImage ? <span className={styles.errors}>{errors.backgroundImage}</span> : ''} */}
-          <input type="text" placeholder="Thumbnail URL" value={backgroundImage} onChange={this.handleChange('backgroundImage')} />
-          <button type="submit" className={buttons.secondary}>Delete</button>
-          <button type="submit" className={buttons.secondary}>Cancel</button>
+          <div className={styles.text}>
+            <span className={styles.name}>
+              {board.name}
+            </span>
+            <span className={styles.message}>
+              Are you sure you want to delete this board?
+            </span>
+          </div>
+          <button type="submit" className={`${buttons.secondary} ${buttons.gold}`}>Confirm</button>
+          <button type="button" className={buttons.secondary} onClick={() => toggleModal(null)}>Cancel</button>
         </form>
       </div>
     );

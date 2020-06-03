@@ -56,11 +56,11 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, boardToDelete } = this.state;
+    const { modalDelete } = this.state;
     if (!game) return null;
     return (
       <>
-        <div className={styles.main}>
+        <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
           <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
           <Nav />
           {match.params.boardId ? (
@@ -69,7 +69,7 @@ class Client extends React.Component {
             <GridContainer create socket={socket} />
           )}
         </div>
-        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} boardId={modalDelete} />
+        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} />
       </>
     );
   }
