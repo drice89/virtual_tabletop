@@ -66,7 +66,7 @@ class UserShow extends React.Component {
     if (!user) return null;
     return (
       <>
-        <div className={createForm ? `${styles.container} ${styles.blurred}` : styles.container}>
+        <div className={createForm || editGameId ? `${styles.container} ${styles.blurred}` : styles.container}>
           <div className={styles.background}>
             <div className={styles.contentContainer}>
               <div className={styles.profile}>
