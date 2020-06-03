@@ -108,7 +108,7 @@ class UserShow extends React.Component {
                 </div>
                 <section className={styles.main}>
                   {createdGames.map((game) => (
-                    <GameCard game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
+                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
                   ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>

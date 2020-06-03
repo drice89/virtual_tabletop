@@ -73,9 +73,9 @@ export const fetchAll = () => (dispatch) => (
 
 export const editGame = (game) => (dispatch) => (
   gameAPIUtil.editGame(game)
-    .then((editedGame) => { 
-      dispatch(receiveEditedGame(editedGame.data))
+    .then((editedGame) => {
+      dispatch(receiveEditedGame(editedGame.data));
       return 1;
-       })
+    })
     .catch((err) => { dispatch(receiveGameErrors(err)); })
 );
