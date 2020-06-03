@@ -3,17 +3,17 @@ const Schema = mongoose.Schema;
 
 const GameSchema = new Schema({
   creatorId: {
-    type: Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId,
     ref: 'User'
   }, 
   name: { 
-    type: String, 
-    required: true, 
+    type: String,
+    required: true,
     index: { unique: true },
     minlength: [3, 'Must be 3 or more characters']
   }, 
   description: { 
-    type: String, 
+    type: String,
   }, 
   backgroundImage: {
     type: String

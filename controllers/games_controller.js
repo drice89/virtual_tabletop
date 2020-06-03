@@ -123,5 +123,5 @@ exports.editGame = function (req, res) {
   const { _id, name, description, backgroundImage } = req.body;
   Game.findOneAndUpdate({ _id }, { name, description, backgroundImage }, { new: true, lean: true })
     .then((game) => res.json({ game }))
-    .catch((err) => console.log(err))
+    .catch((err) => res.status(400).json(err));
 };
