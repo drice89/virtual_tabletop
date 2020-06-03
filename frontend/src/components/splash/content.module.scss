@@ -9,6 +9,7 @@
   justify-content: center;
   flex-direction: column;
   width: 100vw;
+  padding-bottom: 100px;
 }
 .background::after {
   content: "";
@@ -74,52 +75,118 @@
 // }
 .hookBox { 
   margin: auto;
-  margin-top: 20px;
-  width: 60%;
-  text-align: center;
+  width: 65%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  height: 300px;
-  
+  height: 100%;
+}
+
+section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: left;
 }
 
 .hook { 
   font-size: 36px;
   font-weight: bolder;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .hookBody { 
   font-size: 16px;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .hookTagline { 
-  font-size: 28px;
+  font-size: 4rem;
+  line-height: 7rem;
+  font-family: "Raleway";
+  font-weight: 900;
+  margin: 0 200px;
+  color: $light-grey;
+  text-shadow: 4px 4px 1px $darkest-grey;
 }
 
-.main{
-  margin-top: 50px;
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  align-items: center;
+main{
+  width:100%;
 }
 
 .ornament{
+  display: inline;
   width: 600px;
   height: 100px;
+}
+
+.ornamentWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%; 
+  transform: translate(-50%, 0);
 }
 
 .footerLogin{
   padding: 15px 25px;
   background-color: $secondary;
-  width: 100px;
+  width: 150px;
   margin: auto;
   color: white;
   border: 1px solid $primary-dark;
   border-radius: 10px;
   font-size: 1.7rem;
+  margin-top: 50px;
+  box-shadow: 4px 4px 1px $darkest-grey;
 }
+
+.footerLogin:hover {
+  padding: 15px 25px;
+  background-color: $primary-dark;
+  width: 150px;
+  margin: auto;
+  color: $light-grey;
+  border: 1px solid $light-grey;
+  border-radius: 10px;
+  font-size: 1.7rem;
+  margin-top: 50px;
+  box-shadow: 4px 4px 1px $darkest-grey;
+}
+
+.heroImage {
+  border: 4px solid rgba(	0, 144, 158, 0.7);;
+  border-radius: 7%;
+  box-shadow: 2px 2px 4px $darkest-grey;
+}
+
+section div {
+  padding: 12px;
+}
+
+summary {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ctaWrapper {
+  border-top: 2px solid $primary-dark;
+  width: 100%;
+  height: 400px;
+  background: $primary-light;
+  position: relative;
+  
+}
+
+.callToAction {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 80%;
+
+}
+
+
