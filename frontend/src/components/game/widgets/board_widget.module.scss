@@ -25,6 +25,7 @@
   justify-content: space-between;
   align-items: center;
   min-height: 24px;
+  transition: all 0.2s;
   // flex-direction: column;
 }
 
@@ -89,4 +90,18 @@ a.active:hover {
 
 .delete:hover {
   background-color: rgba(0,0,0,0.1);
+}
+
+a.gold {
+  background-color: $gold-dark;
+  justify-content: flex-start;
+}
+
+a.gold svg {
+  font-size: 1.6rem;
+  margin-right: 4px;
+}
+
+a.gold:hover {
+  background-color: $gold;
 }

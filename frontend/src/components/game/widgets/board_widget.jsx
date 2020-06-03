@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import { FiTrash2, FiX } from 'react-icons/fi';
+import { FiTrash2, FiX, FiPlus } from 'react-icons/fi';
 import { Link, withRouter } from 'react-router-dom';
 import styles from './board_widget.module.scss';
 import widgetStyles from './widget.module.scss';
@@ -25,9 +25,6 @@ class BoardWidget extends React.Component {
         </div>
         <div className={widgetStyles.content}>
           <div className={styles.boardList}>
-            <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? styles.active : ''}>
-              Create A New Board
-            </Link>
             {boards.map((board) => (
               <Link key={board._id} to={`/client/${gameId}/boards/${board._id}`} className={match.params.boardId === board._id ? styles.active : ''}>
                 {board.name}
@@ -36,6 +33,10 @@ class BoardWidget extends React.Component {
                 </button>
               </Link>
             ))}
+            <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? `${styles.active} ${styles.gold}` : styles.gold}>
+              <FiPlus />
+              Create A New Board
+            </Link>
           </div>
         </div>
       </div>
