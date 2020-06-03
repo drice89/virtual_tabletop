@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose } from 'redux';
 import { FiTrash2, FiX } from 'react-icons/fi';
 import { Link, withRouter } from 'react-router-dom';
 import styles from './board_widget.module.scss';
@@ -8,7 +9,7 @@ import withWidget from '../util/with_widget';
 class BoardWidget extends React.Component {
   render() {
     const {
-      boards, gameId, match, setBoardToDelete,
+      boards, gameId, match, setBoardToDelete, toggleWidget,
     } = this.props;
     return (
       <div className={styles.boardMenu}>
@@ -17,7 +18,7 @@ class BoardWidget extends React.Component {
             <i className="ra ra-chessboard" />
             <h2>Boards</h2>
           </div>
-          <button type="button">
+          <button type="button" onClick={() => toggleWidget('widgetBoards')}>
             <FiX />
           </button>
         </div>
@@ -40,4 +41,4 @@ class BoardWidget extends React.Component {
   }
 }
 
-export default withWidget(withRouter(BoardWidget));
+export default compose(withWidget, withRouter)(BoardWidget);

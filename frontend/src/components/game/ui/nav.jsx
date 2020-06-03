@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './nav.module.scss';
 import buttons from '../../buttons.module.scss';
 
-const Nav = ({ currentUserId }) => (
+const Nav = ({ currentUserId, toggleWidget }) => (
   <div className={styles.nav}>
     <Link to={currentUserId ? `/user/${currentUserId}` : '/login'}>
       <div className={styles.logoContainer}>
@@ -23,7 +23,7 @@ const Nav = ({ currentUserId }) => (
         <span>Players</span>
       </div>
     </button>
-    <button type="button" className={buttons.none}>
+    <button type="button" className={buttons.none} onClick={() => toggleWidget('widgetBoards')}>
       <div className={styles.btn}>
         <i className="ra ra-chessboard" />
         <span>Boards</span>

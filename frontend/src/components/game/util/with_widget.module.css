@@ -12,5 +12,6 @@
 
 .contentContainer {
   position: absolute;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
   z-index: 10;
 }
