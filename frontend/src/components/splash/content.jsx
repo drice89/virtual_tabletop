@@ -38,41 +38,51 @@ const Content = () => (
           </section>
 
           <summary>
-            <div className={styles.hookTagline}>
-              Not convinced? CHECKOUT OUR COOL FEATURES
+            <div className={styles.featuresHeader}>
+              Checkout our features!
             </div>
             <div className={styles.hookBody}>
-              Upload your own images and tokens! Too poor to afford your own? We got you covered with
-              our high end fully immersive asset library! Build custom boards and grids with the click
-              of a button.
-              {' '}
-              <strong>Did we mention, you can roll virtual dice!!!</strong>
-              {' '}
-              What are you
-              waiting for it's free!
+              <ul>
+                <li>
+                  <i className="ra ra-jigsaw-piece" />
+                  <span>
+                    Upload your own images and tokens!
+                  </span>
+                </li>
+                <li>
+                  <i className="ra ra-two-dragons" />
+                  <span>
+                    High end fully immersive asset library!High end fully immersive asset library!
+                  </span>
+                </li>
+                <li>
+                  <i className="ra ra-chessboard" />
+                  <span>
+                    High end fully immersive asset library!Build custom boards and grids with the click of a button!
+                  </span>
+                </li>
+                <li>
+                  <i className="ra ra-microphone" />
+                  <span>
+                    High end fully immersive asset library!Fully integrated player chat!
+                  </span>
+                </li>
+                <li>
+                  <i className="ra  ra-double-team" />
+                  <span>
+                    High end fully immersive asset library!Unlimited players can join in the fun!
+                  </span>
+                </li>
+                <li>
+                  <i className="ra ra-perspective-dice-six" />
+                  <span>
+                    High end fully immersive asset library!A wide range of virtual dice to support your high end gaming expirience
+                  </span>
+                </li>
+              </ul>
             </div>
           </summary>
       </main>
-    {/* <div>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-      <br>
-      </br>
-    </div> */}
   </>
 );
 

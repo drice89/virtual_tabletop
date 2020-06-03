@@ -171,12 +171,11 @@ summary {
 }
 
 .ctaWrapper {
-  border-top: 2px solid $primary-dark;
+  border-top: 2px solid $secondary;
   width: 100%;
   height: 400px;
   background: $primary-light;
   position: relative;
-  
 }
 
 .callToAction {
@@ -186,7 +185,21 @@ summary {
   flex-direction: column;
   text-align: center;
   height: 80%;
-
 }
 
+.featuresHeader {
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  line-height: 5rem;;
+  font-weight: 900;
+  border-bottom: 2px solid $secondary;
+}
 
+.hookBody li {
+  font-size: 1.7rem;
+  line-height: 5rem;;
+}
+
+li span {
+  padding: 10px;
+}
