@@ -51,11 +51,6 @@ class BoardWidget extends React.Component {
     e.preventDefault();
   }
 
-  deleteBoard(board) {
-    const { socket } = this.props;
-    socket.emit("deleteBoard", board);
-  }
-
   render() {
     const { boards, gameId, match, setBoardToDelete } = this.props;
     const {

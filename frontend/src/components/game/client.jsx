@@ -37,6 +37,12 @@ class Client extends React.Component {
       history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
 
+    socket.on('boardDeleted', (board) => {
+      const { history, deleteBoard, boards } = this.props;
+      deleteBoard(board);
+      history.push(boards.length === 0 ? `/client/${board.gameId}` : `/client/${board.gameId}/boards/${boards[0]._id}`);
+    });
+
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
       receiveToken(token);
@@ -69,7 +75,7 @@ class Client extends React.Component {
             <GridContainer create socket={socket} />
           )}
         </div>
-        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} />
+        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} socket={socket} />
       </>
     );
   }

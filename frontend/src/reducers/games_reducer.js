@@ -1,6 +1,6 @@
 import { RECEIVE_GAMES, RECEIVE_GAME } from '../actions/games_actions';
 import { RECEIVE_USER } from '../actions/users_actions';
-import { RECEIVE_BOARD } from '../actions/board_actions';
+import { RECEIVE_BOARD, DELETE_BOARD } from '../actions/board_actions';
 
 export default (state = {}, action) => {
   Object.freeze(state);
@@ -12,6 +12,10 @@ export default (state = {}, action) => {
       return { ...state, ...{ [action.payload.game._id]: action.payload.game } };
     case RECEIVE_BOARD:
       nextState[action.board.gameId].boards.push(action.board._id);
+      return nextState;
+    case DELETE_BOARD:
+      const idx = nextState[action.board.gameId].boards.indexOf(action.board._id);
+      nextState[action.board.gameId].boards.splice(idx, 1);
       return nextState;
     case RECEIVE_USER:
       return { ...state, ...action.payload.games };
