@@ -12,6 +12,7 @@
 
 .contentContainer {
   position: absolute;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
+  box-shadow: 0px 2px 7px rgba(0,0,0,0.3);
+  border-radius: 6px;
   z-index: 10;
 }

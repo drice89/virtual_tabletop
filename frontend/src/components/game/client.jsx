@@ -5,6 +5,7 @@ import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
+import SettingWidget from './widgets/setting_widget';
 
 
 let socket;
@@ -84,6 +85,11 @@ class Client extends React.Component {
             x={10}
             y={42}
             toggleWidget={this.toggleWidget}
+          />
+          <SettingWidget
+            x={260}
+            y={42}
+            active
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
