@@ -10,7 +10,7 @@ const SettingWidget = ({ toggleWidget }) => (
         <i className="ra ra-cog" />
         <h2>Settings</h2>
       </div>
-      <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetBoards')}>
+      <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetSettings')}>
         <FiX />
       </button>
     </div>
@@ -20,4 +20,4 @@ const SettingWidget = ({ toggleWidget }) => (
   </div>
 );
 
-export default withWidget(SettingWidget);
+export default SettingWidget;

@@ -5,7 +5,7 @@ import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
-import SettingWidget from './widgets/setting_widget';
+import SettingWidgetContainer from './widgets/setting_widget_container';
 
 
 let socket;
@@ -16,6 +16,7 @@ class Client extends React.Component {
     this.state = {
       modalDelete: null,
       widgetBoards: null,
+      widgetSettings: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
     // this.toggleModal = this.toggleModal.bind(this);
@@ -71,7 +72,7 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, widgetBoards } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings } = this.state;
     if (!game) return null;
     return (
       <>
@@ -86,10 +87,11 @@ class Client extends React.Component {
             y={42}
             toggleWidget={this.toggleWidget}
           />
-          <SettingWidget
+          <SettingWidgetContainer
             x={260}
             y={42}
-            active
+            active={widgetSettings}
+            toggleWidget={this.toggleWidget}
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
