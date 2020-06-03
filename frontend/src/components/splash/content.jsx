@@ -52,31 +52,31 @@ const Content = () => (
                 <li>
                   <i className="ra ra-two-dragons" />
                   <span>
-                    High end fully immersive asset library!High end fully immersive asset library!
+                    High end fully immersive asset library! High end fully immersive asset library!
                   </span>
                 </li>
                 <li>
                   <i className="ra ra-chessboard" />
                   <span>
-                    High end fully immersive asset library!Build custom boards and grids with the click of a button!
+                    High end fully immersive asset library! Build custom boards and grids with the click of a button!
                   </span>
                 </li>
                 <li>
                   <i className="ra ra-microphone" />
                   <span>
-                    High end fully immersive asset library!Fully integrated player chat!
+                    High end fully immersive asset library! Fully integrated player chat!
                   </span>
                 </li>
                 <li>
                   <i className="ra  ra-double-team" />
                   <span>
-                    High end fully immersive asset library!Unlimited players can join in the fun!
+                    High end fully immersive asset library! Unlimited players can join in the fun!
                   </span>
                 </li>
                 <li>
                   <i className="ra ra-perspective-dice-six" />
                   <span>
-                    High end fully immersive asset library!A wide range of virtual dice to support your high end gaming expirience
+                    High end fully immersive asset library! A wide range of virtual dice to support your high end gaming expirience
                   </span>
                 </li>
               </ul>
