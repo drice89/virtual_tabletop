@@ -82,7 +82,7 @@
   height: 100%;
 }
 
-section {
+.hookBox > section {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -161,11 +161,11 @@ main{
   box-shadow: 2px 2px 4px $darkest-grey;
 }
 
-section div {
+.hookBox section div {
   padding: 12px;
 }
 
-summary {
+.summary {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -200,6 +200,6 @@ summary {
   line-height: 5rem;;
 }
 
-li span {
+.summary li span {
   padding: 10px;
 }

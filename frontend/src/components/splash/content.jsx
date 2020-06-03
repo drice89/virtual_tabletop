@@ -37,7 +37,7 @@ const Content = () => (
             </div>
           </section>
 
-          <summary>
+          <summary className={styles.summary}>
             <div className={styles.featuresHeader}>
               Checkout our features!
             </div>
