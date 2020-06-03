@@ -38,8 +38,9 @@ class Client extends React.Component {
     });
 
     socket.on('boardDeleted', (board) => {
-      const { history, deleteBoard, boards } = this.props;
+      const { history, deleteBoard } = this.props;
       deleteBoard(board);
+      const { boards } = this.props;
       history.push(boards.length === 0 ? `/client/${board.gameId}` : `/client/${board.gameId}/boards/${boards[0]._id}`);
     });
 
