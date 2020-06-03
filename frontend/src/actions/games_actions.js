@@ -41,7 +41,7 @@ export const fetchGame = (gameId) => (dispatch) => (
 export const fetchUserGames = (userId) => (dispatch) => (
   gameAPIUtil.fetchUserGames(userId)
     .then((games) => dispatch(receiveGames(games.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
+    .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 
 export const createGame = (game) => (dispatch) => (
@@ -56,19 +56,19 @@ export const createGame = (game) => (dispatch) => (
 export const deleteGame = (gameId) => (dispatch) => (
   gameAPIUtil.deleteGame(gameId)
     .then((res) => dispatch(removeGame(res.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
+    .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 
 export const joinGame = (gameIdAndUserId) => (dispatch) => (
   gameAPIUtil.joinGame(gameIdAndUserId)
     .then((res) => dispatch(receiveGame(res.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
+    .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 
 export const fetchAll = () => (dispatch) => (
   gameAPIUtil.fetchAll()
     .then((games) => dispatch(receiveGames(games.data)))
-    .catch((err) => dispatch(receiveGameErrors(err)))
+    .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 
 export const editGame = (game) => (dispatch) => (
@@ -77,5 +77,5 @@ export const editGame = (game) => (dispatch) => (
       dispatch(receiveEditedGame(editedGame.data));
       return 1;
     })
-    .catch((err) => { dispatch(receiveGameErrors(err)); })
+    .catch((err) => { dispatch(receiveGameErrors(err.response.data)); })
 );

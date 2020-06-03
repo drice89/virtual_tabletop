@@ -2,6 +2,7 @@ import { RECEIVE_GAME_ERRORS, RECEIVE_GAME, CLEAR_ERRORS } from '../actions/game
 
 const gamesErrorsReducer = (state = [], action) => {
   Object.freeze(state);
+  debugger
   switch (action.type) {
     case RECEIVE_GAME_ERRORS:
       return action.errors;

@@ -87,7 +87,7 @@ exports.createGame = function (req, res) {
     name: req.body.name.trim(),
   }, function (gameErr, game) {
     if (game.length > 0) {
-      return res.status(400).json({ name: 'Same user can\'t have two game with the same name' });
+      return res.status(400).json({ name: 'Same u ser can\'t have two games with the same name' });
     } else if (gameErr) {
       return res.status(400).json(errors.name);
     } else {
@@ -121,7 +121,8 @@ exports.deleteGame = function (req, res) {
 
 exports.editGame = function (req, res) {
   const { _id, name, description, backgroundImage } = req.body;
+  if (name.trim() === '') return res.status(400).json({ name: 'name can\'t be blank' });
   Game.findOneAndUpdate({ _id }, { name, description, backgroundImage }, { new: true, lean: true })
     .then((game) => res.json({ game }))
-    .catch((err) => res.status(400).json(err));
+    .catch((err) => res.status(400).json({ name: 'can no do that'}));
 };
