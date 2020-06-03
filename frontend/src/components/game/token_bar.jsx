@@ -58,7 +58,7 @@ export default class TokenBar extends React.Component {
   }
 
   createPiece() {
-    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png' } });
+    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png', userId: this.props.userId} });
   }
 
   render() {

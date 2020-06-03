@@ -20,14 +20,16 @@
 }
 
 .container {
-    width: 775px;
-    min-height: 775px;
-    height: 550px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    background-color: rgb(66, 66, 66);
+    // width: 775px;
+    // min-height: 775px;
+    // height: 550px;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // margin: auto;
+    // background-color: rgb(66, 66, 66);
+    width: 100%;
+    height: 100%;
 }
 
 // .backgroundImage {
@@ -129,9 +131,21 @@
 }
 
 canvas{
-    // width: 200px;
-    // height: 200px;
+    width: 100%;
+    height: calc(100% - 32px);
     position: absolute;
     z-index: 1;
-    border: 1px solid white;
+    border: 1px solid black;
+}
+
+
+.gridContainer{
+    width: 100%;
+    height: 100%;
+}
+
+.imageContainer{
+     width: 100%;
+     height: 100%;
+
 }

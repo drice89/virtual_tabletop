@@ -69,12 +69,22 @@ class Grid extends React.Component {
 
     this.dpr = 2;
     this.draggingPiece = null;
+
+    this.backgroundImage = new Image();
+
+    this.imageScreenFactor = 3;
+
+    this.zoomGridTEST = 0;
+    this.moveGrid = true;
+
+    this.gridPosX = 0;
+    this.gridPosY = 0;
   }
 
   handlePieceDrop(token) {
     this.props.createToken(token);
     // socket.emit('updateToken', token);
-    
+
   }
 
 
@@ -87,14 +97,23 @@ class Grid extends React.Component {
   }
 
   componentDidMount() {
-    
+
+    this.props.fetchPieces(this.props.userId);
+
+    this.props.socket.on('tokenUpdated', this.handleBuildGrid)
+
+   
+
+
+
+
     if (!this.props.create) {
       // this.props.fetchBoard(this.props.match.params.boardId)
       // .then(()=>{
 
-      this.container = document.getElementById('grid-container');
+      // this.container = document.getElementById('grid-container');
 
-      this.container.addEventListener('wheel', this.checkScroll);
+      // this.container.addEventListener('wheel', this.checkScroll);
       // debugger
       const state = {
         row: this.props.board.gridSize.rows,
@@ -123,7 +142,13 @@ class Grid extends React.Component {
 
 
       let canvas = document.getElementById('canvas');
-      canvas.addEventListener("drop",(e)=>{
+
+      canvas.addEventListener('click', (e) => {
+        console.log(this.getBoxLocation(e.layerX, e.layerY));
+      })
+
+
+      canvas.addEventListener("drop", (e) => {
         if (this.draggingPiece) {
           let pos = this.getBoxLocation(e.layerX, e.layerY);
 
@@ -131,7 +156,7 @@ class Grid extends React.Component {
           this.draggingPiece.pos.y = pos[1];
 
           let gridArray = this.state.gridArray
-          gridArray[pos[1]][pos[0]] = this.draggingPiece;
+          gridArray[pos[1]][pos[0]][0] = this.draggingPiece;
 
 
 
@@ -140,11 +165,11 @@ class Grid extends React.Component {
 
 
 
-          this.setState({ gridArray }, ()=>{
+          this.setState({ gridArray }, () => {
             this.draggingPiece = null;
             this.draw();
           });
-          
+
         }
       })
 
@@ -154,76 +179,183 @@ class Grid extends React.Component {
       let dragToken = null;
       let draggingImage = new Image;
 
+
+      //puts all objects in canvas properly after resize
+      window.onresize = ()=>{
+        this.setupCanvas();
+        this.draw();
+      };
+
       let context = canvas.getContext('2d');
 
-      canvas.addEventListener('mousedown', (e) => {
-        let pos = this.getBoxLocation(e.layerX, e.layerY);
-        let gridArray = Object.assign({}, this.state.gridArray)
-        console.log(this.state.gridArray)
-        if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
-
-          
-         
-          dragToken = this.state.gridArray[pos[1]][pos[0]];
-          
-          if (dragToken) {
-            draggingImage.src = dragToken.imageUrl;
-            mousePressed = true;;
-            gridArray[pos[1]][pos[0]] = null;
-            this.setState({ gridArray })
-          }
-        } else {
-          mousePressed = false;;
-          gridArray[pos[1]][pos[0]] = dragToken;
-          this.setState({ gridArray }, () => {
-            dragToken = null;
-            draggingImage.src = null;
+      canvas.addEventListener('wheel',(event)=>{
+        let pos = this.getBoxLocation(event.layerX, event.layerY);
+        let scrolling = true;
+        //if the mouse is on the grid
+        if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
+          if (checkScrollDirectionIsUp(event)) {
+            this.zoomGridTEST -= 0.5;
+            this.gridPosX -= 1;
+            this.gridPosY -= 1;
             context.clearRect(0, 0, canvas.width, canvas.height);
-            this.draw();
-          })
-         
+            this.draw(null, scrolling);
+
+          } else {
+            this.zoomGridTEST += 0.5;
+            this.gridPosX += 1;
+            this.gridPosY += 1;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            this.draw(null, scrolling);
+          }
+        }
+
+        
+
+
+
+
+
+
+        function checkScrollDirectionIsUp(event) {
+          if (event.wheelDelta) {
+            return event.wheelDelta > 0;
+          }
+          return event.deltaY < 0;
+        }
+      })
+
+      canvas.addEventListener('mousedown', (e) => {
+        if(!this.moveGrid){
+          console.log("MOVING TOKEN")
+
+          let pos = this.getBoxLocation(e.layerX, e.layerY);
+
+          if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
+
+            let gridArray = Object.assign({}, this.state.gridArray)
+            if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
+
+              dragToken = this.state.gridArray[pos[1]][pos[0]][0];
+
+              if (dragToken) {
+                draggingImage.src = dragToken.imageUrl;
+                mousePressed = true;;
+                gridArray[pos[1]][pos[0]] = null;
+                this.setState({ gridArray })
+              }
+            } else {
+              mousePressed = false;
+              if (dragToken) {
+                let image = new Image();
+                image.src = dragToken.imageUrl;
+                gridArray[pos[1]][pos[0]] = [dragToken, image];
+                this.setState({ gridArray }, () => {
+                  dragToken = null;
+                  draggingImage.src = "";
+                  context.clearRect(0, 0, canvas.width, canvas.height);
+                  this.draw();
+                })
+              }
+
+            }
+          }
+        }else{
+          if (mousePressed){
+            mousePressed = false;
+            this.moveGrid = false;
+            this.gridPosX = e.layerX;
+            this.gridPosY = e.layerY;
+          }else{
+            mousePressed = true;
+          }
         }
 
       })
 
 
 
-      canvas.addEventListener('mousemove', (e) => {
-        let changedCanvas = document.getElementById('canvas')
-        let width = (changedCanvas.width / this.dpr / this.state.col);
-        let height = (changedCanvas.height / this.dpr / this.state.row);
-        if (mousePressed) {
-          context.clearRect(0, 0, changedCanvas.width, changedCanvas.height);
+      canvas.addEventListener('mousemove', (event) => {
+        let pos = this.getBoxLocation(event.layerX, event.layerY);
 
-          let x = e.layerX;
-          let y = e.layerY;
+        if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
+          if (!this.moveGrid) {
+            console.log("dragginhhhhhh")
+            let canvas = document.getElementById('canvas')
+            let width = this.backgroundImage.naturalWidth / this.imageScreenFactor / this.state.col - this.zoomGridTEST;
+            let height = this.backgroundImage.naturalHeight / this.imageScreenFactor / this.state.row - this.zoomGridTEST;
+            if (mousePressed) {
+              context.clearRect(0, 0, canvas.width, canvas.height);
 
-          context.drawImage(draggingImage, x - width / 2, y - height / 2, width, height)
-          this.draw();
+              let x = event.layerX;
+              let y = event.layerY;
+
+              this.draw();
+              context.drawImage(draggingImage, x - width / 2, y - height / 2, width, height)
+            }
+          } else {
+            if (mousePressed) {
+              let x = event.layerX;
+              let y = event.layerY;
+
+              this.gridPosX = x;
+              this.gridPosY = y;
+              context.clearRect(0, 0, canvas.width, canvas.height);
+              this.draw(true);
+            }
+
+          }
         }
+        
       })
 
 
       canvas.addEventListener('mouseup', (e) => {
-        if (mousePressed) {
-          let pos = this.getBoxLocation(e.layerX, e.layerY);
-          mousePressed = false;
+        console.log("MOUSEUP")
+        if(this.moveGrid){
+          if(mousePressed){
 
-          let gridArray = this.state.gridArray;
-          dragToken.pos.x = pos[0];
-          dragToken.pos.y = pos[1];
-          gridArray[pos[1]][pos[0]] = dragToken;
-          
+            let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor;
+            let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor;
 
-          this.setState({gridArray}, () => {
-            this.props.socket.emit('updateToken', dragToken)
-            dragToken = null;
-            draggingImage.src = null;
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            this.draw();
-          })
+            let width = imageWidth / this.state.col - this.zoomGridTEST;
+            let height = imageHeight / this.state.row - this.zoomGridTEST;
 
-          
+
+            let totalWidth = width * this.state.col;
+            let totalHeight = height * this.state.row;
+
+            mousePressed = false;
+            this.moveGrid = false;
+            this.gridPosX = e.layerX - totalWidth / 2;
+            this.gridPosY = e.layerY - totalHeight / 2;
+          }
+
+        }else{
+          if (mousePressed) {
+            let pos = this.getBoxLocation(e.layerX, e.layerY);
+            if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
+              mousePressed = false;
+
+              let gridArray = this.state.gridArray;
+              dragToken.pos.x = pos[0];
+              dragToken.pos.y = pos[1];
+              let image = new Image();
+              image.src = dragToken.imageUrl;
+              gridArray[pos[1]][pos[0]] = [dragToken, image];
+
+
+              this.setState({ gridArray }, () => {
+                this.props.socket.emit('updateToken', dragToken)
+                dragToken = null;
+                draggingImage.src = "";
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                this.draw();
+
+              })
+            }
+
+
+          }
         }
       })
 
@@ -254,8 +386,8 @@ class Grid extends React.Component {
   }
 
   componentWillUnmount() {
-    this.container = document.getElementById('grid-container');
-    this.container.removeEventListener('wheel', this.checkScroll);
+    // this.container = document.getElementById('grid-container');
+    // this.container.removeEventListener('wheel', this.checkScroll);
   }
 
   update(value) {
@@ -265,31 +397,60 @@ class Grid extends React.Component {
   }
 
   handleBuildGrid() {
-    const img = document.getElementById('board-background');
-    img.onload = () => {
-      let image = document.getElementById('board-background')
-      let canvas = document.getElementById('canvas')
-      canvas.style.width = `${image.offsetWidth}px`;
-      canvas.style.height = `${image.offsetHeight}px`;
 
-      this.setupCanvas();
-      let intRow = parseInt(this.state.row);
-      let intCol = parseInt(this.state.col);
-      let gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
 
-      this.props.tokens.forEach(token => {
+    // const img = document.getElementById('board-background');
+    // img.onload = () => {
+    //   let image = document.getElementById('board-background')
+    //   let canvas = document.getElementById('canvas')
+    //   canvas.style.width = `${image.offsetWidth}px`;
+    //   canvas.style.height = `${image.offsetHeight}px`;
+
+    this.setupCanvas();
+    let intRow;
+    let intCol;
+    let gridArray;
+    if (this.state.row && this.state.col) {
+      intRow = parseInt(this.state.row);
+      intCol = parseInt(this.state.col);
+      gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
+
+    }
+
+
+    this.backgroundImage.src = this.state.boardBackground ? this.state.boardBackground : this.state.previewUrl;
+
+    this.backgroundImage.onload = () => {
+
+      for(let token of this.props.tokens){
         let x = token.pos.x;
         let y = token.pos.y;
-        gridArray[y][x] = token;
-      })
-        
+        let image = new Image();
+        gridArray[y][x] = [token, image];
+        image.src = token.imageUrl;
+      }
       
+      let loaded = false;
 
-      this.setState({ gridArray, row: intRow, col: intCol }, this.draw);
-    };
+      while(!loaded){
+        loaded = true;
 
-    
-    img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
+        this.props.tokens.forEach(token => {
+          let x = token.pos.x;
+          let y = token.pos.y;
+          if (!gridArray[y][x][1].src) {
+            loaded = false;
+          }
+        })
+
+        if(loaded){
+          this.setState({ gridArray, row: intRow, col: intCol }, this.draw);
+        }
+      }
+    }
+
+
+    // img.src = this.state.previewUrl ? this.state.previewUrl : this.state.boardBackground;
   }
 
 
@@ -392,13 +553,13 @@ class Grid extends React.Component {
 
     createBoard(formData)
       .then(() => console.log("TEST"))
-      .catch((err)=> console.log(err))
-       //.then(console.log, console.log);
+      .catch((err) => console.log(err))
+    //.then(console.log, console.log);
 
     // createBoard from client
-  //   const { createBoard } = this.props;
-  //   const { row, col, imageFile } = this.state;
-  //   createBoard(row, col, this.zoomGrid.zoom, rect.x, rect.y, this.zoomBackground.zoom, imageFile);
+    //   const { createBoard } = this.props;
+    //   const { row, col, imageFile } = this.state;
+    //   createBoard(row, col, this.zoomGrid.zoom, rect.x, rect.y, this.zoomBackground.zoom, imageFile);
   }
 
   handleImageClick() {
@@ -412,7 +573,7 @@ class Grid extends React.Component {
     const fileReader = new FileReader();
 
     fileReader.onloadend = () => {
-      this.setState({ imageFile: img, previewUrl: fileReader.result });
+      this.setState({ imageFile: img, previewUrl: fileReader.result }, this.handleBuildGrid);
     };
     if (img) {
       fileReader.readAsDataURL(img);
@@ -422,13 +583,13 @@ class Grid extends React.Component {
 
   renderBoard() {
 
-    let gridArray = Object.assign({}, this.state.gridArray);
+    // let gridArray = Object.assign({}, this.state.gridArray);
 
-    for(let token in this.props.tokens){
-      gridArray[token.pos.x][token.pos.y] = token;
-    }
+    // for(let token in this.props.tokens){
+    //   gridArray[token.pos.x][token.pos.y] = token;
+    // }
 
-    this.setState({ gridArray });
+    // this.setState({ gridArray });
   }
 
   renderImage() {
@@ -442,10 +603,10 @@ class Grid extends React.Component {
     //     return null;
     //   }
     // }
-    if(this.state.boardBackground) {
+    if (this.state.boardBackground) {
       return this.state.boardBackground;
     } else {
-      if(this.state.previewUrl){
+      if (this.state.previewUrl) {
         return this.state.previewUrl;
       } else {
         return '';
@@ -455,7 +616,13 @@ class Grid extends React.Component {
 
   componentDidUpdate(prevProps) {
 
-   this.handleBuildGrid();
+
+
+    //  this.handleBuildGrid();
+
+    // if(json.stringify(prevProps.tokens) ){
+
+    // }
 
     if (!prevProps.create && this.props.create) {
       const state = {
@@ -498,84 +665,132 @@ class Grid extends React.Component {
   }
 
   componentWillUnmount() {
-    this.container = document.getElementById('grid-container');
-    this.container.removeEventListener('wheel', this.checkScroll);
+    // this.container = document.getElementById('grid-container');
+    // this.container.removeEventListener('wheel', this.checkScroll);
   }
 
-/////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
 
 
 
-draw() {
-  this.drawGrid(this.state.row, this.state.col);
-}
+  draw(gridDrag = null, scrolling = null) {
+    this.drawGrid(this.state.row, this.state.col, gridDrag, scrolling);
+  }
 
-drawGrid(row, col) {
+  drawGrid(row, col, gridDrag, scrolling) {
 
-  // Take canvas and set line width 1pc
-  let canvas = document.getElementById('canvas')
-  let context = canvas.getContext('2d');
-  context.lineWidth = 1;
-  // Width of the box is calculated using this formula
-  let width = (canvas.width / this.dpr / this.state.col);
-  let height = (canvas.height / this.dpr / this.state.row);
-  // 
-  for (let i = 0; i < row; i++) {
-    for (let j = 0; j < col; j++) {
 
-      if (this.state.gridArray[i][j]) {
-        let token = this.state.gridArray[i][j]
-        let image = new Image();
-        image.src = token.imageUrl
-        context.drawImage(image, j * width, i * height, width, height);
+    // Take canvas and set line width 1pc
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+    context.lineWidth = 1;
+    // Width of the box is calculated using this formula
+    // let width = (canvas.width / this.dpr / this.state.col);
+    // let height = (canvas.height / this.dpr / this.state.row);
+
+    let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor;
+    let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor;
+
+    let width = imageWidth / col - this.zoomGridTEST;
+    let height = imageHeight / row - this.zoomGridTEST;
+
+    let imagePosX = canvas.offsetWidth - imageWidth;
+    let imagePosY = canvas.offsetHeight - imageHeight;
+
+    let totalWidth = width * col;
+    let totalHeight = height * row;
+
+
+    context.drawImage(this.backgroundImage, imagePosX / 2, imagePosY / 2, imageWidth, imageHeight)
+    // 
+    if(this.state.row && this.state.col){
+      for (let i = 0; i < row; i++) {
+      for (let j = 0; j < col; j++) {
+
+        if (this.state.gridArray[i][j]) {
+          let image = this.state.gridArray[i][j][1]
+          // let image = new Image();
+
+          // image.src = token.imageUrl
+          // image.onloadeddata = function(){
+          
+          if(gridDrag){
+            context.drawImage(image, (j * width + this.gridPosX) - totalWidth / 2, (i * height + this.gridPosY) - totalHeight / 2, width, height);
+
+          }else{
+            // if(scrolling){
+
+            // }else{
+              context.drawImage(image, j * width + this.gridPosX, i * height + this.gridPosY, width, height);
+            // }
+
+          }
+          // }
+        }
+
+        context.beginPath();
+        context.strokeStyle = "white"
+        if(gridDrag){
+          context.rect((j * width + 0.5 + this.gridPosX) - totalWidth / 2, (i * height + 0.5 + this.gridPosY) - totalHeight /2, width, height)
+
+        }else{
+          // if(scrolling){
+
+          // }else{
+
+            context.rect(j * width + 0.5 + this.gridPosX, i * height + 0.5 + this.gridPosY, width, height)
+          // }
+        }
+        context.stroke();
       }
-
-      context.beginPath();
-      context.strokeStyle = "white"
-      context.rect(j * width + 0.5, i * height + 0.5, i * width, j * height)
-      context.stroke();
     }
+    }
+
   }
 
-}
+ 
 
 
 
 
+  getBoxLocation(x, y) {
+    // Gets location of the mouse click on the canvas
+    let canvas = document.getElementById('canvas')
 
-getBoxLocation(x, y) {
-  // Gets location of the mouse click on the canvas
-  let canvas = document.getElementById('canvas')
-  let boxWidth = (canvas.width / this.dpr / this.state.col);
-  let boxHeight = (canvas.height / this.dpr / this.state.row);
-  let colPicked = Math.floor(1 + (x / boxWidth));
-  let rowPicked = Math.floor(1 + (y / boxHeight));
-  return [colPicked - 1, rowPicked - 1];
-}
+    let boxWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor / this.state.col - this.zoomGridTEST;
+    let boxHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor / this.state.row - this.zoomGridTEST;
 
+    // let imagePosX = (canvas.offsetWidth - this.backgroundImage.naturalWidth / this.imageScreenFactor) / 2 ;
+    // let imagePosY = (canvas.offsetHeight - this.backgroundImage.naturalHeight / this.imageScreenFactor) / 2;
 
-
-setupCanvas() {
-  // Scale canvas properly
-  let canvas = document.getElementById('canvas')
-  // Get the device pixel ratio, falling back to 1.
-  // Get the size of the canvas in CSS pixels.
-  var rect = canvas.getBoundingClientRect();
-  // Give the canvas pixel dimensions of their CSS
-  // size * the device pixel ratio.
-  canvas.width = rect.width * this.dpr;
-  canvas.height = rect.height * this.dpr;
-  var ctx = canvas.getContext('2d');
-  // Scale all drawing operations by the dpr, so you
-  // don't have to worry about the difference.
-  ctx.scale(this.dpr, this.dpr);
-  ctx.lineWidth = 1;
-}
+    let colPicked = Math.floor(((x - this.gridPosX) / boxWidth));
+    let rowPicked = Math.floor(((y - this.gridPosY) / boxHeight));
+    return [colPicked, rowPicked];
+  }
 
 
-setDraggingPiece(token){
-  this.draggingPiece = token;
-}
+
+  setupCanvas() {
+    // Scale canvas properly
+    let canvas = document.getElementById('canvas')
+    // Get the device pixel ratio, falling back to 1.
+    // Get the size of the canvas in CSS pixels.
+    var rect = canvas.getBoundingClientRect();
+    // Give the canvas pixel dimensions of their CSS
+    // size * the device pixel ratio.
+    canvas.width = rect.width * this.dpr;
+    canvas.height = rect.height * this.dpr;
+    var ctx = canvas.getContext('2d');
+    // Scale all drawing operations by the dpr, so you
+    // don't have to worry about the difference.
+    ctx.scale(this.dpr, this.dpr);
+    ctx.lineWidth = 1;
+  }
+
+
+  setDraggingPiece(token) {
+    this.draggingPiece = token;
+  }
 
 
 
@@ -652,15 +867,15 @@ setDraggingPiece(token){
           <canvas id='canvas'>
           </canvas>
 
-          <div className={styles.imageContainer}>
+          {/* <div className={styles.imageContainer}>
             <img id="board-background" src={this.renderImage()} draggable="true" className={styles.backgroundImage} />
           </div>
 
-          <img id="empty" src={empty} className={styles.empty} />
+          <img id="empty" src={empty} className={styles.empty} /> */}
         </div>
 
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens}/> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} /> : null}
 
 
       </div>
