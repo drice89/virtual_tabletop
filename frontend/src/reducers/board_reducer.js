@@ -18,7 +18,7 @@ export default (state = {}, action) => {
       newBoard.tokens = newBoard.tokens.map(token=> token._id)
       return { ...state, ...{ [action.board._id]: newBoard } };
     case DELETE_BOARD:
-      delete nextState[action.boardId];
+      delete nextState[action.board._id];
       return nextState;
     default:
       return state;

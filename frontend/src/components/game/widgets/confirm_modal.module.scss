@@ -58,6 +58,24 @@
   color: $secondary-light;
 }
 
+.text {
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  color: $light-grey;
+  font-size: 1.4rem;
+}
+
+.name {
+  color: $white;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
 .logo {
   display: flex;
   color: white;

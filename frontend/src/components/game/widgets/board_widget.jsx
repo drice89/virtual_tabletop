@@ -51,11 +51,6 @@ class BoardWidget extends React.Component {
     e.preventDefault();
   }
 
-  deleteBoard(board) {
-    const { socket } = this.props;
-    socket.emit("deleteBoard", board);
-  }
-
   render() {
     const { boards, gameId, match, setBoardToDelete } = this.props;
     const {
@@ -80,7 +75,7 @@ class BoardWidget extends React.Component {
             {boards.map((board) => (
               <Link key={board._id} to={`/client/${gameId}/boards/${board._id}`} className={match.params.boardId === board._id ? styles.active : ''}>
                 {board.name}
-                <button type="button" className={styles.delete} onClick={() => setBoardToDelete(board._id)}>
+                <button type="button" className={styles.delete} onClick={() => setBoardToDelete(board)}>
                   <FiTrash2 />
                 </button>
               </Link>

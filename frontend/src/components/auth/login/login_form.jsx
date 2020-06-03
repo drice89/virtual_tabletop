@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
           <input type="text" name="email" placeholder="Email" value={email} onChange={this.handleChange('email')} />
           {errors.password ? <span className={styles.errors}>{errors.password}</span> : ''}
           <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
-          <button type="submit" className={buttons.demo} onClick={this.submitDemoUser}>Demo User</button>
+          <button type="button" className={buttons.demo} onClick={this.submitDemoUser}>Demo User</button>
           <button type="submit" className={buttons.secondary}>Login</button>
         </form>
         <span className={styles.linkAway}>

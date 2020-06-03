@@ -35,7 +35,7 @@ const withModal = (Component) => {
       return (
         <div className={styles.modal}>
           <div ref={this.setWrapperRef}>
-            <Component {...restProps}  toggleModal={toggleModal}/>
+            <Component {...restProps} toggleModal={toggleModal} />
           </div>
         </div>
       );

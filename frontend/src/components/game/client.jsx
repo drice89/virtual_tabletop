@@ -37,6 +37,13 @@ class Client extends React.Component {
       history.push(`/client/${board.gameId}/boards/${board._id}`);
     });
 
+    socket.on('boardDeleted', (board) => {
+      const { history, deleteBoard } = this.props;
+      deleteBoard(board);
+      const { boards } = this.props;
+      history.push(boards.length === 0 ? `/client/${board.gameId}` : `/client/${board.gameId}/boards/${boards[0]._id}`);
+    });
+
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
       receiveToken(token);
@@ -56,11 +63,11 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, boardToDelete } = this.state;
+    const { modalDelete } = this.state;
     if (!game) return null;
     return (
       <>
-        <div className={styles.main}>
+        <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
           <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
           <Nav />
           {match.params.boardId ? (
@@ -69,7 +76,7 @@ class Client extends React.Component {
             <GridContainer create socket={socket} />
           )}
         </div>
-        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} boardId={modalDelete} />
+        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} socket={socket} />
       </>
     );
   }
