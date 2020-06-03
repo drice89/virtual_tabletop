@@ -5,9 +5,9 @@ import { createGame } from '../../actions/games_actions';
 
 const mapStateToProps = (state) => ({
   creatorId: state.session.userId,
-  game: {name: "", description: "", backgroundImage: ""},
+  game: { _id: null, name: '', description: '', backgroundImage: '' },
   errors: state.errors.games,
-  formType: "Create Game",
+  formType: 'Create Game',
 });
 
 const mapDispatchToProps = (dispatch) => ({

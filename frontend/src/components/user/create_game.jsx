@@ -5,8 +5,9 @@ import buttons from '../buttons.module.scss';
 class CreateGame extends React.Component {
   constructor(props) {
     super(props);
-    const { creatorId, game: { name, description, backgroundImage } } = this.props;
+    const { creatorId, game: { _id, name, description, backgroundImage } } = this.props;
     this.state = {
+      _id,
       name,
       description,
       backgroundImage,
@@ -17,9 +18,11 @@ class CreateGame extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { processForm, history, errors } = this.props;
+    const { processForm, history, errors, toggleModal } = this.props;
     processForm(this.state).then((gameId) => {
-      if (gameId) {
+      if (gameId === 1) {
+        toggleModal(null);
+      } else if (gameId) {
         history.push(`/client/${gameId}`);
       }
     });

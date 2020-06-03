@@ -17,6 +17,8 @@ router.patch('/join', passport.authenticate('jwt', { session: false }), gameCont
 //delete 
 router.delete('/:id', gameController.deleteGame);
 
+router.patch('/edit', gameController.editGame);
+
 
 module.exports = router;
 module.exports = router;

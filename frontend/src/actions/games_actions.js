@@ -2,6 +2,7 @@ import * as gameAPIUtil from '../util/games_api_util';
 
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 export const RECEIVE_GAME = 'RECEIVE_GAME';
+export const EDIT_GAME = 'EDIT_GAME';
 export const DELETE_GAME = 'DELETE_GAME';
 export const RECEIVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
@@ -18,6 +19,11 @@ export const removeGame = (game) => ({
 
 export const receiveGame = (payload) => ({
   type: RECEIVE_GAME,
+  payload,
+});
+
+export const receiveEditedGame = (payload) => ({
+  type: EDIT_GAME,
   payload,
 });
 
@@ -63,4 +69,13 @@ export const fetchAll = () => (dispatch) => (
   gameAPIUtil.fetchAll()
     .then((games) => dispatch(receiveGames(games.data)))
     .catch((err) => dispatch(receiveGameErrors(err)))
+);
+
+export const editGame = (game) => (dispatch) => (
+  gameAPIUtil.editGame(game)
+    .then((editedGame) => { 
+      dispatch(receiveEditedGame(editedGame.data))
+      return 1;
+       })
+    .catch((err) => { dispatch(receiveGameErrors(err)); })
 );
