@@ -22,12 +22,12 @@ const Header = (props) => {
       <div>
         <Link to={`/user/${props.userId}`}>
           <button className={buttonStyles.signUp}>
-            {props.displayName}
+            <span>{props.displayName}</span>
           </button>
         </Link>
       </div>
       <div>
-        <button onClick={props.logout}>Logout</button>
+        <button onClick={props.logout}><span>Logout</span></button>
       </div>
     </>
   );
