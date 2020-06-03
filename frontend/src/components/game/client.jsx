@@ -68,7 +68,7 @@ class Client extends React.Component {
     return (
       <>
         <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
-          <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
+          <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} x={10} y={42} />
           <Nav />
           {match.params.boardId ? (
             <GridContainer socket={socket} />
