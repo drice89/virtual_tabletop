@@ -1,10 +1,11 @@
 import React from 'react';
-import FormData from 'form-data';
 import io from 'socket.io-client';
-import { Link } from 'react-router-dom';
 import Nav from './ui/nav';
 import GridContainer from './grid_container';
 import styles from './client.module.scss';
+import BoardWidget from './widgets/board_widget';
+import ConfirmModal from './widgets/confirm_modal';
+
 
 let socket;
 
@@ -12,10 +13,11 @@ class Client extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBoard: null,
+      modalDelete: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
-    this.createBoard = this.createBoard.bind(this);
+    // this.toggleModal = this.toggleModal.bind(this);
+    this.setBoardToDelete = this.setBoardToDelete.bind(this);
   }
 
   componentDidMount() {
@@ -30,77 +32,52 @@ class Client extends React.Component {
     });
 
     socket.on('boardUpdated', (board) => {
-      // this.props.receiveBoard(board);
-      const { history } = this.props;
+      const { history, receiveBoard } = this.props;
+      receiveBoard(board);
       history.push(`/client/${board.gameId}/boards/${board._id}`);
+    });
+
+    socket.on('boardDeleted', (board) => {
+      const { history, deleteBoard } = this.props;
+      deleteBoard(board);
+      const { boards } = this.props;
+      history.push(boards.length === 0 ? `/client/${board.gameId}` : `/client/${board.gameId}/boards/${boards[0]._id}`);
+    });
+
+    socket.on('tokenUpdated', (token) => {
+      const { receiveToken } = this.props;
+      receiveToken(token);
+    });
+
+    socket.on('tokenDeleted', (token) => {
+      const { deleteToken } = this.props;
+      deleteToken(token._id);
     });
   }
 
-  createBoard(rows, cols, gridZoomFactor, offsetX, offsetY, imageZoomFactor, backgroundImage) {
-    const { createBoard, match } = this.props;
-    const formData = new FormData();
-
-    formData.append('name', 'Testing client component');
-    formData.append('gameId', match.params.gameId);
-
-    formData.append('rows', rows);
-    formData.append('cols', cols);
-    formData.append('gridZoomFactor', gridZoomFactor);
-
-    formData.append('offsetX', offsetX);
-    formData.append('offsetY', offsetY);
-    formData.append('imageZoomFactor', imageZoomFactor);
-
-    formData.append('gridColor', '#FFF');
-    formData.append('opacity', 1);
-    formData.append('backgroundImage', backgroundImage);
-
-    createBoard(formData);
-  }
-
-  handlePieceDrop(move) {
-    socket.emit('move', move);
-  }
-
-  changeBoard(currentBoard) {
-    this.setState({ currentBoard });
+  setBoardToDelete(modalDelete) {
+    this.setState({ modalDelete });
   }
 
   render() {
-    const { currentBoard } = this.state;
     const {
-      game, boards, pieces, tokens, createPiece, userId, createToken, match
+      game, boards, match,
     } = this.props;
+    const { modalDelete } = this.state;
     if (!game) return null;
     return (
-      <div className={styles.main}>
-        <Nav />
-        <div className={styles.boardMenu}>
-          <div className={styles.menuTitle}>
-            <i className="ra ra-chessboard" />
-            <h2>Boards</h2>
-          </div>
-          <div className={styles.boardList}>
-            <Link to={`/client/${game._id}`}>
-              <button type="button"  className={match.params.boardId === undefined ? styles.active : ''}>
-                Create A New Board
-              </button>
-            </Link>
-            {boards.map((board, index) => (
-              <Link to={`/client/${game._id}/boards/${board._id}`}>
-                <button type="button" className={match.params.boardId === board._id ? styles.active : ''}>
-                  {board.name}
-                </button>
-              </Link>
-            ))}
-          </div>
+      <>
+        <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
+          <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
+          <Nav />
+          {match.params.boardId ? (
+            <GridContainer socket={socket} />
+          ) : (
+            <GridContainer create socket={socket} />
+          )}
         </div>
-        {match.params.boardId ? (
-          <GridContainer />
-        ) : (
-          <GridContainer create />
-        )}
-      </div>
+        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} socket={socket} />
+      </>
     );
   }
 }

@@ -46,6 +46,9 @@ This project uses:
   * socket.io
   * socket.io-client
   * validator
+  * [RPG-Awesome Icons](https://nagoshiashumari.github.io/Rpg-Awesome/)
+  * Webpack CSS Loader
+  * Sass
 
 ## Usage
 

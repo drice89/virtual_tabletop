@@ -1,0 +1,102 @@
+@import '../../_colors.scss';
+
+.boardMenu {
+  position: absolute;
+  width: 240px;
+  // overflow-y: auto;
+  background-color: $white;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.boardList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.boardList > a {
+  padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 24px;
+  // flex-direction: column;
+}
+
+.boardList a:hover {
+  background-color: $lighter-grey;
+}
+
+.boardList a:hover button {
+  display: flex;
+}
+
+.boardList a:active {
+  background-color: $secondary;
+  color: $white;
+}
+
+.active {
+  background-color: $secondary;
+  color: $white;
+}
+
+a.active:hover {
+  background-color: $secondary;
+  color: $white;  
+}
+
+.menuBar {
+  background-color: $primary-dark;
+  color: $white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.menuBar:hover:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.menuTitle {
+  display: flex;
+  align-items: center;
+}
+
+.menuTitle i {
+  font-size: 1.6rem;
+  margin-right: 8px;
+}
+
+.container {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  // z-index: 10;
+}
+
+.coverContainer {
+  z-index: 10;
+  // filter: blur(4px);
+}
+
+.delete {
+  display: none;
+  border-radius: 4px;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete:hover {
+  background-color: rgba(0,0,0,0.1);
+}

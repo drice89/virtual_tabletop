@@ -9,7 +9,7 @@ const users = require('./routes/api/users');
 const games = require('./routes/api/games');
 const boards = require('./routes/api/boards');
 const pieces = require('./routes/api/pieces');
-const boardController = require('./controllers/boards_controller')
+const boardController = require('./controllers/boards_controller');
 const path = require('path');
 
 
@@ -84,7 +84,7 @@ nsp.on('connection', function(socket){
     boardController.editToken(token)
   })
 
-  //expected input format { boardId: "string", tokenId: "string"}
+  // expected input format { boardId: "string", tokenId: "string"}
   socket.on("deleteToken", (token) => {
     boardController.deleteToken(token)
   })
@@ -97,29 +97,4 @@ exports.transmitData = function (room, actionName, action) {
   //return nsp.to(room).emit(actionName, action)
  };
 
- //socket.broadcast.emit('tokenMoved', move)
-
-// dias's websocket code
-// io.on("connection", socket => {
-//   console.log("New client connected");
-
-//   //Here we listen on a new namespace called "incoming data"
-//   socket.on("move", (move) => {
-//     // console.log(move)
-//     socket.broadcast.emit('tokenMoved', move)
-//   });
-
-//   socket.on("createBoard", (board) => {
-//     console.log(board.backgroundImage)
-//    const res = boardsController.createBoard(board)
-//       socket.broadcast.emit('boardCreated', res)
-//   })
-  
- 
-//   //A special namespace "disconnect" for when a client disconnects
-//   socket.on("disconnect", () => console.log("Client disconnected"));
-// });
-
-// app.listen(port, () => console.log(`list ening on port ${port}`));
-boardController.editToken({ tokenId:'5ec077d81b21e81926c14db2', boardId: '5ebed3ef3dda9e104684bff1', pos: {x: 10, y:10}, imageUrl: 'www.google.com', pieceId: '5ebca6cfa2af7e68e47030aa'})
 server.listen(port, () => console.log(`Listening on port ${port}`));

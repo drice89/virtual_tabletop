@@ -70,6 +70,7 @@ class Grid extends React.Component {
     console.log(token);
     this.props.createToken(token);
     // socket.emit('updateToken', token);
+    
   }
 
 
@@ -120,11 +121,11 @@ class Grid extends React.Component {
 
 
     // setting up the socket
-    const roomId = this.props.match.params.gameId;
-    socket = io(this.ENPOINT);
-    socket.on('connect', () => {
-      socket.emit('joinRoom', { roomId });
-    });
+    // const roomId = this.props.match.params.gameId;
+    // socket = io(this.ENPOINT);
+    // socket.on('connect', () => {
+    //   socket.emit('joinRoom', { roomId });
+    // });
   }
 
   componentWillUnmount() {
@@ -398,26 +399,6 @@ class Grid extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // debugger
-    // socket.on('tokenMoved', (move) => {
-    //   // const prev = document.getElementById(`${move.prev.row}-${move.prev.col}`);
-    //   // const next = document.getElementById(`${move.next.row}-${move.next.col}`);
-
-    //   // if (!next.innerHTML) {
-    //   //   next.innerHTML = prev.innerHTML;
-    //   //   prev.innerHTML = '';
-    //   // }
-    //   // this.renderBoard();
-    // });
-    // socket.on('boardUpdated', (board) => {
-    //   // this.props.receiveBoard(board)
-    //   // debugger
-    //   this.props.history.push(`/games/${board.gameId}/boards/${board._id}`);
-    // });
-
-    // socket.on('action', (data)=>{
-    //   console.log(data)
-    // })
 
     if (!prevProps.create && this.props.create) {
       const state = {
@@ -508,8 +489,7 @@ class Grid extends React.Component {
           <img id="empty" src={empty} className={styles.empty} />
         </div>
 
-
-        {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} /> : null}
+          {!create ? <TokenBar handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} /> : null}
 
 
       </div>
