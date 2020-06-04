@@ -84,3 +84,11 @@
 .btnIcon > * ~ * {
   margin-left: 4px;
 }
+
+.gold {
+  background-color: $gold-dark;
+}
+
+.gold:hover {
+  background-color: $gold;
+}

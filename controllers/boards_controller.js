@@ -73,7 +73,7 @@ function addBoardToGame(board) {
 // board deleting
 exports.deleteBoard = function (board) {
   // find the board by id and delete it
-  Board.findById(board.id, (err, result) => {
+  Board.findById(board._id, (err, result) => {
     if (result && result.remove()) {
       // transmits board.id
       app.transmitData(`${result.gameId}`, 'boardDeleted', board);
@@ -82,7 +82,7 @@ exports.deleteBoard = function (board) {
     }
   });
 };
-
+ 
 // update the board
 exports.updateBoard = function (board) {
   // find the board by id and update it

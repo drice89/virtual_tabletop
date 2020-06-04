@@ -22,7 +22,7 @@ export default (state = {}, action) => {
       nextState[action.token.boardId].tokens.push(action.token._id);
       return nextState;
     case DELETE_BOARD:
-      delete nextState[action.boardId];
+      delete nextState[action.board._id];
       return nextState;
     default:
       return state;
