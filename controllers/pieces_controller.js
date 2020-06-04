@@ -15,7 +15,7 @@ function structurePiecesPayload(pieces) {
 }
 
 exports.fetchPieces = function (req, res) {
-  Piece.find({userId: req.body.userId})
+  Piece.find({ userId: req.body.userId })
     .then(
       (pieces) => res.json(pieces),
       (err) => res.json(err),
@@ -32,7 +32,7 @@ exports.createPiece = function (req, res) {
 
   User.find({ _id: userId }, function (userError, user) {
     if ((!user) || userError) {
-      return res.status(400).json({ message: 'could not find user' });
+      return res.status(400).json({ error: 'could not find user' });
     }
     Piece.create({ uploaderId: userId, imageUrl })
       .then(
@@ -46,14 +46,14 @@ exports.editPiece = function (req, res) {
   const { pieceId, imageUrl } = req.body;
 
   if (imageUrl.trim() === '') {
-    return res.status(400).json({ message: 'image url can\'t be blank' });
+    return res.status(400).json({ error: 'image url can\'t be blank' });
   }
 
   Piece.findByIdAndUpdate(pieceId, { imageUrl },
     { new: true },
     function (err, piece) {
       if (!piece || err) {
-        return res.status(400).json({ message: 'something went wrong' });
+        return res.status(400).json({ error: 'something went wrong' });
       }
       return res.json(piece);
     });
@@ -66,7 +66,7 @@ exports.deletePiece = function (req, res) {
     .then(
       (piece) => {
         if (!piece) {
-          return res.status(400).json({ message: 'could not locate piece' });
+          return res.status(400).json({ error: 'could not locate piece' });
         }
         return res.json({ message: 'Piece deleted' });
       },

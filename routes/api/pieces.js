@@ -11,7 +11,9 @@ router.post('/create',
   upload.uploadPieceImage.single('backgroundImage'),
   piecesController.createPiece);
 
-router.patch('/edit', piecesController.editPiece);
+router.patch('/edit',
+  upload.uploadPieceImage.single('backgroundImage'),
+  piecesController.editPiece);
 
 router.delete('/delete', piecesController.deletePiece);
 

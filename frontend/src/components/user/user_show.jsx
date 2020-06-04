@@ -7,13 +7,14 @@ import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
 import EditGameContainer from './edit_game_container';
+import Accordion from '../game/util/accordian';
 import Piece from "./piece"
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       createForm: false,
       editGameId: null,
     };
@@ -136,6 +137,7 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
+                <Accordion title={'My Pieces'} content={'test test'} />
               </div>
             </div>
           </div>

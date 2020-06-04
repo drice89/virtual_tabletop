@@ -161,66 +161,63 @@ exports.register = function (req, res) {
     });
 };
 
-function structurePiecesPayload(pieces) {
-  const payload = {};
-  pieces.forEach((piece) => {
-    piece.toJSON();
-    payload[piece._id] = piece;
-  });
-  return payload;
-}
+// function structurePiecesPayload(pieces) {
+//   const payload = {};
+//   pieces.forEach((piece) => {
+//     piece.toJSON();
+//     payload[piece._id] = piece;
+//   });
+//   return payload;
+// }
 
-// fetch all the pieces
-exports.fetchPieces = function (req, res) {
-  User.findOne({
-    _id: req.params.userId,
-  })
-    .then((user) => {
-      Piece.find({
-        uploaderId: req.params.userId,
-      })
-        .then((pieces) => {
-          console.log(pieces.data);
-          res.json(structurePiecesPayload(pieces));
-        });
-    })
-    .catch(() => res.status(404).json(['User was not found']));
+// // fetch all the pieces
+// exports.fetchPieces = function (req, res) {
+//   User.findOne({
+//     _id: req.params.userId,
+//   })
+//     .then((user) => {
+//       Piece.find({
+//         uploaderId: req.params.userId,
+//       })
+//         .then((pieces) => {
+//           res.json(structurePiecesPayload(pieces));
+//         });
+//     })
+//     .catch(() => res.status(404).json({ error: 'User was not found' }));
+// };
 
-    
-};
+// // create a piece
+// exports.createPiece = function (req, res) {
+//   // const { errors, isValid } = validatePiece(req.body);
 
-// create a piece
-exports.createPiece = function (req, res) {
-  // const { errors, isValid } = validatePiece(req.body);
+//   // if (!isValid) {
+//   //   return res.status(400).json(errors);
+//   // }
 
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
-
-  User.findOne({ _id: req.body.userId })
-    .then((user) => {
-      const newPiece = new Piece({
-        uploaderId: req.body.userId,
-        imageUrl: req.body.imageUrl,
-      });
+//   User.findOne({ _id: req.body.userId })
+//     .then((user) => {
+//       const newPiece = new Piece({
+//         uploaderId: req.body.userId,
+//         imageUrl: req.body.imageUrl,
+//       });
 
 
-      newPiece.save()
-        .then(() => res.json(newPiece))
-        .catch(() => res.status(422).json(["The piece was not created."]));
-    })
-    .catch(() => res.status(404).json(['User was not found']));
-};
+//       newPiece.save()
+//         .then(() => res.json(newPiece))
+//         .catch(() => res.status(422).json(["The piece was not created."]));
+//     })
+//     .catch(() => res.status(404).json(['User was not found']));
+// };
 
-// delete single piece
-exports.deletePiece = function (req, res) {
-  User.findOne({ _id: req.params.userId })
-    .then((user) => {
-      Piece.findOne({ uploaderId: req.params.userId })
-        .then((piece) => {
-          piece.remove();
-          return res.json('Piece was deleted.');
-        });
-    })
-    .catch(() => res.status(404).json(['User was not found']));
-};
+// // delete single piece
+// exports.deletePiece = function (req, res) {
+//   User.findOne({ _id: req.params.userId })
+//     .then((user) => {
+//       Piece.findOne({ uploaderId: req.params.userId })
+//         .then((piece) => {
+//           piece.remove();
+//           return res.json('Piece was deleted.');
+//         });
+//     })
+//     .catch(() => res.status(404).json(['User was not found']));
+// };
