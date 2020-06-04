@@ -5,7 +5,6 @@ import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
-import SettingWidgetContainer from './widgets/setting_widget_container';
 
 
 let socket;
@@ -87,17 +86,12 @@ class Client extends React.Component {
             y={42}
             toggleWidget={this.toggleWidget}
           />
-          <SettingWidgetContainer
-            x={260}
-            y={42}
-            active={widgetSettings}
-            toggleWidget={this.toggleWidget}
-          />
+         
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} />
+            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
           ) : (
-            <GridContainer create socket={socket} />
+            <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
           )}
         </div>
         <ConfirmModal

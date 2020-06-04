@@ -2,6 +2,7 @@ import React from 'react';
 import { FiX } from 'react-icons/fi';
 import withWidget from '../util/with_widget';
 import widgetStyles from './widget.module.scss';
+import styles from './setting_widget.module.scss';
 
 const SettingWidget = ({ toggleWidget }) => (
   <div className={widgetStyles.container}>
@@ -15,7 +16,51 @@ const SettingWidget = ({ toggleWidget }) => (
       </button>
     </div>
     <div className={widgetStyles.content}>
-      test
+      <div>
+        <h3>Grid Settings</h3>
+        
+        <div className={styles.settingsSection}>
+         <div>
+            <div>
+              Width
+            <button className={styles.plusMinusButton}>-</button>
+              <button className={styles.plusMinusButton}>+</button>
+            </div>
+
+            <div>
+              Height
+            <button className={styles.plusMinusButton}>-</button>
+              <button className={styles.plusMinusButton}>+</button>
+            </div>
+         </div>
+
+          <button className={styles.unlockButton}>Unlock grid</button>
+        </div>
+
+      </div>
+
+      <div>
+        <h3>Background Settings</h3>
+
+        <div className={styles.settingsSection}>
+          <div>
+            <div>
+              Width
+            <button className={styles.plusMinusButton}>-</button>
+              <button className={styles.plusMinusButton}>+</button>
+            </div>
+
+            <div>
+              Height
+            <button className={styles.plusMinusButton}>-</button>
+              <button className={styles.plusMinusButton}>+</button>
+            </div>
+          </div>
+
+          <button className={styles.unlockButton}>Unlock background</button>
+        </div>
+
+      </div>
     </div>
   </div>
 );

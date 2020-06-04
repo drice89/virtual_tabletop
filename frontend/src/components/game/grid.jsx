@@ -5,6 +5,8 @@ import FormData from 'form-data';
 import styles from './grid.module.scss';
 import TokenBar from './token_bar';
 import { createBoard } from '../../util/boards_api_util';
+import SettingWidgetContainer from './widgets/setting_widget_container';
+
 
 
 class Grid extends React.Component {
@@ -155,6 +157,7 @@ class Grid extends React.Component {
     let context = canvas.getContext('2d');
 
     canvas.addEventListener('wheel', (event) => {
+      event.preventDefault();
       let pos = this.getBoxLocation(event.layerX, event.layerY);
       //if the mouse is on the grid
       if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
@@ -476,8 +479,12 @@ class Grid extends React.Component {
     formData.append('backgroundImage', this.state.imageFile);
 
     createBoard(formData)
-      .then(() => true)
+      .then(() => {
+       
+      })
       .catch((err) => console.log(err))
+    this.moveGrid = false;
+    this.moveBackground = false;
   }
 
   handleImageClick() {
@@ -541,6 +548,10 @@ class Grid extends React.Component {
         showInitialEdit: false,
         previewUrl: null,
       };
+
+      this.zoomGridTEST = 1;
+      this.zoomBackground = 1;
+
       this.setState(state, () => {
 
         let context = canvas.getContext('2d');
@@ -550,6 +561,12 @@ class Grid extends React.Component {
     }
 
     if (this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) {
+
+      this.bar = document.getElementById('bar-container');
+      document.addEventListener('mousemove', this.showHideTokenBar);
+      document.addEventListener('dragover', this.showHideTokenBar);
+      this.bar.style.display = 'none';
+
       const state = {
         row: this.props.board.gridSize.rows,
         col: this.props.board.gridSize.cols,
@@ -563,6 +580,8 @@ class Grid extends React.Component {
         borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
       };
+      this.zoomGridTEST = state.zoomFactorGrid;
+      this.zoomBackground = state.zoomFactorImage;
       this.setState(state, this.setFetchedGrid);
     }
   }
@@ -695,10 +714,19 @@ class Grid extends React.Component {
 
   render() {
     const {
-      create, pieces, createPiece, userId, board,
+      create, pieces, createPiece, userId, board, active, toggleWidget
     } = this.props;
     return (
       <div>
+
+        <SettingWidgetContainer
+          x={260}
+          y={42}
+          active={active}
+          toggleWidget={toggleWidget}
+        />
+
+        
 
         {create ? (
           <div className={styles.initialSetup}>
