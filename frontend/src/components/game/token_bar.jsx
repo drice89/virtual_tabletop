@@ -62,6 +62,7 @@ export default class TokenBar extends React.Component {
   }
 
   render() {
+    const { toggleWidget } = this.props;
     return (
       <>
         <div className={styles.barContainer} id="bar-container">
@@ -82,7 +83,7 @@ export default class TokenBar extends React.Component {
 
             <div className={styles.tokenActionContainer}>
               <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
-                <i className="ra ra-guillotine" title="Delete Token" onClick={() => this.toggleDeleteToken() } />
+                <i className="ra ra-guillotine" title="Delete Token" onClick={() => toggleWidget('widgetDelete') } />
               </div>
             </div>
 

@@ -17,6 +17,7 @@ class Client extends React.Component {
       widgetBoards: null,
       widgetSettings: null,
       widgetChat: null,
+      widgetDelete: true,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -74,7 +75,7 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, widgetBoards, widgetSettings, widgetChat } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
     const { socket } = this;
     if (!game) return null;
     return (
@@ -99,9 +100,9 @@ class Client extends React.Component {
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} />
           ) : (
-            <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} />
           )}
         </div>
         <ConfirmModal

@@ -6,6 +6,7 @@ import styles from './grid.module.scss';
 import TokenBar from './token_bar';
 import { createBoard } from '../../util/boards_api_util';
 import SettingWidgetContainer from './widgets/setting_widget_container';
+import DeleteTokenWidget from './widgets/delete_token_widget';
 
 
 
@@ -714,7 +715,7 @@ class Grid extends React.Component {
 
   render() {
     const {
-      create, pieces, createPiece, userId, board, active, toggleWidget
+      create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget,
     } = this.props;
     return (
       <div>
@@ -722,11 +723,16 @@ class Grid extends React.Component {
         <SettingWidgetContainer
           x={260}
           y={42}
-          active={active}
+          active={settingActive}
           toggleWidget={toggleWidget}
         />
 
-        
+        <DeleteTokenWidget
+          x={260}
+          y={42}
+          active={deleteActive}
+          toggleWidget={toggleWidget}
+        />
 
         {create ? (
           <div className={styles.initialSetup}>
@@ -758,7 +764,7 @@ class Grid extends React.Component {
           </canvas>
         </div>
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} /> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget}/> : null}
 
 
       </div>
