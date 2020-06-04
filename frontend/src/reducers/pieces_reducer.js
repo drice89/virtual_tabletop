@@ -3,7 +3,7 @@ import {
     REMOVE_PIECE,
     RECEIVE_PIECE,
     RECEIVE_PIECES
-} from '../actions/users_actions';
+} from '../actions/pieces_action';
 
 export default (state = {}, action) => {
     Object.freeze(state);

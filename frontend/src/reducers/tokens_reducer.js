@@ -12,7 +12,6 @@ export default (state = {}, action) => {
       });
       return nextState;
     case RECEIVE_GAME:
-      // debugger
       Object.values(action.payload.boards).forEach((board) => {
         board.tokens.forEach((token) => {
           nextState[token._id] = token;

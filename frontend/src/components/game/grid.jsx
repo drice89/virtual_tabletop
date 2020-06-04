@@ -7,8 +7,6 @@ import TokenBar from './token_bar';
 import { createBoard } from '../../util/boards_api_util';
 import SettingWidgetContainer from './widgets/setting_widget_container';
 
-
-
 class Grid extends React.Component {
   constructor(props) {
     super(props);

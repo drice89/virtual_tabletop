@@ -7,12 +7,13 @@ const router = express.Router();
 
 router.get('/all', piecesController.fetchPieces);
 
+//uploading to single bucket because of AWS policy issues 
 router.post('/create',
-  upload.uploadPieceImage.single('backgroundImage'),
+  upload.uploadBoardImage.single('imageFile'),
   piecesController.createPiece);
 
 router.patch('/edit',
-  upload.uploadPieceImage.single('backgroundImage'),
+  upload.uploadBoardImage.single('imageFile'),
   piecesController.editPiece);
 
 router.delete('/delete', piecesController.deletePiece);

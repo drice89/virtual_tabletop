@@ -5,7 +5,6 @@ import { deleteGame } from '../../actions/games_actions';
 
 const mapStateToProps = (state, ownProps) => {
   const user = state.entities.users[ownProps.match.params.userId];
-  // debugger;
   return {
     user,
     createdGames: user.createdGames ? user.createdGames.map((game) => state.entities.games[game]) : [],

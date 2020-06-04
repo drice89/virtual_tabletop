@@ -7,7 +7,7 @@ import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
 import EditGameContainer from './edit_game_container';
-import Accordion from '../game/util/accordian';
+import CreatePieceContainer from './create_piece_container';
 import Piece from "./piece"
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -110,7 +110,7 @@ class UserShow extends React.Component {
                 <section className={styles.main}>
                   {createdGames.map((game) => (
                     <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
-                  ))}
+                    ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>
                       Glory awaits for
@@ -130,14 +130,14 @@ class UserShow extends React.Component {
                 <section className={styles.main}>
                   {subscribedGames.map((game) => (
                     <GameCard game={game} />
-                  ))}
+                    ))}
                   {subscribedGames.length ? '' : (
                     <div className={styles.noSubs}>
                       &quot;I&apos;m Going on an Adventure!&quot;
                     </div>
                   )}
                 </section>
-                <Accordion title={'My Pieces'} content={'test test'} />
+                  <CreatePieceContainer title='My Pieces' />
               </div>
             </div>
           </div>
