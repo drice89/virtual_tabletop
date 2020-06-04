@@ -90,7 +90,7 @@ nsp.on('connection', function(socket){
   })
 
   socket.on("message", (message) => {
-    socket.to(`${message.room}`).emit("message", message)
+    nsp.to(`${message.room}`).emit("message", message)
   })
 });
 

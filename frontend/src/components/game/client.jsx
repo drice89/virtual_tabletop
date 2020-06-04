@@ -6,6 +6,7 @@ import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
 import SettingWidgetContainer from './widgets/setting_widget_container';
+import ChatWidget from './widgets/chat_widget';
 
 
 let socket;
@@ -17,6 +18,7 @@ class Client extends React.Component {
       modalDelete: null,
       widgetBoards: null,
       widgetSettings: null,
+      widgetChat: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
     // this.toggleModal = this.toggleModal.bind(this);
@@ -72,7 +74,7 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, widgetBoards, widgetSettings } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings, widgetChat } = this.state;
     if (!game) return null;
     return (
       <>
@@ -91,6 +93,13 @@ class Client extends React.Component {
             x={260}
             y={42}
             active={widgetSettings}
+            toggleWidget={this.toggleWidget}
+          />
+          <ChatWidget
+            x={510}
+            y={42}
+            socket={socket}
+            active={widgetChat}
             toggleWidget={this.toggleWidget}
           />
           <Nav toggleWidget={this.toggleWidget} />

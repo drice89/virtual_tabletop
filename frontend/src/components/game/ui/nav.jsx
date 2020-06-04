@@ -29,7 +29,7 @@ const Nav = ({ currentUserId, toggleWidget }) => (
         <span>Boards</span>
       </div>
     </button>
-    <button type="button" className={buttons.none}>
+    <button type="button" className={buttons.none} onClick={() => toggleWidget('widgetChat')}>
       <div className={styles.btn}>
         <i className="ra ra-speech-bubble" />
         <span>Chat</span>
