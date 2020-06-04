@@ -9,8 +9,6 @@ import SettingWidgetContainer from './widgets/setting_widget_container';
 import ChatWidget from './widgets/chat_widget';
 
 
-let socket;
-
 class Client extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +19,7 @@ class Client extends React.Component {
       widgetChat: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.socket = io(this.ENPOINT);
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
@@ -32,7 +31,8 @@ class Client extends React.Component {
 
     // set up sockets
     const roomId = match.params.gameId;
-    socket = io(this.ENPOINT);
+    const { socket } = this;
+
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
@@ -75,6 +75,7 @@ class Client extends React.Component {
       game, boards, match,
     } = this.props;
     const { modalDelete, widgetBoards, widgetSettings, widgetChat } = this.state;
+    const { socket } = this;
     if (!game) return null;
     return (
       <>
@@ -87,12 +88,6 @@ class Client extends React.Component {
             active={widgetBoards}
             x={10}
             y={42}
-            toggleWidget={this.toggleWidget}
-          />
-          <SettingWidgetContainer
-            x={260}
-            y={42}
-            active={widgetSettings}
             toggleWidget={this.toggleWidget}
           />
           <ChatWidget
