@@ -76,12 +76,12 @@ nsp.on('connection', function(socket){
   //size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId: 
   //"playerId" }
   socket.on("createToken", (token) => {
-    boardController.createBoard(token)
+    boardController.createToken(token)
   })
 
   //expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
-  socket.on("editToken", (token) => {
-    boardController.editToken(token)
+  socket.on("updateToken", (token) => {
+    boardController.updateToken(token)
   })
 
   // expected input format { boardId: "string", tokenId: "string"}

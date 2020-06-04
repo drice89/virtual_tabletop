@@ -104,9 +104,9 @@ class Client extends React.Component {
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} />
+            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
           ) : (
-            <GridContainer create socket={socket} />
+            <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
           )}
         </div>
         <ConfirmModal

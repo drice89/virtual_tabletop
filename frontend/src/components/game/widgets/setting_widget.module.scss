@@ -1,0 +1,27 @@
+.plusMinusButton {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border: 1px solid white;
+    background-color: rgb(92, 92, 92);
+    color: white;
+    border-radius: 5px;
+    text-shadow: 0 0 2px rgb(0, 0, 0);
+    font-size: 15px;
+}
+
+.settingsSection {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.unlockButton {
+    background-color: white;
+    color:black;
+    height: 30px;
+    width: 120px;
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 10px;
+}

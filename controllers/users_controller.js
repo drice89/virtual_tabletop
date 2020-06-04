@@ -185,25 +185,28 @@ exports.fetchPieces = function (req, res) {
         });
     })
     .catch(() => res.status(404).json(['User was not found']));
+
+    
 };
 
 // create a piece
 exports.createPiece = function (req, res) {
-  const { errors, isValid } = validatePiece(req.body);
+  // const { errors, isValid } = validatePiece(req.body);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
 
-  User.findOne({ _id: req.params.userId })
+  User.findOne({ _id: req.body.userId })
     .then((user) => {
       const newPiece = new Piece({
-        uploaderId: req.params.userId,
+        uploaderId: req.body.userId,
         imageUrl: req.body.imageUrl,
       });
 
+
       newPiece.save()
-        .then(() => res.status(200).json(newPiece))
+        .then(() => res.json(newPiece))
         .catch(() => res.status(422).json(["The piece was not created."]));
     })
     .catch(() => res.status(404).json(['User was not found']));

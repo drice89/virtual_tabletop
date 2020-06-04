@@ -1,7 +1,6 @@
 import React from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import styles from './token_bar.module.scss';
-import token2 from '../../images/token2.png';
 import Token from './token';
 import DeleteTokenWindow from "./delete_token_window"
 
@@ -50,7 +49,8 @@ export default class TokenBar extends React.Component {
       <>
         {this.props.pieces.map((piece) => (
           <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
-            <Token handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} />
+
+            <Token setDraggingPiece={this.props.setDraggingPiece} handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} />
           </div>
         ))}
       </>
@@ -58,7 +58,7 @@ export default class TokenBar extends React.Component {
   }
 
   createPiece() {
-    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png' } });
+    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png', userId: this.props.userId} });
   }
 
   render() {
@@ -71,51 +71,8 @@ export default class TokenBar extends React.Component {
 
           <div className={styles.tokenBar} id="token-bar">
             <div className={styles.tokenBarContainer}>
-
               {this.renderPieces()}
-
-              {/* <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div>
-              <div className={styles.tokenBarItem} id="bar-1" >
-                <Token handlePieceDrop={this.props.handlePieceDrop} />
-              </div> */}
-
             </div>
-
 
             <div className={styles.tokenActionContainer}>
               <div className={styles.tokenAction} onClick={this.createPiece}>
@@ -135,7 +92,7 @@ export default class TokenBar extends React.Component {
             <FiChevronRight className={styles.rightArrow} />
           </div>
         </div>
-        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket}/> }
+        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket} tokens={this.props.tokens}/> }
       </>
     );
   }
