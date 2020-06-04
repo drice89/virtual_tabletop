@@ -5,6 +5,7 @@ import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
+import SettingWidgetContainer from './widgets/setting_widget_container';
 
 
 let socket;
@@ -14,10 +15,13 @@ class Client extends React.Component {
     super(props);
     this.state = {
       modalDelete: null,
+      widgetBoards: null,
+      widgetSettings: null,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
+    this.toggleWidget = this.toggleWidget.bind(this);
   }
 
   componentDidMount() {
@@ -59,24 +63,49 @@ class Client extends React.Component {
     this.setState({ modalDelete });
   }
 
+  toggleWidget(widget) {
+    const currState = this.state[widget];
+    this.setState({ [widget]: !currState });
+  }
+
   render() {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings } = this.state;
     if (!game) return null;
     return (
       <>
         <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
-          <BoardWidget boards={boards} gameId={game._id} socket={socket} setBoardToDelete={this.setBoardToDelete} />
-          <Nav />
+          <BoardWidget
+            boards={boards}
+            gameId={game._id}
+            socket={socket}
+            setBoardToDelete={this.setBoardToDelete}
+            active={widgetBoards}
+            x={10}
+            y={42}
+            toggleWidget={this.toggleWidget}
+          />
+          <SettingWidgetContainer
+            x={260}
+            y={42}
+            active={widgetSettings}
+            toggleWidget={this.toggleWidget}
+          />
+          <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
             <GridContainer socket={socket} />
           ) : (
             <GridContainer create socket={socket} />
           )}
         </div>
-        <ConfirmModal active={modalDelete} toggleModal={this.setBoardToDelete} board={modalDelete} socket={socket} />
+        <ConfirmModal
+          active={modalDelete}
+          toggleModal={this.setBoardToDelete}
+          board={modalDelete}
+          socket={socket}
+        />
       </>
     );
   }

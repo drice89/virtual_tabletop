@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import withModal from '../game/util/with_modal';
 import CreateGame from './create_game';
@@ -15,4 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
   processForm: (game) => dispatch(editGame(game)),
 });
 
-export default withModal(connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateGame)));
+export default compose(
+  withModal,
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(CreateGame);

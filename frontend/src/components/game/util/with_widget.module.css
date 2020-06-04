@@ -1,0 +1,18 @@
+.container {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.coverContainer {
+  z-index: 10;
+}
+
+.contentContainer {
+  position: absolute;
+  box-shadow: 0px 2px 7px rgba(0,0,0,0.3);
+  border-radius: 6px;
+  z-index: 10;
+}
