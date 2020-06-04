@@ -26,12 +26,14 @@ exports.createBoard = function (req, res) {
     rows: req.body.rows,
     cols: req.body.cols,
     gridZoomFactor: req.body.gridZoomFactor,
+    gridPosX: req.body.gridPosX,
+    gridPosY: req.body.gridPosY,
   };
 
 
   const imageAttributes = {
-    offsetX: req.body.offsetX,
-    offsetY: req.body.offsetY,
+    imagePosX: req.body.imagePosX,
+    imagePosY: req.body.imagePosY,
     imageZoomFactor: req.body.imageZoomFactor,
   };
 
