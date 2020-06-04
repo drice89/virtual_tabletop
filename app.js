@@ -88,6 +88,10 @@ nsp.on('connection', function(socket){
   socket.on("deleteToken", (token) => {
     boardController.deleteToken(token)
   })
+
+  socket.on("message", (message) => {
+    socket.to(`${message.room}`).emit("message", message)
+  })
 });
 
 

@@ -1,0 +1,30 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.chatContainer {
+  display: block;
+  width: 200px;
+  height: 300px;
+  background: $primary;
+  position: absolute;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.messageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.messageComposerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
