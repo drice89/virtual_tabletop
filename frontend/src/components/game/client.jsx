@@ -58,7 +58,7 @@ class Client extends React.Component {
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
-      deleteToken(token._id);
+      deleteToken(token);
     });
   }
 

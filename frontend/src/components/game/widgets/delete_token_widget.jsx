@@ -2,9 +2,10 @@ import React from 'react';
 import { FiX } from 'react-icons/fi';
 import withWidget from '../util/with_widget';
 import widgetStyles from './widget.module.scss';
-import styles from './setting_widget.module.scss';
+import DeleteTokenWindow from './delete_token_window';
+import styles from './delete_token_widget.module.scss';
 
-const DeleteTokenWidget = ({ toggleWidget }) => (
+const DeleteTokenWidget = ({ toggleWidget, socket, tokens }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
@@ -16,7 +17,7 @@ const DeleteTokenWidget = ({ toggleWidget }) => (
       </button>
     </div>
     <div className={widgetStyles.content}>
-      hahha
+      <DeleteTokenWindow socket={socket} tokens={tokens} />
     </div>
   </div>
 );

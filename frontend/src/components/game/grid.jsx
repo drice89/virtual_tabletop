@@ -715,7 +715,7 @@ class Grid extends React.Component {
 
   render() {
     const {
-      create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget,
+      create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget, socket, tokens
     } = this.props;
     return (
       <div>
@@ -732,6 +732,8 @@ class Grid extends React.Component {
           y={42}
           active={deleteActive}
           toggleWidget={toggleWidget}
+          socket={socket}
+          tokens={tokens}
         />
 
         {create ? (
