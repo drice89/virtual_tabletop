@@ -54,3 +54,7 @@ input[type="submit"] {
 *:focus {
   outline: none;
 }
+
+.App {
+  width: 100vw;
+}
