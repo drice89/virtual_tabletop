@@ -5,9 +5,9 @@ import GridContainer from './grid_container';
 import styles from './client.module.scss';
 import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
+import SettingWidgetContainer from './widgets/setting_widget_container';
+import ChatWidget from './widgets/chat_widget';
 
-
-let socket;
 
 class Client extends React.Component {
   constructor(props) {
@@ -16,9 +16,12 @@ class Client extends React.Component {
       modalDelete: null,
       widgetBoards: null,
       widgetSettings: null,
-      update: false
+      update: false,
+      widgetChat: null,
+      widgetDelete: true,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.socket = io(this.ENPOINT);
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
@@ -31,7 +34,8 @@ class Client extends React.Component {
 
     // set up sockets
     const roomId = match.params.gameId;
-    socket = io(this.ENPOINT);
+    const { socket } = this;
+
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
@@ -65,8 +69,9 @@ class Client extends React.Component {
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
-      deleteToken(token._id);
+      // deleteToken(token._id);
       this.setState({ update: true })
+      deleteToken(token);
     });
   }
 
@@ -87,7 +92,8 @@ class Client extends React.Component {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, widgetBoards, widgetSettings } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
+    const { socket } = this;
     if (!game) return null;
     return (
       <>
@@ -102,12 +108,18 @@ class Client extends React.Component {
             y={42}
             toggleWidget={this.toggleWidget}
           />
-         
+          <ChatWidget
+            x={510}
+            y={42}
+            socket={socket}
+            active={widgetChat}
+            toggleWidget={this.toggleWidget}
+          />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
           ) : (
-            <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} />
           )}
         </div>
         <ConfirmModal

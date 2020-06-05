@@ -6,6 +6,7 @@ import styles from './grid.module.scss';
 import TokenBar from './token_bar';
 import { createBoard } from '../../util/boards_api_util';
 import SettingWidgetContainer from './widgets/setting_widget_container';
+import DeleteTokenWidget from './widgets/delete_token_widget';
 
 
 
@@ -143,14 +144,20 @@ class Grid extends React.Component {
       document.addEventListener('dragover', this.showHideTokenBar);
       this.bar.style.display = 'none';
 
-      document.addEventListener('dragover', (e) => {
-        e.preventDefault();
-      })
+      
+    } else {
+      this.setState({ showInitialEdit: true });
+    }
 
-      canvas.addEventListener("drop", (e) => {
-        if (this.draggingPiece) {
-          let pos = this.getBoxLocation(e.layerX, e.layerY);
+    document.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    })
 
+    canvas.addEventListener("drop", (e) => {
+      if (this.draggingPiece) {
+        let pos = this.getBoxLocation(e.layerX, e.layerY);
+
+        if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
           this.draggingPiece.pos.x = pos[0];
           this.draggingPiece.pos.y = pos[1];
 
@@ -168,12 +175,9 @@ class Grid extends React.Component {
             this.draggingPiece = null;
 
           });
-
         }
-      })
-    } else {
-      this.setState({ showInitialEdit: true });
-    }
+      }
+    })
 
     let mousePressed = false;
     let dragToken = null;
@@ -858,7 +862,7 @@ class Grid extends React.Component {
 
   render() {
     const {
-      create, pieces, createPiece, userId, board, active, toggleWidget
+      create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget, socket, tokens
     } = this.props;
     return (
       <div>
@@ -866,7 +870,7 @@ class Grid extends React.Component {
         <SettingWidgetContainer
           x={260}
           y={42}
-          active={active}
+          active={settingActive}
           toggleWidget={toggleWidget}
           plusGridWidth={this.plusGridWidth}
           plusGridHeight={this.plusGridHeight}
@@ -879,7 +883,14 @@ class Grid extends React.Component {
           updateBoard={this.updateBoard}
         />
 
-        
+        <DeleteTokenWidget
+          x={260}
+          y={42}
+          active={deleteActive}
+          toggleWidget={toggleWidget}
+          socket={socket}
+          tokens={tokens}
+        />
 
         {create ? (
           <div className={styles.initialSetup}>
@@ -911,7 +922,7 @@ class Grid extends React.Component {
           </canvas>
         </div>
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} /> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget}/> : null}
 
 
       </div>

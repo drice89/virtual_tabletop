@@ -69,14 +69,37 @@
 
 .dropdowncontent {
   display: none;
+  top: 24px;
   position: absolute;
-  background-color: $primary-dark;
-  min-width: 80px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 8px 0px;
+  background-color: white;
+  border: 1px solid $light-grey;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  border-radius: 6px;
   z-index: 1;
 }
 
 .dropdown:hover .dropdowncontent {
   display: flex;
   flex-direction: column;
+}
+
+.dropdowncontent button{
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdowncontent svg {
+  margin-right: 4px;
+  font-size: 1.6rem;
+}
+
+.dropdowncontent button:hover {
+  background-color: $light-grey;
+}
+
+.dropdowncontent button:active {
+  color: $more-grey;
+  background-color: $lighter-grey;
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../../config/aws_interface')
+const upload = require('../../config/aws_interface');
 const boardController = require('../../controllers/boards_controller');
 
 const passport = require('passport');
@@ -27,6 +27,4 @@ router.patch('/:boardId/tokens/:tokenId', passport.authenticate('jwt', {session:
 router.delete('/:boardId/tokens/:tokenId', passport.authenticate('jwt', {session: false}), boardController.deleteToken)
 
 
- 
-module.exports = router;    
-    
+module.exports = router;

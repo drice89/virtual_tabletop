@@ -24,15 +24,17 @@ class BoardWidget extends React.Component {
           </button>
         </div>
         <div className={widgetStyles.content}>
-          <div className={styles.boardList}>
-            {boards.map((board) => (
-              <Link key={board._id} to={`/client/${gameId}/boards/${board._id}`} className={match.params.boardId === board._id ? styles.active : ''}>
-                {board.name}
-                <button type="button" className={styles.delete} onClick={() => setBoardToDelete(board)}>
-                  <FiTrash2 />
-                </button>
-              </Link>
-            ))}
+          <div className={styles.groupBoards}>
+            <div className={styles.boardList}>
+              {boards.map((board) => (
+                <Link key={board._id} to={`/client/${gameId}/boards/${board._id}`} className={match.params.boardId === board._id ? styles.active : ''}>
+                  {board.name}
+                  <button type="button" className={styles.delete} onClick={() => setBoardToDelete(board)}>
+                    <FiTrash2 />
+                  </button>
+                </Link>
+              ))}
+            </div>
             <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? `${styles.active} ${styles.gold}` : styles.gold}>
               <FiPlus />
               Create A New Board
@@ -40,7 +42,6 @@ class BoardWidget extends React.Component {
           </div>
         </div>
       </div>
-
     );
   }
 }
