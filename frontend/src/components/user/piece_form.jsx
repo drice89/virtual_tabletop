@@ -46,7 +46,7 @@ class PieceForm extends React.Component {
   }
 
   render() {
-    const { errors, formType } = this.props;
+    const { errors, formType, pieces } = this.props;
     return (
       <div className={styles.container}>
         <div className={styles.logo}>
@@ -58,6 +58,13 @@ class PieceForm extends React.Component {
           <input type="file" onChange={this.handleImage} />
           <button type="submit" className={buttons.secondary}>{formType}</button>
         </form>
+        <ul>
+          
+          {
+            Object.values(pieces).map((piece) =>
+              <img className={styles.test} src={piece.imageUrl} alt="" />)
+          }
+        </ul>
       </div>
     );
   }

@@ -7,6 +7,7 @@ import PieceForm from './piece_form';
 
 const mapStateToProps = (state) => ({
   creatorId: state.session.userId,
+  pieces: state.entities.pieces,
   errors: state.errors.pieces,
   imageUrl: '',
   formType: 'Create Piece',

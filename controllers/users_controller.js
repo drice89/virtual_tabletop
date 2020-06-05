@@ -36,6 +36,7 @@ function StructurePayload(response) {
   const sortedGames = sortGames(response.gameSubscriptions, response._id);
   const payload = {
     games: {},
+    pieces: {},
     user: {
       id: response._id,
       displayName: response.displayName,
@@ -44,10 +45,12 @@ function StructurePayload(response) {
       createdAt: response.createdAt,
       createdGames: sortedGames[0],
       subscribedGames: sortedGames[1],
+      pieces: response.pieces,
     },
   };
 
   response.gameSubscriptions.map((game) => payload.games[game._id] = game);
+  payload.user.pieces.map((piece) => payload.pieces[piece._id] = piece);
   return payload;
 }
 
