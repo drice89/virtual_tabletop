@@ -1,0 +1,63 @@
+@import '../../_colors.scss';
+
+.container {
+  // width: 240px;
+  background-color: rgba(32, 47, 60, 0.6);
+  border-radius: 6px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.header {
+  background-color: $primary;
+  color: $white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.header:hover:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title i {
+  font-size: 1.6rem;
+  margin-right: 8px;
+}
+
+.content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  resize: both;
+  min-width: 240px;
+  min-height: 100px;
+}
+
+.close {
+  background-color: transparent;
+  font-size: 1.4rem;
+  padding: 2px;
+  border-radius: 50%;
+  min-width: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close:hover {
+  background-color: $danger;
+  color: $darkest-grey;
+}

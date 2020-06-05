@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiTrash2, FiEdit3 } from 'react-icons/fi';
 import styles from './game_card.module.scss';
 import Status from './status';
 import noThumb from '../../images/noThumb.webp';
@@ -12,26 +12,34 @@ const GameCard = ({
   handleDelete,
   setEditForm,
 }) => (
-    <div className={styles.gameContainer}>
-      {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
-      <Link to={`/client/${_id}`} className={styles.cardContainer}>
-        <div className={styles.card}>
-          <Status online={online} />
-          <div className={styles.title}>
-            <h1>{name}</h1>
-            <span>{description}</span>
-          </div>
-          <div className={styles.cardBack} style={{ backgroundImage: `url(${backgroundImage || noThumb})` }} />
+  <div className={styles.gameContainer}>
+    {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
+    <Link to={`/client/${_id}`} className={styles.cardContainer}>
+      <div className={styles.card}>
+        <Status online={online} />
+        <div className={styles.title}>
+          <h1>{name}</h1>
+          <span>{description}</span>
         </div>
-      </Link>
-      <div className={styles.dropdown}>
-        <button  type="button" className={styles.dropdownbtn}>< FiChevronDown/></button>
-        <div id="dropdown-content" className={styles.dropdowncontent}>
-          <button type="button" style={{ backgroundColor: "Blue" }} onClick={() => setEditForm(_id)}>Edit</button>
-          <button style={{ backgroundColor: "Red" }} type="button" onClick={handleDelete(_id)}>Delete</button>
-        </div>
+        <div className={styles.cardBack} style={{ backgroundImage: `url(${backgroundImage || noThumb})` }} />
+      </div>
+    </Link>
+    <div className={styles.dropdown}>
+      <button type="button" className={styles.dropdownbtn}>
+        <FiChevronDown />
+      </button>
+      <div className={styles.dropdowncontent}>
+        <button type="button" onClick={() => setEditForm(_id)}>
+          <FiEdit3 />
+          Edit
+        </button>
+        <button type="button" onClick={handleDelete(_id)}>
+          <FiTrash2 />
+          Delete
+        </button>
       </div>
     </div>
-  );
+  </div>
+);
 
 export default GameCard;

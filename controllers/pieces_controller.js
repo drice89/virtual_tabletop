@@ -15,7 +15,7 @@ function structurePiecesPayload(pieces) {
 }
 
 exports.fetchPieces = function (req, res) {
-  Piece.find({})
+  Piece.find({userId: req.body.userId})
     .then(
       (pieces) => res.json(pieces),
       (err) => res.json(err),
