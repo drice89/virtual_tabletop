@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './create_game.module.scss';
+import PieceFormStyles from './piece_form_styles.module.scss';
 import buttons from '../buttons.module.scss';
 import FormData from 'form-data';
 
@@ -15,6 +16,11 @@ class PieceForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImage = this.handleImage.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.focusRef = React.createRef(); 
+  }
+
+  componentDidMount() {
+    this.focusRef.current.scrollIntoView();
   }
 
   handleChange(e) {
@@ -50,23 +56,24 @@ class PieceForm extends React.Component {
   render() {
     const { errors, formType, pieces } = this.props;
     return (
-      <div className={styles.container}>
-        <div className={styles.logo}>
-          <i className="ra ra-anvil" />
-          <p>{formType}</p>
+      <div className={PieceFormStyles.container}>
+        <div>
+          <form className={styles.formContainer} onSubmit={this.handleSubmit}>
+            {errors ? <span className={styles.errors}>{errors}</span> : ''}
+            <input type="file" onChange={this.handleImage} />
+            <button type="submit" className={buttons.secondary}>{formType}</button>
+          </form>
         </div>
-        <form className={styles.formContainer} onSubmit={this.handleSubmit}>
-          {errors ? <span className={styles.errors}>{errors}</span> : ''}
-          <input type="file" onChange={this.handleImage} />
-          <button type="submit" className={buttons.secondary}>{formType}</button>
-        </form>
-        <ul>
-          {Object.values(pieces).map((piece) => (
-            <li key={piece._id}> <span onClick={this.handleDelete(piece._id)}>X</span>
-              <img className={styles.test} src={piece.imageUrl} alt="" />
-            </li>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {Object.values(pieces).map((piece) => (
+              <li key={piece._id}> <span onClick={this.handleDelete(piece._id)}>X</span>
+                <img className={styles.test} src={piece.imageUrl} alt="" />
+              </li>
+            ))}
+            <div ref={this.focusRef} />
+          </ul>
+        </div>  
       </div>
     );
   }

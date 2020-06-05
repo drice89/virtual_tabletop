@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiChevronDown } from "react-icons/fi";
-import Styles from './accordian.module.css';
+import Styles from './accordian.module.scss';
 
 const Accordion = (Component) => {
   return class extends React.Component {
@@ -29,9 +29,9 @@ const Accordion = (Component) => {
           </div>
           {active && <Component />}
         </div>
-      )
+      );
     }
-  }
+  };
 };
 
 export default Accordion;
