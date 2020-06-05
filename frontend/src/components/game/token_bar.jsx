@@ -2,7 +2,7 @@ import React from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import styles from './token_bar.module.scss';
 import Token from './token';
-import DeleteTokenWindow from "./delete_token_window"
+import DeleteTokenWindow from "./widgets/delete_token_window"
 
 
 export default class TokenBar extends React.Component {
@@ -62,6 +62,7 @@ export default class TokenBar extends React.Component {
   }
 
   render() {
+    const { toggleWidget } = this.props;
     return (
       <>
         <div className={styles.barContainer} id="bar-container">
@@ -82,7 +83,7 @@ export default class TokenBar extends React.Component {
 
             <div className={styles.tokenActionContainer}>
               <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
-                <i className="ra ra-guillotine" title="Delete Token" onClick={() => this.toggleDeleteToken() } />
+                <i className="ra ra-guillotine" title="Delete Token" onClick={() => toggleWidget('widgetDelete') } />
               </div>
             </div>
 
@@ -92,7 +93,7 @@ export default class TokenBar extends React.Component {
             <FiChevronRight className={styles.rightArrow} />
           </div>
         </div>
-        { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket} tokens={this.props.tokens}/> }
+        {/* { this.state.deleteToken && <DeleteTokenWindow socket={this.props.socket} tokens={this.props.tokens}/> } */}
       </>
     );
   }

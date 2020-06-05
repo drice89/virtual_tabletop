@@ -21,7 +21,7 @@ export default (state = {}, action) => {
     case RECEIVE_TOKEN:
       return { ...state, ...{ [action.token._id]: action.token } };
     case DELETE_TOKEN:
-      delete nextState[action.tokenId];
+      delete nextState[action.token._id];
       return nextState;
     default:
       return state;

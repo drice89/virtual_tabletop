@@ -19,7 +19,7 @@ const Content = () => (
       </div>
     </div>
 
-    <main className={`${styles.background} ${styles.main}` } >
+    <main className={`${styles.background} ${styles.main}`}>
       <div className={styles.hookBox}>
         <section>
           <div>
@@ -38,53 +38,53 @@ const Content = () => (
           </div>
         </section>
 
-          <summary className={styles.summary}>
-            <div className={styles.featuresHeader}>
-              Checkout our features!
-            </div>
-            <div className={styles.hookBody}>
-              <ul>
-                <li>
-                  <i className="ra ra-jigsaw-piece" />
-                  <span>
-                    Upload your own images and tokens!
-                  </span>
-                </li>
-                <li>
-                  <i className="ra ra-two-dragons" />
-                  <span>
-                     High end fully immersive asset library!
-                  </span>
-                </li>
-                <li>
-                  <i className="ra ra-chessboard" />
-                  <span>
-                    Build custom boards and grids with the click of a button!
-                  </span>
-                </li>
-                <li>
-                  <i className="ra ra-microphone" />
-                  <span>
-                    Keep the conversation going with our fully integrated player chat!
-                  </span>
-                </li>
-                <li>
-                  <i className="ra  ra-double-team" />
-                  <span>
-                    Unlimited players can join in the fun!
-                  </span>
-                </li>
-                <li>
-                  <i className="ra ra-perspective-dice-six" />
-                  <span>
-                    A wide range of virtual dice to support your high end gaming expirience!
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </summary>
-        </div>
-      </main>
+        <summary className={styles.summary}>
+          <div className={styles.featuresHeader}>
+            Checkout our features!
+          </div>
+          <div className={styles.hookBody}>
+            <ul>
+              <li>
+                <i className="ra ra-jigsaw-piece" />
+                <span>
+                  Upload your own images and tokens!
+                </span>
+              </li>
+              <li>
+                <i className="ra ra-two-dragons" />
+                <span>
+                  High end fully immersive asset library!
+                </span>
+              </li>
+              <li>
+                <i className="ra ra-chessboard" />
+                <span>
+                  Build custom boards and grids with the click of a button!
+                </span>
+              </li>
+              <li>
+                <i className="ra ra-microphone" />
+                <span>
+                  Keep the conversation going with our fully integrated player chat!
+                </span>
+              </li>
+              <li>
+                <i className="ra  ra-double-team" />
+                <span>
+                  Unlimited players can join in the fun!
+                </span>
+              </li>
+              <li>
+                <i className="ra ra-perspective-dice-six" />
+                <span>
+                  A wide range of virtual dice to support your high end gaming expirience!
+                </span>
+              </li>
+            </ul>
+          </div>
+        </summary>
+      </div>
+    </main>
   </>
 );
 

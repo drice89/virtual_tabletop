@@ -46,6 +46,10 @@ const BoardSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
+  creatorId: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
   name: {
     type: String,
     required: true,
@@ -71,6 +75,14 @@ const BoardSchema = new Schema({
       type: Number,
       required: true
     },
+    width: {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    },
   },
   backgroundImageUrl: {
     type: String,
@@ -87,7 +99,15 @@ const BoardSchema = new Schema({
     imageZoomFactor: {
       type: Number,
       required: true
-    }
+    },
+    width: {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    },
   },
   settings: {
     gridColor: {

@@ -28,6 +28,8 @@ exports.createBoard = function (req, res) {
     gridZoomFactor: req.body.gridZoomFactor,
     gridPosX: req.body.gridPosX,
     gridPosY: req.body.gridPosY,
+    width: req.body.gridWidth,
+    height: req.body.gridHeight,
   };
 
 
@@ -35,6 +37,8 @@ exports.createBoard = function (req, res) {
     imagePosX: req.body.imagePosX,
     imagePosY: req.body.imagePosY,
     imageZoomFactor: req.body.imageZoomFactor,
+    width: req.body.backgroundWidth,
+    height: req.body.backgroundHeight,
   };
 
   const settings = {
@@ -44,6 +48,7 @@ exports.createBoard = function (req, res) {
 
   const newBoard = new Board({
     gameId: req.body.gameId,
+    creatorId: req.body.creatorId,
     name: req.body.name,
     gridSize,
     backgroundImageUrl: req.file.location,
@@ -51,9 +56,10 @@ exports.createBoard = function (req, res) {
     settings,
   });
 
-  return newBoard.save().then((board) => {
-    app.transmitData(`${newBoard.gameId}`, 'boardUpdated', board),
+  newBoard.save().then((board) => {
+    app.transmitData(`${newBoard.gameId}`, 'boardCreated', board),
     addBoardToGame(board);
+    res.status(200).json('created')
   });
 };
 
@@ -87,17 +93,19 @@ exports.deleteBoard = function (board) {
 exports.updateBoard = function (board) {
   // find the board by id and update it
   // needs to be changed to findOneAndUpdate
-  Board.findByIdAndUpdate({ _id: board._id }, { ...board }, (err, result) => {
+  Board.findByIdAndUpdate(board._id, board , { new: true } , (err, result) => {
+    console.log(err,result)
     if (result) {
+      console.log(result)
       // returns board document = result may need .toJSON()
       app.transmitData(`${result.gameId}`, 'boardUpdated', result);
     } else {
       // console.log(err)
-      app.transmitData(`${board.gameId}`, 'error', err);
+      app.transmitData(`${board.gameId}`, 'error', err); 
     }
   });
 };
-
+  
 // create token
 exports.createToken = function (token) {
   Board.findById(token.boardId, (err, board) => {

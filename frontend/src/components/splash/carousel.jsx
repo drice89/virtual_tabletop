@@ -1,5 +1,5 @@
 import React from 'react';
-import image1 from '../../images/battlemap.jpg';
+import image1 from '../../images/chess.jpg';
 import image2 from '../../images/Image2.jpg';
 import './carousel.scss';
 

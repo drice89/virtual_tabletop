@@ -11,9 +11,9 @@ export const receiveToken = (token) => ({
   token,
 });
 
-export const deleteToken = (tokenId) => ({
+export const deleteToken = (token) => ({
   type: DELETE_TOKEN,
-  tokenId,
+  token,
 });
 
 export const receiveTokenErrors = (errors) => ({
