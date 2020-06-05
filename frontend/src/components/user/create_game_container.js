@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CreateGame from './create_game';
 import { createGame } from '../../actions/games_actions';
+import { clearErrors } from '../../actions/session_action';
 
 const mapStateToProps = (state) => ({
   creatorId: state.session.userId,
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   processForm: (game) => dispatch(createGame(game)),
+  clearErrors: () => dispatch(clearErrors()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateGame));

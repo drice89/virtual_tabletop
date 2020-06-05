@@ -9,8 +9,6 @@ import SettingWidgetContainer from './widgets/setting_widget_container';
 import ChatWidget from './widgets/chat_widget';
 
 
-let socket;
-
 class Client extends React.Component {
   constructor(props) {
     super(props);
@@ -18,12 +16,16 @@ class Client extends React.Component {
       modalDelete: null,
       widgetBoards: null,
       widgetSettings: null,
+      update: false,
       widgetChat: null,
+      widgetDelete: true,
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.socket = io(this.ENPOINT);
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
+    this.resetUpdate = this.resetUpdate.bind(this)
   }
 
   componentDidMount() {
@@ -32,7 +34,8 @@ class Client extends React.Component {
 
     // set up sockets
     const roomId = match.params.gameId;
-    socket = io(this.ENPOINT);
+    const { socket } = this;
+
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
@@ -40,7 +43,15 @@ class Client extends React.Component {
     socket.on('boardUpdated', (board) => {
       const { history, receiveBoard } = this.props;
       receiveBoard(board);
-      history.push(`/client/${board.gameId}/boards/${board._id}`);
+      this.setState({update: true})
+    });
+
+    socket.on('boardCreated', (board) => {
+      const { history, receiveBoard } = this.props;
+      receiveBoard(board);
+      if(board.creatorId === this.props.userId){
+        history.push(`/client/${board.gameId}/boards/${board._id}`);
+      }
     });
 
     socket.on('boardDeleted', (board) => {
@@ -53,11 +64,14 @@ class Client extends React.Component {
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
       receiveToken(token);
+      this.setState({ update: true })
     });
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
-      deleteToken(token._id);
+      // deleteToken(token._id);
+      this.setState({ update: true })
+      deleteToken(token);
     });
   }
 
@@ -70,11 +84,16 @@ class Client extends React.Component {
     this.setState({ [widget]: !currState });
   }
 
+  resetUpdate(){
+    this.setState({update:false})
+  }
+
   render() {
     const {
       game, boards, match,
     } = this.props;
-    const { modalDelete, widgetBoards, widgetSettings, widgetChat } = this.state;
+    const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
+    const { socket } = this;
     if (!game) return null;
     return (
       <>
@@ -89,12 +108,6 @@ class Client extends React.Component {
             y={42}
             toggleWidget={this.toggleWidget}
           />
-          <SettingWidgetContainer
-            x={260}
-            y={42}
-            active={widgetSettings}
-            toggleWidget={this.toggleWidget}
-          />
           <ChatWidget
             x={510}
             y={42}
@@ -104,9 +117,9 @@ class Client extends React.Component {
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
           ) : (
-            <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} />
           )}
         </div>
         <ConfirmModal

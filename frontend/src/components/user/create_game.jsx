@@ -16,6 +16,11 @@ class CreateGame extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const { clearErrors } = this.props;
+    clearErrors();
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const { processForm, history, errors, toggleModal } = this.props;

@@ -1,14 +1,21 @@
+@import "../../colors";
+
 .plusMinusButton {
     width: 20px;
     height: 20px;
     text-align: center;
     border: 1px solid white;
-    background-color: rgb(92, 92, 92);
+    background-color: $secondary-light;
     color: white;
     border-radius: 5px;
     text-shadow: 0 0 2px rgb(0, 0, 0);
     font-size: 15px;
 }
+
+.active:active{
+    background-color: $secondary-dark;
+}
+
 
 .settingsSection {
     display: flex;
@@ -24,4 +31,24 @@
     text-align: center;
     border: 1px solid red;
     border-radius: 10px;
+}
+
+.disabled{
+    border: 1px solid white;
+    background-color: rgb(92, 92, 92);
+    color: white;
+}
+
+.updateBoard{
+    padding: 5px 10px;
+    background-color: $secondary-light;
+    border: 1px solid white;
+    border-radius: 7px;
+    text-shadow: 0 0 2px rgb(0, 0, 0);
+}
+.updateBoard:active{
+    background-color: $secondary-dark;
+}
+.updateBoard:hover{
+    background-color: $secondary;
 }

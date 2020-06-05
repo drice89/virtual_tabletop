@@ -16,7 +16,9 @@ export default (state = {}, action) => {
       delete nextState[action.game._id];
       return nextState;
     case RECEIVE_BOARD:
-      nextState[action.board.gameId].boards.push(action.board._id);
+      if (!nextState[action.board.gameId].boards.includes(action.board._id)){
+        nextState[action.board.gameId].boards.push(action.board._id);
+      }
       return nextState;
     case DELETE_BOARD:
       const idx = nextState[action.board.gameId].boards.indexOf(action.board._id);
