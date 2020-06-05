@@ -16,11 +16,13 @@ class Client extends React.Component {
       modalDelete: null,
       widgetBoards: null,
       widgetSettings: null,
+      update: false
     };
     this.ENPOINT = 'localhost:5000/gamesNamespace';
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
+    this.resetUpdate = this.resetUpdate.bind(this)
   }
 
   componentDidMount() {
@@ -37,7 +39,15 @@ class Client extends React.Component {
     socket.on('boardUpdated', (board) => {
       const { history, receiveBoard } = this.props;
       receiveBoard(board);
-      history.push(`/client/${board.gameId}/boards/${board._id}`);
+      this.setState({update: true})
+    });
+
+    socket.on('boardCreated', (board) => {
+      const { history, receiveBoard } = this.props;
+      receiveBoard(board);
+      if(board.creatorId === this.props.userId){
+        history.push(`/client/${board.gameId}/boards/${board._id}`);
+      }
     });
 
     socket.on('boardDeleted', (board) => {
@@ -50,11 +60,13 @@ class Client extends React.Component {
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
       receiveToken(token);
+      this.setState({ update: true })
     });
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
       deleteToken(token._id);
+      this.setState({ update: true })
     });
   }
 
@@ -65,6 +77,10 @@ class Client extends React.Component {
   toggleWidget(widget) {
     const currState = this.state[widget];
     this.setState({ [widget]: !currState });
+  }
+
+  resetUpdate(){
+    this.setState({update:false})
   }
 
   render() {
@@ -89,7 +105,7 @@ class Client extends React.Component {
          
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
+            <GridContainer socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
           ) : (
             <GridContainer create socket={socket} active={widgetSettings} toggleWidget={this.toggleWidget}/>
           )}

@@ -24,6 +24,9 @@ class Grid extends React.Component {
     this.showHideTokenBar = this.showHideTokenBar.bind(this);
 
     this.createBoard = this.createBoard.bind(this);
+    this.updateBoard = this.updateBoard.bind(this);
+
+
     this.handleImage = this.handleImage.bind(this);
 
     this.setDraggingPiece = this.setDraggingPiece.bind(this)
@@ -56,6 +59,7 @@ class Grid extends React.Component {
     this.zoomGridTEST = 1;
     this.zoomBackground = 1;
     this.imageScreenFactor = 3;
+    this.overallZoom = 1;
 
     this.moveGrid = false;
     this.moveBackground = false;
@@ -66,8 +70,24 @@ class Grid extends React.Component {
     this.imagePosX = 0;
     this.imagePosY = 0;
 
+    this.overallPosX = 0;
+    this.overallPos = 0;
+
     this.gridWidth = 0;
     this.gridHeight = 0;
+
+    this.gridWidthSetting = 0;
+    this.gridHeightSetting = 0;
+
+
+    this.backgroundWidthSetting = 0;
+    this.backgroundHeightSetting = 0;
+
+    this.plusGridWidth = this.plusGridWidth.bind(this)
+    this.plusGridHeight = this.plusGridHeight.bind(this)
+
+    this.plusBackgroundWidth = this.plusBackgroundWidth.bind(this)
+    this.plusBackgroundHeight = this.plusBackgroundHeight.bind(this)
 
   }
 
@@ -81,8 +101,7 @@ class Grid extends React.Component {
   }
 
   componentDidMount() {
-
-    this.props.socket.on('tokenUpdated', this.setFetchedGrid)
+    
     this.props.fetchPieces(this.props.userId);
 
     let canvas = document.getElementById('canvas');
@@ -100,10 +119,22 @@ class Grid extends React.Component {
         opacity: this.props.board.settings.opacity,
         borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
+        gridWidthSetting: this.props.board.gridSize.width,
+        gridHeightSetting: this.props.board.gridSize.height,
+        backgroundWidthSetting: this.props.board.imageAttributes.width,
+        backgroundHeightSetting: this.props.board.imageAttributes.height,
       };
+
+      
 
       this.zoomGridTEST = state.zoomFactorGrid;
       this.zoomBackground = state.zoomFactorImage;
+
+      this.gridWidthSetting = state.gridWidthSetting
+      this.gridHeightSetting = state.gridHeightSetting
+
+      this.backgroundWidthSetting = state.backgroundWidthSetting
+      this.backgroundHeightSetting = state.backgroundHeightSetting
 
       this.setState(state, this.setFetchedGrid);
 
@@ -168,10 +199,13 @@ class Grid extends React.Component {
             this.gridPosY -= 1.2;
 
           } else {
-            this.zoomGridTEST -= 0.005;
-            this.gridPosX += 1.4;
-            this.gridPosY += 1.2;
+            if(this.zoomGridTEST > 0){
+              this.zoomGridTEST -= 0.005;
+              this.gridPosX += 1.4;
+              this.gridPosY += 1.2;
+            }
           }
+         
         }
       }
 
@@ -189,8 +223,20 @@ class Grid extends React.Component {
         }
       }
 
+      if(!this.moveGrid && !this.moveBackground && !this.props.create){
+        if (checkScrollDirectionIsUp(event)) {
+          this.overallZoom += 0.01;
+
+        } else {
+          this.overallZoom -= 0.01;
+
+        }
+
+      }
+
       context.clearRect(0, 0, canvas.width, canvas.height);
       this.draw();
+      
 
       function checkScrollDirectionIsUp(event) {
         if (event.wheelDelta) {
@@ -261,8 +307,8 @@ class Grid extends React.Component {
       if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
         if (!this.moveGrid && !this.moveBackground) {
           let canvas = document.getElementById('canvas')
-          let width = this.backgroundImage.naturalWidth / this.imageScreenFactor / this.state.col * this.zoomGridTEST;
-          let height = this.backgroundImage.naturalHeight / this.imageScreenFactor / this.state.row * this.zoomGridTEST;
+          let width = (this.gridWidth - this.gridWidthSetting) * this.zoomGridTEST * this.overallZoom;
+          let height = (this.gridHeight - this.gridHeightSetting) * this.zoomGridTEST * this.overallZoom;
           if (mousePressed) {
             context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -301,7 +347,7 @@ class Grid extends React.Component {
     })
 
     canvas.addEventListener('mouseup', (e) => {
-      if (!this.moveGrid && !this.moveBackground) {
+      if (!this.moveGrid && !this.moveBackground && !this.props.create) {
 
         if (mousePressed) {
           let pos = this.getBoxLocation(e.layerX, e.layerY);
@@ -330,11 +376,11 @@ class Grid extends React.Component {
 
         if (mousePressed) {
 
-          let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor * this.zoomBackground;
-          let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor * this.zoomBackground;
+          let imageWidth = (this.backgroundImage.naturalWidth / this.imageScreenFactor - this.backgroundWidthSetting) * this.zoomBackground;
+          let imageHeight = (this.backgroundImage.naturalHeight / this.imageScreenFactor - this.backgroundHeightSetting) * this.zoomBackground;
 
-          let width = imageWidth / this.state.col * this.zoomGridTEST;
-          let height = imageHeight / this.state.row * this.zoomGridTEST;
+          let width = (this.gridWidth - this.gridWidthSetting) * this.zoomGridTEST * this.overallZoom;
+          let height = (this.gridHeight - this.gridHeightSetting) * this.zoomGridTEST * this.overallZoom;
 
 
           let totalWidth = width * this.state.col;
@@ -373,10 +419,10 @@ class Grid extends React.Component {
     if (this.state.row && this.state.col) {
       intRow = parseInt(this.state.row);
       intCol = parseInt(this.state.col);
+      
       gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
-
     }
-
+    console.log("HIT HERE")
     for (let token of this.props.tokens) {
       let x = token.pos.x;
       let y = token.pos.y;
@@ -466,6 +512,19 @@ class Grid extends React.Component {
     let imagePosX = this.imagePosX;
     let imagePosY = this.imagePosY;
 
+    let gridWidth = this.gridWidthSetting;
+    let gridHeight = this.gridHeightSetting;
+
+    let backgroundWidth = this.backgroundWidthSetting;
+    let backgroundHeight = this.backgroundHeightSetting;
+
+    formData.append('gridWidth', gridWidth);
+    formData.append('creatorId', this.props.userId);
+    formData.append('gridHeight', gridHeight);
+
+    formData.append('backgroundWidth', backgroundWidth);
+    formData.append('backgroundHeight', backgroundHeight);
+
     formData.append('gridPosX', gridPosX);
     formData.append('gridPosY', gridPosY);
 
@@ -479,10 +538,7 @@ class Grid extends React.Component {
     formData.append('backgroundImage', this.state.imageFile);
 
     createBoard(formData)
-      .then(() => {
-       
-      })
-      .catch((err) => console.log(err))
+     
     this.moveGrid = false;
     this.moveBackground = false;
   }
@@ -552,6 +608,13 @@ class Grid extends React.Component {
       this.zoomGridTEST = 1;
       this.zoomBackground = 1;
 
+      this.gridWidthSetting = 0;
+      this.gridHeightSetting = 0;
+
+
+      this.backgroundWidthSetting = 0;
+      this.backgroundHeightSetting = 0;
+
       this.setState(state, () => {
 
         let context = canvas.getContext('2d');
@@ -559,9 +622,9 @@ class Grid extends React.Component {
 
       });
     }
-
-    if (this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) {
-
+    if ((this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) || this.props.update) {
+      
+      this.props.resetUpdate();
       this.bar = document.getElementById('bar-container');
       document.addEventListener('mousemove', this.showHideTokenBar);
       document.addEventListener('dragover', this.showHideTokenBar);
@@ -579,9 +642,23 @@ class Grid extends React.Component {
         opacity: this.props.board.settings.opacity,
         borderColor: this.props.board.settings.gridColor,
         boardBackground: this.props.board.backgroundImageUrl,
+        gridWidthSetting: this.props.board.gridSize.width,
+        gridHeightSetting: this.props.board.gridSize.height,
+        backgroundWidthSetting: this.props.board.imageAttributes.width,
+        backgroundHeightSetting: this.props.board.imageAttributes.height,
       };
+
+      
       this.zoomGridTEST = state.zoomFactorGrid;
       this.zoomBackground = state.zoomFactorImage;
+
+      this.gridWidthSetting = state.gridWidthSetting
+      this.gridHeightSetting = state.gridHeightSetting
+
+      this.backgroundWidthSetting = state.backgroundWidthSetting
+      this.backgroundHeightSetting = state.backgroundHeightSetting
+      console.log("SHOULD BE HERE")
+
       this.setState(state, this.setFetchedGrid);
     }
   }
@@ -596,11 +673,11 @@ class Grid extends React.Component {
     let context = canvas.getContext('2d');
     context.lineWidth = 1;
 
-    let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor * this.zoomBackground;
-    let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor * this.zoomBackground;
+    let imageWidth = (this.backgroundImage.naturalWidth / this.imageScreenFactor - this.backgroundWidthSetting) * this.zoomBackground * this.overallZoom;
+    let imageHeight = (this.backgroundImage.naturalHeight / this.imageScreenFactor - this.backgroundHeightSetting) * this.zoomBackground * this.overallZoom;
 
-    let width = this.gridWidth * this.zoomGridTEST;
-    let height = this.gridHeight * this.zoomGridTEST;
+    let width = (this.gridWidth - this.gridWidthSetting) * this.zoomGridTEST * this.overallZoom;
+    let height = (this.gridHeight - this.gridHeightSetting) * this.zoomGridTEST * this.overallZoom;
 
     let totalWidth = width * col;
     let totalHeight = height * row;
@@ -640,8 +717,8 @@ class Grid extends React.Component {
 
   getBoxLocation(x, y) {
     // Gets location of the mouse click on the canvas
-    let boxWidth = this.gridWidth * this.zoomGridTEST;
-    let boxHeight = this.gridHeight * this.zoomGridTEST;
+    let boxWidth = (this.gridWidth - this.gridWidthSetting)  * this.zoomGridTEST * this.overallZoom;
+    let boxHeight = (this.gridHeight - this.gridHeightSetting) * this.zoomGridTEST * this.overallZoom;
 
     let colPicked = Math.floor(((x - this.gridPosX) / boxWidth));
     let rowPicked = Math.floor(((y - this.gridPosY) / boxHeight));
@@ -684,8 +761,8 @@ class Grid extends React.Component {
       this.gridPosX = this.imagePosX;
       this.gridPosY = this.imagePosY;
 
-      this.gridWidth = imageWidth / this.state.col * this.zoomGridTEST;
-      this.gridHeight = imageHeight / this.state.row * this.zoomGridTEST;
+      this.gridWidth = (imageWidth / this.state.col);
+      this.gridHeight = (imageHeight / this.state.row);
 
       this.handleBuildGrid();
     }
@@ -701,6 +778,7 @@ class Grid extends React.Component {
 
       this.gridWidth = (imageWidth / this.state.col);
       this.gridHeight = (imageHeight / this.state.row);
+      console.log(this.gridWidthSetting)
 
       this.gridPosX = this.state.gridPosX;
       this.gridPosY = this.state.gridPosY;
@@ -711,6 +789,77 @@ class Grid extends React.Component {
       this.handleBuildGrid();
     }
   }
+
+  plusGridWidth(value){
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+
+    this.gridWidthSetting += value;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.draw();
+  }
+  plusGridHeight(value){
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+
+    this.gridHeightSetting += value;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.draw();
+  }
+  plusBackgroundWidth(value){
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+
+    this.backgroundWidthSetting += value;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.draw();
+  }
+  plusBackgroundHeight(value) {
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+
+    this.backgroundHeightSetting += value;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.draw();
+  }
+
+  updateBoard(){
+    let newBoard = {};
+
+    let gridSize = {};
+    let imageAttributes = {};
+
+    
+
+    gridSize["gridZoomFactor"] = this.zoomGridTEST;
+    gridSize["gridPosX"] = this.gridPosX;
+    gridSize["gridPosY"] = this.gridPosY;
+    gridSize["width"] = this.gridWidthSetting;
+    gridSize["height"] = this.gridHeightSetting;
+    gridSize["cols"] = this.props.board.gridSize.cols
+    gridSize["rows"] = this.props.board.gridSize.rows
+
+
+    imageAttributes["imagePosX"] = this.imagePosX;
+    imageAttributes["imagePosY"] = this.imagePosY;
+    imageAttributes["width"] = this.backgroundWidthSetting;
+    imageAttributes["height"] = this.backgroundHeightSetting;
+    imageAttributes["imageZoomFactor"] = this.zoomBackground;
+
+
+    newBoard["_id"] = this.props.board._id
+    newBoard["gridSize"] = gridSize; 
+    newBoard["imageAttributes"] = imageAttributes; 
+
+
+    this.props.socket.emit('updateBoard', newBoard)
+    this.props.socket.emit('updated')
+  }
+
 
   render() {
     const {
@@ -724,6 +873,15 @@ class Grid extends React.Component {
           y={42}
           active={active}
           toggleWidget={toggleWidget}
+          plusGridWidth={this.plusGridWidth}
+          plusGridHeight={this.plusGridHeight}
+          plusBackgroundWidth={this.plusBackgroundWidth}
+          plusBackgroundHeight={this.plusBackgroundHeight}
+          handleLockGrid={this.handleLockGrid}
+          handleLockBackground={this.handleLockBackground}
+          moveGrid={this.moveGrid}
+          moveBackground={this.moveBackground}
+          updateBoard={this.updateBoard}
         />
 
         
