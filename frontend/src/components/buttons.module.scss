@@ -6,6 +6,11 @@
   color: $light-grey;
 }
 
+.noneDisabled {
+  border-color: transparent;
+  background-color: transparent;
+  color: $dark-grey;
+}
 .none:hover {
   color: $white
 }

@@ -4,7 +4,6 @@
     width: 100%;
     height: 720px;
     position: relative;
-    margin: auto;
     margin-top: -15px;
     z-index: 0;
     
@@ -19,17 +18,15 @@
 }
 .carousel-images{
     position: absolute;
-    filter: brightness(75%); 
     height: 100%;
     width: 100%;
     z-index: 0;
 
 }
-.carousel img{
-   
+.carousel img {
     object-fit: cover;
     z-index: 0;
-   
+    filter: brightness(95%) contrast(115%) grayscale(30%)
 }
 #slide-1{
     height: 100%;

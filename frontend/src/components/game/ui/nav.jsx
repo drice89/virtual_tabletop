@@ -17,10 +17,10 @@ const Nav = ({ currentUserId, toggleWidget }) => (
         <div className={styles.logoTri} />
       </div>
     </Link>
-    <button type="button" className={buttons.none}>
+    <button type="button" className={buttons.noneDisabled}>
       <div className={styles.btn}>
         <i className="ra ra-double-team" />
-        <span>Players</span>
+        <span disabled>Players</span>
       </div>
     </button>
     <button type="button" className={buttons.none} onClick={() => toggleWidget('widgetBoards')}>
@@ -41,13 +41,13 @@ const Nav = ({ currentUserId, toggleWidget }) => (
         <span>Settings</span>
       </div>
     </button>
-    <button type="button" className={buttons.none}>
+    <button type="button" className={buttons.noneDisabled}>
       <div className={styles.btn}>
         <i className="ra ra-horn-call" />
         <span>Music</span>
       </div>
     </button>
-    <button type="button" className={buttons.none}>
+    <button type="button" className={buttons.noneDisabled}>
       <div className={styles.btn}>
         <i className="ra ra-perspective-dice-three" />
         <span>Dice</span>
