@@ -58,7 +58,7 @@ exports.editPiece = function (req, res) {
 
 exports.deletePiece = function (req, res) {
   const { creatorId, pieceId } = req.body;
-  console.log(req)
+
   User.findById(creatorId, function (err, user) { 
     if (err || !user) return res.status(400).json({ error: 'Could not locate user' });
 

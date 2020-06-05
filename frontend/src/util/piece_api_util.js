@@ -9,4 +9,4 @@ export const createPiece = (piece) => (axios.post('/api/pieces/create', piece, {
 }))
 
 
-export const deletePiece = (payload) => axios.delete('/api/pieces/delete', payload)
+export const deletePiece = (payload) => axios.delete('/api/pieces/delete', { data: payload })

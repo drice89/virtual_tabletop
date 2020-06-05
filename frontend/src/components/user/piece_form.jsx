@@ -43,7 +43,6 @@ class PieceForm extends React.Component {
     return (e) => {
       e.preventDefault();
       const payload = { creatorId, pieceId }
-
       deletePiece(payload);
     };
   }
