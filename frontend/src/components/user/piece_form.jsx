@@ -3,7 +3,7 @@ import styles from './create_game.module.scss';
 import buttons from '../buttons.module.scss';
 import FormData from 'form-data';
 
-class PieceForm extends React.Component { 
+class PieceForm extends React.Component {
   constructor(props) {
     super(props)
     const { creatorId, imageUrl } = this.props;
@@ -14,6 +14,7 @@ class PieceForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImage = this.handleImage.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleChange(e) {
@@ -34,15 +35,17 @@ class PieceForm extends React.Component {
     const img = e.target.files[0];
 
     this.setState({ imageFile: img });
+  }
 
-    // const fileReader = new FileReader();
+  handleDelete(pieceId) {
+    const { deletePiece } = this.props;
+    const { creatorId } = this.state;
+    return (e) => {
+      e.preventDefault();
+      const payload = { creatorId, pieceId }
 
-    // fileReader.onloadend = () => {
-    //   this.setState({ imageFile: img });
-    // };
-    // // if (img) {
-    // //   fileReader.readAsDataURL(img);
-    // // }
+      deletePiece(payload);
+    };
   }
 
   render() {
@@ -59,11 +62,11 @@ class PieceForm extends React.Component {
           <button type="submit" className={buttons.secondary}>{formType}</button>
         </form>
         <ul>
-          
-          {
-            Object.values(pieces).map((piece) =>
-              <img className={styles.test} src={piece.imageUrl} alt="" />)
-          }
+          {Object.values(pieces).map((piece) => (
+            <li key={piece._id}> <span onClick={this.handleDelete(piece._id)}>X</span>
+              <img className={styles.test} src={piece.imageUrl} alt="" />
+            </li>
+          ))}
         </ul>
       </div>
     );

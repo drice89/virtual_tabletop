@@ -7,3 +7,6 @@ export const createPiece = (piece) => (axios.post('/api/pieces/create', piece, {
     'Content-Type': `multipart/form-data`,
   }
 }))
+
+
+export const deletePiece = (payload) => axios.delete('/api/pieces/delete', payload)

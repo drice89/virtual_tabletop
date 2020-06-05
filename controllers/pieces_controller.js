@@ -57,16 +57,12 @@ exports.editPiece = function (req, res) {
 };
 
 exports.deletePiece = function (req, res) {
-  const { pieceId } = req.body;
+  const { creatorId, pieceId } = req.body;
+  console.log(req)
+  User.findById(creatorId, function (err, user) { 
+    if (err || !user) return res.status(400).json({ error: 'Could not locate user' });
 
-  Piece.findByIdAndRemove(pieceId)
-    .then(
-      (piece) => {
-        if (!piece) {
-          return res.status(400).json({ error: 'could not locate piece' });
-        }
-        return res.json({ message: 'Piece deleted' });
-      },
-      (error) => res.status(400).json(error),
-    );
+    user.pieces.id(pieceId).remove();
+    user.save().then(() => res.json(pieceId));
+  });
 };

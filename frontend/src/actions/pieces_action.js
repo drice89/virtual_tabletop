@@ -15,9 +15,19 @@ const receiveErrors = (errors) => ({
   errors,
 });
 
+const removePiece = (pieceId) => ({
+  type: REMOVE_PIECE,
+  pieceId,
+});
 
 export const createPiece = (formData) => (dispatch) => (
   PieceUtil.createPiece(formData)
     .then((piece) => dispatch(receivePiece(piece.data)))
     .catch((error) => dispatch(receiveErrors(error.response.data)))
+);
+
+export const deletePiece = (payload) => (dispatch) => (
+  PieceUtil.deletePiece(payload)
+    .then((pieceId) => dispatch(removePiece(pieceId)))
+    .catch((err) => console.log(err))
 );

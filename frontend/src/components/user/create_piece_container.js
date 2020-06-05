@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { createPiece } from '../../actions/pieces_action';
+import { createPiece, deletePiece } from '../../actions/pieces_action';
 import Accordion from '../game/util/accordian';
 import PieceForm from './piece_form';
 
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   processForm: (piece) => dispatch(createPiece(piece)),
+  deletePiece: (payload) => dispatch(deletePiece(payload)),
 });
 
 export default compose(
