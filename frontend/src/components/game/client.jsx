@@ -20,7 +20,7 @@ class Client extends React.Component {
       widgetChat: null,
       widgetDelete: true,
     };
-    this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
