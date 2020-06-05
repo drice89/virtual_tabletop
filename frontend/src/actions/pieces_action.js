@@ -29,5 +29,5 @@ export const createPiece = (formData) => (dispatch) => (
 export const deletePiece = (payload) => (dispatch) => (
   PieceUtil.deletePiece(payload)
     .then((pieceId) => dispatch(removePiece(pieceId.data)))
-    .catch((err) => console.log(err))
+    .catch((error) => dispatch(receiveErrors(error.response.data)))
 );
