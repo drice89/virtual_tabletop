@@ -65,15 +65,16 @@ class PieceForm extends React.Component {
           </form>
         </div>
         <div>
-          <ul>
+          <ul className={PieceFormStyles.list}>
             {Object.values(pieces).map((piece) => (
-              <li key={piece._id}> <span onClick={this.handleDelete(piece._id)}>X</span>
-                <img className={styles.test} src={piece.imageUrl} alt="" />
+              <li key={piece._id} className={PieceFormStyles.card}>
+                <img className={PieceFormStyles.piece} src={piece.imageUrl} alt="" />
+                <button type="button" onClick={this.handleDelete(piece._id)}>Delete Piece</button>
               </li>
             ))}
             <div ref={this.focusRef} />
           </ul>
-        </div>  
+        </div>
       </div>
     );
   }
