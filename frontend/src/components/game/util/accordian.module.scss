@@ -1,7 +1,10 @@
-
-
 .header { 
   display: flex;
+  justify-content: flex-start;
+}
+
+.activeHeader { 
+  margin-left: auto;
 }
 
 .header > button { 
@@ -12,4 +15,24 @@
 .accordion__header { 
   font-size: 20px;
   font-weight: bold;
+}
+
+.icon { 
+  transition: all 0.3s;
+  transform: rotate(0deg);
+  margin-left: 0;
+}
+
+.rotate { 
+  transition: all 1s;
+  transform: translateX(800px) rotate(-90deg);
+}
+
+.content {
+  height: 0;
+  transition: all 0.3s;
+}
+
+.activeContent { 
+  height: 220px;
 }
