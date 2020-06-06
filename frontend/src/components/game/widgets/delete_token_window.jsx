@@ -36,6 +36,7 @@ const DeleteTokenWindow = ({ tokens, socket, highlightToken, userId }) => {
     editTokens(convertTokenArrayToHash(tokens))
   }
 
+
   const editSingleToken = (token, e) => {
     let  nextTokens = { ... editableTokens}
     nextTokens[token._id].name = e.currentTarget.value;
@@ -52,8 +53,13 @@ const DeleteTokenWindow = ({ tokens, socket, highlightToken, userId }) => {
     }
   }
 
+  useEffect(()=>{
+    editTokens(convertTokenArrayToHash(tokens))
+  },[tokens])
+
   const tokensList = (
     <ul className={styles.tokenList}>
+      {console.log(tokens)}
       {
        tokens.map((token) => {
          if(token.player === userId){

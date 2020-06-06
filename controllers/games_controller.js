@@ -139,9 +139,11 @@ exports.createGame = function (req, res) {
           user.gameSubscriptions.push(game._id);
           user.save();
           const boards = {};
+          const users = [user]
           return res.json({
             game,
-            boards
+            boards,
+            users
           });
         });
       });

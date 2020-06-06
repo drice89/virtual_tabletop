@@ -210,8 +210,10 @@ class Grid extends React.Component {
 
     //puts all objects in canvas properly after resize
     window.onresize = () => {
-      this.setupCanvas();
-      this.draw();
+      if(this.props.board){
+        this.setupCanvas();
+        this.draw();
+      }
     };
 
     let context = canvas.getContext('2d');
@@ -267,37 +269,41 @@ class Grid extends React.Component {
     })
 
     canvas.addEventListener('mousedown', (e) => {
+      let pos = this.getBoxLocation(e.layerX, e.layerY);
       if (!this.moveGrid && !this.moveBackground) {
 
-        let pos = this.getBoxLocation(e.layerX, e.layerY);
+        if (!this.props.create) {
 
-        if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
+          if ((pos[0] >= 0 && pos[0] < this.state.col) && (pos[1] >= 0 && pos[1] < this.state.row)) {
 
-          let gridArray = Object.assign({}, this.state.gridArray)
-          if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
+            let gridArray = Object.assign({}, this.state.gridArray)
+            if (!mousePressed && this.state.gridArray[pos[1]][pos[0]]) {
 
-            dragToken = this.state.gridArray[pos[1]][pos[0]][0];
+              dragToken = this.state.gridArray[pos[1]][pos[0]][0];
 
-            if (dragToken) {
-              draggingImage.src = dragToken.imageUrl;
-              mousePressed = true;;
-              gridArray[pos[1]][pos[0]] = null;
-              this.setState({ gridArray })
+              if (dragToken) {
+                draggingImage.src = dragToken.imageUrl;
+                mousePressed = true;;
+                gridArray[pos[1]][pos[0]] = null;
+                this.setState({ gridArray })
+              }
+            } else {
+              mousePressed = false;
+              if (dragToken) {
+                let image = new Image();
+                image.src = dragToken.imageUrl;
+                if (!gridArray[pos[1]][pos[0]]) {
+                  gridArray[pos[1]][pos[0]] = [dragToken, image];
+                  this.setState({ gridArray }, () => {
+                    dragToken = null;
+                    draggingImage.src = "";
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    this.draw();
+                  })
+                }
+              }
+
             }
-          } else {
-            mousePressed = false;
-            if (dragToken) {
-              let image = new Image();
-              image.src = dragToken.imageUrl;
-              gridArray[pos[1]][pos[0]] = [dragToken, image];
-              this.setState({ gridArray }, () => {
-                dragToken = null;
-                draggingImage.src = "";
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                this.draw();
-              })
-            }
-
           }
         }
       } else {
@@ -375,21 +381,27 @@ class Grid extends React.Component {
             mousePressed = false;
 
             let gridArray = this.state.gridArray;
-            dragToken.pos.x = pos[0];
-            dragToken.pos.y = pos[1];
-            let image = new Image();
-            image.src = dragToken.imageUrl;
-            gridArray[pos[1]][pos[0]] = [dragToken, image];
+            if (gridArray[pos[1]][pos[0]] === null) {
+
+              console.log('WORKS')
+              dragToken.pos.x = pos[0];
+              dragToken.pos.y = pos[1];
+              let image = new Image();
+              image.src = dragToken.imageUrl;
+              gridArray[pos[1]][pos[0]] = [dragToken, image];
 
 
-            this.setState({ gridArray }, () => {
-              this.props.socket.emit('updateToken', dragToken)
-              dragToken = null;
-              draggingImage.src = "";
-              context.clearRect(0, 0, canvas.width, canvas.height);
-              this.draw();
+              this.setState({ gridArray }, () => {
+                this.props.socket.emit('updateToken', dragToken)
+                dragToken = null;
+                draggingImage.src = "";
+                
 
-            })
+              })
+            }
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+                this.draw();
           }
         }
       } else {
@@ -737,6 +749,7 @@ class Grid extends React.Component {
   }
 
   drawGrid(row, col, action) {
+
     // Take canvas and set line width 1pc
     let canvas = document.getElementById('canvas')
     let context = canvas.getContext('2d');
@@ -781,9 +794,9 @@ class Grid extends React.Component {
                 }
               }
 
-                context.strokeStyle = this.props.users[this.state.gridArray[i][j][0].player].color;
-                context.rect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
-                context.stroke();
+              context.strokeStyle = this.props.users[this.state.gridArray[i][j][0].player].color;
+              context.rect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
+              context.stroke();
             }
           }
 
@@ -828,6 +841,8 @@ class Grid extends React.Component {
     // Scale all drawing operations by the dpr, so you
     // don't have to worry about the difference.
     ctx.scale(this.dpr, this.dpr);
+    // ctx.translate(100,100)
+    // ctx.scale(3,3)
     ctx.lineWidth = 1;
   }
 
@@ -836,7 +851,6 @@ class Grid extends React.Component {
   }
 
   setGrid() {
-
     if (this.state.previewUrl && this.state.col && this.state.row) {
       this.backgroundImage.src = this.state.boardBackground ? this.state.boardBackground : this.state.previewUrl;
       this.backgroundImage.onload = () => {
@@ -846,7 +860,6 @@ class Grid extends React.Component {
         this.gridWidth = (imageWidth / this.state.col);
         this.gridHeight = (imageHeight / this.state.row);
 
-
         let canvas = document.getElementById('canvas')
 
         this.imagePosX = (canvas.offsetWidth - imageWidth) / 2;
@@ -855,12 +868,10 @@ class Grid extends React.Component {
         this.gridPosX = this.imagePosX;
         this.gridPosY = this.imagePosY;
 
-        console.log(this.state.row, this.state.col)
         this.handleBuildGrid();
       }
     }
   }
-
 
   setFetchedGrid() {
     this.backgroundImage.src = this.state.boardBackground ? this.state.boardBackground : this.state.previewUrl;
@@ -976,7 +987,7 @@ class Grid extends React.Component {
       this.draw();
     }
   }
-
+ 
 
   render() {
     const {

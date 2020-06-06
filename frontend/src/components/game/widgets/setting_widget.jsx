@@ -28,7 +28,7 @@ const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgr
       <div>
         <div>
           Board name
-              <input type="text" value={name} onChange={update("name")}/>
+              <input type="text" value={name} onChange={update("name")} />
         </div>
 
         <h3>Grid Settings</h3>
@@ -42,7 +42,7 @@ const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgr
             <button onClick={handleImageClick}>Upload board image</button>
           </div> : null}
           <div>
-            
+
             <div>
               Width
             <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => moveGrid ? plusGridWidth(1) : null)} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}>-</button>
@@ -62,7 +62,7 @@ const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgr
               </div>
               <div>
                 Grid opacity
-                <input onChange={update('borderOpacity')} type="range" max="1" min="0.01" step="0.01" value={borderOpacity}/>
+                <input onChange={update('borderOpacity')} type="range" max="1" min="0.01" step="0.01" value={borderOpacity} />
               </div>
             </div>
           </div>
@@ -96,17 +96,23 @@ const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgr
       </div>
 
       {create ? <button className={styles.updateBoard} onClick={createBoard}>Create board</button> : <button className={styles.updateBoard} onClick={() => updateBoard()}>Update board</button>}
-      
+
     </div>
 
-    <div>
-      <h3>User settings</h3>
-      <div>
-        User color
-        <input type="color" onChange={update('myColor')} value={myColor}/>
-      </div>
-    </div>
+    {!create ? <UserSetting update={update} myColor={myColor} /> : null}
+
+
   </div>
 );
+
+const UserSetting = ({ update, myColor }) => (
+  < div >
+    <h3>User settings</h3>
+    <div>
+      User color
+        {myColor ? <input type="color" onChange={update('myColor')} value={myColor} /> : null}
+    </div>
+  </div >
+)
 
 export default SettingWidget;

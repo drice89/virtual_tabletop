@@ -15,10 +15,10 @@ class Client extends React.Component {
     this.state = {
       modalDelete: null,
       widgetBoards: null,
-      widgetSettings: null,
+      widgetSettings: true,
       update: false,
       widgetChat: null,
-      widgetDelete: true,
+      widgetDelete: null,
     };
     this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -36,25 +36,25 @@ class Client extends React.Component {
     const roomId = match.params.gameId;
     const { socket } = this;
 
-    
+
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
 
     socket.on('boardUpdated', (payload) => {
       const { history, receiveBoard, receiveUserInfo } = this.props;
-      
+
       receiveUserInfo(payload.user)
       receiveBoard(payload.result)
-      
-      this.setState({update: true})
-      
+
+      this.setState({ update: true })
+
     });
 
     socket.on('boardCreated', (board) => {
       const { history, receiveBoard } = this.props;
       receiveBoard(board);
-      if(board.creatorId === this.props.userId){
+      if (board.creatorId === this.props.userId) {
         history.push(`/client/${board.gameId}/boards/${board._id}`);
       }
     });
@@ -89,8 +89,14 @@ class Client extends React.Component {
     this.setState({ [widget]: !currState });
   }
 
-  resetUpdate(){
-    this.setState({update:false})
+  resetUpdate() {
+    this.setState({ update: false })
+  }
+
+  componentWillUnmount() {
+    window.onresize = (e) => {
+      e.stopPropagation();
+    };
   }
 
   render() {
@@ -122,10 +128,10 @@ class Client extends React.Component {
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser} />
           ) : (
-            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} fetchUser={fetchUser}/>
-          )}
+              <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} fetchUser={fetchUser} />
+            )}
         </div>
         <ConfirmModal
           active={modalDelete}
