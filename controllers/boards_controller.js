@@ -1,5 +1,6 @@
 const Board = require('../models/Board');
 const Game = require('../models/Game');
+const User = require('../models/User');
 const validateBoardRegister = require('../validations/board_validation');
 const app = require('../app');
 
@@ -93,17 +94,34 @@ exports.deleteBoard = function (board) {
 exports.updateBoard = function (board) {
   // find the board by id and update it
   // needs to be changed to findOneAndUpdate
-  Board.findByIdAndUpdate(board._id, board , { new: true } , (err, result) => {
-    console.log(err,result)
-    if (result) {
-      console.log(result)
-      // returns board document = result may need .toJSON()
-      app.transmitData(`${result.gameId}`, 'boardUpdated', result);
-    } else {
-      // console.log(err)
-      app.transmitData(`${board.gameId}`, 'error', err); 
-    }
-  });
+
+  User.findById(board.userId, (err, doc)=>{
+    console.log(doc)
+    console.log(err)
+    doc.color = board.color;
+    doc.save()
+      .then((res) => console.log(res))
+      .then((user) => {
+        delete board["color"]
+        Board.findByIdAndUpdate(board._id, board, {
+          new: true
+        }, (err, result) => {
+          if (result) {
+            // returns board document = result may need .toJSON()
+            app.transmitData(`${result.gameId}`, 'boardUpdated', result);
+          } else {
+            // console.log(err)
+            app.transmitData(`${board.gameId}`, 'error', err);
+          }
+        });
+
+      })
+
+
+  })
+  
+
+  
 };
   
 // create token
@@ -157,6 +175,7 @@ exports.updateToken = function (token) {
     if (res) {
       const editedToken = res.tokens.id(token._id);
 
+      editedToken.name = token.name;
       editedToken.pos.x = token.pos.x;
       editedToken.pos.y = token.pos.y;
       editedToken.imageUrl = token.imageUrl;

@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     pieces: Object.values(state.entities.pieces),
     board,
     tokens: board && board.tokens ? board.tokens.map((tokenId) => state.entities.tokens[tokenId]) : [],
+    users: state.entities.users
   };
 };
 

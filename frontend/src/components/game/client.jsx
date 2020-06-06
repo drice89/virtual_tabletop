@@ -29,7 +29,7 @@ class Client extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchGame, match } = this.props;
+    const { fetchGame, match, fetchUser, userId } = this.props;
     fetchGame();
 
     // set up sockets
@@ -38,12 +38,16 @@ class Client extends React.Component {
 
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
+      fetchUser(userId);
     });
 
     socket.on('boardUpdated', (board) => {
       const { history, receiveBoard } = this.props;
-      receiveBoard(board);
+      
+      receiveBoard(board)
+      
       this.setState({update: true})
+      
     });
 
     socket.on('boardCreated', (board) => {
@@ -90,7 +94,7 @@ class Client extends React.Component {
 
   render() {
     const {
-      game, boards, match,
+      game, boards, match, fetchUser
     } = this.props;
     const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
     const { socket } = this;
@@ -117,9 +121,9 @@ class Client extends React.Component {
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser}/>
           ) : (
-            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} />
+            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} fetchUser={fetchUser}/>
           )}
         </div>
         <ConfirmModal

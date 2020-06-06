@@ -7,9 +7,9 @@ const usersReducer = (state = {}, action) => {
   const nextState = { ...state };
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      return { ...state, ...{ [action.currentUser.id]: action.currentUser } };
+      return { ...state, ...{ [action.currentUser._id]: action.currentUser } };
     case RECEIVE_USER:
-      return { ...state, ...{ [action.payload.user.id]: action.payload.user } };
+      return { ...state, ...{ [action.payload.user._id]: action.payload.user } };
     case DELETE_GAME:
       const idx = nextState[action.game.creatorId].createdGames.indexOf(action.game._id);
       nextState[action.game.creatorId].createdGames.splice(idx, 1);

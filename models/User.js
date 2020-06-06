@@ -42,6 +42,10 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Game'
   }],
+  color: {
+    type: String,
+    default: '#808080'
+  },
   pieces: [PieceSchema]
 })
 

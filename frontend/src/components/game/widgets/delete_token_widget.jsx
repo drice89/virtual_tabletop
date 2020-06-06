@@ -5,7 +5,7 @@ import widgetStyles from './widget.module.scss';
 import DeleteTokenWindow from './delete_token_window';
 import styles from './delete_token_widget.module.scss';
 
-const DeleteTokenWidget = ({ toggleWidget, socket, tokens }) => (
+const DeleteTokenWidget = ({ toggleWidget, socket, tokens, highlightToken }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
@@ -17,7 +17,7 @@ const DeleteTokenWidget = ({ toggleWidget, socket, tokens }) => (
       </button>
     </div>
     <div className={widgetStyles.content}>
-      <DeleteTokenWindow socket={socket} tokens={tokens} />
+      <DeleteTokenWindow socket={socket} tokens={tokens} highlightToken={highlightToken}/>
     </div>
   </div>
 );

@@ -52,3 +52,12 @@
 .updateBoard:hover{
     background-color: $secondary;
 }
+.gridInputs {
+    width: 20px;
+    padding: 1px 10px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: rgb(175, 175, 175);
+    color: white;
+}

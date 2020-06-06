@@ -1,6 +1,7 @@
 import * as UsersAPIUtil from '../util/users_api_util';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
 export const RECEIVE_USER_ERRORS = 'RECEIVE_USER_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
@@ -13,6 +14,12 @@ const receiveUser = (payload) => ({
   type: RECEIVE_USER,
   payload,
 });
+const receiveUserInfo = (user) => ({
+  type: RECEIVE_USER_INFO,
+  user,
+});
+
+
 
 const receiveErrors = (errors) => ({
   type: RECEIVE_USER_ERRORS,
@@ -24,6 +31,7 @@ export const fetchUser = (userId) => (dispatch) => (
     .then((payload) => dispatch(receiveUser(payload.data)))
     .catch((err) => dispatch(receiveErrors(err)))
 );
+
 
 
 //piece action
