@@ -50,7 +50,6 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 5000;
 
 
-
 const nsp = io.of('/gamesNamespace');
 nsp.on('connection', function(socket){
   socket.on('joinRoom', (room) => {

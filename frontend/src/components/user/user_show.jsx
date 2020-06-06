@@ -7,13 +7,14 @@ import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
 import EditGameContainer from './edit_game_container';
+import CreatePieceContainer from './create_piece_container';
 import Piece from "./piece"
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       createForm: false,
       editGameId: null,
       joinGameId: ''
@@ -122,7 +123,7 @@ class UserShow extends React.Component {
                 <section className={styles.main}>
                   {createdGames.map((game) => (
                     <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
-                  ))}
+                    ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>
                       Glory awaits for
@@ -151,6 +152,7 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
+                  <CreatePieceContainer title='My Pieces' />
               </div>
             </div>
           </div>

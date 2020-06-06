@@ -8,8 +8,6 @@ import { createBoard } from '../../util/boards_api_util';
 import SettingWidgetContainer from './widgets/setting_widget_container';
 import DeleteTokenWidget from './widgets/delete_token_widget';
 
-
-
 class Grid extends React.Component {
   constructor(props) {
     super(props);
@@ -112,7 +110,7 @@ class Grid extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchPieces(this.props.userId);
+    // this.props.fetchPieces(this.props.userId);
 
     let canvas = document.getElementById('canvas');
 
@@ -192,7 +190,7 @@ class Grid extends React.Component {
           let image = new Image();
           image.onload = () => {
             gridArray[pos[1]][pos[0]] = [this.draggingPiece, image];
-            this.draw();
+            // this.draw();
           }
           image.src = this.draggingPiece.imageUrl;
 

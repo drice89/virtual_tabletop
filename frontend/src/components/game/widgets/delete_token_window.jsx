@@ -59,7 +59,7 @@ const DeleteTokenWindow = ({ tokens, socket, highlightToken, userId }) => {
          if(token.player === userId){
            return <li key={`${token._id}token-list-item`} className={styles.tokenItem} onMouseOver={() => highlightToken(token)} onMouseLeave={() => highlightToken(null)}>
              <input type="checkbox" onChange={handleChange(token)} />
-             <input type="text" max="10" onChange={e => editSingleToken(token, e)} value={editableTokens[token._id] ? editableTokens[token._id].name : null} onBlur={() => updateTokenName(token)} />
+             <input type="text" max="10" onChange={e => editSingleToken(token, e)} value={editableTokens[token._id] ? editableTokens[token._id].name : ""} onBlur={() => updateTokenName(token)} />
              <img src={token.imageUrl} className={styles.tokenImage} />
            </li>
          }

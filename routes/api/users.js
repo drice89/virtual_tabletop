@@ -15,12 +15,13 @@ router.post('/login', usersController.login);
 
 
 
-//fetch all pieces for this user
-router.get('/:userId/pieces', usersController.fetchPieces);
-//create a piece
-router.post('/:userId/pieces', usersController.createPiece);
+// //fetch all pieces for this user
+// router.get('/:userId/pieces', usersController.fetchPieces);
 
-//delete a piece
-router.delete('/:userId/pieces/:pieceId', usersController.deletePiece);
+// //create a piece
+// router.post('/:userId/pieces', usersController.createPiece);
+
+// //delete a piece
+// router.delete('/:userId/pieces/:pieceId', usersController.deletePiece);
 
 module.exports = router;

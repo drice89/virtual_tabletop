@@ -10,7 +10,7 @@ export const RECEIVE_PIECE = 'RECEIVE_PIECE';
 export const RECEIVE_PIECES = 'RECEIVE_PIECES';
 export const REMOVE_PIECE = 'REMOVE_PIECE_PIECE';
 
-const receiveUser = (payload) => ({
+export const receiveUser = (payload) => ({
   type: RECEIVE_USER,
   payload,
 });

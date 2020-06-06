@@ -49,8 +49,8 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
 
   const composeMessage = (
     <>
-      <div>
-        <textarea rows="2" cols="28" placeholder="Chat Message" onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => createMessage(e.currentTarget.value)} value={newMessage} />
+      <div className={styles.textAreaWrapper}>
+        <textarea rows="2" placeholder="Chat Message" onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => createMessage(e.currentTarget.value)} value={newMessage} />
       </div>
       <div>
         <button onClick={sendMessage}><i className="ra ra-horn-call" /></button>
