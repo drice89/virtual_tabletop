@@ -16,7 +16,7 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
     const currentMessage = {
       displayName: currentUser.displayName,
       profilePicture: currentUser.profilePicture,
-      body: newMessage,
+      body: newMessage.trim(),
       room: params.gameId,
       timeStamp: time.toLocaleTimeString('en-US'),
     };
@@ -26,23 +26,37 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
+      e.preventDefault();
       sendMessage();
     }
   };
 
+  // const renderMessages = messages.map((message, i) => (
+  //   <li key={`${message.timeStamp}+${message.displayName}+${i}`}>
+  //     <div className={styles.messageDisplayWrapper}>
+  //       <div>
+  //         <img src={message.profilePicture} alt={message.displayName} />
+  //       </div>
+  //       <div className={styles.messageBodyWrapper}>
+  //         <div>
+  //           <span>{message.displayName}</span>
+  //           <span className={styles.timeStamp}>{message.timeStamp}</span>
+  //         </div>
+  //         <div>{message.body}</div>
+  //       </div>
+  //     </div>
+  //   </li>
+  // ));
+
   const renderMessages = messages.map((message, i) => (
-    <li key={`${message.timeStamp}+${message.displayName}+${i}`}>
-      <div className={styles.messageDisplayWrapper}>
+    <li key={`${message.timeStamp}+${message.displayName}+${i}`} className={styles.message}>
+      <img src={message.profilePicture} alt={message.displayName} />
+      <div>
         <div>
-          <img src={message.profilePicture} alt={message.displayName} />
+          <span>{message.displayName}</span>
+          <span>{message.timeStamp}</span>
         </div>
-        <div className="messageBodyWrapper">
-          <div>
-            <span>{message.displayName}</span>
-            <span className={styles.timeStamp}>{message.timeStamp}</span>
-          </div>
-          <div>{message.body}</div>
-        </div>
+        <p>{message.body}</p>
       </div>
     </li>
   ));
@@ -50,7 +64,17 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
   const composeMessage = (
     <>
       <div className={styles.textAreaWrapper}>
-        <textarea rows="2" placeholder="Chat Message" onKeyDown={(e) => handleKeyDown(e)} onChange={(e) => createMessage(e.currentTarget.value)} value={newMessage} />
+        <textarea
+          rows="1"
+          placeholder="Chat Message"
+          onKeyDown={(e) => handleKeyDown(e)}
+          onChange={(e) => createMessage(e.currentTarget.value)}
+          value={newMessage}
+          draggable
+          onDragStart={(e) => {
+            if (e.target.type === 'textarea') e.preventDefault();
+          }}
+        />
       </div>
       <div>
         <button onClick={sendMessage}><i className="ra ra-horn-call" /></button>
@@ -69,11 +93,9 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.messageContainer}>
-        <ul>
-          {renderMessages}
-        </ul>
-      </div>
+      <ul className={styles.messageContainer}>
+        {renderMessages}
+      </ul>
       <div className={styles.messageComposerContainer}>
         {composeMessage}
       </div>

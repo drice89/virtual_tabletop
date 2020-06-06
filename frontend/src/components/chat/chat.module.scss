@@ -4,24 +4,18 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  width: 100%;
+  justify-content: space-between;
   height: 100%;
-  margin: 10px auto;
 }
 
 .messageContainer {
   display: flex;
   flex-direction: column;
-  //align-items: center;
-  width: 85%;
-  min-height: 150px;
-  max-height: 500px;
-  height: 88%;
+  align-items: stretch;
+  box-sizing: border-box;
   padding: 5px;
-  border-radius: 2px;
   overflow-y: auto;
+  width: 100%;
 }
 
 .messageContainer img {
@@ -32,22 +26,23 @@
 .messageComposerContainer {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
-  width: 89%;
-  height: 10%;
-  min-height: 20px;
+  align-items: center;
+  padding: 4px 4px;
+  background-color: red;
 }
 
 .messageComposerContainer textarea {
   background-color: $primary-dark;
+  resize: none;
 }
 
 .messageComposerContainer button {
   background-color: $secondary;
-  border-radius: 2px;
-  margin-left: 2px;
-  height: 25px;
-  width: 25px;
+  border-radius: 4px;
+  margin-left: 4px;
+  height: 1.6rem;
+  width: 1.6rem;
+  padding: 4px;
   text-align: center;
 }
 
@@ -55,19 +50,15 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
   padding: 10px 1px;
   border-bottom: 1px solid rgba($color: $black, $alpha: 0.3);
-}
-
-.messageDisplayWrapper > div:first-child {
-  width: 30px;
+  width: 100%;
 }
 
 .messageBodyWrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   text-align: right;
 }
 
@@ -77,9 +68,16 @@
 
 .textAreaWrapper {
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .textAreaWrapper textarea {
   width: 100%;
+  line-height: 1.6rem;
+  padding: 4px 4px;
 }
 
+.message {
+  width: 100%;
+}
