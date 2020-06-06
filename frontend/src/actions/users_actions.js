@@ -14,7 +14,8 @@ const receiveUser = (payload) => ({
   type: RECEIVE_USER,
   payload,
 });
-const receiveUserInfo = (user) => ({
+
+export const receiveUserInfo = (user) => ({
   type: RECEIVE_USER_INFO,
   user,
 });
@@ -27,6 +28,12 @@ const receiveErrors = (errors) => ({
 });
 
 export const fetchUser = (userId) => (dispatch) => (
+  UsersAPIUtil.fetchUserInfo(userId)
+    .then((user) => dispatch(receiveUserInfo(user.data)))
+    .catch((err) => dispatch(receiveErrors(err)))
+);
+
+export const fetchUserGames = (userId) => (dispatch) => (
   UsersAPIUtil.fetchUser(userId)
     .then((payload) => dispatch(receiveUser(payload.data)))
     .catch((err) => dispatch(receiveErrors(err)))

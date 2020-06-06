@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './delete_token_widget.module.scss';
 
-const mapStateToProps = (state, ownProps) => ({
-  tokens: ownProps.tokens,
-  socket: ownProps.socket,
-  highlightToken: ownProps.highlightToken
-});
 
-
-const DeleteTokenWindow = ({ tokens, socket, highlightToken }) => {
+const DeleteTokenWindow = ({ tokens, socket, highlightToken, userId }) => {
   const [localTokens, deleteTokens] = useState({});
 
   const handleClick = () => {
@@ -61,13 +55,15 @@ const DeleteTokenWindow = ({ tokens, socket, highlightToken }) => {
   const tokensList = (
     <ul className={styles.tokenList}>
       {
-       tokens.map((token) => (
-         <li key={`${token._id}token-list-item`} className={styles.tokenItem} onMouseOver={() => highlightToken(token)} onMouseLeave={() => highlightToken(null)}>
-           <input type="checkbox" onChange={handleChange(token)} />
-           <input type="text" max="10" onChange={e => editSingleToken(token, e)} value={editableTokens[token._id] ? editableTokens[token._id].name : null } onBlur={() => updateTokenName(token)}/>
-           <img src={token.imageUrl} className={styles.tokenImage}/>
-         </li>
-       ))
+       tokens.map((token) => {
+         if(token.player === userId){
+           return <li key={`${token._id}token-list-item`} className={styles.tokenItem} onMouseOver={() => highlightToken(token)} onMouseLeave={() => highlightToken(null)}>
+             <input type="checkbox" onChange={handleChange(token)} />
+             <input type="text" max="10" onChange={e => editSingleToken(token, e)} value={editableTokens[token._id] ? editableTokens[token._id].name : null} onBlur={() => updateTokenName(token)} />
+             <img src={token.imageUrl} className={styles.tokenImage} />
+           </li>
+         }
+       })
       }
     </ul>
   );
@@ -89,4 +85,4 @@ const DeleteTokenWindow = ({ tokens, socket, highlightToken }) => {
   );
 };
 
-export default connect(mapStateToProps)(DeleteTokenWindow);
+export default (DeleteTokenWindow);

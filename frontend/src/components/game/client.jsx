@@ -41,10 +41,11 @@ class Client extends React.Component {
       fetchUser(userId);
     });
 
-    socket.on('boardUpdated', (board) => {
-      const { history, receiveBoard } = this.props;
+    socket.on('boardUpdated', (payload) => {
+      const { history, receiveBoard, receiveUserInfo } = this.props;
       
-      receiveBoard(board)
+      receiveBoard(payload.result)
+      receiveUserInfo(payload.user)
       
       this.setState({update: true})
       

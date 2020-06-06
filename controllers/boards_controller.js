@@ -96,11 +96,8 @@ exports.updateBoard = function (board) {
   // needs to be changed to findOneAndUpdate
 
   User.findById(board.userId, (err, doc)=>{
-    console.log(doc)
-    console.log(err)
     doc.color = board.color;
     doc.save()
-      .then((res) => console.log(res))
       .then((user) => {
         delete board["color"]
         Board.findByIdAndUpdate(board._id, board, {
@@ -108,7 +105,7 @@ exports.updateBoard = function (board) {
         }, (err, result) => {
           if (result) {
             // returns board document = result may need .toJSON()
-            app.transmitData(`${result.gameId}`, 'boardUpdated', result);
+            app.transmitData(`${result.gameId}`, 'boardUpdated', { result, user } );
           } else {
             // console.log(err)
             app.transmitData(`${board.gameId}`, 'error', err);

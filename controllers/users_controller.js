@@ -24,7 +24,7 @@ exports.fetchUser = function (req, res) {
 
   User.findById(req.params.userId)
     .then(user => {
-      res.json({user})
+      res.json(user)
     })
 }
 
