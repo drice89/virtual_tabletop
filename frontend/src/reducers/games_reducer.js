@@ -1,5 +1,7 @@
 import { RECEIVE_GAMES, RECEIVE_GAME, EDIT_GAME, DELETE_GAME } from '../actions/games_actions';
-import { RECEIVE_USER } from '../actions/users_actions';
+import {
+  RECEIVE_USER,
+} from '../actions/users_actions';
 import { RECEIVE_BOARD, DELETE_BOARD } from '../actions/board_actions';
 
 export default (state = {}, action) => {

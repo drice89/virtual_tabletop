@@ -1,6 +1,7 @@
 import * as UsersAPIUtil from '../util/users_api_util';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
 export const RECEIVE_USER_ERRORS = 'RECEIVE_USER_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
@@ -9,10 +10,17 @@ export const RECEIVE_PIECE = 'RECEIVE_PIECE';
 export const RECEIVE_PIECES = 'RECEIVE_PIECES';
 export const REMOVE_PIECE = 'REMOVE_PIECE_PIECE';
 
-const receiveUser = (payload) => ({
+export const receiveUser = (payload) => ({
   type: RECEIVE_USER,
   payload,
 });
+
+export const receiveUserInfo = (user) => ({
+  type: RECEIVE_USER_INFO,
+  user,
+});
+
+
 
 const receiveErrors = (errors) => ({
   type: RECEIVE_USER_ERRORS,
@@ -20,10 +28,17 @@ const receiveErrors = (errors) => ({
 });
 
 export const fetchUser = (userId) => (dispatch) => (
+  UsersAPIUtil.fetchUserInfo(userId)
+    .then((user) => dispatch(receiveUserInfo(user.data)))
+    .catch((err) => dispatch(receiveErrors(err)))
+);
+
+export const fetchUserGames = (userId) => (dispatch) => (
   UsersAPIUtil.fetchUser(userId)
     .then((payload) => dispatch(receiveUser(payload.data)))
     .catch((err) => dispatch(receiveErrors(err)))
 );
+
 
 
 //piece action

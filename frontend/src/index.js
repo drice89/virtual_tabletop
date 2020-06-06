@@ -17,15 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
     const decodedUser = jwtDecode(localStorage.jwtToken);
+    console.log(decodedUser)
     const preloadedState = {
       entities: {
         users: {
-          [decodedUser.id]: decodedUser,
+          [decodedUser._id]: decodedUser,
         },
       },
       session: {
         isAuthenticated: true,
-        userId: decodedUser.id,
+        userId: decodedUser._id,
       },
     };
 

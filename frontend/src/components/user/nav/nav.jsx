@@ -5,7 +5,7 @@ import UserInfo from './user_info';
 
 const Nav = ({ logout, currentUser }) => (
   <div className={styles.nav}>
-    <Link to={currentUser ? `/user/${currentUser.id}` : '/login'}>
+    <Link to={currentUser ? `/user/${currentUser._id}` : '/login'}>
       <div className={styles.logoContainer}>
         <div className={styles.logo}>
           <i className="ra ra-hood" />

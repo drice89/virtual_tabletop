@@ -24,22 +24,27 @@ class Grid extends React.Component {
 
     this.createBoard = this.createBoard.bind(this);
     this.updateBoard = this.updateBoard.bind(this);
+    this.update = this.update.bind(this);
 
 
     this.handleImage = this.handleImage.bind(this);
+    this.handleImageClick = this.handleImageClick.bind(this);
 
-    this.setDraggingPiece = this.setDraggingPiece.bind(this)
+    this.setDraggingPiece = this.setDraggingPiece.bind(this);
+
+    this.highlightToken = this.highlightToken.bind(this);
 
     this.state = {
-      row: null,
-      col: null,
+      name: "New Board",
+      row: 2,
+      col: 2,
       zoomFactorGrid: null,
       zoomFactorImage: null,
       offSetX: null,
       offSetY: null,
       gridArray: null,
       opacity: null,
-      borderColor: null,
+      borderColor: "#ffffff",
       gridLocked: true,
       boardBackground: '',
       showInitialEdit: false,
@@ -63,6 +68,9 @@ class Grid extends React.Component {
     this.moveGrid = false;
     this.moveBackground = false;
 
+    this.borderColor = "#ffffff";
+    this.borderOpacity = 1;
+
     this.gridPosX = 0;
     this.gridPosY = 0;
 
@@ -82,6 +90,8 @@ class Grid extends React.Component {
     this.backgroundWidthSetting = 0;
     this.backgroundHeightSetting = 0;
 
+    this.fetchUser = false;
+
     this.plusGridWidth = this.plusGridWidth.bind(this)
     this.plusGridHeight = this.plusGridHeight.bind(this)
 
@@ -100,52 +110,69 @@ class Grid extends React.Component {
   }
 
   componentDidMount() {
-    
-    this.props.fetchPieces(this.props.userId);
+    // this.props.fetchPieces(this.props.userId);
 
     let canvas = document.getElementById('canvas');
 
-    if (!this.props.create) {
-      const state = {
-        row: this.props.board.gridSize.rows,
-        col: this.props.board.gridSize.cols,
-        zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
-        zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
-        gridPosX: this.props.board.gridSize.gridPosX,
-        gridPosY: this.props.board.gridSize.gridPosY,
-        imagePosX: this.props.board.imageAttributes.imagePosX,
-        imagePosY: this.props.board.imageAttributes.imagePosY,
-        opacity: this.props.board.settings.opacity,
-        borderColor: this.props.board.settings.gridColor,
-        boardBackground: this.props.board.backgroundImageUrl,
-        gridWidthSetting: this.props.board.gridSize.width,
-        gridHeightSetting: this.props.board.gridSize.height,
-        backgroundWidthSetting: this.props.board.imageAttributes.width,
-        backgroundHeightSetting: this.props.board.imageAttributes.height,
-      };
 
-      
 
-      this.zoomGridTEST = state.zoomFactorGrid;
-      this.zoomBackground = state.zoomFactorImage;
 
-      this.gridWidthSetting = state.gridWidthSetting
-      this.gridHeightSetting = state.gridHeightSetting
 
-      this.backgroundWidthSetting = state.backgroundWidthSetting
-      this.backgroundHeightSetting = state.backgroundHeightSetting
+    this.props.fetchUser(this.props.userId)
+      .then(() => {
+        if (!this.props.create) {
+          const state = {
+            row: this.props.board.gridSize.rows,
+            col: this.props.board.gridSize.cols,
+            zoomFactorGrid: this.props.board.gridSize.gridZoomFactor,
+            zoomFactorImage: this.props.board.imageAttributes.imageZoomFactor,
+            gridPosX: this.props.board.gridSize.gridPosX,
+            gridPosY: this.props.board.gridSize.gridPosY,
+            imagePosX: this.props.board.imageAttributes.imagePosX,
+            imagePosY: this.props.board.imageAttributes.imagePosY,
+            opacity: this.props.board.settings.opacity,
+            borderColor: this.props.board.settings.gridColor,
+            boardBackground: this.props.board.backgroundImageUrl,
+            gridWidthSetting: this.props.board.gridSize.width,
+            gridHeightSetting: this.props.board.gridSize.height,
+            backgroundWidthSetting: this.props.board.imageAttributes.width,
+            backgroundHeightSetting: this.props.board.imageAttributes.height,
+            color: this.props.users[this.props.userId].color,
+            name: this.props.board.name
+          };
 
-      this.setState(state, this.setFetchedGrid);
+          this.myColor = state.color
 
-      this.bar = document.getElementById('bar-container');
-      document.addEventListener('mousemove', this.showHideTokenBar);
-      document.addEventListener('dragover', this.showHideTokenBar);
-      this.bar.style.display = 'none';
 
-      
-    } else {
-      this.setState({ showInitialEdit: true });
-    }
+          this.borderColor = state.borderColor;
+          this.borderOpacity = state.opacity;
+
+          this.zoomGridTEST = state.zoomFactorGrid;
+          this.zoomBackground = state.zoomFactorImage;
+
+          this.gridWidthSetting = state.gridWidthSetting
+          this.gridHeightSetting = state.gridHeightSetting
+
+          this.backgroundWidthSetting = state.backgroundWidthSetting
+          this.backgroundHeightSetting = state.backgroundHeightSetting
+
+          this.setState(state, this.setFetchedGrid);
+
+          this.bar = document.getElementById('bar-container');
+          document.addEventListener('mousemove', this.showHideTokenBar);
+          document.addEventListener('dragover', this.showHideTokenBar);
+          this.bar.style.display = 'none';
+
+
+        } else {
+          this.setState({ showInitialEdit: true });
+        }
+
+      })
+
+
+
+
 
     document.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -163,7 +190,7 @@ class Grid extends React.Component {
           let image = new Image();
           image.onload = () => {
             gridArray[pos[1]][pos[0]] = [this.draggingPiece, image];
-            this.draw();
+            // this.draw();
           }
           image.src = this.draggingPiece.imageUrl;
 
@@ -201,13 +228,13 @@ class Grid extends React.Component {
             this.gridPosY -= 1.2;
 
           } else {
-            if(this.zoomGridTEST > 0){
+            if (this.zoomGridTEST > 0) {
               this.zoomGridTEST -= 0.005;
               this.gridPosX += 1.4;
               this.gridPosY += 1.2;
             }
           }
-         
+
         }
       }
 
@@ -225,11 +252,11 @@ class Grid extends React.Component {
         }
       }
 
-    
+
 
       context.clearRect(0, 0, canvas.width, canvas.height);
       this.draw();
-      
+
 
       function checkScrollDirectionIsUp(event) {
         if (event.wheelDelta) {
@@ -399,7 +426,37 @@ class Grid extends React.Component {
 
   update(value) {
     return (e) => {
-      this.setState({ [value]: e.currentTarget.value });
+      if (value === "row" || value === "col") {
+        if (e.currentTarget.value <= 0 || e.currentTarget.value === null) {
+          this.setState({ [value]: 1 }, this.setGrid);
+        } else {
+          this.setState({ [value]: parseInt(e.currentTarget.value) }, this.setGrid);
+        }
+      } else if (value === "name") {
+        this.setState({ [value]: e.currentTarget.value });
+      } else {
+        if (value === "borderColor") {
+          this.borderColor = e.currentTarget.value;
+        }
+        if (value === "borderOpacity") {
+          this.borderOpacity = e.currentTarget.value;
+        }
+
+        if (value === "myColor") {
+          this.myColor = e.currentTarget.value;
+        }
+
+        if (this.state.previewUrl || !this.props.create) {
+
+          this.setState({});
+          let canvas = document.getElementById('canvas')
+          let context = canvas.getContext('2d');
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          this.draw();
+        }
+      }
+
+
     };
   }
 
@@ -410,9 +467,9 @@ class Grid extends React.Component {
     let intCol;
     let gridArray;
     if (this.state.row && this.state.col) {
-      intRow = parseInt(this.state.row);
-      intCol = parseInt(this.state.col);
-      
+      intRow = this.state.row;
+      intCol = this.state.col;
+
       gridArray = new Array(intRow).fill(null).map(() => new Array(intCol).fill(null));
     }
 
@@ -420,7 +477,7 @@ class Grid extends React.Component {
       let x = token.pos.x;
       let y = token.pos.y;
       let image = new Image();
-      
+
       image.onload = () => {
         gridArray[y][x] = [token, image];
       }
@@ -429,7 +486,7 @@ class Grid extends React.Component {
 
     let loaded = false;
 
-    let loadInterval = setInterval(()=>{
+    let loadInterval = setInterval(() => {
       loaded = true;
 
       this.props.tokens.forEach(token => {
@@ -495,49 +552,51 @@ class Grid extends React.Component {
   }
 
   createBoard() {
-    const formData = new FormData();
-    formData.append('name', 'test');
-    formData.append('gameId', this.props.match.params.gameId);
+    if (this.state.previewUrl) {
+      const formData = new FormData();
+      formData.append('name', this.state.name);
+      formData.append('gameId', this.props.match.params.gameId);
 
-    formData.append('rows', this.state.row);
-    formData.append('cols', this.state.col);
-    formData.append('gridZoomFactor', this.zoomGridTEST);
+      formData.append('rows', this.state.row);
+      formData.append('cols', this.state.col);
+      formData.append('gridZoomFactor', this.zoomGridTEST);
 
-    let gridPosX = this.gridPosX;
-    let gridPosY = this.gridPosY;
+      let gridPosX = this.gridPosX;
+      let gridPosY = this.gridPosY;
 
-    let imagePosX = this.imagePosX;
-    let imagePosY = this.imagePosY;
+      let imagePosX = this.imagePosX;
+      let imagePosY = this.imagePosY;
 
-    let gridWidth = this.gridWidthSetting;
-    let gridHeight = this.gridHeightSetting;
+      let gridWidth = this.gridWidthSetting;
+      let gridHeight = this.gridHeightSetting;
 
-    let backgroundWidth = this.backgroundWidthSetting;
-    let backgroundHeight = this.backgroundHeightSetting;
+      let backgroundWidth = this.backgroundWidthSetting;
+      let backgroundHeight = this.backgroundHeightSetting;
 
-    formData.append('gridWidth', gridWidth);
-    formData.append('creatorId', this.props.userId);
-    formData.append('gridHeight', gridHeight);
+      formData.append('gridWidth', gridWidth);
+      formData.append('creatorId', this.props.userId);
+      formData.append('gridHeight', gridHeight);
 
-    formData.append('backgroundWidth', backgroundWidth);
-    formData.append('backgroundHeight', backgroundHeight);
+      formData.append('backgroundWidth', backgroundWidth);
+      formData.append('backgroundHeight', backgroundHeight);
 
-    formData.append('gridPosX', gridPosX);
-    formData.append('gridPosY', gridPosY);
+      formData.append('gridPosX', gridPosX);
+      formData.append('gridPosY', gridPosY);
 
-    formData.append('imagePosX', imagePosX);
-    formData.append('imagePosY', imagePosY);
+      formData.append('imagePosX', imagePosX);
+      formData.append('imagePosY', imagePosY);
 
-    formData.append('imageZoomFactor', this.zoomBackground);
+      formData.append('imageZoomFactor', this.zoomBackground);
 
-    formData.append('gridColor', "#FFF");
-    formData.append('opacity', 1);
-    formData.append('backgroundImage', this.state.imageFile);
+      formData.append('gridColor', this.borderColor);
+      formData.append('opacity', this.borderOpacity);
+      formData.append('backgroundImage', this.state.imageFile);
 
-    createBoard(formData)
-     
-    this.moveGrid = false;
-    this.moveBackground = false;
+      createBoard(formData)
+
+      this.moveGrid = false;
+      this.moveBackground = false;
+    }
   }
 
   handleImageClick() {
@@ -583,44 +642,7 @@ class Grid extends React.Component {
   componentDidUpdate(prevProps) {
     let canvas = document.getElementById('canvas');
 
-    if (!prevProps.create && this.props.create) {
-      const state = {
-        row: null,
-        col: null,
-        zoomFactorGrid: null,
-        zoomFactorImage: null,
-        gridPosX: null,
-        gridPosY: null,
-        imagePosX: null,
-        imagePosY: null,
-        gridArray: null,
-        opacity: null,
-        borderColor: null,
-        gridLocked: true,
-        boardBackground: '',
-        showInitialEdit: false,
-        previewUrl: null,
-      };
-
-      this.zoomGridTEST = 1;
-      this.zoomBackground = 1;
-
-      this.gridWidthSetting = 0;
-      this.gridHeightSetting = 0;
-
-
-      this.backgroundWidthSetting = 0;
-      this.backgroundHeightSetting = 0;
-
-      this.setState(state, () => {
-
-        let context = canvas.getContext('2d');
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-      });
-    }
     if ((this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) || this.props.update) {
-      
       this.props.resetUpdate();
       this.bar = document.getElementById('bar-container');
       document.addEventListener('mousemove', this.showHideTokenBar);
@@ -643,9 +665,13 @@ class Grid extends React.Component {
         gridHeightSetting: this.props.board.gridSize.height,
         backgroundWidthSetting: this.props.board.imageAttributes.width,
         backgroundHeightSetting: this.props.board.imageAttributes.height,
+        color: this.props.users[this.props.userId].color,
+        name: this.props.board.name
       };
 
-      
+      this.myColor = state.color
+
+
       this.zoomGridTEST = state.zoomFactorGrid;
       this.zoomBackground = state.zoomFactorImage;
 
@@ -654,10 +680,56 @@ class Grid extends React.Component {
 
       this.backgroundWidthSetting = state.backgroundWidthSetting
       this.backgroundHeightSetting = state.backgroundHeightSetting
-      console.log("SHOULD BE HERE")
+
+      this.borderColor = state.borderColor;
+      this.borderOpacity = state.opacity;
 
       this.setState(state, this.setFetchedGrid);
     }
+
+    if (!prevProps.create && this.props.create) {
+      const state = {
+        row: 2,
+        col: 2,
+        zoomFactorGrid: null,
+        zoomFactorImage: null,
+        gridPosX: null,
+        gridPosY: null,
+        imagePosX: null,
+        imagePosY: null,
+        gridArray: null,
+        opacity: null,
+        borderColor: "#ffffff",
+        gridLocked: true,
+        boardBackground: '',
+        showInitialEdit: false,
+        previewUrl: null,
+        name: "New Board"
+      };
+
+      this.zoomGridTEST = 1;
+      this.zoomBackground = 1;
+
+      this.gridWidthSetting = 0;
+      this.gridHeightSetting = 0;
+
+
+      this.backgroundWidthSetting = 0;
+      this.backgroundHeightSetting = 0;
+
+      this.borderColor = "#ffffff";
+      this.borderOpacity = 1;
+
+      this.myColor = "#808080"
+
+      this.setState(state, () => {
+
+        let context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+      });
+    }
+
   }
 
   draw(action = null) {
@@ -668,7 +740,7 @@ class Grid extends React.Component {
     // Take canvas and set line width 1pc
     let canvas = document.getElementById('canvas')
     let context = canvas.getContext('2d');
-    context.lineWidth = 1;
+
 
     let imageWidth = (this.backgroundImage.naturalWidth / this.imageScreenFactor - this.backgroundWidthSetting) * this.zoomBackground;
     let imageHeight = (this.backgroundImage.naturalHeight / this.imageScreenFactor - this.backgroundHeightSetting) * this.zoomBackground;
@@ -691,22 +763,42 @@ class Grid extends React.Component {
 
           if (this.state.gridArray[i][j]) {
             let image = this.state.gridArray[i][j][1]
-
+            let boxBorder = Math.floor(4 * (width / height))
+            context.lineWidth = boxBorder;
             if (action === "gridDrag") {
               context.drawImage(image, (j * width + this.gridPosX) - totalWidth / 2, (i * height + this.gridPosY) - totalHeight / 2, width, height);
             } else {
+              context.beginPath();
               context.drawImage(image, j * width + this.gridPosX, i * height + this.gridPosY, width, height);
+              if (action && action.highlight) {
+                if (action.token.pos.x === j && action.token.pos.y === i) {
+                  context.fillStyle = this.myColor;
+                  context.globalAlpha = 0.5;
+                  context.fillRect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
+                  context.globalAlpha = 1;
+                } else {
+                  context.strokeStyle = this.myColor;
+                }
+              }
+
+                context.strokeStyle = this.props.users[this.state.gridArray[i][j][0].player].color;
+                context.rect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
+                context.stroke();
             }
           }
 
+
+          context.lineWidth = 1;
           context.beginPath();
-          context.strokeStyle = "white"
+          context.strokeStyle = this.borderColor;
+          context.globalAlpha = this.borderOpacity;
           if (action === 'gridDrag') {
             context.rect((j * width + 0.5 + this.gridPosX) - totalWidth / 2, (i * height + 0.5 + this.gridPosY) - totalHeight / 2, width, height)
           } else {
             context.rect(j * width + 0.5 + this.gridPosX, i * height + 0.5 + this.gridPosY, width, height)
           }
           context.stroke();
+          context.globalAlpha = 1;
         }
       }
     }
@@ -714,7 +806,7 @@ class Grid extends React.Component {
 
   getBoxLocation(x, y) {
     // Gets location of the mouse click on the canvas
-    let boxWidth = (this.gridWidth - this.gridWidthSetting)  * this.zoomGridTEST;
+    let boxWidth = (this.gridWidth - this.gridWidthSetting) * this.zoomGridTEST;
     let boxHeight = (this.gridHeight - this.gridHeightSetting) * this.zoomGridTEST;
 
     let colPicked = Math.floor(((x - this.gridPosX) / boxWidth));
@@ -744,24 +836,28 @@ class Grid extends React.Component {
   }
 
   setGrid() {
-    this.backgroundImage.src = this.state.boardBackground ? this.state.boardBackground : this.state.previewUrl;
-    this.backgroundImage.onload = () => {
 
-      let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor;
-      let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor;
+    if (this.state.previewUrl && this.state.col && this.state.row) {
+      this.backgroundImage.src = this.state.boardBackground ? this.state.boardBackground : this.state.previewUrl;
+      this.backgroundImage.onload = () => {
 
-      let canvas = document.getElementById('canvas')
+        let imageWidth = this.backgroundImage.naturalWidth / this.imageScreenFactor;
+        let imageHeight = this.backgroundImage.naturalHeight / this.imageScreenFactor;
+        this.gridWidth = (imageWidth / this.state.col);
+        this.gridHeight = (imageHeight / this.state.row);
 
-      this.imagePosX = (canvas.offsetWidth - imageWidth) / 2;
-      this.imagePosY = (canvas.offsetHeight - imageHeight) / 2;
 
-      this.gridPosX = this.imagePosX;
-      this.gridPosY = this.imagePosY;
+        let canvas = document.getElementById('canvas')
 
-      this.gridWidth = (imageWidth / this.state.col);
-      this.gridHeight = (imageHeight / this.state.row);
+        this.imagePosX = (canvas.offsetWidth - imageWidth) / 2;
+        this.imagePosY = (canvas.offsetHeight - imageHeight) / 2;
 
-      this.handleBuildGrid();
+        this.gridPosX = this.imagePosX;
+        this.gridPosY = this.imagePosY;
+
+        console.log(this.state.row, this.state.col)
+        this.handleBuildGrid();
+      }
     }
   }
 
@@ -775,7 +871,6 @@ class Grid extends React.Component {
 
       this.gridWidth = (imageWidth / this.state.col);
       this.gridHeight = (imageHeight / this.state.row);
-      console.log(this.gridWidthSetting)
 
       this.gridPosX = this.state.gridPosX;
       this.gridPosY = this.state.gridPosY;
@@ -787,7 +882,7 @@ class Grid extends React.Component {
     }
   }
 
-  plusGridWidth(value){
+  plusGridWidth(value) {
     let canvas = document.getElementById('canvas')
     let context = canvas.getContext('2d');
 
@@ -796,7 +891,7 @@ class Grid extends React.Component {
     context.clearRect(0, 0, canvas.width, canvas.height);
     this.draw();
   }
-  plusGridHeight(value){
+  plusGridHeight(value) {
     let canvas = document.getElementById('canvas')
     let context = canvas.getContext('2d');
 
@@ -805,7 +900,7 @@ class Grid extends React.Component {
     context.clearRect(0, 0, canvas.width, canvas.height);
     this.draw();
   }
-  plusBackgroundWidth(value){
+  plusBackgroundWidth(value) {
     let canvas = document.getElementById('canvas')
     let context = canvas.getContext('2d');
 
@@ -824,21 +919,24 @@ class Grid extends React.Component {
     this.draw();
   }
 
-  updateBoard(){
+  updateBoard() {
+
+    this.fetchUser = true;
     let newBoard = {};
 
     let gridSize = {};
     let imageAttributes = {};
+    let settings = {}
 
-    
+
 
     gridSize["gridZoomFactor"] = this.zoomGridTEST;
     gridSize["gridPosX"] = this.gridPosX;
     gridSize["gridPosY"] = this.gridPosY;
     gridSize["width"] = this.gridWidthSetting;
     gridSize["height"] = this.gridHeightSetting;
-    gridSize["cols"] = this.props.board.gridSize.cols
-    gridSize["rows"] = this.props.board.gridSize.rows
+    gridSize["cols"] = this.state.col
+    gridSize["rows"] = this.state.row
 
 
     imageAttributes["imagePosX"] = this.imagePosX;
@@ -847,14 +945,36 @@ class Grid extends React.Component {
     imageAttributes["height"] = this.backgroundHeightSetting;
     imageAttributes["imageZoomFactor"] = this.zoomBackground;
 
+    settings['gridColor'] = this.borderColor;
+    settings['opacity'] = this.borderOpacity;
+
 
     newBoard["_id"] = this.props.board._id
-    newBoard["gridSize"] = gridSize; 
-    newBoard["imageAttributes"] = imageAttributes; 
+    if (this.state.name.length !== 0) {
+      newBoard["name"] = this.state.name
+    } else {
+      newBoard["name"] = "New Board"
+    }
+    newBoard["gridSize"] = gridSize;
+    newBoard["imageAttributes"] = imageAttributes;
+    newBoard["settings"] = settings;
+    newBoard["color"] = this.myColor;
+    newBoard["userId"] = this.props.userId;
 
 
     this.props.socket.emit('updateBoard', newBoard)
     this.props.socket.emit('updated')
+  }
+
+  highlightToken(token) {
+    let canvas = document.getElementById('canvas')
+    let context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (token) {
+      this.draw({ highlight: true, token })
+    } else {
+      this.draw();
+    }
   }
 
 
@@ -879,40 +999,34 @@ class Grid extends React.Component {
           moveGrid={this.moveGrid}
           moveBackground={this.moveBackground}
           updateBoard={this.updateBoard}
+          update={this.update}
+          create={create}
+          setGrid={this.setGrid}
+          handleImageClick={this.handleImageClick}
+          createBoard={this.createBoard}
+          rows={this.state.row}
+          cols={this.state.col}
+          borderColor={this.borderColor}
+          borderOpacity={this.borderOpacity}
+          myColor={this.myColor}
+          name={this.state.name}
         />
 
-        <DeleteTokenWidget
-          x={260}
-          y={42}
-          active={deleteActive}
-          toggleWidget={toggleWidget}
-          socket={socket}
-          tokens={tokens}
-        />
+        {this.state.gridArray ?
+          <DeleteTokenWidget
+            x={260}
+            y={42}
+            active={deleteActive}
+            toggleWidget={toggleWidget}
+            socket={socket}
+            tokens={tokens}
+            highlightToken={this.highlightToken}
+            userId={userId}
+          />
+          : null}
 
         {create ? (
-          <div className={styles.initialSetup}>
-            <div className={styles.initialInputs}>
-              {/* Image
-              <input onChange={this.update('imageUrl')} id="image" className={styles.gridInputs} value={imageUrl} type="text" name="" /> */}
-              Rows
-              <input onChange={this.update('row')} id="row" className={styles.gridInputs} type="text" name="" maxLength="2" />
-              Cols
-              <input onChange={this.update('col')} id="col" className={styles.gridInputs} type="text" name="" maxLength="2" />
-            </div>
-            {/* {console.log(this.state.backgroundImage)} */}
-            <div className={styles.gridButtons}>
-              <button className={styles.setGrid} onClick={this.setGrid} id="set-grid">Set grid</button>
-
-              <button className={styles.lockButton} onClick={this.handleLockGrid}>{!this.state.moveGrid ? 'Unlock grid' : 'Lock grid'}</button>
-              <button className={styles.lockButton} onClick={this.handleLockBackground}>{!this.state.moveBackground ? 'Unlock background' : 'Lock background'}</button>
-
-              <button className={styles.uploadBackground} onClick={this.handleImageClick}>Upload background</button>
-              <button className={styles.createBoard} onClick={this.createBoard}>Create board</button>
-            </div>
-
-            <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" />
-          </div>
+          <input type="file" onChange={this.handleImage} className={styles.imageFile} id="image-upload" />
         ) : null}
 
         <div className={styles.container} id="grid-container">
@@ -920,7 +1034,7 @@ class Grid extends React.Component {
           </canvas>
         </div>
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget}/> : null}
+        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
 
 
       </div>

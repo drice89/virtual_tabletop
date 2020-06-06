@@ -1,0 +1,17 @@
+@import "../../colors";
+.tokenList{
+}
+.tokenItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.tokenItem:hover{
+    background-color: $secondary-dark;
+}
+.tokenImage{
+    width: 15%;
+    height: 15%;
+}

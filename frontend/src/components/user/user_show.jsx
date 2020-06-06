@@ -17,18 +17,20 @@ class UserShow extends React.Component {
     this.state = {
       createForm: false,
       editGameId: null,
+      joinGameId: ''
     };
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.setEditForm = this.setEditForm.bind(this);
+    this.joinGame = this.joinGame.bind(this)
   }
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
-    const { fetchUser } = this.props;
-    fetchUser();
+    const { fetchUserGames } = this.props;
+    fetchUserGames();
   }
 
   componentWillUnmount() {
@@ -58,6 +60,17 @@ class UserShow extends React.Component {
       && !this.wrapperRef.contains(event.target)) {
       this.setState({ createForm: false });
     }
+  }
+
+  update(value){
+    return (e) => {
+      this.setState({[value]: e.currentTarget.value});
+    }
+
+  }
+
+  joinGame(){
+    this.props.joinGame({userId: this.props.user._id, gameId: this.state.joinGameId})
   }
 
   render() {
@@ -128,9 +141,11 @@ class UserShow extends React.Component {
                 </div>
 
                 <section className={styles.main}>
+                  <input type="text" onChange={this.update('joinGameId')} value={this.state.joinGameId}/>
+                  <button onClick={this.joinGame}>OMG</button>
                   {subscribedGames.map((game) => (
-                    <GameCard game={game} />
-                    ))}
+                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm}/>
+                  ))}
                   {subscribedGames.length ? '' : (
                     <div className={styles.noSubs}>
                       &quot;I&apos;m Going on an Adventure!&quot;

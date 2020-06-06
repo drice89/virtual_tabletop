@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const fetchUserInfo = (userId) => axios.get(`/api/users/${userId}/info`);
 export const fetchUser = (userId) => axios.get(`/api/users/${userId}`);
 
 
