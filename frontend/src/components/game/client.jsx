@@ -7,6 +7,8 @@ import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
 import SettingWidgetContainer from './widgets/setting_widget_container';
 import ChatWidget from './widgets/chat_widget';
+import { Redirect } from 'react-router-dom';
+
 
 
 class Client extends React.Component {
@@ -29,8 +31,8 @@ class Client extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchGame, match, fetchUser, userId } = this.props;
-    fetchGame();
+    const { fetchGame, match, fetchUser, userId, user, game } = this.props;
+    fetchGame()
 
     // set up sockets
     const roomId = match.params.gameId;
@@ -101,7 +103,7 @@ class Client extends React.Component {
 
   render() {
     const {
-      game, boards, match, fetchUser
+      game, boards, match, fetchUser, userId, user
     } = this.props;
     const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
     const { socket } = this;

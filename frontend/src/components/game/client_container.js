@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     game,
     boards: game && game.boards ? game.boards.map((boardId) => state.entities.boards[boardId]) : [],
     pieces: Object.values(state.entities.pieces),
+    user: state.entities.users[state.session.userId]
   };
 };
 

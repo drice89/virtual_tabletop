@@ -13,14 +13,14 @@ const onButtonHold = (callback) => {
   }
 }
 
-const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgroundWidth, plusBackgroundHeight, handleLockGrid, handleLockBackground, moveGrid, moveBackground, updateBoard, update, create, handleImageClick, createBoard, rows, cols, borderColor, borderOpacity, myColor, name }) => (
+const SettingWidget = ({ toggleWidget, plusGridWidth, plusGridHeight, plusBackgroundWidth, plusBackgroundHeight, handleLockGrid, handleLockBackground, moveGrid, moveBackground, updateBoard, update, create, handleImageClick, createBoard, rows, cols, borderColor, borderOpacity, myColor, name, lockAll }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
         <i className="ra ra-cog" />
         <h2>Settings</h2>
       </div>
-      <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetSettings')}>
+      <button type="button" className={widgetStyles.close} onClick={() => { toggleWidget('widgetSettings'); lockAll()}}>
         <FiX />
       </button>
     </div>
