@@ -105,7 +105,8 @@
 .topBar {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  // align-items: flex-end;
+  align-items: center;
 }
 
 .topBar h2 {
@@ -160,4 +161,13 @@
   font-size: 2.4rem;
   font-weight: 700;
   color: $less-grey;
+}
+
+hr{
+      margin-bottom: 30px;
+      height: 1px;
+      width: 100%;
+      background-color: #eeeeee;
+      border-radius: 100px;
+      border-color: #eeeeee;
 }

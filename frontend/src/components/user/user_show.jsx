@@ -9,6 +9,11 @@ import CreateGameContainer from './create_game_container';
 import EditGameContainer from './edit_game_container';
 import CreatePieceContainer from './create_piece_container';
 import Piece from "./piece"
+import piecesStyle from './pieces_styles.module.scss';
+import Pieces from './pieces'
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
+
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
@@ -16,11 +21,14 @@ class UserShow extends React.Component {
     super(props);
     this.state = {
       createForm: false,
+      createPieceForm: false,
       editGameId: null,
-      joinGameId: ''
+      joinGameId: '',
+      active: true,
     };
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
+    this.toggleCreatePiece = this.toggleCreatePiece.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.setEditForm = this.setEditForm.bind(this);
@@ -44,6 +52,10 @@ class UserShow extends React.Component {
   toggleCreate() {
     const { createForm } = this.state;
     this.setState({ createForm: !createForm });
+  }
+  toggleCreatePiece() {
+    const { createPieceForm } = this.state;
+    this.setState({ createPieceForm: !createPieceForm });
   }
 
   setEditForm(editGameId) {
@@ -74,8 +86,8 @@ class UserShow extends React.Component {
   }
 
   render() {
-    const { createForm, editGameId } = this.state;
-    const { user, createdGames, subscribedGames } = this.props;
+    const { createPieceForm, createForm, editGameId, active } = this.state;
+    const { user, createdGames, subscribedGames, pieces, deletePiece } = this.props;
     const hrsOld = Math.floor((Date.now() - new Date(user.createdAt)) / 3600000);
     if (!user) return null;
     return (
@@ -109,6 +121,29 @@ class UserShow extends React.Component {
                 </div>
               </div>
               <div className={styles.content}>
+
+                {/* <form className={styles.formContainer} onSubmit={this.handleSubmit}>
+            {errors ? <span className={styles.errors}>{errors}</span> : ''}
+            <input type="file" onChange={this.handleImage} />
+            <button type="submit" className={buttons.secondary}>{formType}</button>
+          </form> */}
+                <div className={styles.topBar}>
+                  <h2 className={piecesStyle.title}>My Pieces <button onClick={() => this.setState({ active: !this.state.active })} className={piecesStyle.chevron}>{active ? <FiChevronDown  /> : <FiChevronUp />}</button></h2>
+                  <div>
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreatePiece}>
+                      <i className="ra ra-queen-crown ra-lg" />
+                      <span>
+                        Create New Piece
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <section className={styles.main}>
+                  <Pieces creatorId={user._id} pieces={pieces} deletePiece={deletePiece} active={active} />
+                </section>
+
+                <hr/>
+              
                 <div className={styles.topBar}>
                   <h2>Created Games</h2>
                   <div>
@@ -136,6 +171,8 @@ class UserShow extends React.Component {
 
                 </section>
 
+                <hr />
+
                 <div className={styles.topBar}>
                   <h2>Subscribed Games</h2>
                 </div>
@@ -152,11 +189,22 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
-                  <CreatePieceContainer title='My Pieces' />
+
+                <hr />
+                
               </div>
             </div>
           </div>
         </div>
+
+        {createPieceForm ? (
+          <div className={styles.modal}>
+            <div ref={this.setWrapperRef}>
+              <CreatePieceContainer />
+            </div>
+          </div>
+        ) : ''}
+
         {createForm ? (
           <div className={styles.modal}>
             <div ref={this.setWrapperRef}>
