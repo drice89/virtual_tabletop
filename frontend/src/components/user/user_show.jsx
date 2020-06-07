@@ -70,7 +70,7 @@ class UserShow extends React.Component {
   handleClickOutside(event) {
     if (this.wrapperRef
       && !this.wrapperRef.contains(event.target)) {
-      this.setState({ createForm: false });
+      this.setState({ createForm: false, createPieceForm: false });
     }
   }
 
@@ -122,11 +122,6 @@ class UserShow extends React.Component {
               </div>
               <div className={styles.content}>
 
-                {/* <form className={styles.formContainer} onSubmit={this.handleSubmit}>
-            {errors ? <span className={styles.errors}>{errors}</span> : ''}
-            <input type="file" onChange={this.handleImage} />
-            <button type="submit" className={buttons.secondary}>{formType}</button>
-          </form> */}
                 <div className={styles.topBar}>
                   <h2 className={piecesStyle.title}>My Pieces <button onClick={() => this.setState({ active: !this.state.active })} className={piecesStyle.chevron}>{active ? <FiChevronDown  /> : <FiChevronUp />}</button></h2>
                   <div>
@@ -200,7 +195,7 @@ class UserShow extends React.Component {
         {createPieceForm ? (
           <div className={styles.modal}>
             <div ref={this.setWrapperRef}>
-              <CreatePieceContainer />
+              <CreatePieceContainer toggleCreatePiece={this.toggleCreatePiece}/>
             </div>
           </div>
         ) : ''}

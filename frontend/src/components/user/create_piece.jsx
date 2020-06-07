@@ -12,6 +12,8 @@ class CreatePiece extends React.Component {
             imageFile: null,
             creatorId,
             previewUrl: null,
+            error: null,
+            uploading: null
         }
     
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,20 +28,40 @@ class CreatePiece extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(this.state.imageFile){
+        if(this.state.imageFile && !this.state.uploading){
+            this.setState({uploading: true})
             const formData = new FormData();
             const { processForm } = this.props;
             const { creatorId, imageFile } = this.state;
             formData.append('creatorId', creatorId);
             formData.append('imageFile', imageFile);
-            processForm(formData);
+            processForm(formData)
+                .then(() => this.props.toggleCreatePiece());
         }
     }
 
-    handleImage(e) {
-        const img = e.target.files[0];
+    handleImageClick(e){
+        e.preventDefault();
+        document.getElementById('imageFilePiece').click();
+    }
 
-        this.setState({ imageFile: img });
+    handleImage(e) {
+        const img = e.currentTarget.files[0];
+
+        const fileReader = new FileReader();
+
+        fileReader.onloadend = () => {
+
+            var t = img.type.split('/').pop().toLowerCase();
+            if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
+                this.setState({error: "Invalid file type. Try again.", previewUrl: null, imageFile: null})
+            }else{
+                this.setState({ imageFile: img, previewUrl: fileReader.result, error: null });
+            }
+        };
+        if (img) {
+            fileReader.readAsDataURL(img);
+        }
     }
 
     handleChange(form) {
@@ -49,20 +71,27 @@ class CreatePiece extends React.Component {
     }
 
     render() {
+        {/* <form className={styles.formContainer} onSubmit={this.handleSubmit}>
+            {errors ? <span className={styles.errors}>{errors}</span> : ''}
+           
+            <button type="submit" className={buttons.secondary}>{formType}</button>
+          </form> */}
         const { errors, formType } = this.props;
-        const { name, description, backgroundImage } = this.state;
         return (
             <div className={styles.container}>
                 <div className={styles.logo}>
                     <i className="ra ra-queen-crown" />
                     <p>Create New Piece</p>
                 </div>
-                <form className={styles.formContainer} onSubmit={this.handleSubmit}>
+                <form className={styles.formContainer} >
+                    <input type="file" id="imageFilePiece" style={{display: 'none'}} onChange={this.handleImage} />
                     <div className={styles.uploadPieceButtonImage}>
-                        <button className={styles.uploadPiece}>Upload piece</button>
+                        <button className={styles.uploadPiece} onClick={this.handleImageClick} >Upload piece</button>
                         <img src={this.state.previewUrl} className={styles.previewUrl}/>
                     </div>
-                    <button type="submit" className={buttons.secondary}>{formType}</button>
+                    {this.state.error ? <p className={styles.uploadError}>{this.state.error}</p> : null}
+                    {this.state.uploading ? <p className={styles.uploadError}>Image is uploading...</p> : null}
+                    <button type="submit" className={buttons.secondary} onClick={this.handleSubmit}>{formType}</button>
                 </form>
             </div>
         );

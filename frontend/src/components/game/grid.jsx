@@ -776,8 +776,8 @@ class Grid extends React.Component {
 
           if (this.state.gridArray[i][j]) {
             let image = this.state.gridArray[i][j][1]
-            let boxBorder = Math.floor(4 * (width / height))
-            context.lineWidth = boxBorder;
+            let boxBorder = 0.5 + 2
+            context.lineWidth = 6;
             if (action === "gridDrag") {
               context.drawImage(image, (j * width + this.gridPosX) - totalWidth / 2, (i * height + this.gridPosY) - totalHeight / 2, width, height);
             } else {
@@ -787,7 +787,7 @@ class Grid extends React.Component {
                 if (action.token.pos.x === j && action.token.pos.y === i) {
                   context.fillStyle = this.myColor;
                   context.globalAlpha = 0.5;
-                  context.fillRect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
+                  context.fillRect(j * width + this.gridPosX + boxBorder, i * height + this.gridPosY - boxBorder, width - boxBorder, height - boxBorder);
                   context.globalAlpha = 1;
                 } else {
                   context.strokeStyle = this.myColor;
@@ -795,7 +795,7 @@ class Grid extends React.Component {
               }
 
               context.strokeStyle = this.props.users[this.state.gridArray[i][j][0].player].color;
-              context.rect(j * width + this.gridPosX + boxBorder - 2, i * height + this.gridPosY + boxBorder - 1, width - boxBorder, height - boxBorder);
+              context.rect(j * width + this.gridPosX + boxBorder , i * height + this.gridPosY + boxBorder , width - 2 * boxBorder, height - 2 *boxBorder);
               context.stroke();
             }
           }

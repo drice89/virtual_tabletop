@@ -86,14 +86,14 @@
 
 .active {
   max-height: 320px;
-  transition: max-height 1s ease-in-out;
+  transition: max-height 1.5s ease;
 }
 
 .hidden {
   max-height: 0px;
   padding: 0;
-  transition: max-height 1s ease-in-out,
-  padding 1s ease-in-out;
+  transition: max-height 1s ease,
+  padding 1s ease;
 }
 .chevron{
   font-size: 25px;
