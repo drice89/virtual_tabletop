@@ -19,7 +19,7 @@ const usersReducer = (state = {}, action) => {
     case RECEIVE_USER_INFO:
       return { ...state, ...{ [action.user._id]: action.user } };
     case RECEIVE_GAME:
-      action.payload.users.forEach(user => {
+      action.payload.players.forEach(user => {
         nextState[user._id] = user  
       })
       return nextState;

@@ -10,15 +10,24 @@
 }
 .piecesList{
   overflow: scroll;
-  padding: 5px;
+  // padding: 5px;
   background-color: #eeeeee;
   border-radius: 8px;
-  // padding: 20px 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: left;
   text-align: center;
+
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 .singlePiece{
   // display: table-cell;

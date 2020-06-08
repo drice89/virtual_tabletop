@@ -70,15 +70,15 @@ class Client extends React.Component {
 
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
-      receiveToken(token);
-      this.setState({ update: true })
+      
+      this.setState({ update: true }, () => receiveToken(token))
     });
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
       // deleteToken(token._id);
-      this.setState({ update: true })
-      deleteToken(token);
+      this.setState({ update: true }, () => deleteToken(token))
+      
     });
   }
 

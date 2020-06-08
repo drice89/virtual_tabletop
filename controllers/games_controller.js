@@ -48,7 +48,7 @@ exports.fetchGame = function (req, res) {
       User.find({
           gameSubscriptions: gameId
         })
-        .then(users => payload.users = users)
+        .then(users => payload.players = users)
         .then(() => {
           Board.find({
             gameId: game._id
@@ -84,6 +84,9 @@ exports.joinGame = function (req, res) {
       error: 'could not locate game'
     });
 
+    let payload = {}
+
+
     User.findById(userId, function (userErr, user) {
       if (!user) return res.json(user);
 
@@ -96,8 +99,13 @@ exports.joinGame = function (req, res) {
       game.save(function (gameSaveErr) {
         if (gameSaveErr) return res.json(gameSaveErr);
       });
-    });
-    return res.json(game);
+
+      payload.game = game
+      payload.players = game.players
+      payload.boards = game.boards
+    })
+    .then(()=> res.json(payload))
+    
   });
 };
 
@@ -139,11 +147,11 @@ exports.createGame = function (req, res) {
           user.gameSubscriptions.push(game._id);
           user.save();
           const boards = {};
-          const users = [user]
+          const players = [user]
           return res.json({
             game,
             boards,
-            users
+            players
           });
         });
       });

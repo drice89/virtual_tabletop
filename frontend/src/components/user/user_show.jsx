@@ -83,6 +83,7 @@ class UserShow extends React.Component {
 
   joinGame(){
     this.props.joinGame({userId: this.props.user._id, gameId: this.state.joinGameId})
+      .then(() => this.props.history.push(`/client/${this.state.joinGameId}`))
   }
 
   render() {
