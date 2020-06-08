@@ -171,11 +171,23 @@ class UserShow extends React.Component {
 
                 <div className={styles.topBar}>
                   <h2>Subscribed Games</h2>
+
+                  <div className={styles.joinGameBar}>
+                    <p>Enter Game ID:</p>
+                    <input type="text" onChange={this.update('joinGameId')} value={this.state.joinGameId} />
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.joinGame}>
+                      <i className="ra ra-key ra-lg" />
+                      <span>
+                        Join Game
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
+                
+
                 <section className={styles.main}>
-                  <input type="text" onChange={this.update('joinGameId')} value={this.state.joinGameId}/>
-                  <button onClick={this.joinGame}>OMG</button>
+                  
                   {subscribedGames.map((game) => (
                     <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm}/>
                   ))}
