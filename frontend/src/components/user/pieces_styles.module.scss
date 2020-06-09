@@ -1,0 +1,114 @@
+.container { 
+  display: flex;
+  flex-direction: column;
+  
+  transition: display 2s ease;
+  
+}
+.piecesContainer{
+  width: 100%;
+}
+.piecesList{
+  overflow: scroll;
+  // padding: 5px;
+  background-color: #eeeeee;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  text-align: center;
+
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.singlePiece{
+  // display: table-cell;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  transition: transform 0.3s ease-in-out;
+  border-radius: 100%;
+  // margin: auto;
+
+}
+
+.singlePiece:hover{
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+.singlePieceImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 100%;
+  box-shadow: 0px 0px 10px black;
+}
+
+.deletePieceButton{
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  font-weight:700;
+  font-size: 13px;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0px 0px 8px white;
+}
+.deletePieceButton:hover{
+  background-color: red;
+  color: white;
+  border: 1px solid white;
+  box-shadow: 0px 0px 8px black;
+}
+
+.showDelete {
+  display: flex;
+}
+
+.active {
+  max-height: 320px;
+  transition: max-height 1.5s ease;
+}
+
+.hidden {
+  max-height: 0px;
+  padding: 0;
+  transition: max-height 1s ease,
+  padding 1s ease;
+}
+.chevron{
+  font-size: 25px;
+  padding-top: 7px;
+}
+.title{
+  display: flex;
+  align-items: center;
+}

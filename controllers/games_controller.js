@@ -32,34 +32,60 @@ function structureBoardsPayload(boards) {
 
 exports.fetchGame = function (req, res) {
   const gameId = req.params.id;
-  const payload = { game: null, boards: null };
+  const payload = {
+    game: null,
+    boards: null
+  };
   Game.findById(gameId, '-boards', function (gameErr, game) {
     if (gameErr) {
       return res.json(gameErr);
     } else if (game === null) {
-      return res.json({ error: 'Could not locate game' });
+      return res.json({
+        error: 'Could not locate game'
+      });
     } else {
       payload.game = game;
-      Board.find({ gameId: game._id }, function (boardErr, boards) {
-        if (boardErr) {
-          return res.json(boardErr);
-        } else if (boards === null) {
-          return res.json({ error: 'Could not locate boards for this game' });
-        } else {
-          payload.game.boards = boards.map((board) => board._id);
-          payload.boards = structureBoardsPayload(boards);
-          return res.json(payload);
-        }
-      });
+      User.find({
+          gameSubscriptions: gameId
+        })
+        .then(users => payload.players = users)
+        .then(() => {
+          Board.find({
+            gameId: game._id
+          }, function (boardErr, boards) {
+            if (boardErr) {
+              return res.json(boardErr);
+            } else if (boards === null) {
+              return res.json({
+                error: 'Could not locate boards for this game'
+              });
+            } else {
+              payload.game.boards = boards.map((board) => board._id);
+              payload.boards = structureBoardsPayload(boards);
+              return res.json(payload);
+            }
+          });
+
+        })
+
+
     }
   });
 };
 
 exports.joinGame = function (req, res) {
-  const { gameId, userId } = req.body;
+  const {
+    gameId,
+    userId
+  } = req.body;
 
   Game.findById(gameId, function (gameErr, game) {
-    if (!game) return res.json({ error: 'could not locate game' });
+    if (!game) return res.json({
+      error: 'could not locate game'
+    });
+
+    let payload = {}
+
 
     User.findById(userId, function (userErr, user) {
       if (!user) return res.json(user);
@@ -73,14 +99,27 @@ exports.joinGame = function (req, res) {
       game.save(function (gameSaveErr) {
         if (gameSaveErr) return res.json(gameSaveErr);
       });
-    });
-    return res.json(game);
+
+      payload.game = game
+      payload.players = game.players
+      payload.boards = game.boards
+    })
+    .then(()=> res.json(payload))
+    
   });
 };
 
 exports.createGame = function (req, res) {
-  const { errors, isValid } = validateGameRegister(req.body);
-  const { creatorId, name, description, backgroundImage } = req.body;
+  const {
+    errors,
+    isValid
+  } = validateGameRegister(req.body);
+  const {
+    creatorId,
+    name,
+    description,
+    backgroundImage
+  } = req.body;
   if (!isValid) return res.status(400).json(errors);
 
   Game.find({
@@ -88,7 +127,9 @@ exports.createGame = function (req, res) {
     name: name.trim(),
   }, function (gameErr, game) {
     if (game.length > 0) {
-      return res.status(400).json({ name: 'Same user can\'t have two games with the same name' });
+      return res.status(400).json({
+        name: 'Same user can\'t have two games with the same name'
+      });
     } else if (gameErr) {
       return res.status(400).json(errors.name);
     } else {
@@ -106,7 +147,12 @@ exports.createGame = function (req, res) {
           user.gameSubscriptions.push(game._id);
           user.save();
           const boards = {};
-          return res.json({ game, boards });
+          const players = [user]
+          return res.json({
+            game,
+            boards,
+            players
+          });
         });
       });
     }
@@ -114,16 +160,40 @@ exports.createGame = function (req, res) {
 };
 
 exports.deleteGame = function (req, res) {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   Game.findByIdAndDelete(id)
     .then((game) => res.json(game))
-    .catch(() => res.status(400).json({ error: 'something went wrong' }));
+    .catch(() => res.status(400).json({
+      error: 'something went wrong'
+    }));
 };
 
 exports.editGame = function (req, res) {
-  const { _id, name, description, backgroundImage } = req.body;
-  if (name.trim() === '') return res.status(400).json({ name: 'name can\'t be blank' });
-  Game.findOneAndUpdate({ _id }, { name, description, backgroundImage }, { new: true, lean: true })
-    .then((game) => res.json({ game }))
-    .catch(() => res.status(400).json({ name: 'can\'t have two games with the same name' }));
+  const {
+    _id,
+    name,
+    description,
+    backgroundImage
+  } = req.body;
+  if (name.trim() === '') return res.status(400).json({
+    name: 'name can\'t be blank'
+  });
+  Game.findOneAndUpdate({
+      _id
+    }, {
+      name,
+      description,
+      backgroundImage
+    }, {
+      new: true,
+      lean: true
+    })
+    .then((game) => res.json({
+      game
+    }))
+    .catch(() => res.status(400).json({
+      name: 'can\'t have two games with the same name'
+    }));
 };

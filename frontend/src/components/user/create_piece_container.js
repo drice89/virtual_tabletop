@@ -1,11 +1,17 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { createPiece, deletePiece } from '../../actions/pieces_action';
-import Accordion from '../game/util/accordian';
-import PieceForm from './piece_form';
+import {
+  connect
+} from 'react-redux';
+import {
+  withRouter
+} from 'react-router-dom';
+import {
+  createPiece,
+  deletePiece
+} from '../../actions/pieces_action';
+import CreatePiece from './create_piece';
 
 const mapStateToProps = (state) => ({
+  myColor: state.entities.users[state.session.userId].color,
   creatorId: state.session.userId,
   pieces: state.entities.pieces,
   errors: state.errors.pieces,
@@ -18,8 +24,4 @@ const mapDispatchToProps = (dispatch) => ({
   deletePiece: (payload) => dispatch(deletePiece(payload)),
 });
 
-export default compose(
-  Accordion,
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
-)(PieceForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreatePiece));

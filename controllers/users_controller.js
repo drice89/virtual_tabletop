@@ -19,6 +19,15 @@ const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
 const validatePiece = require('../validations/piece_validation');
 
+exports.fetchUser = function (req, res) {
+  
+
+  User.findById(req.params.userId)
+    .then(user => {
+      res.json(user)
+    })
+}
+
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
 
@@ -38,13 +47,14 @@ function StructurePayload(response) {
     games: {},
     pieces: {},
     user: {
-      id: response._id,
+      _id: response._id,
       displayName: response.displayName,
       email: response.email,
       profilePicture: response.profilePicture,
       createdAt: response.createdAt,
       createdGames: sortedGames[0],
       subscribedGames: sortedGames[1],
+      color: response.color,
       pieces: response.pieces,
     },
   };
@@ -84,10 +94,11 @@ exports.login = function (req, res) {
         .then((isMatch) => {
           if (isMatch) {
             const payload = {
-              id: user._id,
+              _id: user._id,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               createdAt: user.createdAt,
+              color: user.color
               // pieces: fetchUserPieces(user._id),
             }; // payload to be sent to redux store with jwt
 
@@ -139,10 +150,11 @@ exports.register = function (req, res) {
             newUser.save()
               .then((user) => {
                 const payload = {
-                  id: user.id,
+                  _id: user._id,
                   displayName: user.displayName,
                   profilePicture: user.profilePicture,
                   subcribedGames: user.gameSubscriptions,
+                  color: user.color
                 }; // payload to be sent to redux store with jwt
                 jwt.sign(
                   payload,
