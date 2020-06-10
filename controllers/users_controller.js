@@ -34,7 +34,7 @@ exports.fetchUserGames = function (req, res) {
   User.findById(userId, '-password')
     .populate({
       path: 'gameSubscriptions',
-      select: '_id name description creatorId backgroundImage',
+      select: '_id name description creatorId backgroundImage boards',
     }).exec(function (err, results) {
       if (err) return res.json(err);
       return res.json(StructurePayload(results.toJSON()));

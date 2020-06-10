@@ -130,6 +130,8 @@ const BoardSchema = new Schema({
   tokens: [TokenSchema]
 });
 
+BoardSchema.pre('remove', (next) => {
+  mongoose.model('Game').remove({ boards: this._id }, next);
+});
+
 module.exports = Board = mongoose.model("Board", BoardSchema);
-
-
