@@ -1073,6 +1073,8 @@ class Grid extends React.Component {
           create={create}
           setGrid={this.setGrid}
           handleImageClick={this.handleImageClick}
+          previewUrl={this.state.previewUrl}
+          boardBackground={this.state.boardBackground}
           createBoard={this.createBoard}
           rows={this.state.row}
           cols={this.state.col}

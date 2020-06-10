@@ -55,6 +55,11 @@
   box-sizing: border-box;
 }
 
+.secondarySmall {
+  height: 32px;
+  font-size: 1.4rem;
+}
+
 .secondary:hover {
   background-color: $secondary-light;
 }
