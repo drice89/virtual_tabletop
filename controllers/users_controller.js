@@ -59,7 +59,11 @@ function StructurePayload(response) {
     },
   };
 
-  response.gameSubscriptions.map((game) => payload.games[game._id] = game);
+  response.gameSubscriptions.map((game) => { 
+    game.lastPlayed = game.boards[0];
+    delete game.boards;
+    payload.games[game._id] = game;
+  });
   payload.user.pieces.map((piece) => payload.pieces[piece._id] = piece);
   return payload;
 }
