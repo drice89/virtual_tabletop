@@ -16,11 +16,11 @@ class Client extends React.Component {
     super(props);
     this.state = {
       modalDelete: null,
-      widgetBoards: null,
-      widgetSettings: true,
+      widgetBoards: true,
+      widgetSettings: null,
       update: false,
       widgetChat: null,
-      widgetDelete: null,
+      widgetDelete: true,
     };
     this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -118,12 +118,12 @@ class Client extends React.Component {
             setBoardToDelete={this.setBoardToDelete}
             active={widgetBoards}
             x={10}
-            y={42}
+            y={10}
             toggleWidget={this.toggleWidget}
           />
           <ChatWidget
             x={510}
-            y={42}
+            y={10}
             socket={socket}
             active={widgetChat}
             toggleWidget={this.toggleWidget}

@@ -1057,7 +1057,7 @@ class Grid extends React.Component {
 
         <SettingWidgetContainer
           x={260}
-          y={42}
+          y={10}
           active={settingActive}
           toggleWidget={toggleWidget}
           plusGridWidth={this.plusGridWidth}
@@ -1087,8 +1087,8 @@ class Grid extends React.Component {
 
         {this.state.gridArray ?
           <DeleteTokenWidget
-            x={260}
-            y={42}
+            x={600}
+            y={10}
             active={deleteActive}
             toggleWidget={toggleWidget}
             socket={socket}
