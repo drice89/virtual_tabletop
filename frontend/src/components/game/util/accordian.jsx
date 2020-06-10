@@ -14,7 +14,10 @@ const Accordion = (Component) => {
 
     toggleActive() {
       const { active } = this.state;
-      this.setState({ active: !active });
+      this.setState({ active: !active }, () => {
+        const test = document.documentElement;
+        test.scrollTop = test.scrollHeight;
+      });
     }
 
     render() {
@@ -23,11 +26,17 @@ const Accordion = (Component) => {
 
       return (
         <div>
-          {/* <div className={Styles.header}>
+          <div className={Styles.header}>
             <header className={Styles.accordion__header}>{title}</header>
-            <button type="button" onClick={this.toggleActive}><FiChevronDown /></button>
-          </div> */}
-          {active && <Component />}
+            <button
+              type="button"
+              onClick={this.toggleActive}>
+              <FiChevronDown className={active ? `${Styles.rotate} ${Styles.icon}` : Styles.icon} />
+            </button>
+          </div>
+          <div id="content-box" className={active ? `${Styles.content} ${Styles.activeContent}` : Styles.content}>
+            {active && <Component />}
+          </div>
         </div>
       );
     }
