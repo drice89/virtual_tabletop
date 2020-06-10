@@ -18,11 +18,6 @@
   width: 100%;
 }
 
-.messageContainer img {
-  max-height: 25px;
-  max-width: 25px;
-}
-
 .messageComposerContainer {
   display: flex;
   justify-content: space-between;
@@ -79,4 +74,30 @@
 
 .message {
   width: 100%;
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.profileImg {
+  border: 1px solid white;
+  border-radius: 50%;
+  background-size: cover;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.messageBody {
+  max-width: 400px;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.time {
+  margin-left: 16px;
+  color: $grey;
 }

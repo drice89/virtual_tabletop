@@ -12,6 +12,7 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
   const [messages, setMessage] = useState([]);
 
   const sendMessage = () => {
+    // console.log(parseInt(currentUser._id, 16) % 10);
     const time = new Date();
     const currentMessage = {
       displayName: currentUser.displayName,
@@ -20,9 +21,12 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
       room: params.gameId,
       timeStamp: time.toLocaleTimeString('en-US'),
     };
-    socket.emit('message', currentMessage);
+    if (currentMessage.body.length !== 0) {
+      socket.emit('message', currentMessage);
+    }
     createMessage('');
   };
+
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
@@ -50,11 +54,11 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
 
   const renderMessages = messages.map((message, i) => (
     <li key={`${message.timeStamp}+${message.displayName}+${i}`} className={styles.message}>
-      <img src={message.profilePicture} alt={message.displayName} />
-      <div>
+      <div className={styles.profileImg} style={{ backgroundImage: `url(${message.profilePicture})` }} />
+      <div className={styles.messageBody}>
         <div>
-          <span>{message.displayName}</span>
-          <span>{message.timeStamp}</span>
+          <span className={styles.name}>{message.displayName}</span>
+          <span className={styles.time}>{message.timeStamp}</span>
         </div>
         <p>{message.body}</p>
       </div>

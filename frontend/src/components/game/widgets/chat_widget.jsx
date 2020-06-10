@@ -8,7 +8,7 @@ const ChatWidget = ({ toggleWidget, socket }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
-        <i className="ra ra-cog" />
+        <i className="ra ra-speech-bubble" />
         <h2>Chat</h2>
       </div>
       <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetChat')}>
