@@ -3,6 +3,7 @@ const Game = require('../models/Game');
 const User = require('../models/User');
 const validateBoardRegister = require('../validations/board_validation');
 const app = require('../app');
+const { findById } = require('../models/User');
 
 exports.fetchBoard = function (req, res) {
   // console.log('user is fetching')
@@ -77,19 +78,31 @@ function addBoardToGame(board) {
   });
 }
 
+const updatedGame = (gameId, boardId) => { 
+  Game.findById(gameId, (err, doc) => { 
+    const idx = doc.boards.indexOf(boardId);
+    doc.boards.splice(idx, 1);
+    doc.save();
+  });
+};
+
 // board deleting
 exports.deleteBoard = function (board) {
   // find the board by id and delete it
   Board.findById(board._id, (err, result) => {
     if (result && result.remove()) {
       // transmits board.id
+      updatedGame(result.gameId, board._id)
       app.transmitData(`${result.gameId}`, 'boardDeleted', board);
     } else {
       app.transmitData(`${result.gameId}`, 'error', err);
     }
   });
 };
- 
+
+
+
+
 // update the board
 exports.updateBoard = function (board) {
   // find the board by id and update it
