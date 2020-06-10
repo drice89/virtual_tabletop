@@ -120,6 +120,7 @@ class Client extends React.Component {
             x={10}
             y={10}
             toggleWidget={this.toggleWidget}
+            widgetSettings={widgetSettings}
           />
           <ChatWidget
             x={510}

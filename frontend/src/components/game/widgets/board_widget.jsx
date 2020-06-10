@@ -10,7 +10,7 @@ import withWidget from '../util/with_widget';
 class BoardWidget extends React.Component {
   render() {
     const {
-      boards, gameId, match, setBoardToDelete, toggleWidget,
+      boards, gameId, match, setBoardToDelete, toggleWidget, widgetSettings
     } = this.props;
     return (
       <div className={widgetStyles.container}>
@@ -35,9 +35,9 @@ class BoardWidget extends React.Component {
                 </Link>
               ))}
             </div>
-            <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? `${styles.active} ${styles.gold}` : styles.gold}>
-              <FiPlus />
-              Create A New Board
+            <Link to={`/client/${gameId}`} className={match.params.boardId === undefined ? `${styles.active} ${styles.gold}` : styles.gold} onClick={() => widgetSettings ? null : toggleWidget('widgetSettings')}>
+                <FiPlus />
+                Create A New Board
             </Link>
           </div>
         </div>
