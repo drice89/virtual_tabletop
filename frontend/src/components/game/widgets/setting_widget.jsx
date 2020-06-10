@@ -74,9 +74,12 @@ const SettingWidget = ({
 
           <div className={styles.row}>
             <div className={styles.label}>
-              <button type="button" className={styles.lock} onClick={() => handleLockGrid()}>
-                {moveGrid ? <FiUnlock /> : <FiLock className={styles.locked} />}
-              </button>
+              <div className={styles.tooltip}>
+                <button type="button" className={styles.lock} onClick={() => handleLockGrid()}>
+                  {moveGrid ? <FiUnlock /> : <FiLock className={styles.locked} />}
+                </button>
+                <span className={styles.tooltiptext}>Unlock to drag positioning of the grid, or mousewheel to resize</span>
+              </div>
             </div>
             <div className={moveGrid ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
               <div className={styles.buttonRow}>
@@ -125,9 +128,12 @@ const SettingWidget = ({
           <h3>Background Settings</h3>
           <div className={styles.row}>
             <div className={styles.label}>
-              <button type="button" className={styles.lock} onClick={() => handleLockBackground()}>
-                {moveBackground ? <FiUnlock /> : <FiLock className={styles.locked} />}
-              </button>
+              <div className={styles.tooltip}>
+                <button type="button" className={styles.lock} onClick={() => handleLockBackground()}>
+                  {moveBackground ? <FiUnlock /> : <FiLock className={styles.locked} />}
+                </button>
+                <span className={styles.tooltiptext}>Unlock to drag positioning of the background, or mousewheel to resize</span>
+              </div>
             </div>
             <div className={moveBackground ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
               <div className={styles.buttonRow}>
