@@ -20,7 +20,7 @@ const withWidget = (Component) => class extends React.Component {
   }
 
   startDrag(e) {
-    const dontDrag = { range: true, text: true, textarea: true };
+    const dontDrag = { range: true, text: true, textarea: true, number: true };
     if (!dontDrag[e.target.type]) {
       this.setState({ opacity: 0.5, dragging: true });
       const { x, y } = this.state;

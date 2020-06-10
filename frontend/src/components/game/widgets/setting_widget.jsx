@@ -17,7 +17,7 @@ const onButtonHold = (callback) => {
 };
 
 const SettingWidget = ({
-  toggleWidget, plusGridWidth, plusGridHeight, plusBackgroundWidth, plusBackgroundHeight, handleLockGrid, handleLockBackground, moveGrid, moveBackground, updateBoard, update, create, handleImageClick, createBoard, rows, cols, borderColor, borderOpacity, myColor, name, lockAll, previewUrl, boardBackground
+  toggleWidget, plusGridWidth, plusGridHeight, plusBackgroundWidth, plusBackgroundHeight, handleLockGrid, handleLockBackground, moveGrid, moveBackground, updateBoard, update, create, handleImageClick, createBoard, rows, cols, borderColor, borderOpacity, myColor, name, lockAll, previewUrl, boardBackground,
 }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
@@ -61,13 +61,37 @@ const SettingWidget = ({
                 <div className={styles.label}>
                   Rows
                 </div>
-                <input onChange={update('row')} id="row" className={styles.gridInputs} type="number" name="" maxLength="2" value={rows || 2} />
+                <input
+                  onChange={update('row')}
+                  id="row"
+                  className={styles.gridInputs}
+                  type="number"
+                  name=""
+                  maxLength="2"
+                  value={rows || 2}
+                  draggable
+                  onDragStart={(e) => {
+                    if (e.target.type === 'number') e.preventDefault();
+                  }}
+                />
               </div>
               <div className={styles.row}>
                 <div className={styles.label}>
                   Columns
                 </div>
-                <input onChange={update('col')} id="col" className={styles.gridInputs} type="number" name="" maxLength="2" value={cols || 2} />
+                <input
+                  onChange={update('col')}
+                  id="col"
+                  className={styles.gridInputs}
+                  type="number"
+                  name=""
+                  maxLength="2"
+                  value={cols || 2}
+                  draggable
+                  onDragStart={(e) => {
+                    if (e.target.type === 'number') e.preventDefault();
+                  }}
+                />
               </div>
             </>
           ) : null}
