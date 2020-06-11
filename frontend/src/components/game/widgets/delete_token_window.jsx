@@ -62,7 +62,6 @@ const DeleteTokenWindow = ({
 
   const tokensList = (
     <ul className={styles.tokenList}>
-      {console.log(tokens)}
       {
        tokens.map((token) => {
          if (token.player === userId) {
