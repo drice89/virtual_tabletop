@@ -19,13 +19,22 @@ const validateLoginInput = require('../validations/login');
 const validateRegisterInput = require('../validations/register');
 const validatePiece = require('../validations/piece_validation');
 
+exports.fetchUser = function (req, res) {
+  
+
+  User.findById(req.params.userId)
+    .then(user => {
+      res.json(user)
+    })
+}
+
 exports.fetchUserGames = function (req, res) {
   const userId = req.params.id;
 
   User.findById(userId, '-password')
     .populate({
       path: 'gameSubscriptions',
-      select: '_id name description creatorId backgroundImage',
+      select: '_id name description creatorId backgroundImage boards',
     }).exec(function (err, results) {
       if (err) return res.json(err);
       return res.json(StructurePayload(results.toJSON()));
@@ -36,18 +45,26 @@ function StructurePayload(response) {
   const sortedGames = sortGames(response.gameSubscriptions, response._id);
   const payload = {
     games: {},
+    pieces: {},
     user: {
-      id: response._id,
+      _id: response._id,
       displayName: response.displayName,
       email: response.email,
       profilePicture: response.profilePicture,
       createdAt: response.createdAt,
       createdGames: sortedGames[0],
       subscribedGames: sortedGames[1],
+      color: response.color,
+      pieces: response.pieces,
     },
   };
 
-  response.gameSubscriptions.map((game) => payload.games[game._id] = game);
+  response.gameSubscriptions.map((game) => { 
+    game.lastPlayed = game.boards[0];
+    delete game.boards;
+    payload.games[game._id] = game;
+  });
+  payload.user.pieces.map((piece) => payload.pieces[piece._id] = piece);
   return payload;
 }
 
@@ -81,10 +98,11 @@ exports.login = function (req, res) {
         .then((isMatch) => {
           if (isMatch) {
             const payload = {
-              id: user._id,
+              _id: user._id,
               displayName: user.displayName,
               profilePicture: user.profilePicture,
               createdAt: user.createdAt,
+              color: user.color
               // pieces: fetchUserPieces(user._id),
             }; // payload to be sent to redux store with jwt
 
@@ -136,10 +154,11 @@ exports.register = function (req, res) {
             newUser.save()
               .then((user) => {
                 const payload = {
-                  id: user.id,
+                  _id: user._id,
                   displayName: user.displayName,
                   profilePicture: user.profilePicture,
                   subcribedGames: user.gameSubscriptions,
+                  color: user.color
                 }; // payload to be sent to redux store with jwt
                 jwt.sign(
                   payload,
@@ -161,66 +180,63 @@ exports.register = function (req, res) {
     });
 };
 
-function structurePiecesPayload(pieces) {
-  const payload = {};
-  pieces.forEach((piece) => {
-    piece.toJSON();
-    payload[piece._id] = piece;
-  });
-  return payload;
-}
+// function structurePiecesPayload(pieces) {
+//   const payload = {};
+//   pieces.forEach((piece) => {
+//     piece.toJSON();
+//     payload[piece._id] = piece;
+//   });
+//   return payload;
+// }
 
-// fetch all the pieces
-exports.fetchPieces = function (req, res) {
-  User.findOne({
-    _id: req.params.userId,
-  })
-    .then((user) => {
-      Piece.find({
-        uploaderId: req.params.userId,
-      })
-        .then((pieces) => {
-          console.log(pieces.data);
-          res.json(structurePiecesPayload(pieces));
-        });
-    })
-    .catch(() => res.status(404).json(['User was not found']));
+// // fetch all the pieces
+// exports.fetchPieces = function (req, res) {
+//   User.findOne({
+//     _id: req.params.userId,
+//   })
+//     .then((user) => {
+//       Piece.find({
+//         uploaderId: req.params.userId,
+//       })
+//         .then((pieces) => {
+//           res.json(structurePiecesPayload(pieces));
+//         });
+//     })
+//     .catch(() => res.status(404).json({ error: 'User was not found' }));
+// };
 
-    
-};
+// // create a piece
+// exports.createPiece = function (req, res) {
+//   // const { errors, isValid } = validatePiece(req.body);
 
-// create a piece
-exports.createPiece = function (req, res) {
-  // const { errors, isValid } = validatePiece(req.body);
+//   // if (!isValid) {
+//   //   return res.status(400).json(errors);
+//   // }
 
-  // if (!isValid) {
-  //   return res.status(400).json(errors);
-  // }
-
-  User.findOne({ _id: req.body.userId })
-    .then((user) => {
-      const newPiece = new Piece({
-        uploaderId: req.body.userId,
-        imageUrl: req.body.imageUrl,
-      });
+//   User.findOne({ _id: req.body.userId })
+//     .then((user) => {
+//       const newPiece = new Piece({
+//         uploaderId: req.body.userId,
+//         imageUrl: req.body.imageUrl,
+//       });
 
 
-      newPiece.save()
-        .then(() => res.json(newPiece))
-        .catch(() => res.status(422).json(["The piece was not created."]));
-    })
-    .catch(() => res.status(404).json(['User was not found']));
-};
+//       newPiece.save()
+//         .then(() => res.json(newPiece))
+//         .catch(() => res.status(422).json(["The piece was not created."]));
+//     })
+//     .catch(() => res.status(404).json(['User was not found']));
+// };
 
-// delete single piece
-exports.deletePiece = function (req, res) {
-  User.findOne({ _id: req.params.userId })
-    .then((user) => {
-      Piece.findOne({ uploaderId: req.params.userId })
-        .then((piece) => {
-          piece.remove();
-          return res.json('Piece was deleted.');
-        });
-    })
-    .catch(() => res.status(404).json(['User was not found']));
-};
+// // delete single piece
+// exports.deletePiece = function (req, res) {
+//   User.findOne({ _id: req.params.userId })
+//     .then((user) => {
+//       Piece.findOne({ uploaderId: req.params.userId })
+//         .then((piece) => {
+//           piece.remove();
+//           return res.json('Piece was deleted.');
+//         });
+//     })
+//     .catch(() => res.status(404).json(['User was not found']));
+// };

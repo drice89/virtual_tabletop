@@ -50,7 +50,7 @@ export default class TokenBar extends React.Component {
         {this.props.pieces.map((piece) => (
           <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
 
-            <Token setDraggingPiece={this.props.setDraggingPiece} handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} />
+            <Token setDraggingPiece={this.props.setDraggingPiece} handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} draggable="true"/>
           </div>
         ))}
       </>

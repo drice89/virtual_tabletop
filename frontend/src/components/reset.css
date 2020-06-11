@@ -1,4 +1,4 @@
-html, body {
+html, body, textarea {
   font-family: 'Open Sans', sans-serif;
   font-size: 10px;
   /* -webkit-font-smoothing: antialiased; */
@@ -53,4 +53,8 @@ input[type="submit"] {
 
 *:focus {
   outline: none;
+}
+
+.App {
+  width: 100vw;
 }

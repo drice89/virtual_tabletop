@@ -13,12 +13,10 @@ router.get('/:id', gameController.fetchGame);
 // router.post('/create', passport.authenticate('jwt', {session: false}), gameController.createGame)
 router.post('/create', gameController.createGame);
 //patch
-router.patch('/join', passport.authenticate('jwt', { session: false }), gameController.joinGame);
+router.post('/join', passport.authenticate('jwt', { session: false }), gameController.joinGame);
 //delete 
 router.delete('/:id', gameController.deleteGame);
 
 router.patch('/edit', gameController.editGame);
 
-
-module.exports = router;
 module.exports = router;

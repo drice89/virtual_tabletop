@@ -3,7 +3,7 @@ const Validator = require('validator');
 module.exports = function validatePiece(data) {
     let errors = {};
 
-    if (Validator.isEmpty(data.imageUrl)) {
+    if (!data || Validator.isEmpty(data.location)) {
         errors.imageUrl = 'Piece must have an image url.';
     }
 

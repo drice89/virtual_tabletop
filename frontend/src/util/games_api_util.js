@@ -7,7 +7,7 @@ export const fetchUserGames = (userId) => axios.get(`/api/users/${userId}`);
 
 export const createGame = (game) => axios.post('/api/games/create', game);
 
-export const joinGame = (gameIdAndUserId) => axios.patch('/api/games/join', gameIdAndUserId);
+export const joinGame = (gameIdAndUserId) => axios.post('/api/games/join', gameIdAndUserId);
 
 export const deleteGame = (gameId) => axios.delete(`/api/games/${gameId}`);
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './with_widget.module.css';
+import widgetStyles from '../widgets/widget.module.scss';
 
 const withWidget = (Component) => class extends React.Component {
   constructor(props) {
@@ -19,9 +20,12 @@ const withWidget = (Component) => class extends React.Component {
   }
 
   startDrag(e) {
-    this.setState({ opacity: 0.5, dragging: true });
-    const { x, y } = this.state;
-    this.setState({ offsetX: e.clientX - x, offsetY: e.clientY - y });
+    const dontDrag = { range: true, text: true, textarea: true, number: true };
+    if (!dontDrag[e.target.type]) {
+      this.setState({ opacity: 0.5, dragging: true });
+      const { x, y } = this.state;
+      this.setState({ offsetX: e.clientX - x, offsetY: e.clientY - y });
+    }
   }
 
   endDrag(e) {

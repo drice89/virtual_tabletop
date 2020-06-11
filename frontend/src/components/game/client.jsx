@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
 import Nav from './ui/nav';
 import GridContainer from './grid_container';
 import styles from './client.module.scss';
@@ -13,43 +14,56 @@ class Client extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalDelete: null,
-      widgetBoards: null,
-      widgetSettings: null,
       update: false,
+      widgetBoards: true,
+      widgetSettings: null,
       widgetChat: null,
-      widgetDelete: true,
+      widgetDelete: null,
+      modalDelete: null,
     };
-    this.ENPOINT = 'localhost:5000/gamesNamespace';
+    this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
     // this.toggleModal = this.toggleModal.bind(this);
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
-    this.resetUpdate = this.resetUpdate.bind(this)
+    this.resetUpdate = this.resetUpdate.bind(this);
   }
 
   componentDidMount() {
-    const { fetchGame, match } = this.props;
-    fetchGame();
+    const {
+      fetchGame, match, fetchUser, userId, user, game,
+    } = this.props;
+    fetchGame().then(() => {
+      const { boards, history } = this.props;
+      if (boards.length !== 0) {
+        history.push(`/client/${boards[0].gameId}/boards/${boards[0]._id}`);
+      } else {
+        this.setState({ widgetSettings: true });
+      }
+    });
 
     // set up sockets
     const roomId = match.params.gameId;
     const { socket } = this;
 
+
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
 
-    socket.on('boardUpdated', (board) => {
-      const { history, receiveBoard } = this.props;
-      receiveBoard(board);
-      this.setState({update: true})
+    socket.on('boardUpdated', (payload) => {
+      const { history, receiveBoard, receiveUserInfo } = this.props;
+
+      receiveUserInfo(payload.user);
+      receiveBoard(payload.result);
+
+      this.setState({ update: true });
     });
 
     socket.on('boardCreated', (board) => {
       const { history, receiveBoard } = this.props;
       receiveBoard(board);
-      if(board.creatorId === this.props.userId){
+      if (board.creatorId === this.props.userId) {
         history.push(`/client/${board.gameId}/boards/${board._id}`);
       }
     });
@@ -63,15 +77,14 @@ class Client extends React.Component {
 
     socket.on('tokenUpdated', (token) => {
       const { receiveToken } = this.props;
-      receiveToken(token);
-      this.setState({ update: true })
+
+      this.setState({ update: true }, () => receiveToken(token));
     });
 
     socket.on('tokenDeleted', (token) => {
       const { deleteToken } = this.props;
       // deleteToken(token._id);
-      this.setState({ update: true })
-      deleteToken(token);
+      this.setState({ update: true }, () => deleteToken(token));
     });
   }
 
@@ -84,15 +97,23 @@ class Client extends React.Component {
     this.setState({ [widget]: !currState });
   }
 
-  resetUpdate(){
-    this.setState({update:false})
+  resetUpdate() {
+    this.setState({ update: false });
+  }
+
+  componentWillUnmount() {
+    window.onresize = (e) => {
+      e.stopPropagation();
+    };
   }
 
   render() {
     const {
-      game, boards, match,
+      game, boards, match, fetchUser, userId, user,
     } = this.props;
-    const { modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete } = this.state;
+    const {
+      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete,
+    } = this.state;
     const { socket } = this;
     if (!game) return null;
     return (
@@ -105,21 +126,22 @@ class Client extends React.Component {
             setBoardToDelete={this.setBoardToDelete}
             active={widgetBoards}
             x={10}
-            y={42}
+            y={10}
             toggleWidget={this.toggleWidget}
+            widgetSettings={widgetSettings}
           />
           <ChatWidget
             x={510}
-            y={42}
+            y={10}
             socket={socket}
             active={widgetChat}
             toggleWidget={this.toggleWidget}
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
-            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate}/>
+            <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser} />
           ) : (
-            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} />
+            <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} fetchUser={fetchUser} />
           )}
         </div>
         <ConfirmModal

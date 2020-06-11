@@ -55,12 +55,24 @@
   box-sizing: border-box;
 }
 
+
+
+.secondarySmall {
+  height: 36px;
+  font-size: 1.4rem;
+}
+
 .secondary:hover {
   background-color: $secondary-light;
 }
 
 .secondary:active {
   background-color: $secondary-dark;
+}
+
+.secondary:disabled {
+  cursor: not-allowed;
+  background-color: $grey;
 }
 
 .demo { 

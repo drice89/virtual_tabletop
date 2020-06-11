@@ -9,7 +9,7 @@ const s3 = new AWS.S3({
   secretAccessKey: keys.secretKey
 })
 
- exports.uploadBoardImage = multer({ 
+ exports.uploadBoardImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'vtboardimages',
@@ -23,7 +23,7 @@ const s3 = new AWS.S3({
   })
 })
 
- exports.uploadPieceImage = multer({ 
+exports.uploadPieceImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'vttokenimages',

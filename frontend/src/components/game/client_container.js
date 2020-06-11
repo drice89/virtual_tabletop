@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Client from './client';
 import { fetchGame } from '../../actions/games_actions';
 import { receiveBoard, deleteBoard } from '../../actions/board_actions';
-import { fetchPieces, createPiece, deletePiece } from '../../actions/users_actions';
+import { fetchPieces, createPiece, deletePiece ,fetchUser, receiveUserInfo } from '../../actions/users_actions';
 import { createToken, receiveToken, deleteToken } from '../../actions/token_actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -12,10 +12,14 @@ const mapStateToProps = (state, ownProps) => {
     game,
     boards: game && game.boards ? game.boards.map((boardId) => state.entities.boards[boardId]) : [],
     pieces: Object.values(state.entities.pieces),
+    user: state.entities.users[state.session.userId]
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  fetchUser: (userId) => dispatch(fetchUser(userId)),
+  receiveUserInfo: (user) => dispatch(receiveUserInfo(user)),
+
   fetchGame: () => dispatch(fetchGame(ownProps.match.params.gameId)),
   receiveBoard: (board) => dispatch(receiveBoard(board)),
   deleteBoard: (board) => dispatch(deleteBoard(board)),

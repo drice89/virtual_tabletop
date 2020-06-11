@@ -105,7 +105,8 @@
 .topBar {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  // align-items: flex-end;
+  align-items: center;
 }
 
 .topBar h2 {
@@ -160,4 +161,48 @@
   font-size: 2.4rem;
   font-weight: 700;
   color: $less-grey;
+}
+
+hr{
+      margin-bottom: 30px;
+      height: 1px;
+      width: 100%;
+      background-color: #eeeeee;
+      border-radius: 100px;
+      border-color: #eeeeee;
+}
+
+.joinGameBar{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid rgb(168, 168, 168);
+  padding: 10px;
+  border-radius: 8px;
+  width: 55%;
+}
+
+.joinGameBar p{
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.joinGameBar input{
+  background-color: rgb(194, 194, 194);
+  padding: 10px 10px;
+  border-radius: 8px;
+  border: 1px solid rgb(194, 194, 194);
+  transition: background-color 0.3s ease-in-out;
+  width: 175px;
+}
+
+.joinGameBar input:focus {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(168, 168, 168);
+  padding: 10px 10px;
+  border-radius: 8px;
+}
+
+.joinGameBar button{
+  width: 150px;
 }

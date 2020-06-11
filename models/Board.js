@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TokenSchema = new Schema({
+    name: {
+      type: String,
+      default: 'Token'
+    },
     pos: {
       x: {
         type: Number,
@@ -53,6 +57,7 @@ const BoardSchema = new Schema({
   name: {
     type: String,
     required: true,
+    default: "New Board",
     minlength: [3, 'Must be 3 or more characters']
   },
   gridSize: {
@@ -126,5 +131,3 @@ const BoardSchema = new Schema({
 });
 
 module.exports = Board = mongoose.model("Board", BoardSchema);
-
-

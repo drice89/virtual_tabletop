@@ -4,50 +4,39 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  width: 100%;
+  justify-content: space-between;
   height: 100%;
-  margin: 10px auto;
 }
 
 .messageContainer {
   display: flex;
   flex-direction: column;
-  //align-items: center;
-  width: 85%;
-  min-height: 150px;
-  max-height: 500px;
-  height: 88%;
+  align-items: stretch;
+  box-sizing: border-box;
   padding: 5px;
-  border-radius: 2px;
   overflow-y: auto;
-}
-
-.messageContainer img {
-  max-height: 25px;
-  max-width: 25px;
+  width: 100%;
 }
 
 .messageComposerContainer {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
-  width: 89%;
-  height: 10%;
-  min-height: 20px;
+  align-items: center;
+  padding: 4px 4px;
 }
 
 .messageComposerContainer textarea {
   background-color: $primary-dark;
+  resize: none;
 }
 
 .messageComposerContainer button {
   background-color: $secondary;
-  border-radius: 2px;
-  margin-left: 2px;
-  height: 25px;
-  width: 25px;
+  border-radius: 4px;
+  margin-left: 4px;
+  height: 1.6rem;
+  width: 1.6rem;
+  padding: 4px;
   text-align: center;
 }
 
@@ -55,19 +44,15 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
   padding: 10px 1px;
   border-bottom: 1px solid rgba($color: $black, $alpha: 0.3);
-}
-
-.messageDisplayWrapper > div:first-child {
-  width: 30px;
+  width: 100%;
 }
 
 .messageBodyWrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   text-align: right;
 }
 
@@ -75,5 +60,44 @@
   margin: 12px;
 }
 
+.textAreaWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
 
+.textAreaWrapper textarea {
+  width: 100%;
+  line-height: 1.6rem;
+  padding: 4px 4px;
+}
 
+.message {
+  width: 100%;
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.profileImg {
+  border: 1px solid white;
+  border-radius: 50%;
+  background-size: cover;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.messageBody {
+  max-width: 400px;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.time {
+  margin-left: 16px;
+  color: $grey;
+}

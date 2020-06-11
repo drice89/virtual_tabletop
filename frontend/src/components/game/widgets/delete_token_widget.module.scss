@@ -1,0 +1,53 @@
+@import "../../colors";
+.tokenList{
+}
+.tokenItem{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 4px 0;
+}
+
+.tokenItem input {
+    margin: 0 8px;
+}
+
+.tokenItem:hover{
+    background-color: $secondary-dark;
+}
+.tokenImage{
+    max-height: 32px;
+    width: auto;
+}
+
+.settings {
+    background-color: rgba(0,0,0,.1);
+    margin: 8px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.deleteTokenWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    background-color: rgba(0,0,0,.1);
+    width: 100%;
+    padding: 0 8px;
+    min-height: 32px;
+    border-radius: 4px;
+}
+
+.desc {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: $light-grey;
+}
+
+.buttonWrapper {
+    margin: 8px 32px;
+}
