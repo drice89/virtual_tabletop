@@ -6,7 +6,6 @@ const app = require('../app');
 const { findById } = require('../models/User');
 
 exports.fetchBoard = function (req, res) {
-  // console.log('user is fetching')
   const boardId = req.params.id;
   Board.findById(boardId, (err, board) => {
     if (!board) return res.json({ msg: 'no board found' });
@@ -70,7 +69,7 @@ function addBoardToGame(board) {
     if (err) {
     //   console.log(err);
     } else if (!game) {
-    //   console.log('game not found');
+      console.log('game not found');
     } else {
       game.boards.push(board._id);
       game.save().then(console.log, console.log);

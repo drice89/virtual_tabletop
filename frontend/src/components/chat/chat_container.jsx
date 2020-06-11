@@ -12,7 +12,6 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
   const [messages, setMessage] = useState([]);
 
   const sendMessage = () => {
-    // console.log(parseInt(currentUser._id, 16) % 10);
     const time = new Date();
     const currentMessage = {
       displayName: currentUser.displayName,

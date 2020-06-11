@@ -71,21 +71,21 @@ export default class TokenBar extends React.Component {
           </div>
 
           <div className={styles.tokenBar} id="token-bar">
-            <div className={styles.tokenBarContainer}>
-              {this.renderPieces()}
-            </div>
-
-            <div className={styles.tokenActionContainer}>
-              <div className={styles.tokenAction} onClick={this.createPiece}>
-                <i className="ra ra-health-increase" title="Add Piece"/>
-              </div>
-            </div>
-
             <div className={styles.tokenActionContainer}>
               <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
                 <i className="ra ra-guillotine" title="Delete Token" onClick={() => toggleWidget('widgetDelete') } />
               </div>
             </div>
+            <div className={styles.tokenBarContainer}>
+              {this.renderPieces()}
+            </div>
+
+            {/* <div className={styles.tokenActionContainer}>
+              <div className={styles.tokenAction} onClick={this.createPiece}>
+                <i className="ra ra-health-increase" title="Add Piece"/>
+              </div>
+            </div> */}
+
 
           </div>
 

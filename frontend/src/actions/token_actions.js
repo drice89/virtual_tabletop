@@ -26,6 +26,4 @@ export const receiveTokenErrors = (errors) => ({
 export const createToken = token => dispatch => (
   BoardAPIUtil.createToken(token)
   //.then(() => dispatch(receiveToken(token)))
-  .catch(() => console.log("NOOO"))
-
-)
+  .catch((err) => dispatch(receiveTokenErrors(err))));
