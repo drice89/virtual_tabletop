@@ -33,7 +33,14 @@ class Client extends React.Component {
     const {
       fetchGame, match, fetchUser, userId, user, game,
     } = this.props;
-    fetchGame();
+    fetchGame().then(() => {
+      const { boards, history } = this.props;
+      if (boards.length !== 0) {
+        history.push(`/client/${boards[0].gameId}/boards/${boards[0]._id}`);
+      } else {
+        this.setState({ widgetSettings: true });
+      }
+    });
 
     // set up sockets
     const roomId = match.params.gameId;
