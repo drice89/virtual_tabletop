@@ -46,7 +46,7 @@ class CreateGame extends React.Component {
       <div className={styles.container}>
         <div className={styles.logo}>
           <i className="ra ra-anvil" />
-          <p>Create New Game</p>
+          <p>{formType}</p>
         </div>
         <form className={styles.formContainer} onSubmit={this.handleSubmit}>
           {errors.name ? <span className={styles.errors}>{errors.name}</span> : ''}
