@@ -5,5 +5,10 @@
   background-color: $background;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.blurred {
+  filter: blur(4px);
 }
 

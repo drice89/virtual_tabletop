@@ -9,7 +9,7 @@ const s3 = new AWS.S3({
   secretAccessKey: keys.secretKey
 })
 
- exports.uploadBoardImage = multer({ 
+ exports.uploadBoardImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'vtboardimages',
@@ -23,7 +23,7 @@ const s3 = new AWS.S3({
   })
 })
 
- exports.uploadPieceImage = multer({ 
+exports.uploadPieceImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'vttokenimages',
@@ -35,31 +35,4 @@ const s3 = new AWS.S3({
     }
   })
 })
-
-
-
-//For image upload that hits our server first
-// exports.uploadImage = (fileName, s3bucket) => {
-//   // console.log(fileName)
-//   const fileContent = fs.readFileSync(fileName);
-//   const params = {
-//     Bucket: s3bucket,
-//     Key: fileName,
-//     Body: fileContent
-//   }
- 
-//   return s3UploadPromise = new Promise(function (resolve, reject) {
-//     s3.upload(params, function (err, data) {
-//       if (err) {
-//         throw err;
-//       } else {
-//         // console.log(data)
-//         resolve(data.Location)
-
-//       }
-//     })
-
-//   });
-// }
-
 

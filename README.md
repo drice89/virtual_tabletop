@@ -1,5 +1,7 @@
 # Virtual Tabletop
 
+![Screen Capture](https://media.giphy.com/media/frMIHvcCz5j032hWhV/giphy.gif)
+
 Virtual Tabletop is a sandbox to simulate grid-based tabletop enviornments. A live version of the application can be found [here](https://virtualtabletop.herokuapp.com/). This app is still a work-in-progress but has working CRUD operations along with the use of websockets and image upload to AWS. This project was created by Dias Iskrayev, Dillon Rice, Steven Touba, and Wayne Su.
 
 The project was built with the MERN stack and uses a combination of API calls and websockets to update the game players of changes to the game in real time. Examples of how user actions flow from the frontend to the backend are included below.
@@ -46,6 +48,9 @@ This project uses:
   * socket.io
   * socket.io-client
   * validator
+  * [RPG-Awesome Icons](https://nagoshiashumari.github.io/Rpg-Awesome/)
+  * Webpack CSS Loader
+  * Sass
 
 ## Usage
 

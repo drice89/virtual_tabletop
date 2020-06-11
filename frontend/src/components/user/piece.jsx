@@ -5,8 +5,6 @@ export default class Piece extends React.Component{
         super(props)
     }
 
-
-
     render(){
         return(
             <div>

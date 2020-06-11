@@ -6,22 +6,39 @@ import styles from './user_show.module.scss';
 import buttons from '../buttons.module.scss';
 import GameCard from './game_card';
 import CreateGameContainer from './create_game_container';
+import EditGameContainer from './edit_game_container';
+import CreatePieceContainer from './create_piece_container';
 import Piece from "./piece"
+import piecesStyle from './pieces_styles.module.scss';
+import Pieces from './pieces'
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
+
 
 // eslint-disable-next-line react/prefer-stateless-function
 class UserShow extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { createForm: false };
+    this.state = {
+      createForm: false,
+      createPieceForm: false,
+      editGameId: null,
+      joinGameId: '',
+      active: true,
+    };
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.toggleCreate = this.toggleCreate.bind(this);
+    this.toggleCreatePiece = this.toggleCreatePiece.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.setEditForm = this.setEditForm.bind(this);
+    this.joinGame = this.joinGame.bind(this)
   }
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
-    const { fetchUser } = this.props;
-    fetchUser();
+    const { fetchUserGames } = this.props;
+    fetchUserGames();
   }
 
   componentWillUnmount() {
@@ -36,22 +53,47 @@ class UserShow extends React.Component {
     const { createForm } = this.state;
     this.setState({ createForm: !createForm });
   }
+  toggleCreatePiece() {
+    const { createPieceForm } = this.state;
+    this.setState({ createPieceForm: !createPieceForm });
+  }
+
+  setEditForm(editGameId) {
+    this.setState({ editGameId });
+  }
+
+  handleDelete(gameId) {
+    const { deleteGame } = this.props;
+    return (e) => { deleteGame(gameId); };
+  }
 
   handleClickOutside(event) {
     if (this.wrapperRef
       && !this.wrapperRef.contains(event.target)) {
-      this.setState({ createForm: false });
+      this.setState({ createForm: false, createPieceForm: false });
     }
   }
 
+  update(value){
+    return (e) => {
+      this.setState({[value]: e.currentTarget.value});
+    }
+
+  }
+
+  joinGame(){
+    this.props.joinGame({userId: this.props.user._id, gameId: this.state.joinGameId})
+      .then(() => this.props.history.push(`/client/${this.state.joinGameId}`))
+  }
+
   render() {
-    const { createForm } = this.state;
-    const { user, createdGames, subscribedGames } = this.props;
+    const { createPieceForm, createForm, editGameId, active } = this.state;
+    const { user, createdGames, subscribedGames, pieces, deletePiece } = this.props;
     const hrsOld = Math.floor((Date.now() - new Date(user.createdAt)) / 3600000);
     if (!user) return null;
     return (
       <>
-        <div className={createForm ? `${styles.container} ${styles.blurred}` : styles.container}>
+        <div className={createForm || editGameId ? `${styles.container} ${styles.blurred}` : styles.container}>
           <div className={styles.background}>
             <div className={styles.contentContainer}>
               <div className={styles.profile}>
@@ -80,6 +122,24 @@ class UserShow extends React.Component {
                 </div>
               </div>
               <div className={styles.content}>
+
+                <div className={styles.topBar}>
+                  <h2 className={piecesStyle.title}>My Pieces <button onClick={() => this.setState({ active: !this.state.active })} className={piecesStyle.chevron}>{active ? <FiChevronDown  /> : <FiChevronUp />}</button></h2>
+                  <div>
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreatePiece}>
+                      <i className="ra ra-queen-crown ra-lg" />
+                      <span>
+                        Create New Piece
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <section className={styles.main}>
+                  <Pieces creatorId={user._id} pieces={pieces} deletePiece={deletePiece} active={active} />
+                </section>
+
+                <hr/>
+              
                 <div className={styles.topBar}>
                   <h2>Created Games</h2>
                   <div>
@@ -93,8 +153,8 @@ class UserShow extends React.Component {
                 </div>
                 <section className={styles.main}>
                   {createdGames.map((game) => (
-                    <GameCard game={game} />
-                  ))}
+                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
+                    ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>
                       Glory awaits for
@@ -107,13 +167,29 @@ class UserShow extends React.Component {
 
                 </section>
 
+                <hr />
+
                 <div className={styles.topBar}>
                   <h2>Subscribed Games</h2>
+
+                  <div className={styles.joinGameBar}>
+                    <p>Enter Game ID:</p>
+                    <input type="text" onChange={this.update('joinGameId')} value={this.state.joinGameId} />
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.joinGame}>
+                      <i className="ra ra-key ra-lg" />
+                      <span>
+                        Join Game
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
+                
+
                 <section className={styles.main}>
+                  
                   {subscribedGames.map((game) => (
-                    <GameCard game={game} />
+                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm}/>
                   ))}
                   {subscribedGames.length ? '' : (
                     <div className={styles.noSubs}>
@@ -121,18 +197,22 @@ class UserShow extends React.Component {
                     </div>
                   )}
                 </section>
-{/*                   
-                <section className={styles.main}> 
-                    {this.props.pieces.map((piece) => (
-                      <Piece />
-                    ))}
-                </section> */}
 
-
+                <hr />
+                
               </div>
             </div>
           </div>
         </div>
+
+        {createPieceForm ? (
+          <div className={styles.modal}>
+            <div ref={this.setWrapperRef}>
+              <CreatePieceContainer toggleCreatePiece={this.toggleCreatePiece}/>
+            </div>
+          </div>
+        ) : ''}
+
         {createForm ? (
           <div className={styles.modal}>
             <div ref={this.setWrapperRef}>
@@ -140,7 +220,7 @@ class UserShow extends React.Component {
             </div>
           </div>
         ) : ''}
-
+        <EditGameContainer active={editGameId} toggleModal={this.setEditForm} gameId={editGameId} />
       </>
     );
   }

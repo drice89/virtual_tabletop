@@ -9,7 +9,7 @@ module.exports = function validateGameRegister(data) {
   data.name = validText(data.name) ? data.name : '';
   const creatorId = data.creatorId; 
 
-  if (!Validator.isLength(data.name)) {
+  if (!Validator.isLength(data.name, { min: 3, max: 100 })) {
     errors.name = 'Game must be a minimum of 3 characters';
   }
 

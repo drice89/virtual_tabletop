@@ -1,15 +1,17 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+// const mongoose = require('mongoose');
 
-const PieceSchema = new Schema({
-  uploaderId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true
-  },
-});
+// const Schema = mongoose.Schema;
 
-module.exports = Piece = mongoose.model("Piece", PieceSchema);
+// const PieceSchema = new Schema({
+//   uploaderId: {
+//     type: Schema.Types.ObjectId,
+//     required: true,
+//   },
+//   imageUrl: {
+//     type: String,
+//     required: true
+//   },
+// });
+
+// module.exports = Piece = mongoose.model("Piece", PieceSchema);
+

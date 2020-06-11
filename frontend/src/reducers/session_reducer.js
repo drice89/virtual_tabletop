@@ -12,7 +12,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
-        userId: action.currentUser.id,
+        userId: action.currentUser._id,
       };
     case LOGOUT_CURRENT_USER:
       return {

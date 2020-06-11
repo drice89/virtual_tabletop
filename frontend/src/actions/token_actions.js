@@ -11,9 +11,9 @@ export const receiveToken = (token) => ({
   token,
 });
 
-export const deleteToken = (tokenId) => ({
+export const deleteToken = (token) => ({
   type: DELETE_TOKEN,
-  tokenId,
+  token,
 });
 
 export const receiveTokenErrors = (errors) => ({
@@ -25,7 +25,5 @@ export const receiveTokenErrors = (errors) => ({
 //thunk for tokens
 export const createToken = token => dispatch => (
   BoardAPIUtil.createToken(token)
-  .then(() => dispatch(receiveToken(token)))
-  .catch(() => console.log("NOOO"))
-
-)
+  //.then(() => dispatch(receiveToken(token)))
+  .catch((err) => dispatch(receiveTokenErrors(err))));

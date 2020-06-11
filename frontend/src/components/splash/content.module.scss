@@ -1,7 +1,7 @@
 @import '../_colors.scss';
 @import '../_font.scss';
 
-.background {
+.carouselWindow {
   position: relative;
   z-index: 0;
   display: flex;
@@ -9,6 +9,13 @@
   justify-content: center;
   flex-direction: column;
   width: 100vw;
+}
+
+.background {
+  position: relative;
+  z-index: 0;
+  width: 100vw;
+  padding-bottom: 100px;
 }
 .background::after {
   content: "";
@@ -26,28 +33,35 @@
 }
 
 .hero {
-  color: $primary-dark;
-  padding-left: 32px;
+  margin-top: 180px;
+  color: $white;
+  left: 50%;
+  transform: translate(-50%, 0);
   height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 960px;
+  //width: 960px;
   box-sizing: border-box;
   text-align: center;
+  z-index: 2;
+  position: absolute;
+  
 }
 
 .hero h1 {
-  font-size: 8rem;
+  font-size: 9rem;
   line-height: 7rem;
   font-family: "Raleway";
   font-weight: 900;
+  text-shadow: -1px 0 3px $primary-dark, 0 1px 3px $primary-dark, 1px 0 3px $primary-dark, 0 -1px 3px $primary-dark, 2px 2px 3px $secondary, 5px 5px 15px $primary, 5px 5px 5px $primary-dark;
 }
 
 .hero h2 {
   margin-top: 10px;
   font-size: 2rem;
-  color: $primary;
+  //color: $primary;
+  text-shadow: -1px 0 $primary-dark, 0 1px $primary-dark, 1px 0 $primary-dark, 0 -1px $primary-dark, 1px 1px 1px $secondary, 5px 5px 15px $primary, 5px 5px 5px $primary-dark;
 }
 
 .header { 
@@ -57,7 +71,7 @@
   align-self: center;
   flex-direction: column;
   z-index: 1;
-  width: 960px;
+  width: 100vw;
 }
 .headerContent { 
   position: absolute;
@@ -74,52 +88,133 @@
 // }
 .hookBox { 
   margin: auto;
-  margin-top: 20px;
-  width: 60%;
-  text-align: center;
+  width: 65%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  height: 300px;
-  
+  height: 100%;
+}
+
+.hookBox > section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: left;
 }
 
 .hook { 
-  font-size: 36px;
+  font-size: 2.5rem;
   font-weight: bolder;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .hookBody { 
-  font-size: 16px;
+  font-size: 2rem;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .hookTagline { 
-  font-size: 28px;
+  font-size: 3rem;
+  line-height: 7rem;
+  font-family: "Raleway";
+  font-weight: 900;
+  margin: 0 200px;
+  color: $lighter-grey;
+  text-shadow: 4px 4px 1px $darkest-grey;
 }
 
-.main{
-  margin-top: 50px;
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  align-items: center;
+.main {
+  width:100%;
+  padding-top: 70px;
+  border-top: 2px solid $secondary;
 }
 
 .ornament{
+  //display: inline;
   width: 600px;
   height: 100px;
+}
+
+.ornamentWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%; 
+  transform: translate(-49.8%, 0);
 }
 
 .footerLogin{
   padding: 15px 25px;
   background-color: $secondary;
-  width: 100px;
+  width: 150px;
   margin: auto;
   color: white;
   border: 1px solid $primary-dark;
   border-radius: 10px;
   font-size: 1.7rem;
+  margin-top: 50px;
+  box-shadow: 4px 4px 1px $darkest-grey;
+}
+
+.footerLogin:hover {
+  padding: 15px 25px;
+  background-color: $primary-dark;
+  width: 150px;
+  margin: auto;
+  color: $light-grey;
+  border: 1px solid $light-grey;
+  border-radius: 10px;
+  font-size: 1.7rem;
+  margin-top: 50px;
+  box-shadow: 4px 4px 1px $darkest-grey;
+}
+
+.heroImage {
+  border: 4px solid rgba(	0, 144, 158, 0.7);;
+  border-radius: 7%;
+  box-shadow: 2px 2px 4px $darkest-grey;
+}
+
+.hookBox section div {
+  padding: 12px;
+}
+
+.summary {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ctaWrapper {
+  border-top: 2px solid $secondary;
+  width: 100%;
+  height: 400px;
+  background: $primary-light;
+  position: relative;
+}
+
+.callToAction {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 80%;
+}
+
+.featuresHeader {
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  line-height: 5rem;;
+  font-weight: 900;
+  border-bottom: 2px solid $secondary;
+}
+
+.hookBody li {
+  font-size: 2rem;
+  line-height: 5rem;
+}
+
+.summary li span {
+  padding: 10px;
 }

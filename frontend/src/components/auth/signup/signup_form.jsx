@@ -11,6 +11,7 @@ class SignupForm extends React.Component {
       displayName: '', email: '', password: '', password2: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitDemoUser = this.submitDemoUser.bind(this);
   }
 
   componentDidMount() {
@@ -22,6 +23,17 @@ class SignupForm extends React.Component {
     e.preventDefault();
     const { login } = this.props;
     login(this.state);
+  }
+
+  submitDemoUser(e) {
+    e.preventDefault();
+    const { demoLogin } = this.props;
+    this.setState({
+      displayName: 'DemoUser',
+      email: 'DemoUser@DemoUser.com',
+      password: '123456',
+      password2: '123456',
+    }, () => demoLogin(this.state));
   }
 
   handleChange(form) {
@@ -47,6 +59,7 @@ class SignupForm extends React.Component {
           <input type="password" placeholder="Password" value={password} onChange={this.handleChange('password')} />
           {errors.password2 ? <span className={styles.errors}>{errors.password2}</span> : ''}
           <input type="password" placeholder="Repeat Password" value={password2} onChange={this.handleChange('password2')} />
+          <button onClick={this.submitDemoUser} type="button" className={buttons.demo}>Demo User</button>
           <button type="submit" className={buttons.secondary}>Sign Up</button>
         </form>
         <span className={styles.linkAway}>
