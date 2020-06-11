@@ -55,8 +55,6 @@ class Grid extends React.Component {
       moveBackground: false,
     };
 
-    this.ENPOINT = 'localhost:5000/gamesNamespace';
-
     this.dpr = 2;
     this.draggingPiece = null;
 
