@@ -1,0 +1,200 @@
+@import "../../colors";
+
+.plusMinusButton {
+    width: 16px;
+    height: 16px;
+    background-color: $secondary-light;
+    color: $lighter-grey;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plusMinusButton:hover {
+    color: $white;
+}
+
+.active:active{
+    background-color: $secondary-dark;
+}
+
+
+.settingsSection {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.unlockButton {
+    background-color: white;
+    color:black;
+    height: 30px;
+    width: 120px;
+    text-align: center;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+.disabled{
+    background-color: rgb(92, 92, 92);
+    color: white;
+    cursor: not-allowed;
+}
+
+.updateBoard{
+    padding: 5px 10px;
+    background-color: $secondary-light;
+    border: 1px solid white;
+    border-radius: 7px;
+    text-shadow: 0 0 2px rgb(0, 0, 0);
+}
+.updateBoard:active{
+    background-color: $secondary-dark;
+}
+.updateBoard:hover{
+    background-color: $secondary;
+}
+.gridInputs {
+    width: 50px;
+    background-color: $primary-dark;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    min-height: 32px;
+    color: white;
+}
+
+.container {
+    padding: 8px 0;
+    color: $lighter-grey;
+}
+.disableAll > *:not(#test) {
+    filter: blur(4px);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.boardInput {
+    background-color: $primary-dark;
+    width: 100%;
+    padding: 0 8px;
+    min-height: 32px;
+    border-radius: 4px;
+}
+
+.boardInput:focus {
+    border-color: $secondary-light;
+    box-shadow: 0 0px 8px $secondary-light;
+}
+
+.row {
+    box-sizing: border-box;
+    display: flex;
+    padding: 4px 16px;
+    align-items: center;
+    min-height: 32px;
+}
+
+.label {
+    min-width: 50px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 16px;
+}
+
+.data {
+    width: 100%;
+}
+
+.data > div ~ div {
+    margin-top: 4px;
+}
+
+.settings {
+    background-color: rgba(0,0,0,.1);
+    margin: 8px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.settingsNone {
+    margin: 0 8px;
+    padding: 0 8px;
+}
+
+.lock {
+    font-size: 2rem;
+    line-height: 2rem;
+    filter: drop-shadow(0 0 4px $secondary-light);
+}
+
+.lock:hover {
+    color: $secondary-light;
+}
+
+.locked:hover {
+    color: $white;
+}
+
+.locked {
+    color: $secondary-light;
+}
+
+.labelText {
+    margin-right: 8px;
+}
+
+.dataDisabled {
+    opacity: 0.3;
+}
+
+.buttonRow {
+    display: flex;
+}
+
+.buttonRow > button ~ button{
+    margin-left: 4px;
+}
+
+.rangeInput {
+    width: 100%;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: $secondary;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 5px;
+  position: absolute;
+  z-index: 1;
+  width: 240px;
+  top: 120%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 60px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent $secondary transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

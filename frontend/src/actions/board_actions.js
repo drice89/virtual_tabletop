@@ -9,9 +9,9 @@ export const receiveBoard = (board) => ({
   board,
 });
 
-export const deleteBoard = (boardId) => ({
+export const deleteBoard = (board) => ({
   type: DELETE_BOARD,
-  boardId,
+  board,
 });
 
 export const receiveBoardErrors = (errors) => ({

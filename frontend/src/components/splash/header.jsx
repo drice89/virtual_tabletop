@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/session_action';
 import buttonStyles from '../buttons.module.scss';
@@ -22,12 +22,12 @@ const Header = (props) => {
       <div>
         <Link to={`/user/${props.userId}`}>
           <button className={buttonStyles.signUp}>
-            {props.displayName}
+            <span>{props.displayName}</span>
           </button>
         </Link>
       </div>
       <div>
-        <button onClick={props.logout}>Logout</button>
+        <button onClick={props.logout}><span>Logout</span></button>
       </div>
     </>
   );
@@ -68,7 +68,7 @@ const Header = (props) => {
         <div className={styles.navLeft}>
           <ul className={styles.aboutUs}>
             <li className={userStyles.btn}>
-              <Link to="/about">
+              <Link to="/#about">
                 <button type="button" className={buttonStyles.none}>
                   <div className={userStyles.btn}>
                     <i className="ra ra-double-team" />

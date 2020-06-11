@@ -2,7 +2,7 @@
 /* eslint-disable no-else-return */
 /* eslint-disable prefer-arrow-callback */
 const User = require('../models/User');
-const Piece = require('../models/Piece');
+// const Piece = require('../models/User');
 const validatePiece = require('../validations/piece_validation');
 
 function structurePiecesPayload(pieces) {
@@ -15,7 +15,7 @@ function structurePiecesPayload(pieces) {
 }
 
 exports.fetchPieces = function (req, res) {
-  Piece.find({})
+  Piece.find({ userId: req.body.userId })
     .then(
       (pieces) => res.json(pieces),
       (err) => res.json(err),
@@ -23,22 +23,19 @@ exports.fetchPieces = function (req, res) {
 };
 
 exports.createPiece = function (req, res) {
-  const { userId, imageUrl } = req.body;
-  const { errors, isValid } = validatePiece(req.body);
-
+  const { creatorId } = req.body;
+  const { errors, isValid } = validatePiece(req.file);
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json(errors.imageUrl);
   }
+  const piece = { uploaderId: creatorId, imageUrl: req.file.location };
 
-  User.find({ _id: userId }, function (userError, user) {
+  User.findOne({ _id: creatorId }, function (userError, user) {
     if ((!user) || userError) {
-      return res.status(400).json({ message: 'could not find user' });
+      return res.status(400).json({ error: 'could not find user' });
     }
-    Piece.create({ uploaderId: userId, imageUrl })
-      .then(
-        (piece) => res.json(piece),
-        (pieceError) => res.status(400).json(pieceError),
-      );
+    user.pieces.push(piece);
+    user.save().then((updated) => res.json(updated.pieces[updated.pieces.length - 1]));
   });
 };
 
@@ -46,30 +43,26 @@ exports.editPiece = function (req, res) {
   const { pieceId, imageUrl } = req.body;
 
   if (imageUrl.trim() === '') {
-    return res.status(400).json({ message: 'image url can\'t be blank' });
+    return res.status(400).json({ error: 'image url can\'t be blank' });
   }
 
   Piece.findByIdAndUpdate(pieceId, { imageUrl },
     { new: true },
     function (err, piece) {
       if (!piece || err) {
-        return res.status(400).json({ message: 'something went wrong' });
+        return res.status(400).json({ error: 'something went wrong' });
       }
       return res.json(piece);
     });
 };
 
 exports.deletePiece = function (req, res) {
-  const { pieceId } = req.body;
+  const { creatorId, pieceId } = req.body;
 
-  Piece.findByIdAndRemove(pieceId)
-    .then(
-      (piece) => {
-        if (!piece) {
-          return res.status(400).json({ message: 'could not locate piece' });
-        }
-        return res.json({ message: 'Piece deleted' });
-      },
-      (error) => res.status(400).json(error),
-    );
+  User.findById(creatorId, function (err, user) { 
+    if (err || !user) return res.status(400).json({ error: 'Could not locate user' });
+
+    user.pieces.id(pieceId).remove();
+    user.save().then(() => res.json(pieceId));
+  });
 };

@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloadedState = {
       entities: {
         users: {
-          [decodedUser.id]: decodedUser,
+          [decodedUser._id]: decodedUser,
         },
       },
       session: {
         isAuthenticated: true,
-        userId: decodedUser.id,
+        userId: decodedUser._id,
       },
     };
 

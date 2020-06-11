@@ -1,0 +1,113 @@
+@import '../../_colors.scss';
+
+.boardMenu {
+  width: 240px;
+  // overflow-y: auto;
+  background-color: rgba(32, 47, 60, 0.73);
+  border-radius: 6px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.groupBoards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.boardList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.groupBoards a {
+  padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 24px;
+  transition: all 0.2s;
+  // flex-direction: column;
+}
+
+.groupBoards a:hover {
+  background-color: rgba(255,255,255,0.15);
+}
+
+.groupBoards a:hover button {
+  display: flex;
+}
+
+.groupBoards a:active {
+  background-color: $secondary;
+  color: $white;
+}
+
+.active {
+  background-color: $secondary;
+  color: $white;
+}
+
+a.active:hover {
+  background-color: $secondary;
+  color: $white;  
+}
+
+.menuBar {
+  background-color: $primary;
+  color: $white;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.menuBar:hover:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+.menuTitle {
+  display: flex;
+  align-items: center;
+}
+
+.menuTitle i {
+  font-size: 1.6rem;
+  margin-right: 8px;
+}
+
+.delete {
+  display: none;
+  border-radius: 4px;
+  padding: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+a.gold {
+  background-color: $gold-dark;
+  justify-content: flex-start;
+}
+
+a.gold svg {
+  font-size: 1.6rem;
+  margin-right: 4px;
+}
+
+a.gold:hover {
+  background-color: $gold;
+}

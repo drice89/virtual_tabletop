@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     pieces: Object.values(state.entities.pieces),
     board,
     tokens: board && board.tokens ? board.tokens.map((tokenId) => state.entities.tokens[tokenId]) : [],
+    users: state.entities.users 
   };
 };
 
@@ -24,7 +25,7 @@ const mapDispatchToProps = (dispatch) => ({
   createPiece: (payload) => dispatch(createPiece(payload)),
   deletePiece: (payload) => dispatch(deletePiece(payload)),
 
-  createToken: (token) => dispatch(createToken(token)),
+  // createToken: (token) => dispatch(createToken(token)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Grid));

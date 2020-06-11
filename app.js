@@ -66,31 +66,37 @@ nsp.on('connection', (socket) => {
   });
 
   // expected input format: send board
-  socket.on('updateBoard', (board) => {
-    boardController.updateBoard(board);
-  });
+  socket.on("updateBoard", (board) => {
+    boardController.updateBoard(board)
+  })
 
-  // expected input format: { boardId: "some_id_string_here", pos: { x: num, y: num},
-  // size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId:
-  // "playerId" }
-  socket.on('createToken', (token) => {
-    boardController.createBoard(token);
-  });
+  //expected input format: { boardId: "some_id_string_here", pos: { x: num, y: num}, 
+  //size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId: 
+  //"playerId" }
+  socket.on("createToken", (token) => {
+    boardController.createToken(token)
+  })
 
-  // expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
-  socket.on('editToken', (token) => {
-    boardController.editToken(token);
-  });
+  //expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
+  socket.on("updateToken", (token) => {
+    boardController.updateToken(token)
+  })
 
   // expected input format { boardId: "string", tokenId: "string"}
-  socket.on('deleteToken', (token) => {
-    boardController.deleteToken(token);
-  });
+  socket.on("deleteToken", (token) => {
+    boardController.deleteToken(token)
+  })
+
+  socket.on("message", (message) => {
+    nsp.to(`${message.room}`).emit("message", message)
+  })
 });
 
 
 exports.transmitData = function (room, actionName, action) {
-  return nsp.to(room).emit(actionName, action);
-};
+  // console.log(room, actionName, action)
+  return nsp.to(room).emit(actionName, action)
+  //return nsp.to(room).emit(actionName, action)
+ };
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

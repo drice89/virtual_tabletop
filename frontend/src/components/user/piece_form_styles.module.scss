@@ -1,0 +1,28 @@
+@import '../_colors.scss';
+@import '../_font.scss';
+
+.card { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  background-color: $primary-dark;
+  border-radius: 30px;
+  height: 125px;
+  width: 125px;
+}
+
+.card > button { 
+  border-color: transparent;
+  background-color: transparent;
+  color: $light-grey;
+  padding-top: 3px;
+}
+
+.piece { 
+  width: 100px;
+  height: 100px;
+  border-radius: 25px;
+  padding-top: 3px;
+}

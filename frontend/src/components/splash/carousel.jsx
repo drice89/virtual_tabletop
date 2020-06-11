@@ -1,5 +1,5 @@
 import React from 'react';
-import image1 from '../../images/battlemap.jpg';
+import image1 from '../../images/chess.jpg';
 import image2 from '../../images/Image2.jpg';
 import './carousel.scss';
 
@@ -29,7 +29,7 @@ export default class Carousel extends React.Component {
       } else {
         this.button1.click();
       }
-    }, 6000);
+    }, 10000);
   }
 
   componentWillUnmount() {
@@ -45,7 +45,7 @@ export default class Carousel extends React.Component {
       } else {
         this.button1.click();
       }
-    }, 6000);
+    }, 10000);
 
     const slide1 = document.getElementById('slide-1');
     const slide2 = document.getElementById('slide-2');
@@ -92,14 +92,6 @@ export default class Carousel extends React.Component {
           >
             <img src={image1} className="carousel-images" alt="party1" />
             <div className="carousel-text">
-              <h3>Build your own board!</h3>
-              <p>
-                Play with other peeps, if you have them
-                <br />
-                It is free lol
-                <br />
-                I try to break it
-              </p>
               <button className="carousel-text-button">
                 <a href="/login">Start playing</a>
               </button>
@@ -112,14 +104,6 @@ export default class Carousel extends React.Component {
           >
             <img src={image2} className="carousel-images" alt="party2" />
             <div className="carousel-text git">
-              <h3>Virtual Tabletop</h3>
-              <p>
-                Changed my life!
-                <br />
-                Once you go virtual you never go back
-                <br />
-                I will never go back
-              </p>
               <button className="carousel-text-button">
                 <a
                   href="https://github.com/drice89/virtual_tabletop"

@@ -6,6 +6,11 @@
   color: $light-grey;
 }
 
+.noneDisabled {
+  border-color: transparent;
+  background-color: transparent;
+  color: $dark-grey;
+}
 .none:hover {
   color: $white
 }
@@ -50,6 +55,13 @@
   box-sizing: border-box;
 }
 
+
+
+.secondarySmall {
+  height: 36px;
+  font-size: 1.4rem;
+}
+
 .secondary:hover {
   background-color: $secondary-light;
 }
@@ -58,6 +70,42 @@
   background-color: $secondary-dark;
 }
 
+.secondary:disabled {
+  cursor: not-allowed;
+  background-color: $grey;
+}
+
+.demo { 
+  width: 100%;
+  background-color: rgb(218, 168, 32);
+  border-radius: 4px;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 1.4rem;
+  transition: all 0.3s;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.demo:hover {
+  background-color: rgb(218, 150, 32);
+}
+
+.demo:active {
+  background-color: rgb(218, 168, 32);
+}
+
 .btnIcon > * ~ * {
   margin-left: 4px;
+}
+
+.gold {
+  background-color: $gold-dark;
+}
+
+.gold:hover {
+  background-color: $gold;
 }
