@@ -92,9 +92,11 @@ export default class Carousel extends React.Component {
           >
             <img src={image1} className="carousel-images" alt="party1" />
             <div className="carousel-text">
-              <button className="carousel-text-button">
-                <a href="/login">Start playing</a>
-              </button>
+              <a href="/login">
+                <button className="carousel-text-button">
+                  Start playing
+                </button>
+              </a>
             </div>
           </div>
 
