@@ -91,13 +91,6 @@ export default class Carousel extends React.Component {
             className={`carousel-item ${this.state.slide1}`}
           >
             <img src={image1} className="carousel-images" alt="party1" />
-            <div className="carousel-text">
-              <a href="/login">
-                <button className="carousel-text-button">
-                  Start playing
-                </button>
-              </a>
-            </div>
           </div>
 
           <div
@@ -105,16 +98,6 @@ export default class Carousel extends React.Component {
             className={`carousel-item ${this.state.slide2}`}
           >
             <img src={image2} className="carousel-images" alt="party2" />
-            <div className="carousel-text git">
-              <button className="carousel-text-button">
-                <a
-                  href="https://github.com/drice89/virtual_tabletop"
-                  className="github"
-                >
-                  GitHub
-                </a>
-              </button>
-            </div>
           </div>
         </div>
       </div>
