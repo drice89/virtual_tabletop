@@ -53,6 +53,12 @@ const Nav = ({ currentUserId, toggleWidget }) => (
         <span>Dice</span>
       </div>
     </button>
+    <button type="button" className={buttons.none} onClick={() => toggleWidget('widgetHelp')}>
+      <div className={styles.btn}>
+        <i className="ra ra-help" />
+        <span>Help</span>
+      </div>
+    </button>
   </div>
 );
 

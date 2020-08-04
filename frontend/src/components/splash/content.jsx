@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from './carousel';
 import styles from './content.module.scss';
 import heroImage1 from '../../images/heroimage1.png';
+import CarouselCtaButton from './carousel_cta_button';
 
 const Content = () => (
   <>
@@ -11,6 +12,7 @@ const Content = () => (
           <h1>Virtual</h1>
           <h1>Tabletop</h1>
           <h2>Welcome to the Heart of Perfect Gaming</h2>
+          <CarouselCtaButton />
         </div>
       </header>
 

@@ -8,6 +8,7 @@ import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
 import SettingWidgetContainer from './widgets/setting_widget_container';
 import ChatWidget from './widgets/chat_widget';
+import HelpWidget from './widgets/help_widget.jsx'
 
 
 class Client extends React.Component {
@@ -18,6 +19,7 @@ class Client extends React.Component {
       widgetBoards: true,
       widgetSettings: null,
       widgetChat: null,
+      widgetHelp: null,
       widgetDelete: null,
       modalDelete: null,
     };
@@ -112,7 +114,7 @@ class Client extends React.Component {
       game, boards, match, fetchUser, userId, user,
     } = this.props;
     const {
-      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetDelete,
+      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetHelp, widgetDelete,
     } = this.state;
     const { socket } = this;
     if (!game) return null;
@@ -131,10 +133,16 @@ class Client extends React.Component {
             widgetSettings={widgetSettings}
           />
           <ChatWidget
-            x={510}
+            x={530}
             y={10}
             socket={socket}
             active={widgetChat}
+            toggleWidget={this.toggleWidget}
+          />
+          <HelpWidget
+            x={1200}
+            y={10}
+            active={widgetHelp}
             toggleWidget={this.toggleWidget}
           />
           <Nav toggleWidget={this.toggleWidget} />
