@@ -11,11 +11,13 @@ const GameCard = ({
   },
   handleDelete,
   setEditForm,
+  sessionId,
+  index,
 }) => (
   <div className={styles.gameContainer}>
     {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
     <Link to={`/client/${_id}`} className={styles.cardContainer}>
-      <div className={styles.card}>
+      <div className={`${styles.card} ${index === 0 && sessionId === "5ed54482eeff2c558c8a7ce2" ? styles.highlighted : ""}`}>
         <Status online={online} />
         <div className={styles.title}>
           <h1>{name}</h1>

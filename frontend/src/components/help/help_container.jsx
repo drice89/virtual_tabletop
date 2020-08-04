@@ -5,6 +5,9 @@ const HelpContainer = () => {
   const [activeItem, setActiveItem] = useState("")
 
   const handleClick = (tab) => {
+    if (tab === activeItem) {
+      tab = null
+    }
     setActiveItem(tab)
   }
 

@@ -133,14 +133,14 @@ class Client extends React.Component {
             widgetSettings={widgetSettings}
           />
           <ChatWidget
-            x={530}
+            x={560}
             y={10}
             socket={socket}
             active={widgetChat}
             toggleWidget={this.toggleWidget}
           />
           <HelpWidget
-            x={1200}
+            x={810}
             y={10}
             active={widgetHelp}
             toggleWidget={this.toggleWidget}

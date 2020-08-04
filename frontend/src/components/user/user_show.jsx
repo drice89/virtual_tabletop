@@ -122,23 +122,6 @@ class UserShow extends React.Component {
                 </div>
               </div>
               <div className={styles.content}>
-
-                <div className={styles.topBar}>
-                  <h2 className={piecesStyle.title}>My Pieces <button onClick={() => this.setState({ active: !this.state.active })} className={piecesStyle.chevron}>{active ? <FiChevronDown  /> : <FiChevronUp />}</button></h2>
-                  <div>
-                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreatePiece}>
-                      <i className="ra ra-queen-crown ra-lg" />
-                      <span>
-                        Create New Piece
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <section className={styles.main}>
-                  <Pieces creatorId={user._id} pieces={pieces} deletePiece={deletePiece} active={active} />
-                </section>
-
-                <hr/>
               
                 <div className={styles.topBar}>
                   <h2>Created Games</h2>
@@ -152,8 +135,8 @@ class UserShow extends React.Component {
                   </div>
                 </div>
                 <section className={styles.main}>
-                  {createdGames.map((game) => (
-                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
+                  {createdGames.map((game, i) => (
+                    <GameCard index={i} sessionId={user._id} key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm} />
                     ))}
                   {createdGames.length ? '' : (
                     <div className={styles.noGames} onClick={this.toggleCreate}>
@@ -200,6 +183,22 @@ class UserShow extends React.Component {
 
                 <hr />
                 
+                <div className={styles.topBar}>
+                  <h2 className={piecesStyle.title}>My Pieces <button onClick={() => this.setState({ active: !this.state.active })} className={piecesStyle.chevron}>{active ? <FiChevronDown  /> : <FiChevronUp />}</button></h2>
+                  <div>
+                    <button type="button" className={`${buttons.secondary} ${buttons.btnIcon}`} onClick={this.toggleCreatePiece}>
+                      <i className="ra ra-queen-crown ra-lg" />
+                      <span>
+                        Create New Piece
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <section className={styles.main}>
+                  <Pieces creatorId={user._id} pieces={pieces} deletePiece={deletePiece} active={active} />
+                </section>
+
+                <hr/>
               </div>
             </div>
           </div>
