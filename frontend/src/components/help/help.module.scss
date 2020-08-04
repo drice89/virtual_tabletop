@@ -1,0 +1,21 @@
+.topicHeader {
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 8px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.topicHeader > li {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  padding: 4px 16px;
+}
+
+.topicHeader > li:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.topicHeader > li > i {
+  margin-right: 4px;
+}
