@@ -73,7 +73,7 @@ export default class TokenBar extends React.Component {
           <div className={styles.tokenBar} id="token-bar">
             <div className={styles.tokenActionContainer}>
               <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
-                <i className="ra ra-guillotine" title="Delete Token" onClick={() => toggleWidget('widgetDelete') } />
+                <i className="ra ra-gear-hammer" title="Edit Token" onClick={() => toggleWidget('widgetDelete') } />
               </div>
             </div>
             <div className={styles.tokenBarContainer}>

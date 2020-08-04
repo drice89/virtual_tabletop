@@ -16,13 +16,14 @@ const HelpContainer = () => {
   return (
     <div>
       <ul className={styles.topicHeader}>
-        <li onClick={() => handleClick("about")}><i className='ra ra-hospital-cross'></i>About</li>
+        <li className={ activeItem === "about" ? styles.active : "" } onClick={() => handleClick("about")}><i className='ra ra-hospital-cross'></i>About</li>
           { activeItem === "about" ? displayHelpText(HelpUtil.howToPlayHelp) : null}
-        <li onClick={() => handleClick("create-board")}><i className='ra ra-hospital-cross'></i>Create and edit boards</li>
+        <li className={ activeItem === "create-board" ? styles.active : ""} onClick={() => handleClick("create-board")}><i className='ra ra-hospital-cross'></i>Create and edit boards</li>
           { activeItem === "create-board" ? displayHelpText(HelpUtil.createBoardHelp) : null}
-        <li onClick={() => handleClick("pieces")}><i className='ra ra-hospital-cross'></i>Adding and moving pieces</li>
-          { activeItem === "pieces" ? displayHelpText(HelpUtil.piecesHelp) : null}
-        <li onClick={() => handleClick("chat")}><i className='ra ra-hospital-cross'></i>Chat</li>
+        <li className={ activeItem === "pieces" ? styles.active : "" } onClick={() => handleClick("pieces")}><i className='ra ra-hospital-cross'></i>Adding and moving pieces</li>
+          { activeItem === "pieces" ? displayHelpText(HelpUtil.piecesHelp) : null }
+        <li className={activeItem === "chat" ? styles.active : ""} onClick={() => handleClick("chat")}><i className='ra ra-hospital-cross'></i>Chat</li>
+          { activeItem === "chat" ? displayHelpText(HelpUtil.chatHelp) : null}
       </ul>
     </div>
   )
