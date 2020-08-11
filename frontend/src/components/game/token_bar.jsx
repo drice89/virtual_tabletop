@@ -72,7 +72,7 @@ export default class TokenBar extends React.Component {
             </div>
             <div className={styles.tokenBarContainer}>
               {this.renderPieces()}
-              <h3 style={{color: "white", position: "absolute", left: "50%", transform: "translate(-50%, 0" }} >Available Tokens</h3>
+              <h3 className={styles.tokenHeader}>Available Tokens</h3>
             </div>
 
             {/* <div className={styles.tokenActionContainer}>
