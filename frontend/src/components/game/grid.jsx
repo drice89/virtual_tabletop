@@ -104,7 +104,7 @@ class Grid extends React.Component {
     if (e.pageY > window.innerHeight * 0.8) {
       this.bar.style.display = 'flex';
     } else {
-      this.bar.style.display = 'none';
+      this.bar.style.display = 'flex';
     }
   }
 
@@ -159,7 +159,7 @@ class Grid extends React.Component {
           this.bar = document.getElementById('bar-container');
           document.addEventListener('mousemove', this.showHideTokenBar);
           document.addEventListener('dragover', this.showHideTokenBar);
-          this.bar.style.display = 'none';
+          this.bar.style.display = 'flex';
         } else {
           this.setState({ showInitialEdit: true });
         }
@@ -980,6 +980,7 @@ class Grid extends React.Component {
     const {
       create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget, socket, tokens,
     } = this.props;
+  
     return (
       <div>
 
@@ -1036,7 +1037,7 @@ class Grid extends React.Component {
           <canvas id="canvas" />
         </div>
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
+        { !create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
 
 
       </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import styles from './token_bar.module.scss';
 import Token from './token';
-import DeleteTokenWindow from "./widgets/delete_token_window"
+import DeleteTokenWindow from './widgets/delete_token_window';
 
 
 export default class TokenBar extends React.Component {
@@ -16,10 +16,6 @@ export default class TokenBar extends React.Component {
     this.scrollRight = this.scrollRight.bind(this);
     this.createPiece = this.createPiece.bind(this);
   }
-
-  componentDidUpdate() {
-  }
-
 
   componentDidMount() {
     this.bar = document.getElementById('token-bar');
@@ -42,15 +38,13 @@ export default class TokenBar extends React.Component {
   }
 
 
-
-
   renderPieces() {
     return (
       <>
         {this.props.pieces.map((piece) => (
           <div className={styles.tokenBarItem} key={`piece-${piece._id}`} id={`piece-${piece._id}`}>
 
-            <Token setDraggingPiece={this.props.setDraggingPiece} handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} draggable="true"/>
+            <Token setDraggingPiece={this.props.setDraggingPiece} handlePieceDrop={this.props.handlePieceDrop} userId={this.props.userId} piece={piece} board={this.props.board} draggable="true" />
           </div>
         ))}
       </>
@@ -58,7 +52,7 @@ export default class TokenBar extends React.Component {
   }
 
   createPiece() {
-    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png', userId: this.props.userId} });
+    this.props.createPiece({ userId: this.props.userId, piece: { imageUrl: 'https://i.imgur.com/voyrG5I.png', userId: this.props.userId } });
   }
 
   render() {
@@ -72,12 +66,13 @@ export default class TokenBar extends React.Component {
 
           <div className={styles.tokenBar} id="token-bar">
             <div className={styles.tokenActionContainer}>
-              <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={ (e) => e.preventDefault()}>
-                <i className="ra ra-gear-hammer" title="Edit Token" onClick={() => toggleWidget('widgetDelete') } />
+              <div className={`${styles.tokenAction} ${styles.deleteTokenButton}`} onDrop={this.handleTokenDelete} onDragOver={(e) => e.preventDefault()}>
+                <i className="ra ra-gear-hammer" title="Edit Token" onClick={() => toggleWidget('widgetDelete')} />
               </div>
             </div>
             <div className={styles.tokenBarContainer}>
               {this.renderPieces()}
+              <h3 style={{color: "white", position: "absolute", left: "50%", transform: "translate(-50%, 0" }} >Available Tokens</h3>
             </div>
 
             {/* <div className={styles.tokenActionContainer}>
