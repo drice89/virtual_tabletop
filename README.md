@@ -1,6 +1,6 @@
 # Virtual Tabletop
 
-![Screen Capture](https://media.giphy.com/media/frMIHvcCz5j032hWhV/giphy.gif)
+![Screen Capture](https://i.imgur.com/qUJhHTm.png)
 
 Virtual Tabletop is a sandbox to simulate grid-based tabletop enviornments. A live version of the application can be found [here](https://virtualtabletop.herokuapp.com/). This app is still a work-in-progress but has working CRUD operations along with the use of websockets and image upload to AWS. This project was created by Dias Iskrayev, Dillon Rice, Steven Touba, and Wayne Su.
 
@@ -16,7 +16,13 @@ Use the package manager [npm](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```bash
 npm install
+npm start
+cd frontend
+npm install
+npm start
 ```
+
+
 You will need to add your own keys for the AWS and MongoDB integration. Please see the config folder.
 
 This project uses:
