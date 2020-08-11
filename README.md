@@ -1,6 +1,6 @@
 # Virtual Tabletop
 
-![Screen Capture](https://files.slack.com/files-pri/T03GU501J-F018NKS5MEE/project-virtual-tabletop.png)
+![Screen Capture](https://i.imgur.com/qUJhHTm.png)
 
 Virtual Tabletop is a sandbox to simulate grid-based tabletop enviornments. A live version of the application can be found [here](https://virtualtabletop.herokuapp.com/). This app is still a work-in-progress but has working CRUD operations along with the use of websockets and image upload to AWS. This project was created by Dias Iskrayev, Dillon Rice, Steven Touba, and Wayne Su.
 
