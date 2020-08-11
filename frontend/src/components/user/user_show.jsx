@@ -32,7 +32,7 @@ class UserShow extends React.Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.setEditForm = this.setEditForm.bind(this);
-    this.joinGame = this.joinGame.bind(this)
+    this.joinGame = this.joinGame.bind(this);
   }
 
   componentDidMount() {
