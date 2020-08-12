@@ -125,7 +125,7 @@ const SettingWidget = ({
           </div>
           <div className={styles.row}>
             <div className={styles.label}>
-              Grid Line Color
+              Line Color
             </div>
             <input type="color" onChange={update('borderColor')} value={borderColor} />
           </div>
