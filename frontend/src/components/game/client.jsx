@@ -24,6 +24,7 @@ class Client extends React.Component {
       widgetPlayers: null,
       widgetDelete: null,
       modalDelete: null,
+      messages: []
     };
     this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -31,6 +32,7 @@ class Client extends React.Component {
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
     this.resetUpdate = this.resetUpdate.bind(this);
+    this.setMessage = this.setMessage.bind(this)
   }
 
   componentDidMount() {
@@ -111,6 +113,10 @@ class Client extends React.Component {
     };
   }
 
+  setMessage(payload) {
+    this.setState({messages: payload})
+  }
+
   render() {
     const {
       game, boards, match, fetchUser, userId, user, players
@@ -140,6 +146,8 @@ class Client extends React.Component {
             socket={socket}
             active={widgetChat}
             toggleWidget={this.toggleWidget}
+            messages={this.state.messages}
+            setMessage={this.setMessage}
           />
           <HelpWidget
             x={810}
