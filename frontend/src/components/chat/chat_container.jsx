@@ -7,10 +7,10 @@ const mapStateToProps = (state) => ({
   currentUser: state.entities.users[state.session.userId],
 });
 
-const ChatContainer = ({ match: { params }, currentUser, socket }) => {
+const ChatContainer = ({ match: { params }, currentUser, socket, messages, setMessage }) => {
   const [newMessage, createMessage] = useState('');
-  const [messages, setMessage] = useState([]);
-
+  //const [messages, setMessage] = useState([]);
+  
   const sendMessage = () => {
     const time = new Date();
     const currentMessage = {
@@ -33,23 +33,6 @@ const ChatContainer = ({ match: { params }, currentUser, socket }) => {
       sendMessage();
     }
   };
-
-  // const renderMessages = messages.map((message, i) => (
-  //   <li key={`${message.timeStamp}+${message.displayName}+${i}`}>
-  //     <div className={styles.messageDisplayWrapper}>
-  //       <div>
-  //         <img src={message.profilePicture} alt={message.displayName} />
-  //       </div>
-  //       <div className={styles.messageBodyWrapper}>
-  //         <div>
-  //           <span>{message.displayName}</span>
-  //           <span className={styles.timeStamp}>{message.timeStamp}</span>
-  //         </div>
-  //         <div>{message.body}</div>
-  //       </div>
-  //     </div>
-  //   </li>
-  // ));
 
   const renderMessages = messages.map((message, i) => (
     <li key={`${message.timeStamp}+${message.displayName}+${i}`} className={styles.message}>
