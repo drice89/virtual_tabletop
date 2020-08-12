@@ -52,12 +52,8 @@ const port = process.env.PORT || 5000;
 const nsp = io.of('/gamesNamespace');
 nsp.on('connection', (socket) => {
   socket.on('joinRoom', (room) => {
-    // console.log(room)
     socket.join(room.roomId);
-    console.log(`joined ${room.roomId}`);
-
-    // socket.broadcast.to(room.roomId).emit('action', {test: "a test"});
-    // nsp.to('304i3049').emit('action', {test: "a test"})
+    // console.log(`joined ${room.roomId}`);
   });
 
   // exppected input format: { id: "some_id_string_here"}
@@ -66,37 +62,37 @@ nsp.on('connection', (socket) => {
   });
 
   // expected input format: send board
-  socket.on("updateBoard", (board) => {
-    boardController.updateBoard(board)
-  })
+  socket.on('updateBoard', (board) => {
+    boardController.updateBoard(board);
+  });
 
-  //expected input format: { boardId: "some_id_string_here", pos: { x: num, y: num}, 
-  //size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId: 
-  //"playerId" }
-  socket.on("createToken", (token) => {
-    boardController.createToken(token)
-  })
+  // expected input format: { boardId: "some_id_string_here", pos: { x: num, y: num},
+  // size: num (optional), pieceId: "some_id string", imageUrl: "string", playerId:
+  // "playerId" }
+  socket.on('createToken', (token) => {
+    boardController.createToken(token);
+  });
 
-  //expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
-  socket.on("updateToken", (token) => {
-    boardController.updateToken(token)
-  })
+  // expected input format: { boardId: "string", tokenId: "string", pos: {x: num, y: "num" } }
+  socket.on('updateToken', (token) => {
+    boardController.updateToken(token);
+  });
 
   // expected input format { boardId: "string", tokenId: "string"}
-  socket.on("deleteToken", (token) => {
-    boardController.deleteToken(token)
-  })
+  socket.on('deleteToken', (token) => {
+    boardController.deleteToken(token);
+  });
 
-  socket.on("message", (message) => {
-    nsp.to(`${message.room}`).emit("message", message)
-  })
+  socket.on('message', (message) => {
+    nsp.to(`${message.room}`).emit('message', message);
+  });
 });
 
 
 exports.transmitData = function (room, actionName, action) {
   // console.log(room, actionName, action)
-  return nsp.to(room).emit(actionName, action)
-  //return nsp.to(room).emit(actionName, action)
- };
+  return nsp.to(room).emit(actionName, action);
+  // return nsp.to(room).emit(actionName, action)
+};
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
