@@ -27,6 +27,8 @@ const HelpContainer = () => {
           { activeItem === "pieces" ? displayHelpText(HelpUtil.piecesHelp) : null }
         <li className={activeItem === "chat" ? styles.active : ""} onClick={() => handleClick("chat")}><i className='ra ra-hospital-cross'></i>Chat</li>
           { activeItem === "chat" ? displayHelpText(HelpUtil.chatHelp) : null}
+        <li className= { activeItem === "invite-players" ? styles.active: "" } onClick={() => handleClick("invite-players")}><i className='ra ra-hospital-cross'></i>Invite Players</li>
+          { activeItem === "invite-players" ? displayHelpText(HelpUtil.inviteHelp) : null}
       </ul>
     </div>
   )
