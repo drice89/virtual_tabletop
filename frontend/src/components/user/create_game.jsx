@@ -54,7 +54,7 @@ class CreateGame extends React.Component {
           {/* {errors.description ? <span className={styles.errors}>{errors.description}</span> : ''} */}
           <input type="text" placeholder="Description" value={description} onChange={this.handleChange('description')} />
           {/* {errors.backgroundImage ? <span className={styles.errors}>{errors.backgroundImage}</span> : ''} */}
-          <input type="text" placeholder="Thumbnail URL" value={backgroundImage} onChange={this.handleChange('backgroundImage')} />
+          <input type="text" placeholder="Thumbnail URL (optional)" value={backgroundImage} onChange={this.handleChange('backgroundImage')} />
           <button type="submit" className={buttons.secondary}>{formType}</button>
         </form>
       </div>

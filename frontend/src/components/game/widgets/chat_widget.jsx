@@ -4,7 +4,7 @@ import withWidget from '../util/with_widget';
 import widgetStyles from './widget.module.scss';
 import ChatContainer from '../../chat/chat_container';
 
-const ChatWidget = ({ toggleWidget, socket }) => (
+const ChatWidget = ({ toggleWidget, socket, setMessage, messages }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
@@ -16,7 +16,7 @@ const ChatWidget = ({ toggleWidget, socket }) => (
       </button>
     </div>
     <div className={widgetStyles.content}>
-      <ChatContainer socket={socket} />
+      <ChatContainer setMessage={setMessage} messages={messages} socket={socket} />
     </div>
   </div>
 );

@@ -123,14 +123,8 @@ exports.updateBoard = function (board) {
             app.transmitData(`${board.gameId}`, 'error', err);
           }
         });
-
-      })
-
-
-  })
-  
-
-  
+      });
+  });
 };
   
 // create token

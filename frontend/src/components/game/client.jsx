@@ -8,7 +8,8 @@ import BoardWidget from './widgets/board_widget';
 import ConfirmModal from './widgets/confirm_modal';
 import SettingWidgetContainer from './widgets/setting_widget_container';
 import ChatWidget from './widgets/chat_widget';
-import HelpWidget from './widgets/help_widget.jsx'
+import HelpWidget from './widgets/help_widget.jsx';
+import PlayersWidget from './widgets/players_widget.jsx';
 
 
 class Client extends React.Component {
@@ -20,8 +21,10 @@ class Client extends React.Component {
       widgetSettings: null,
       widgetChat: null,
       widgetHelp: null,
+      widgetPlayers: null,
       widgetDelete: null,
       modalDelete: null,
+      messages: []
     };
     this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -29,6 +32,7 @@ class Client extends React.Component {
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
     this.resetUpdate = this.resetUpdate.bind(this);
+    this.setMessage = this.setMessage.bind(this)
   }
 
   componentDidMount() {
@@ -109,12 +113,16 @@ class Client extends React.Component {
     };
   }
 
+  setMessage(payload) {
+    this.setState({messages: payload})
+  }
+
   render() {
     const {
-      game, boards, match, fetchUser, userId, user,
+      game, boards, match, fetchUser, userId, user, players
     } = this.props;
     const {
-      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetHelp, widgetDelete,
+      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetHelp, widgetDelete, widgetPlayers
     } = this.state;
     const { socket } = this;
     if (!game) return null;
@@ -138,12 +146,21 @@ class Client extends React.Component {
             socket={socket}
             active={widgetChat}
             toggleWidget={this.toggleWidget}
+            messages={this.state.messages}
+            setMessage={this.setMessage}
           />
           <HelpWidget
             x={810}
             y={10}
             active={widgetHelp}
             toggleWidget={this.toggleWidget}
+          />
+          <PlayersWidget 
+            x = {10}
+            y = {200}
+            active={widgetPlayers}
+            toggleWidget={this.toggleWidget}
+            players={players}
           />
           <Nav toggleWidget={this.toggleWidget} />
           {match.params.boardId ? (
