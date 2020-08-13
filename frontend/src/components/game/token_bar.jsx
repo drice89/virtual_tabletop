@@ -3,9 +3,11 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import styles from './token_bar.module.scss';
 import Token from './token';
 import DeleteTokenWindow from './widgets/delete_token_window';
+import { compose } from 'redux';
+import withWidget from './util/with_widget';
 
 
-export default class TokenBar extends React.Component {
+class TokenBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,3 +95,5 @@ export default class TokenBar extends React.Component {
     );
   }
 }
+
+export default compose(withWidget)(TokenBar);

@@ -1018,7 +1018,7 @@ class Grid extends React.Component {
           <canvas id="canvas" />
         </div>
 
-        { !create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
+        {!create ? <TokenBar x={350} y={750} active={true} toggleWidget={toggleWidget} bsetDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
 
 
       </div>

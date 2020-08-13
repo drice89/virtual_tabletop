@@ -10,12 +10,13 @@
     bottom: 30px;
     margin: auto;
     z-index: 1;
+    cursor: grab;
 }
 
 
 .tokenBar{ 
-    max-width: 500px;
-    /* height: 100px; */
+    min-width: 400px;
+  /* height: 100px; */
     background-color: $primary;
     // margin: auto;
     overflow: auto;
