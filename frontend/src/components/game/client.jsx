@@ -162,7 +162,7 @@ class Client extends React.Component {
             toggleWidget={this.toggleWidget}
             players={players}
           />
-          <Nav toggleWidget={this.toggleWidget} />
+          <Nav toggleWidget={this.toggleWidget} gameId={this.props.game._id}/>
           {match.params.boardId ? (
             <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser} />
           ) : (

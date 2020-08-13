@@ -59,3 +59,16 @@
   border-color: $secondary transparent transparent transparent;
 }
 
+.share {
+  background-color: $gold-dark;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.share > input {
+  border: 1px solid $primary-dark;
+  border-radius: 4px;
+  background: $white;
+  padding: 4px 8px;
+  color: $black;
+}

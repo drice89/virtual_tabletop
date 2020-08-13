@@ -7,7 +7,7 @@ const PlayersWidget = ({toggleWidget, players}) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>
       <div className={widgetStyles.title}>
-        <i className="ra ra-help" />
+        <i className="ra ra-double-team" />
         <h2>Players</h2>
       </div>
       <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetPlayers')}>
