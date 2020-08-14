@@ -15,7 +15,7 @@ const ChatWidget = ({ toggleWidget, socket, setMessage, messages }) => (
         <FiX />
       </button>
     </div>
-    <div className={widgetStyles.content}>
+    <div className={widgetStyles.content} style={{ minHeight: '160px', height: '160px' }}>
       <ChatContainer setMessage={setMessage} messages={messages} socket={socket} />
     </div>
   </div>
