@@ -1,11 +1,6 @@
 import React from 'react';
 import styles from './token.module.css';
 
-
-
-
-
-
 export default class Token extends React.Component {
   constructor(props) {
     super(props);
@@ -13,28 +8,25 @@ export default class Token extends React.Component {
       moved: false,
       imageUrl: this.props.piece.imageUrl,
     };
-
-    
   }
+
   componentDidMount() {
-    
     const token = document.getElementById(`token-${this.props.piece._id}`);
     token.addEventListener('dragstart', (e) => {
-
       // let img = token.cloneNode(true);
       // img.src = this.state.imageUrl;
-      e.dataTransfer.setDragImage(token, token.offsetWidth / 2, token.offsetHeight/ 2);
+      e.dataTransfer.setDragImage(token, token.offsetWidth / 2, token.offsetHeight / 2);
 
-      let tokenPiece = {
+      const tokenPiece = {
         pos: {
           x: null,
-          y: null
+          y: null,
         },
         imageUrl: this.state.imageUrl,
         pieceId: this.props.piece._id,
         boardId: this.props.board._id,
-        player: this.props.userId
-      }
+        player: this.props.userId,
+      };
 
       this.props.setDraggingPiece(tokenPiece);
     });
@@ -47,7 +39,7 @@ export default class Token extends React.Component {
 
   render() {
     return (
-      <img id={`token-${this.props.piece._id}`} src={this.state.imageUrl} className={styles.token} draggable="true"/>
+      <img id={`token-${this.props.piece._id}`} src={this.state.imageUrl} className={styles.token} draggable="true" />
     );
   }
 }

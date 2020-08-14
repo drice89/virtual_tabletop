@@ -20,8 +20,6 @@ class Grid extends React.Component {
     this.handleLockBackground = this.handleLockBackground.bind(this);
     this.dataTransfer = this.dataTransfer.bind(this);
 
-    this.showHideTokenBar = this.showHideTokenBar.bind(this);
-
     this.createBoard = this.createBoard.bind(this);
     this.updateBoard = this.updateBoard.bind(this);
     this.update = this.update.bind(this);
@@ -99,15 +97,6 @@ class Grid extends React.Component {
     this.plusBackgroundHeight = this.plusBackgroundHeight.bind(this);
   }
 
-
-  showHideTokenBar(e) {
-    if (e.pageY > window.innerHeight * 0.8) {
-      this.bar.style.display = 'flex';
-    } else {
-      this.bar.style.display = 'none';
-    }
-  }
-
   componentDidMount() {
     // this.props.fetchPieces(this.props.userId);
 
@@ -156,10 +145,6 @@ class Grid extends React.Component {
 
           this.setState(state, this.setFetchedGrid);
 
-          this.bar = document.getElementById('bar-container');
-          document.addEventListener('mousemove', this.showHideTokenBar);
-          document.addEventListener('dragover', this.showHideTokenBar);
-          this.bar.style.display = 'none';
         } else {
           this.setState({ showInitialEdit: true });
         }
@@ -649,10 +634,6 @@ class Grid extends React.Component {
 
     if ((this.props.board && (!prevProps.board || prevProps.board._id !== this.props.board._id)) || this.props.update) {
       this.props.resetUpdate();
-      this.bar = document.getElementById('bar-container');
-      document.addEventListener('mousemove', this.showHideTokenBar);
-      document.addEventListener('dragover', this.showHideTokenBar);
-      this.bar.style.display = 'none';
 
       const state = {
         row: this.props.board.gridSize.rows,
@@ -980,6 +961,7 @@ class Grid extends React.Component {
     const {
       create, pieces, createPiece, userId, board, settingActive, deleteActive, toggleWidget, socket, tokens,
     } = this.props;
+  
     return (
       <div>
 
@@ -1036,7 +1018,7 @@ class Grid extends React.Component {
           <canvas id="canvas" />
         </div>
 
-        {!create ? <TokenBar setDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
+        {!create ? <TokenBar x={350} y={750} active={true} toggleWidget={toggleWidget} bsetDraggingPiece={this.setDraggingPiece} handlePieceDrop={this.handlePieceDrop} pieces={pieces} createPiece={createPiece} userId={userId} board={board} socket={this.props.socket} tokens={this.props.tokens} toggleWidget={toggleWidget} /> : null}
 
 
       </div>
