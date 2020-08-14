@@ -24,7 +24,7 @@ class Client extends React.Component {
       widgetPlayers: null,
       widgetDelete: null,
       modalDelete: null,
-      messages: []
+      messages: [],
     };
     this.ENPOINT = (process.env.NODE_ENV === 'production') ? 'https://virtualtabletop.herokuapp.com/gamesNamespace' : 'localhost:5000/gamesNamespace';
     this.socket = io(this.ENPOINT);
@@ -32,7 +32,7 @@ class Client extends React.Component {
     this.setBoardToDelete = this.setBoardToDelete.bind(this);
     this.toggleWidget = this.toggleWidget.bind(this);
     this.resetUpdate = this.resetUpdate.bind(this);
-    this.setMessage = this.setMessage.bind(this)
+    this.setMessage = this.setMessage.bind(this);
   }
 
   componentDidMount() {
@@ -114,32 +114,22 @@ class Client extends React.Component {
   }
 
   setMessage(payload) {
-    this.setState({messages: payload})
+    this.setState({ messages: payload });
   }
 
   render() {
     const {
-      game, boards, match, fetchUser, userId, user, players
+      game, boards, match, fetchUser, userId, user, players,
     } = this.props;
     const {
-      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetHelp, widgetDelete, widgetPlayers
+      modalDelete, widgetBoards, widgetSettings, widgetChat, widgetHelp, widgetDelete, widgetPlayers,
     } = this.state;
     const { socket } = this;
     if (!game) return null;
     return (
       <>
         <div className={modalDelete ? `${styles.main} ${styles.blurred}` : styles.main}>
-          <BoardWidget
-            boards={boards}
-            gameId={game._id}
-            socket={socket}
-            setBoardToDelete={this.setBoardToDelete}
-            active={widgetBoards}
-            x={10}
-            y={10}
-            toggleWidget={this.toggleWidget}
-            widgetSettings={widgetSettings}
-          />
+
           <ChatWidget
             x={560}
             y={10}
@@ -155,19 +145,31 @@ class Client extends React.Component {
             active={widgetHelp}
             toggleWidget={this.toggleWidget}
           />
-          <PlayersWidget 
-            x = {10}
-            y = {200}
+          <PlayersWidget
+            x={10}
+            y={200}
             active={widgetPlayers}
             toggleWidget={this.toggleWidget}
             players={players}
           />
-          <Nav toggleWidget={this.toggleWidget} />
+
+          <Nav toggleWidget={this.toggleWidget} gameId={this.props.game._id} />
           {match.params.boardId ? (
             <GridContainer socket={socket} settingActive={widgetSettings} deleteActive={widgetDelete} toggleWidget={this.toggleWidget} update={this.state.update} resetUpdate={this.resetUpdate} fetchUser={fetchUser} />
           ) : (
             <GridContainer create socket={socket} settingActive={widgetSettings} toggleWidget={this.toggleWidget} fetchUser={fetchUser} />
           )}
+          <BoardWidget
+            boards={boards}
+            gameId={game._id}
+            socket={socket}
+            setBoardToDelete={this.setBoardToDelete}
+            active={widgetBoards}
+            x={10}
+            y={10}
+            toggleWidget={this.toggleWidget}
+            widgetSettings={widgetSettings}
+          />
         </div>
         <ConfirmModal
           active={modalDelete}

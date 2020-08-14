@@ -1,0 +1,27 @@
+@import '../../_colors.scss';
+
+.players {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.players > li {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+}
+
+.players > li ~ li {
+  margin-top: 8px;
+}
+
+.players > li > img {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border: 1px solid white;
+  border-radius: 50%;
+}

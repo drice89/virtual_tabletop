@@ -10,7 +10,7 @@ import withWidget from '../util/with_widget';
 class BoardWidget extends React.Component {
   render() {
     const {
-      boards, gameId, match, setBoardToDelete, toggleWidget, widgetSettings
+      boards, gameId, match, setBoardToDelete, toggleWidget, widgetSettings, moved,
     } = this.props;
     return (
       <div className={widgetStyles.container}>
@@ -18,6 +18,11 @@ class BoardWidget extends React.Component {
           <div className={widgetStyles.title}>
             <i className="ra ra-chessboard" />
             <h2>Boards</h2>
+            {!moved && (
+              <span className={widgetStyles.tooltip}>
+                I&apos;m a widget, move me around the screen!
+              </span>
+            )}
           </div>
           <button type="button" className={widgetStyles.close} onClick={() => toggleWidget('widgetBoards')}>
             <FiX />

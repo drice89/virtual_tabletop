@@ -77,12 +77,24 @@ export const chatHelp = (
   <div className={styles.helpText}>
     <h1>How to use Chat</h1>
     <p>
-      You can send text messages to the other members of the group by opening the chat widget.
+      You can send messages to the other members of the group by opening the chat widget.
       Type your message and press "enter" to send it to your party.
     </p>
     <p>
-      Currently, Virtual Tabletop does not support persistent messages so if you leave or refresh your page, you will lose the messages.
-      It also does not support attachments at this time. If your game needs more robust messaging, feel free to use <a href="slockify.heroku.com">Slockify</a>.
+      Currently, Virtual Tabletop does not save messages to the database, so if you leave or refresh your page, you will lose the messages.
+      If your game needs more robust messaging, feel free to use <a href="https://www.slockify.heroku.com">Slockify</a>.
+    </p>
+  </div>
+)
+
+export const inviteHelp = (
+  <div className={styles.helpText}>
+    <h1>How to Invite Other Players</h1>
+    <p>
+      You can invite other players to the game by clicking on the "Share" button. Doing so will copy the game id. Send this id to another player.
+    </p>
+    <p>
+      You can subscribe to a game by clicking on the logo in the top left hand corner or by going back to your profile page. In the "Subscribed Games" section you will find an input box labeled "Enter Game Id". Enter the id there and click on join game!
     </p>
   </div>
 )

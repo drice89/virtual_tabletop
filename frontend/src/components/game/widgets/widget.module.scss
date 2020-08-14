@@ -21,11 +21,48 @@
   border-top-right-radius: 6px;
   cursor: -webkit-grab;
   cursor: grab;
+  position: relative;
+
+  .tooltip {
+    text-align: center;
+    background-color: $secondary;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 99;
+    left: 110%;
+    padding: 6px 8px;
+    width: 160px;
+
+    opacity: 0;
+    transition: all 0.4s;
+  }
+
+  .tooltip::after {
+    content: " ";
+    z-index: 99;
+    position: absolute;
+    top: 50%;
+    right: 100%; 
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent $secondary transparent transparent;
+  }
+}
+
+.header:hover .tooltip {
+  opacity: 1;
+  left: 105%;
+}
+
+.header:hover {
+  box-shadow: 0 0px 8px $secondary-light;
 }
 
 .header:hover:active {
   cursor: -webkit-grabbing;
   cursor: grabbing;
+  box-shadow: 0 0px 8px $secondary-light;
 }
 
 .title {
@@ -64,21 +101,3 @@
   color: $darkest-grey;
 }
 
-.players > li {
-  margin: 8px;
-  height: 32px;
-}
-
-.players > li > span {
-  margin: 16px;
-  height: 32px;
-  display: inline-block;
-  font-size: 1.5rem;
-}
-
-.players > li > img {
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  
-}

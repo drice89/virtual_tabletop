@@ -1,7 +1,8 @@
 const mongoose = require('mongoose'); 
-const Schema = mongoose.Schema; 
-// import PieceSchema from './Piece'
 
+const Schema = mongoose.Schema; 
+
+//Users can upload pieces, they are a subdocument
 const PieceSchema = new Schema({
   uploaderId: {
     type: Schema.Types.ObjectId,
@@ -11,6 +12,7 @@ const PieceSchema = new Schema({
     type: String,
   },
 });
+
 
 const UserSchema = new Schema({
   displayName: {

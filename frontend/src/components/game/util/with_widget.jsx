@@ -13,6 +13,7 @@ const withWidget = (Component) => class extends React.Component {
       y,
       offsetX: 0,
       offsetY: 0,
+      moved: false,
     };
     this.startDrag = this.startDrag.bind(this);
     this.dragOver = this.dragOver.bind(this);
@@ -20,6 +21,8 @@ const withWidget = (Component) => class extends React.Component {
   }
 
   startDrag(e) {
+    const { moved } = this.state;
+    if (!moved) this.setState({ moved: true });
     const dontDrag = { range: true, text: true, textarea: true, number: true };
     if (!dontDrag[e.target.type]) {
       this.setState({ opacity: 0.5, dragging: true });
@@ -54,7 +57,7 @@ const withWidget = (Component) => class extends React.Component {
 
   render() {
     const {
-      dragging, opacity, x, y,
+      dragging, opacity, x, y, moved,
     } = this.state;
     const {
       x: oriX, y: oriY, active, toggleWidget, ...restProps
@@ -69,7 +72,7 @@ const withWidget = (Component) => class extends React.Component {
           onDragEnd={this.endDrag}
           style={{ top: y, left: x, opacity }}
         >
-          <Component {...restProps} toggleWidget={toggleWidget} />
+          <Component {...restProps} toggleWidget={toggleWidget} moved={moved} />
         </div>
       </div>
     );

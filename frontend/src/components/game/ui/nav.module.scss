@@ -7,11 +7,17 @@
   min-height: 32px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   position: relative;
   // padding: 0 16px;
 }
 
-.nav > * {
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.left > * {
   margin-right: 8px;
 }
 
@@ -59,3 +65,81 @@
   border-color: $secondary transparent transparent transparent;
 }
 
+.share {
+  // background-color: $gold-dark;
+  height: 100%;
+  display: flex;
+}
+
+.shareInfo > input {
+  // border: 1px solid $primary-dark;
+  border-radius: 4px;
+  background: $white;
+  padding: 4px 8px;
+  color: $black;
+}
+
+.shareInfo {
+  // padding: 4px;
+  box-sizing: border-box;
+  background-color: $gold-dark;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .tooltip {
+    text-align: center;
+    // background-color: $secondary;
+    background: linear-gradient(to top, $secondary 50%, $gold-dark 50%);
+    background-size: 100% 200%;
+    background-position: left bottom;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 99;
+    left: 50%;
+    top: 150%;
+    padding: 6px 8px;
+    width: 180px;
+    margin-left: -90px;
+    opacity: 0;
+    transition: all 0.4s;
+  }
+
+  .tooltip::after {
+    content: " ";
+    z-index: 99;
+    position: absolute;
+    left: 50%;
+    bottom: 100%; 
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent $secondary transparent;
+  }
+
+  .gold {
+    background-position: left top;
+    font-size: 1.4em;
+  }
+
+  .gold::after {
+    border-color: transparent transparent $gold-dark transparent;
+  }
+}
+
+.shareInfo:hover .tooltip {
+  opacity: 1;
+  top: 130%;
+}
+
+.shareInfo > * {
+  margin: 0 4px;
+}
+
+.shareTri {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 32px 0;
+  border-color: transparent $gold-dark transparent transparent;
+}
