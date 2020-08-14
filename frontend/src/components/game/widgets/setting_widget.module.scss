@@ -164,23 +164,26 @@
 
 .tooltip {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
+//   display: none;
   background-color: $secondary;
   color: white;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 5px;
+  padding: 8px 8px;
   position: absolute;
   z-index: 1;
   width: 240px;
   top: 120%;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -92px;
   opacity: 0;
   transition: opacity 0.3s;
+  pointer-events: none;
 }
 
 .tooltip .tooltiptext::after {
@@ -195,6 +198,8 @@
 }
 
 .tooltip:hover .tooltiptext {
-  visibility: visible;
+//   display: block;
+//   visibility: visible;
   opacity: 1;
+  pointer-events: all;
 }
