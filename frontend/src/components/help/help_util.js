@@ -94,7 +94,7 @@ export const inviteHelp = (
       You can invite other players to the game by clicking on the "Share" button. Doing so will copy the game id. Send this id to another player.
     </p>
     <p>
-      You can subscribe to a game by clicking on the logo in the top right hand corner or by going back to your profile page. In the "Subscribed Games" section you will find an input box labeled "Enter Game Id". Enter the id there and click on join game!
+      You can subscribe to a game by clicking on the logo in the top left hand corner or by going back to your profile page. In the "Subscribed Games" section you will find an input box labeled "Enter Game Id". Enter the id there and click on join game!
     </p>
   </div>
 )
