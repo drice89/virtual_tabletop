@@ -7,7 +7,10 @@ import Logo from '../../logo/logo';
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = { 
+      email: '', 
+      password: '' 
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.submitDemoUser = this.submitDemoUser.bind(this);
   }

@@ -52,7 +52,7 @@ class Client extends React.Component {
     const roomId = match.params.gameId;
     const { socket } = this;
 
-
+    // heres where we connect to the socket
     socket.on('connect', () => {
       socket.emit('joinRoom', { roomId });
     });
