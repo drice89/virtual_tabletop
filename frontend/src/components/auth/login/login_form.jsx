@@ -26,12 +26,14 @@ class LoginForm extends React.Component {
     login(this.state);
   }
 
+  // logs in our demo user
   submitDemoUser(e) {
     e.preventDefault();
     const { login } = this.props;
     this.setState({
       email: 'DemoUser@DemoUser.com',
       password: '123456',
+      // dispatches a thunk action with the state in it
     }, () => login(this.state));
   }
 

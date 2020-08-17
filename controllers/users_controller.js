@@ -115,7 +115,7 @@ exports.login = function (req, res) {
               keys.secretOrKey,
               { expiresIn: '14 days' }, // from zeit documentation should be same as ms('14 days')
               // after the JWT token is processed, add it to the response and ship it back to the frontend.
-              (err, token) => { 
+              (err, token) => {
                 res.json({
                   success: true,
                   token: 'Bearer ' + token, // the token is made up of the JWT header, payload, and verify signature
