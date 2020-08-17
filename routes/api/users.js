@@ -1,18 +1,18 @@
 const express = require('express');
+
 const router = express.Router();
-const usersController = require("../../controllers/users_controller");
-const passport = require("passport");
+const passport = require('passport');
+const usersController = require('../../controllers/users_controller');
 
 
-//route from '/api/users'
-router.get('/:userId/info', usersController.fetchUser)
+// route from '/api/users'
+router.get('/:userId/info', passport.authenticate('jwt', { session: false }), usersController.fetchUser);
 
-router.get('/:id', passport.authenticate('jwt', { session: false }), usersController.fetchUserGames)
+router.get('/:id', passport.authenticate('jwt', { session: false }), usersController.fetchUserGames);
 
 router.post('/register', usersController.register);
 
 router.post('/login', usersController.login);
-
 
 
 // //fetch all pieces for this user

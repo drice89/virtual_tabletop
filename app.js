@@ -17,7 +17,6 @@ const boardController = require('./controllers/boards_controller');
 
 
 const server = http.createServer(app);
-
 const io = socketIo(server);
 
 
@@ -48,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-
+// setting the socket up serverside
 const nsp = io.of('/gamesNamespace');
 nsp.on('connection', (socket) => {
   socket.on('joinRoom', (room) => {
@@ -83,6 +82,7 @@ nsp.on('connection', (socket) => {
     boardController.deleteToken(token);
   });
 
+  // receive a message and transmit it back to subscribers
   socket.on('message', (message) => {
     nsp.to(`${message.room}`).emit('message', message);
   });

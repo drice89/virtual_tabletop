@@ -4,6 +4,7 @@ import withWidget from '../util/with_widget';
 import widgetStyles from './widget.module.scss';
 import ChatContainer from '../../chat/chat_container';
 
+// socket is passed down from the client
 const ChatWidget = ({ toggleWidget, socket, setMessage, messages }) => (
   <div className={widgetStyles.container}>
     <div className={widgetStyles.header}>

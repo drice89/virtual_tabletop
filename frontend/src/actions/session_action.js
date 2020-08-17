@@ -24,13 +24,17 @@ export const clearErrors = () => ({
   type: CLEAR_ERRORS,
 });
 
-
+// thunk action that first uses axios to hit the users/login route on the backend
 export const login = (user) => (dispatch) => SessionAPIUtil.login(user)
   .then((res) => {
+    // returns a token with encoded payload 
     const { token } = res.data;
 
+    //saves the jwtToken to local storage
     localStorage.setItem('jwtToken', token);
+    // sets the axios headers to include the token
     SessionAPIUtil.setAuthToken(token);
+    //decodes the token payload and dispatches the information to the session reducer
     const decoded = jwtDecode(token);
     dispatch(receiveCurrentUser(decoded));
     return decoded;

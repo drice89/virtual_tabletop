@@ -7,7 +7,10 @@ const mapStateToProps = (state) => ({
   currentUser: state.entities.users[state.session.userId],
 });
 
+// messages and setMessages are now on the client component because messages are being stored in state there, it was lifted up
 const ChatContainer = ({ match: { params }, currentUser, socket, messages, setMessage }) => {
+  // use state hook. New message = state, createMessage used to update state
+  // messages, setMessages still have the same effect
   const [newMessage, createMessage] = useState('');
   //const [messages, setMessage] = useState([]);
   
@@ -68,7 +71,10 @@ const ChatContainer = ({ match: { params }, currentUser, socket, messages, setMe
     </>
   );
 
+  // use effect hook here to mount the websocket and unmount it when messages is updated so it doesnt subscribe multiple times
   useEffect(() => {
+    // when it recieves a message through the socket, it posts the message to the next state, creating a shallow dup of messages,
+    // adding the new messages and then updating the client component through "setMessages" which was handed down in props
     socket.on('message', (message) => {
       const nextState = messages.slice();
       nextState.push(message);
