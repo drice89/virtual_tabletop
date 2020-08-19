@@ -6,6 +6,7 @@ export const EDIT_GAME = 'EDIT_GAME';
 export const DELETE_GAME = 'DELETE_GAME';
 export const RECEIVE_GAME_ERRORS = 'RECEIVE_GAME_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const UNSUBSCRIBE_GAME = 'UNSUBSCRIBE_GAME';
 
 export const receiveGames = (payload) => ({
   type: RECEIVE_GAMES,
@@ -15,6 +16,11 @@ export const receiveGames = (payload) => ({
 export const removeGame = (game) => ({
   type: DELETE_GAME,
   game,
+});
+
+export const unsubscribeGame = (payload) => ({
+  type: UNSUBSCRIBE_GAME,
+  payload,
 });
 
 export const receiveGame = (payload) => ({
@@ -63,7 +69,15 @@ export const joinGame = ( { gameIdAndUserId, history }) => (dispatch) => (
   gameAPIUtil.joinGame(gameIdAndUserId)
     .then((res) => {
       dispatch(receiveGame(res.data));
-      history.push(`/client/${res.data.game}`);
+      history.push(`/client/${res.data.game._id}`);
+    })
+    .catch((err) => dispatch(receiveGameErrors(err.response.data)))
+);
+
+export const unsubscribe = ( { gameIdAndUserId }) => (dispatch) => (
+  gameAPIUtil.unsubscribe(gameIdAndUserId)
+    .then((res) => {
+      dispatch(unsubscribeGame( {game: res.data.game, userId: gameIdAndUserId.userId}))
     })
     .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );

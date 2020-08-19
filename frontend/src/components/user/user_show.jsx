@@ -33,6 +33,7 @@ class UserShow extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.setEditForm = this.setEditForm.bind(this);
     this.joinGame = this.joinGame.bind(this);
+    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +87,11 @@ class UserShow extends React.Component {
     const { history } = this.props;
     const gameIdAndUserId = { userId: this.props.user._id, gameId: joinGameId };
     this.props.joinGame({ gameIdAndUserId, history});
+  }
+
+  handleUnsubscribe(gameId){
+    const gameIdAndUserId = { userId: this.props.user._id, gameId };
+    this.props.unsubscribe({ gameIdAndUserId });
   }
 
   render() {
@@ -174,7 +180,7 @@ class UserShow extends React.Component {
                 <section className={styles.main}>
                   
                   {subscribedGames.map((game) => (
-                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm}/>
+                    <GameCard key={game._id} game={game} subscribed={true} handleDelete={this.handleDelete} handleUnsubscribe={this.handleUnsubscribe} setEditForm={this.setEditForm}/>
                   ))}
                   {subscribedGames.length ? '' : (
                     <div className={styles.noSubs}>

@@ -82,8 +82,6 @@ exports.joinGame = function (req, res) {
 
   Game.findById(gameId, function (gameErr, game) {
 
-    
-
     if (!game) return res.status(422).send({
       error: 'Game not found, try again.'
     });
@@ -92,11 +90,11 @@ exports.joinGame = function (req, res) {
       error: 'Can not join own game.'
     });
 
-    c
-
+    if (game.players.includes(userId)) return res.status(422).send({
+      error: 'Already subscribed.'
+    });
 
     let payload = {}
-
 
     User.findById(userId, function (userErr, user) {
       if (!user) return res.json(user);
@@ -111,12 +109,42 @@ exports.joinGame = function (req, res) {
         if (gameSaveErr) return res.json(gameSaveErr);
       });
 
-      payload.game = game
-      payload.players = game.players
-      payload.boards = game.boards
+      User.find({
+          gameSubscriptions: gameId
+        })
+        .then(users => {
+          payload.players = users;
+          Board.find({ gameId })
+            .then(boards => {
+              payload.game = game;
+              payload.boards = boards;
+              res.json(payload)
+            }) 
+        }) 
     })
-    .then(()=> res.json(payload))
-    
+  });
+};
+
+exports.unsubscribe = function (req, res) {
+  const {
+    gameId,
+    userId
+  } = req.body;
+
+  Game.findById(gameId, function (gameErr, game) {
+    User.findById(userId, function (userErr, user) {
+        if (!user) return res.json(user);
+        user.gameSubscriptions.splice(user.gameSubscriptions.indexOf(gameId), 1); // subscribes user to game push game ref into array
+        user.save(function (userSaveErr) {
+          if (userSaveErr) return res.json(userSaveErr);
+        });
+
+        game.players.splice(game.players.indexOf(userId), 1);
+        game.save(function (gameSaveErr) {
+          if (gameSaveErr) return res.json(gameSaveErr);
+        });
+        res.json({ game })
+      })
   });
 };
 

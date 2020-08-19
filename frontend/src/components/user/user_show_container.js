@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import UserShow from './user_show';
 import { fetchUserGames } from '../../actions/users_actions';
-import { deleteGame, joinGame } from '../../actions/games_actions';
+import { deleteGame, joinGame, unsubscribe } from '../../actions/games_actions';
 import { createPiece, deletePiece } from '../../actions/pieces_action';
 
 
@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchUserGames: () => dispatch(fetchUserGames(ownProps.match.params.userId)),
   deleteGame: (gameId) => dispatch(deleteGame(gameId)),
   joinGame: (payload) => dispatch(joinGame(payload)),
+  unsubscribe: (payload) => dispatch(unsubscribe(payload)),
   deletePiece: (payload) => dispatch(deletePiece(payload)),
 });
 

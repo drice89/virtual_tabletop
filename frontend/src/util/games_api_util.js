@@ -9,6 +9,8 @@ export const createGame = (game) => axios.post('/api/games/create', game);
 
 export const joinGame = (gameIdAndUserId) => axios.post('/api/games/join', gameIdAndUserId);
 
+export const unsubscribe = (gameIdAndUserId) => axios.post('/api/games/unsubscribe', gameIdAndUserId);
+
 export const deleteGame = (gameId) => axios.delete(`/api/games/${gameId}`);
 
 export const editGame = (game) => axios.patch('/api/games/edit', game);

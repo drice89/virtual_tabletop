@@ -14,6 +14,8 @@ router.get('/:id', gameController.fetchGame);
 router.post('/create', gameController.createGame);
 //patch
 router.post('/join', passport.authenticate('jwt', { session: false }), gameController.joinGame);
+//unsubscribe
+router.post('/unsubscribe', passport.authenticate('jwt', { session: false }), gameController.unsubscribe);
 //delete 
 router.delete('/:id', gameController.deleteGame);
 
