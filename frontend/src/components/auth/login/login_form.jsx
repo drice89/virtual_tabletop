@@ -7,7 +7,10 @@ import Logo from '../../logo/logo';
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', password: '' };
+    this.state = { 
+      email: '', 
+      password: '' 
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.submitDemoUser = this.submitDemoUser.bind(this);
   }
@@ -23,12 +26,14 @@ class LoginForm extends React.Component {
     login(this.state);
   }
 
+  // logs in our demo user
   submitDemoUser(e) {
     e.preventDefault();
     const { login } = this.props;
     this.setState({
       email: 'DemoUser@DemoUser.com',
       password: '123456',
+      // dispatches a thunk action with the state in it
     }, () => login(this.state));
   }
 

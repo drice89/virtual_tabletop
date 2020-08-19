@@ -1,0 +1,57 @@
+@import '../colors';
+
+.topicHeader {
+  // background-color: rgba(0, 0, 0, 0.1);
+  margin: 8px;
+  border-radius: 4px;
+
+  li:hover {
+    cursor: pointer;
+    background-color: $secondary;
+  }
+
+  .active {
+    background-color: $secondary;
+  }
+
+  li.active:hover {
+    background-color: $secondary;
+  }
+
+  * ~ * {
+    margin-top: 8px;
+  }
+}
+
+.topicHeader > li {
+  font-size: 1.4rem;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s;
+}
+
+.topicHeader > li > svg {
+  font-size: 1.8rem;
+  margin-right: 4px;
+}
+
+.helpText {
+  padding: 4px 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  // margin-top: 8px;
+}
+
+.helpText > h1 {
+  padding: 4px 4px;
+  font-size: 1.6rem;
+  max-width: 400px;
+}
+
+.helpText p {
+  padding: 8px 8px;
+  font-size: 14px;
+  max-width: 400px;
+}

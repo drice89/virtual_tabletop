@@ -97,35 +97,38 @@ const SettingWidget = ({
           ) : null}
 
           <div className={styles.row}>
-            <div className={styles.label}>
-              <div className={styles.tooltip}>
+            <div className={styles.tooltip}>
+              <div className={styles.label}>
                 <button type="button" className={styles.lock} onClick={() => handleLockGrid()}>
                   {moveGrid ? <FiUnlock /> : <FiLock className={styles.locked} />}
                 </button>
-                <span className={styles.tooltiptext}>Unlock to drag positioning of the grid, or mousewheel to resize</span>
-              </div>
-            </div>
-            <div className={moveGrid ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
-              <div className={styles.buttonRow}>
-                <span className={styles.labelText}>
-                  Width
+                <span className={styles.tooltiptext}>
+                  {!moveGrid ? 'Unlock to drag positioning of the grid, or mousewheel to resize' : 'Adjust width/height, drag grid around the screen, or mousewheel to resize'}
                 </span>
-                <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridWidth(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
-                <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridWidth(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
               </div>
 
-              <div className={styles.buttonRow}>
-                <span className={styles.labelText}>
-                  Height
-                </span>
-                <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridHeight(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
-                <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridHeight(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+              <div className={moveGrid ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
+                <div className={styles.buttonRow}>
+                  <span className={styles.labelText}>
+                    Width
+                  </span>
+                  <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridWidth(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
+                  <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridWidth(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+                </div>
+
+                <div className={styles.buttonRow}>
+                  <span className={styles.labelText}>
+                    Height
+                  </span>
+                  <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridHeight(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
+                  <button className={`${styles.plusMinusButton} ${moveGrid ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveGrid ? plusGridHeight(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.row}>
             <div className={styles.label}>
-              Color
+              Line Color
             </div>
             <input type="color" onChange={update('borderColor')} value={borderColor} />
           </div>
@@ -151,29 +154,32 @@ const SettingWidget = ({
         <section className={styles.settings}>
           <h3>Background Settings</h3>
           <div className={styles.row}>
-            <div className={styles.label}>
-              <div className={styles.tooltip}>
+            <div className={styles.tooltip}>
+              <div className={styles.label}>
                 <button type="button" className={styles.lock} onClick={() => handleLockBackground()}>
                   {moveBackground ? <FiUnlock /> : <FiLock className={styles.locked} />}
                 </button>
-                <span className={styles.tooltiptext}>Unlock to drag positioning of the background, or mousewheel to resize</span>
-              </div>
-            </div>
-            <div className={moveBackground ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
-              <div className={styles.buttonRow}>
-                <span className={styles.labelText}>
-                  Width
+                <span className={styles.tooltiptext}>
+                  {!moveBackground ? 'Unlock to drag positioning of the background, or mousewheel to resize' : 'Adjust width/height, drag background around the screen, or mousewheel to resize'}
                 </span>
-                <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundWidth(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
-                <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundWidth(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
-              </div>
 
-              <div className={styles.buttonRow}>
-                <span className={styles.labelText}>
-                  Height
-                </span>
-                <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundHeight(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
-                <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundHeight(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+              </div>
+              <div className={moveBackground ? styles.data : `${styles.dataDisabled} ${styles.data}`}>
+                <div className={styles.buttonRow}>
+                  <span className={styles.labelText}>
+                    Width
+                  </span>
+                  <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundWidth(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
+                  <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundWidth(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+                </div>
+
+                <div className={styles.buttonRow}>
+                  <span className={styles.labelText}>
+                    Height
+                  </span>
+                  <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundHeight(1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiMinus /></button>
+                  <button className={`${styles.plusMinusButton} ${moveBackground ? styles.active : styles.disabled}`} onMouseDown={() => onButtonHold(() => (moveBackground ? plusBackgroundHeight(-1) : null))} onMouseUp={() => clearInterval(interval)} onMouseOut={() => clearInterval(interval)}><FiPlus /></button>
+                </div>
               </div>
             </div>
           </div>

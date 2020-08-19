@@ -8,6 +8,7 @@ const initialState = {
 const sessionReducer = (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
+    // the user is added to the global state and can then proceed to access protected routes
     case RECEIVE_CURRENT_USER:
       return {
         ...state,

@@ -1,12 +1,12 @@
 import React from 'react';
+import FormData from 'form-data';
 import styles from './create_game.module.scss';
 import PieceFormStyles from './piece_form_styles.module.scss';
 import buttons from '../buttons.module.scss';
-import FormData from 'form-data';
 
 class PieceForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     const { creatorId, imageUrl } = this.props;
     this.state = {
       creatorId,
@@ -16,7 +16,7 @@ class PieceForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleImage = this.handleImage.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.focusRef = React.createRef(); 
+    this.focusRef = React.createRef();
   }
 
   componentDidMount() {
@@ -48,7 +48,7 @@ class PieceForm extends React.Component {
     const { creatorId } = this.state;
     return (e) => {
       e.preventDefault();
-      const payload = { creatorId, pieceId }
+      const payload = { creatorId, pieceId };
       deletePiece(payload);
     };
   }

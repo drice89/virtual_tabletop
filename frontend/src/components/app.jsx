@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import { ProtectedRoute } from '../util/route_util';
 // import LoginContainer from './users/login_container.js';
 // import SignupContainer from './users/signup_container';
 // import { AuthRoute, ProtectedRoute } from '../utils/route_util';

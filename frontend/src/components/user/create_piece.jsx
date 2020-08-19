@@ -13,23 +13,18 @@ class CreatePiece extends React.Component {
             creatorId,
             previewUrl: null,
             error: null,
-            uploading: null
+            uploading: null,
         }
-    
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleImage = this.handleImage.bind(this);
     }
 
-    componentDidMount() {
-        // const { clearErrors } = this.props;
-        // clearErrors();
-    }
-
     handleSubmit(event) {
         event.preventDefault();
-        if(this.state.imageFile && !this.state.uploading){
-            this.setState({uploading: true})
+        if (this.state.imageFile && !this.state.uploading) {
+            this.setState({ uploading: true })
             const formData = new FormData();
             const { processForm } = this.props;
             const { creatorId, imageFile } = this.state;
@@ -40,7 +35,7 @@ class CreatePiece extends React.Component {
         }
     }
 
-    handleImageClick(e){
+    handleImageClick(e) {
         e.preventDefault();
         document.getElementById('imageFilePiece').click();
     }
@@ -54,8 +49,8 @@ class CreatePiece extends React.Component {
 
             var t = img.type.split('/').pop().toLowerCase();
             if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
-                this.setState({error: "Invalid file type. Try again.", previewUrl: null, imageFile: null})
-            }else{
+                this.setState({ error: "Invalid file type. Try again.", previewUrl: null, imageFile: null })
+            } else {
                 this.setState({ imageFile: img, previewUrl: fileReader.result, error: null });
             }
         };
@@ -71,12 +66,8 @@ class CreatePiece extends React.Component {
     }
 
     render() {
-        {/* <form className={styles.formContainer} onSubmit={this.handleSubmit}>
-            {errors ? <span className={styles.errors}>{errors}</span> : ''}
-           
-            <button type="submit" className={buttons.secondary}>{formType}</button>
-          </form> */}
         const { errors, formType } = this.props;
+
         return (
             <div className={styles.container}>
                 <div className={styles.logo}>
@@ -84,10 +75,10 @@ class CreatePiece extends React.Component {
                     <p>Create New Piece</p>
                 </div>
                 <form className={styles.formContainer} >
-                    <input type="file" id="imageFilePiece" style={{display: 'none'}} onChange={this.handleImage} />
+                    <input type="file" id="imageFilePiece" style={{ display: 'none' }} onChange={this.handleImage} />
                     <div className={styles.uploadPieceButtonImage}>
                         <button className={styles.uploadPiece} onClick={this.handleImageClick} >Upload piece</button>
-                        <img src={this.state.previewUrl} className={styles.previewUrl}/>
+                        <img src={this.state.previewUrl} className={styles.previewUrl} />
                     </div>
                     {this.state.error ? <p className={styles.uploadError}>{this.state.error}</p> : null}
                     {this.state.uploading ? <p className={styles.uploadError}>Image is uploading...</p> : null}

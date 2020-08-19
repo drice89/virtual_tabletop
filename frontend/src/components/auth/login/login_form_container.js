@@ -7,6 +7,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  //the login thunk action is passed down to props
   login: (user) => dispatch(login(user)),
   clearErrors: () => dispatch(clearErrors()),
 });
