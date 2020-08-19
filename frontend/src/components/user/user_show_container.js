@@ -12,7 +12,9 @@ const mapStateToProps = (state, ownProps) => {
     createdGames: user.createdGames ? user.createdGames.map((game) => state.entities.games[game]) : [],
     subscribedGames: user.subscribedGames ? user.subscribedGames.map((game) => state.entities.games[game]) : [],
     errors: state.errors.users,
-    pieces: state.entities.pieces
+    gameError: state.errors.games,
+    pieces: state.entities.pieces,
+    games: state.entities.games
   };
 };
 

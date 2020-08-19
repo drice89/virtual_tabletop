@@ -59,9 +59,12 @@ export const deleteGame = (gameId) => (dispatch) => (
     .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 
-export const joinGame = (gameIdAndUserId) => (dispatch) => (
+export const joinGame = ( { gameIdAndUserId, history }) => (dispatch) => (
   gameAPIUtil.joinGame(gameIdAndUserId)
-    .then((res) => dispatch(receiveGame(res.data)))
+    .then((res) => {
+      dispatch(receiveGame(res.data));
+      history.push(`/client/${res.data.game}`);
+    })
     .catch((err) => dispatch(receiveGameErrors(err.response.data)))
 );
 

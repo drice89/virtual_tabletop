@@ -78,11 +78,22 @@ exports.joinGame = function (req, res) {
     gameId,
     userId
   } = req.body;
+  
 
   Game.findById(gameId, function (gameErr, game) {
-    if (!game) return res.json({
-      error: 'could not locate game'
+
+    
+
+    if (!game) return res.status(422).send({
+      error: 'Game not found, try again.'
     });
+    
+    if (userId == game.creatorId) return res.status(422).send({
+      error: 'Can not join own game.'
+    });
+
+    c
+
 
     let payload = {}
 
