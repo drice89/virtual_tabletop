@@ -2,7 +2,7 @@
 
 ![Screen Capture](https://i.imgur.com/qUJhHTm.png)
 
-Virtual Tabletop is a sandbox to simulate grid-based tabletop enviornments. A live version of the application can be found [here](https://virtualtabletop.herokuapp.com/). This app is still a work-in-progress but has working CRUD operations along with the use of websockets and image upload to AWS. This project was created by Dias Iskrayev, Dillon Rice, Steven Touba, and Wayne Su.
+Virtual Tabletop is a sandbox to simulate grid-based tabletop environments. A live version of the application can be found [here](https://virtualtabletop.herokuapp.com/). This app is still a work-in-progress but has working CRUD operations along with the use of websockets and image upload to AWS. This project was created by Dias Iskrayev, Dillon Rice, Steven Touba, and Wayne Su.
 
 The project was built with the MERN stack and uses a combination of API calls and websockets to update the game players of changes to the game in real time. Examples of how user actions flow from the frontend to the backend are included below.
 
