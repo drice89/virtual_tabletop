@@ -10,9 +10,11 @@ const GameCard = ({
     _id, name, description, backgroundImage, online = 0,
   },
   handleDelete,
+  handleUnsubscribe,
   setEditForm,
   sessionId,
   index,
+  subscribed,
 }) => (
   <div className={styles.gameContainer}>
     {/* <Link to={`/games/${_id}/boards`} className={styles.cardContainer}> */}
@@ -31,14 +33,18 @@ const GameCard = ({
         <FiChevronDown />
       </button>
       <div className={styles.dropdowncontent}>
-        <button type="button" onClick={() => setEditForm(_id)}>
-          <FiEdit3 />
+          {!subscribed ? <button type="button" onClick={() => setEditForm(_id)}>
+            <FiEdit3 />
           Edit
-        </button>
-        <button type="button" onClick={handleDelete(_id)}>
-          <FiTrash2 />
+        </button> : ''}
+
+          {!subscribed ? <button type="button" onClick={handleDelete(_id)}>
+            <FiTrash2 />
           Delete
-        </button>
+        </button> : <button type="button" onClick={() => handleUnsubscribe(_id)}>
+              <FiTrash2 />
+          Unsubscribe 
+        </button>}
       </div>
     </div>
   </div>

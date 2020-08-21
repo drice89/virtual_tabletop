@@ -33,6 +33,7 @@ class UserShow extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.setEditForm = this.setEditForm.bind(this);
     this.joinGame = this.joinGame.bind(this);
+    this.handleUnsubscribe = this.handleUnsubscribe.bind(this);
   }
 
   componentDidMount() {
@@ -82,13 +83,20 @@ class UserShow extends React.Component {
   }
 
   joinGame(){
-    this.props.joinGame({userId: this.props.user._id, gameId: this.state.joinGameId})
-      .then(() => this.props.history.push(`/client/${this.state.joinGameId}`))
+    const { joinGameId } = this.state;
+    const { history } = this.props;
+    const gameIdAndUserId = { userId: this.props.user._id, gameId: joinGameId };
+    this.props.joinGame({ gameIdAndUserId, history});
+  }
+
+  handleUnsubscribe(gameId){
+    const gameIdAndUserId = { userId: this.props.user._id, gameId };
+    this.props.unsubscribe({ gameIdAndUserId });
   }
 
   render() {
     const { createPieceForm, createForm, editGameId, active } = this.state;
-    const { user, createdGames, subscribedGames, pieces, deletePiece } = this.props;
+    const { user, createdGames, subscribedGames, pieces, deletePiece, gameError } = this.props;
     const hrsOld = Math.floor((Date.now() - new Date(user.createdAt)) / 3600000);
     if (!user) return null;
     return (
@@ -154,7 +162,7 @@ class UserShow extends React.Component {
 
                 <div className={styles.topBar}>
                   <h2>Subscribed Games</h2>
-
+                  {!Array.isArray(gameError) ? <p className={styles.gameJoinError}>{gameError.error}</p> : ''}
                   <div className={styles.joinGameBar}>
                     <p>Enter Game ID:</p>
                     <input type="text" onChange={this.update('joinGameId')} value={this.state.joinGameId} />
@@ -172,7 +180,7 @@ class UserShow extends React.Component {
                 <section className={styles.main}>
                   
                   {subscribedGames.map((game) => (
-                    <GameCard key={game._id} game={game} handleDelete={this.handleDelete} setEditForm={this.setEditForm}/>
+                    <GameCard key={game._id} game={game} subscribed={true} handleDelete={this.handleDelete} handleUnsubscribe={this.handleUnsubscribe} setEditForm={this.setEditForm}/>
                   ))}
                   {subscribedGames.length ? '' : (
                     <div className={styles.noSubs}>
