@@ -11,6 +11,7 @@ import './reset.css';
 import './structure.scss';
 import Main from './user/main';
 import AboutUs from './splash/about_us';
+import CombatTracker from './combat-tracker/combat-tracker';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/" component={Splash} />
         <ProtectedRoute path="/client/:gameId/boards/:boardId" component={ClientContainer} />
         <ProtectedRoute path="/client/:gameId" component={ClientContainer} />
+        <Route exact path="/tracker" component={CombatTracker} />
         <Route path="/" component={Main} />
       </Switch>
     </div>
