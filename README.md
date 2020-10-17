@@ -8,8 +8,6 @@ The project was built with the MERN stack and uses a combination of API calls an
 
 ![Action Flow](https://i.imgur.com/Ov2BxIm.png)
 
-
-
 ## Installation
 
 Use the package manager [npm](https://pip.pypa.io/en/stable/) to install foobar.
