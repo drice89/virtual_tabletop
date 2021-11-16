@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/drice89/virtual_tabletop#readme",
   "dependencies": {
-    "aws-sdk": "^2.676.0",
+    "aws-sdk": "^2.814.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.2.0",
